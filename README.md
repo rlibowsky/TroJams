@@ -11,3 +11,7 @@
 - **Name**: Catherine Chung
 - **USC ID**: 2864536087
 - **Email**: cathercc@usc.edu
+
+- **Name**: Ruth Libowsky
+- **USC ID**: 7381021664
+- **Email**: libowsky@usc.edu
