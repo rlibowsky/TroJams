@@ -1,22 +1,24 @@
 # CS 201 Student Repository
 
-- **Name**: Hunter Hurja
+**Hunter Hurja**
   - **USC ID**: 2049410015
   - **Email**: hurja@usc.edu
 
 
-- **Name**: Clairisse Haines
+**Clairisse Haines**
   - **USC ID**: 6426776145
   - **Email**: chaines@usc.edu
 
 
-- **Name**: Catherine Chung
+**Catherine Chung**
   - **USC ID**: 2864536087
   - **Email**: cathercc@usc.edu
 
 
-- **Name**: Ruth Libowsky
+**Ruth Libowsky**
   - **USC ID**: 7381021664
   - **Email**: libowsky@usc.edu
 
-- **Name**: Adam Moffit
+**Adam Moffit**
+  - **USC ID**:
+  - **Email**: 
