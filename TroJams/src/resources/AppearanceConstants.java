@@ -21,6 +21,10 @@ public class AppearanceConstants {
     public static final Color lightBlue = new Color(135,206,250);
     public static final Color mediumGray = new Color(100, 100, 100);
 
+    //TROJAM PURPLE
+    public static final Color trojamPurple = new Color(178,	58,	238);
+  //  public static final Color trojamLightPurple = new Color(210, 129, 450);
+    
     public static final Font fontSmall = new Font("Palatino", Font.BOLD,18);
     public static final Font fontSmallest = new Font("Palatino", Font.BOLD,14);
     public static final Font fontMedium = new Font("Palatino", Font.BOLD, 22);

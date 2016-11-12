@@ -1,7 +1,8 @@
 package Test;
 
-import javazoom.jl.player.*;
 import java.io.FileInputStream;
+
+import javazoom.jlme.util.Player;
 
 public class MusicPlayerTest {
 

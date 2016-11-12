@@ -46,7 +46,7 @@ public class LoginScreenWindow extends JFrame {
         instructionsPanel = new JPanel();
         trojamsPanel = new JPanel();
 
-        AppearanceSettings.setBackground(AppearanceConstants.lightBlue, instructionsPanel, trojamsPanel);
+        AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, instructionsPanel, trojamsPanel);
         AppearanceSettings.setFont(AppearanceConstants.fontSmall, instructionsLabel);
         AppearanceSettings.setTextAlignment(instructionsLabel, trojamsLabel);
         AppearanceSettings.setSize(600, 50, instructionsPanel, trojamsPanel);
@@ -86,7 +86,7 @@ public class LoginScreenWindow extends JFrame {
         alertLabel2.setHorizontalAlignment(JLabel.CENTER);
         //alertLabel2.setPreferredSize(new Dimension(300, 50));
         alertPanel2.add(alertLabel2);
-        AppearanceSettings.setBackground(AppearanceConstants.lightBlue, alertPanel1, alertPanel2);
+        AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, alertPanel1, alertPanel2);
         AppearanceSettings.setFont(AppearanceConstants.fontSmallest, alertLabel1, alertLabel2);
         alertLabel1.setVisible(false);
         alertLabel2.setVisible(false);
@@ -108,7 +108,7 @@ public class LoginScreenWindow extends JFrame {
         passwordTextField.setPreferredSize(new Dimension(400, 70));
         passwordPanel.add(passwordTextField);
 
-        AppearanceSettings.setBackground(AppearanceConstants.lightBlue, alertPanel, centerPanel,
+        AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, alertPanel, centerPanel,
                 usernamePanel, passwordPanel);
         centerPanel.add(alertPanel);
         centerPanel.add(usernamePanel);
@@ -119,7 +119,7 @@ public class LoginScreenWindow extends JFrame {
 
     private JPanel createSouthPanel() {
         southPanel = new JPanel();
-        southPanel.setBackground(AppearanceConstants.lightBlue);
+        southPanel.setBackground(AppearanceConstants.trojamPurple);
         southPanel.setPreferredSize(new Dimension(600, 100));
         loginButton.setEnabled(false);
         createAccountButton.setEnabled(false);
