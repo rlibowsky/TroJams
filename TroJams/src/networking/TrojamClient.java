@@ -6,12 +6,14 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import logic.Account;
+import logic.Party;
 
 public class TrojamClient extends Thread{
 	private Account account;
 	private Socket s;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
+	private Party party;
 
 	public TrojamClient(Account account, String IPAddress, int port) {
 		this.account = account;
@@ -29,5 +31,43 @@ public class TrojamClient extends Thread{
 	
 	public Account getAccount() {
 		return account;
+	}
+	
+	@Override
+	public void run() {
+		try {
+			Object obj = ois.readObject();
+			//handle different types of messages
+			if (obj instanceof StringMessage) {
+				StringMessage message = (StringMessage) obj;
+				parseStringMessage(message);
+			} else if (obj instanceof AccountMessage) {
+				AccountMessage message = (AccountMessage) obj;
+				parseAccountMessage(message);
+			}
+		} catch (ClassNotFoundException | IOException e) {}
+	}
+
+	//handle when a new account is added to the party
+	private void parseAccountMessage(AccountMessage message) {
+		String name = message.getName();
+		Account messageAccount = message.getAccount();
+		party.addAccount(messageAccount);
+	}
+
+	//handle string messages sent to the client
+	private void parseStringMessage(StringMessage message) {
+		String name = message.getName();
+		String content = message.getContent();
+		if (name.equals("teamLeft")) {
+			//perform action for when an account leaves the party 
+		} else if (name.equals("songAdded")) {
+			//perform action for when a song is added to the party
+		} else if (name.equals("songUpvoted")) {
+			//perform action for when a song is upvoted
+		} else if (name.equals("songDownvoted")) {
+			//perform action for when a song is downvoted
+		}
+		
 	}
 }

@@ -17,7 +17,6 @@ public class TrojamServerThread extends Thread{
 	public TrojamServerThread(Socket socket, TrojamServer trojamServer) {
 		this.socket = socket;
 		this.trojamServer = trojamServer;
-		
 		try {
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.flush();
@@ -40,14 +39,17 @@ public class TrojamServerThread extends Thread{
 			while (true){
 				Message message = (Message) ois.readObject();
 			}
-			
 		} 
 		catch (ClassNotFoundException e) {}
 		catch (IOException e) {}
 	}
 	
-	public void sendMessage(Message message) {
-		
+	public void sendMessage(Message message){
+		try {
+			oos.reset();
+			oos.writeObject(message);
+			oos.flush();
+		} catch (IOException e) {}
 	}
 
 }

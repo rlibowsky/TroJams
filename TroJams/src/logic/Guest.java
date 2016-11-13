@@ -2,6 +2,10 @@ package logic;
 
 public class Guest extends Account{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Party party;
 
 	public Guest() {

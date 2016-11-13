@@ -5,6 +5,10 @@ import java.util.HashSet;
 
 public class User extends Account{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String username, password;
 	public Image userImage;
 	private HashSet <Party> parties;

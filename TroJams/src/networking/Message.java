@@ -1,19 +1,14 @@
 package networking;
 
-public class Message {
-	private String name, message;
+public abstract class Message {
+	private String name;
 	
-	public Message(String name, String message) {
+	public Message(String name) {
 		this.name = name;
-		this.message = message;
 	}
 	
 	public String getName() {
 		return name;
-	}
-	
-	public String getMessage() {
-		return message;
 	}
 
 }

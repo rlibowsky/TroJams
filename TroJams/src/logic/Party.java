@@ -29,7 +29,7 @@ public abstract class Party {
 	}
 	
 	//add a user to the party
-	public void addUser(User user) {
+	public void addAccount(Account account) {
 		//not sure if this will be done through a database
 	}
 	
