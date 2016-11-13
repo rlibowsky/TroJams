@@ -193,7 +193,7 @@ public class LoginScreenWindow extends JFrame {
 				else{
 					User user = existingUsers.get(usernameString);
 					//if the user gave the wrong password
-					if (!passwordString.equals(user.getPassword())){
+					if (!user.verifyPassword(passwordString)) {
 						alertLabel.setText("The password you provided does not match our records");
 					}
 					//login successful - GO TO MAIN TROJAMS WINDOW
@@ -221,7 +221,7 @@ public class LoginScreenWindow extends JFrame {
 				else{
 					User newUser = new User(usernameString, passwordString, null);
 					insertUserIntoDB(newUser);
-					new CreateAccountWindow(newUser, this).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+					new CreateAccountWindow(newUser, LoginScreenWindow.this).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 						//create account window can call insertUserIntoDB 
 					dispose();
 				}

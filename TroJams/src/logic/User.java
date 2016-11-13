@@ -21,5 +21,9 @@ public class User {
 	public boolean verifyPassword(String pass) {
 		return pass.equals(password);
 	}
+
+	public String getPassword() {
+		return password;
+	}
 	
 }
