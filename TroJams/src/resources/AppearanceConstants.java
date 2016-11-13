@@ -29,6 +29,8 @@ public class AppearanceConstants {
     public static final Font fontSmallest = new Font("Palatino", Font.BOLD,14);
     public static final Font fontMedium = new Font("Palatino", Font.BOLD, 22);
     public static final Font fontLarge = new Font("Palatino", Font.BOLD, 30);
+    public static final Font fontHuge = new Font("Palatino", Font.BOLD, 50);
+    
     //added a blue border variable used in StartWindowGUI
     public static final Border blueLineBorder = BorderFactory.createLineBorder(darkBlue);
 }

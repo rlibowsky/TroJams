@@ -1,169 +1,284 @@
 package frames;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import listeners.TextFieldFocusListener;
+import logic.User;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
-
 public class LoginScreenWindow extends JFrame {
 
-    private JPanel mainPanel, northPanel, centerPanel, southPanel, usernamePanel,
-            passwordPanel, alertPanel, instructionsPanel, trojamsPanel;
-    private JLabel headerLabel, alertLabel1, alertLabel2, instructionsLabel, trojamsLabel;
-    private JTextField usernameTextField, passwordTextField;
-    private JButton loginButton, guestButton, createAccountButton;
+	private JButton loginButton;
+	private JButton createAccount;
+	private JTextField username;
+	private JTextField password;
+	private JLabel alertLabel;
+	//users map
+	//could have use <String, String> instead of User object, but chose not to
+	private HashMap<String, User> existingUsers;
+	//the file that contains user account info
+	private File file;
 
-    public LoginScreenWindow() {
-        super("Login Screen");
+	public LoginScreenWindow() {
+		
+		file = new File("users.txt");
+		existingUsers = new HashMap<>();
+		//reads in stored users from file and populates existingUsers
+		readFromFile();
+		initializeComponents();
+		createGUI();
+		addListeners();
+	}
+	
+	private void initializeComponents(){
+		
+		loginButton = new JButton("Login");
+		createAccount = new JButton("Create Account");
+		username = new JTextField("username");
+		password = new JTextField("password");
+		alertLabel = new JLabel();
+	}
+	
+	private void createGUI(){
+		
+		JPanel mainPanel = new JPanel();
+		JPanel textFieldOnePanel = new JPanel();
+		JPanel textFieldTwoPanel = new JPanel();
+		JLabel welcome = new JLabel("login or create an account to play", JLabel.CENTER);
+		JLabel jeopardyLabel = new JLabel("Jeopardy!", JLabel.CENTER);
+		JPanel alertPanel = new JPanel();
+		JPanel textFieldsPanel = new JPanel();
+		JPanel buttonsPanel = new JPanel();
+		JPanel welcomePanel = new JPanel(new GridLayout(2,1));
+		
+		//set mass component appearances
+		AppearanceSettings.setForeground(Color.lightGray, createAccount, loginButton, password, username);
+		AppearanceSettings.setSize(300, 60, password, username);
+		
+		AppearanceSettings.setSize(200, 80, loginButton, createAccount);
+		AppearanceSettings.setBackground(Color.darkGray, loginButton, createAccount);
+		
+		AppearanceSettings.setOpaque(loginButton, createAccount);
+		AppearanceSettings.unSetBorderOnButtons(loginButton, createAccount);
+		
+		AppearanceSettings.setTextAlignment(welcome, alertLabel, jeopardyLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, password, alertLabel, username, loginButton, createAccount);
+		
+		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, mainPanel, welcome, alertLabel, jeopardyLabel, alertPanel, textFieldsPanel, 
+				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
+		
+		//other appearance settings
+		welcome.setFont(AppearanceConstants.fontMedium);
+		jeopardyLabel.setFont(AppearanceConstants.fontLarge);
+		
+		loginButton.setEnabled(false);
+		loginButton.setBackground(AppearanceConstants.mediumGray);
+		createAccount.setBackground(AppearanceConstants.mediumGray);
+		createAccount.setEnabled(false);
+		
+		//add components to containers
+		welcomePanel.add(welcome);
+		welcomePanel.add(jeopardyLabel);
+		
+		alertPanel.add(alertLabel);
+		textFieldOnePanel.add(username);
+		textFieldTwoPanel.add(password);
+		
+		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+		
+		//adds components to the panel with glue in between each
+		AppearanceSettings.addGlue(buttonsPanel, BoxLayout.LINE_AXIS, true, loginButton, createAccount);
+		
+		AppearanceSettings.addGlue(mainPanel, BoxLayout.PAGE_AXIS, false, welcomePanel);
+		//don't want glue in between the following two panels, so they are not passed in to addGlue
+		mainPanel.add(alertPanel);
+		mainPanel.add(textFieldOnePanel);
+		AppearanceSettings.addGlue(mainPanel, BoxLayout.PAGE_AXIS, false, textFieldTwoPanel);
+		mainPanel.add(buttonsPanel);
+		
+		add(mainPanel, BorderLayout.CENTER);
+		setSize(600, 600);
+	}
+	
+	//returns whether the buttons should be enabled
+	private boolean canPressButtons(){
+		return (!username.getText().isEmpty() && !username.getText().equals("username") && 
+				!password.getText().equals("password") && !password.getText().isEmpty());
+	}
+	//reads in users map from the file
+	private void readFromFile(){
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/JeopardyUsers?user=root&password=adam0601&useSSL=false");			
+			st = conn.createStatement();
+			rs = st.executeQuery("SELECT * FROM Users");
+			while(rs.next()){
+				String username = rs.getString("username");
+				String password = rs.getString("password");
+				System.out.println(username + " " + password);
+				User tempUser = new User(username, password);
+				existingUsers.put(username, tempUser);
+			}
+			
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		} finally{
+			try{
+				if(rs != null) {
+					rs.close();
+				}
+				if (st!=null){
+					st.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch( SQLException sqle) {
+				
+			}
+		}
 
-        initializeComponents();
-        createGUI();
-        addListeners();
-    }
+	}
 
-    private void initializeComponents() {
-        mainPanel = new JPanel();
-        loginButton = new JButton("Login");
-        guestButton = new JButton("Guest User");
-        createAccountButton = new JButton("Create Account");
-    }
+	private void addListeners(){
+		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//focus listeners
+		username.addFocusListener(new TextFieldFocusListener("username", username));
+		password.addFocusListener(new TextFieldFocusListener("password", password));
+		//document listeners
+		username.getDocument().addDocumentListener(new MyDocumentListener());
+		password.getDocument().addDocumentListener(new MyDocumentListener());
+		//action listeners
+		loginButton.addActionListener(new ActionListener(){
 
-    private void createGUI() {
-        createMainPanel();
-        add(mainPanel, BorderLayout.CENTER);
-        setSize(600, 600);
-        setLocation(300, 100);
-    }
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String usernameString = username.getText();
+				String passwordString = password.getText();
+				
+				//if the username does not exist
+				if (!existingUsers.containsKey(usernameString)){
+					alertLabel.setText("This username does not exist.");
+				}
+				//else if the username exists
+				else{
+					User user = existingUsers.get(usernameString);
+					//if the user gave the wrong password
+					if (!passwordString.equals(user.getPassword())){
+						alertLabel.setText("The password you provided does not match our records");
+					}
+					//login successful - GO TO MAIN TROJAMS WINDOW
+					else{
+						new SelectionWindow(user).setVisible(true);
+						dispose();
+					}
+				}
+			}
+			
+		});
+		
+		createAccount.addActionListener(new ActionListener(){
 
-    private JPanel createNorthPanel() {
-        instructionsLabel = new JLabel("login or create an account to play");
-        trojamsLabel = new JLabel("Jeopardy!");
+			@Override
+			public void actionPerformed(ActionEvent e) {	
+				String usernameString = username.getText();
+				String passwordString = password.getText();
+				//if this username has already been chosen
+				if (existingUsers.containsKey(usernameString)){
+					alertLabel.setText("This username has already been chosen by another user");
+				}
+				//username has not been chosen, send newly created user with username and password to Create Account Window to then 
+				//fill in the rest of the info about the user.
+				else{
+					User newUser = new User(usernameString, passwordString);
+					insertUserIntoDB(newUser);
+					new CreateAccountWindow(newUser, this).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+						//create account window can call insertUserIntoDB 
+					dispose();
+				}
+				
+			}
+			
+		});
+	}
 
-        northPanel = new JPanel();
-        instructionsPanel = new JPanel();
-        trojamsPanel = new JPanel();
+	void insertUserIntoDB(User user){
+		System.out.println("Insert");
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/JeopardyUsers?user=root&password=adam0601&useSSL=false");	
+			String query = "INSERT INTO Users (username, password) VALUES ('" + user.getUsername() + "','" + user.getPassword() + "')";
+			ps = conn.prepareStatement(query);
+			ps.execute();
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		} finally{
+			try{
+				if (ps!=null){
+					ps.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch( SQLException sqle) {
+				
+			}
+		}
 
-        AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, instructionsPanel, trojamsPanel);
-        AppearanceSettings.setFont(AppearanceConstants.fontSmall, instructionsLabel);
-        AppearanceSettings.setTextAlignment(instructionsLabel, trojamsLabel);
-        AppearanceSettings.setSize(600, 50, instructionsPanel, trojamsPanel);
-        trojamsLabel.setFont(AppearanceConstants.fontLarge);
-
-        instructionsPanel.add(instructionsLabel);
-        trojamsPanel.add(trojamsLabel);
-        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
-        northPanel.add(instructionsPanel);
-        northPanel.add(trojamsPanel);
-
-        return northPanel;
-        /*headerLabel = new JLabel("Trojams");
-        //AppearanceSettings.setSize(600, 50, northPanel);
-        northPanel = new JPanel();
-        northPanel.add(headerLabel);
-
-        return northPanel;*/
-    }
-
-    private JPanel createCenterPanel() {
-        centerPanel = new JPanel();
-        AppearanceSettings.setSize(600, 200, centerPanel);
-
-        alertPanel = new JPanel();
-        alertPanel.setPreferredSize(new Dimension(600, 100));
-        alertPanel.setLayout(new BoxLayout(alertPanel, BoxLayout.Y_AXIS));
-
-        JPanel alertPanel1 = new JPanel();
-        alertPanel1.setPreferredSize(new Dimension(300, 50));
-        alertLabel1 = new JLabel("this password and user combination does not exist");
-        alertLabel1.setHorizontalAlignment(JLabel.CENTER);
-        alertPanel1.add(alertLabel1);
-        JPanel alertPanel2 = new JPanel();
-        alertPanel2.setPreferredSize(new Dimension(300, 50));
-        alertLabel2 = new JLabel("this username already exists");
-        alertLabel2.setHorizontalAlignment(JLabel.CENTER);
-        //alertLabel2.setPreferredSize(new Dimension(300, 50));
-        alertPanel2.add(alertLabel2);
-        AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, alertPanel1, alertPanel2);
-        AppearanceSettings.setFont(AppearanceConstants.fontSmallest, alertLabel1, alertLabel2);
-        alertLabel1.setVisible(false);
-        alertLabel2.setVisible(false);
-
-        alertPanel.add(alertPanel1);
-        alertPanel.add(alertPanel2);
-
-        usernamePanel = new JPanel();
-        usernamePanel.setPreferredSize(new Dimension(400, 70));
-        //usernameTextField = new JTextField("username");
-        usernameTextField = new JTextField();
-        usernameTextField.setPreferredSize(new Dimension(400, 70));
-        usernamePanel.add(usernameTextField);
-
-        passwordPanel = new JPanel();
-        passwordPanel.setPreferredSize(new Dimension(400, 70));
-        //passwordTextField = new JTextField("password");
-        passwordTextField = new JTextField();
-        passwordTextField.setPreferredSize(new Dimension(400, 70));
-        passwordPanel.add(passwordTextField);
-
-        AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, alertPanel, centerPanel,
-                usernamePanel, passwordPanel);
-        centerPanel.add(alertPanel);
-        centerPanel.add(usernamePanel);
-        centerPanel.add(passwordPanel);
-
-        return centerPanel;
-    }
-
-    private JPanel createSouthPanel() {
-        southPanel = new JPanel();
-        southPanel.setBackground(AppearanceConstants.trojamPurple);
-        southPanel.setPreferredSize(new Dimension(600, 100));
-        loginButton.setEnabled(false);
-        createAccountButton.setEnabled(false);
-
-        southPanel.add(loginButton);
-        southPanel.add(guestButton);
-        southPanel.add(createAccountButton);
-
-        return southPanel;
-    }
-
-    private void createMainPanel() {
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
-        mainPanel.add(createCenterPanel(), BorderLayout.CENTER);
-        mainPanel.add(createSouthPanel(), BorderLayout.SOUTH);
-    }
-
-    private void addListeners() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //terminates program
-
-        usernameTextField.getDocument().addDocumentListener(new MyDocumentListener());
-        passwordTextField.getDocument().addDocumentListener(new MyDocumentListener());
-    }
-
-    private class MyDocumentListener implements DocumentListener {
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-
-        }
-    }
-
-    public static void main(String [] args) {
-        LoginScreenWindow lsw = new LoginScreenWindow();
-        lsw.setVisible(true);
-    }
+	}
+	
+	//sets the buttons enabled or disabled
+	private class MyDocumentListener implements DocumentListener{
+		
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			createAccount.setEnabled(canPressButtons());
+			loginButton.setEnabled(canPressButtons());
+		}
+		
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			createAccount.setEnabled(canPressButtons());
+			loginButton.setEnabled(canPressButtons());
+		}
+		
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			createAccount.setEnabled(canPressButtons());
+			loginButton.setEnabled(canPressButtons());
+		}
+	}
 }
