@@ -41,13 +41,13 @@ public class PartyWindow extends JFrame {
 		setSize(800,1000);
 		
 		// Set appearance settings
-		AppearanceSettings.setForeground(Color.lightGray, addSongButton);
+		AppearanceSettings.setForeground(Color.white, addSongButton);
 		AppearanceSettings.setSize(200, 80, addSongButton);
-		AppearanceSettings.setBackground(Color.darkGray, addSongButton);
+		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton);
 		AppearanceSettings.setOpaque(addSongButton);
 		AppearanceSettings.unSetBorderOnButtons(addSongButton);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addSongButton);
-		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, mainPanel, songPanel, leftPanel, profilePanel, mainPanel, songScrollPane);
+		AppearanceSettings.setBackground(Color.black, mainPanel, songPanel, leftPanel, profilePanel, mainPanel, songScrollPane);
 		
 		songPanel.add(songScrollPane);
 		
