@@ -18,4 +18,8 @@ public class PartySong extends Song{
 		votes --;
 	}
 
+	public int getVotes() {
+		return votes;
+	}
+
 }
