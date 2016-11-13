@@ -142,7 +142,7 @@ public class LoginScreenWindow extends JFrame {
 				String username = rs.getString("username");
 				String password = rs.getString("password");
 				System.out.println(username + " " + password);
-				User tempUser = new User(username, password, null);
+				User tempUser = new User(username, password);
 				existingUsers.put(username, tempUser);
 			}
 			
@@ -219,7 +219,7 @@ public class LoginScreenWindow extends JFrame {
 				//username has not been chosen, send newly created user with username and password to Create Account Window to then 
 				//fill in the rest of the info about the user.
 				else{
-					User newUser = new User(usernameString, passwordString, null);
+					User newUser = new User(usernameString, passwordString);
 					insertUserIntoDB(newUser);
 					new CreateAccountWindow(newUser, LoginScreenWindow.this).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 						//create account window can call insertUserIntoDB 

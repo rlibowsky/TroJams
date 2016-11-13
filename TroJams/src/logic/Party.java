@@ -2,6 +2,8 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map.Entry;
 
 public abstract class Party {
 	
@@ -9,15 +11,21 @@ public abstract class Party {
 	private User host;
 	private ArrayList <PartySong> songList = new ArrayList<PartySong>();
 	private HashMap <PartySong, Integer> songSet = new HashMap<PartySong, Integer>();
+	private HashSet <Account> partyMembers;
 	
 	//abstract class for a party
 	public Party (String partyName, User host) {
 		this.partyName = partyName;
 		this.host = host;
+		partyMembers = new HashSet<Account>();
 	}
 	
 	public String getPartyName() {
 		return partyName;
+	}
+	
+	public void leaveParty(Account account) {
+		partyMembers.remove(account);
 	}
 	
 	//add a user to the party
@@ -65,6 +73,14 @@ public abstract class Party {
 		if (song.getVotes() < 0) {
 			songSet.remove(song);
 			songList.remove(songList.size()-1);
+		}
+	}
+	
+	public void playNextSong() {
+		songList.remove(0);
+		//decrement indices of songs since the 0th song has been removed from the array
+		for (Entry<PartySong, Integer>  e: songSet.entrySet()) {
+			e.setValue(e.getValue()-1);
 		}
 	}
 }

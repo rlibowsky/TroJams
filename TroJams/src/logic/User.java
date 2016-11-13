@@ -1,16 +1,21 @@
 package logic;
 
 import java.awt.Image;
+import java.util.HashSet;
 
-public class User {
+public class User extends Account{
 	
 	private String username, password;
-	private Image userImage;
+	public Image userImage;
+	private HashSet <Party> parties;
+	public Party hostedParty; //null if user is hosting no parties
 	
-	public User(String username, String password, Image userImage) {
+	public User(String username, String password) {
+		super();
 		this.username = username;
 		this.password = password;
-		this.userImage = userImage;
+		this.userImage = null;
+		this.parties = new HashSet<Party>();
 	}
 	
 	public String getUsername() {
@@ -24,6 +29,13 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+	
+	//called when a user logs out
+	public void leaveAllParties() {
+		for (Party p : parties) {
+			p.leaveParty(this);
+		}
 	}
 	
 }
