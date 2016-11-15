@@ -31,6 +31,7 @@ import resources.AppearanceSettings;
 public class LoginScreenWindow extends JFrame {
 
 	private JButton loginButton;
+	private JButton guestButton;
 	private JButton createAccount;
 	private JTextField username;
 	private JTextField password;
@@ -55,6 +56,7 @@ public class LoginScreenWindow extends JFrame {
 	private void initializeComponents(){
 		
 		loginButton = new JButton("Login");
+		guestButton = new JButton("Play as Guest");
 		createAccount = new JButton("Create Account");
 		username = new JTextField("username");
 		password = new JTextField("password");
@@ -67,40 +69,42 @@ public class LoginScreenWindow extends JFrame {
 		JPanel textFieldOnePanel = new JPanel();
 		JPanel textFieldTwoPanel = new JPanel();
 		JLabel welcome = new JLabel("login or create an account to play", JLabel.CENTER);
-		JLabel jeopardyLabel = new JLabel("Jeopardy!", JLabel.CENTER);
+		JLabel TroJamsLabel = new JLabel("TroJams!", JLabel.CENTER);
 		JPanel alertPanel = new JPanel();
 		JPanel textFieldsPanel = new JPanel();
 		JPanel buttonsPanel = new JPanel();
 		JPanel welcomePanel = new JPanel(new GridLayout(2,1));
 		
 		//set mass component appearances
-		AppearanceSettings.setForeground(Color.lightGray, createAccount, loginButton, password, username);
-		AppearanceSettings.setSize(300, 60, password, username);
+		AppearanceSettings.setForeground(Color.lightGray, createAccount, loginButton, guestButton, password, username);
+		AppearanceSettings.setSize(250, 60, password, username);
 		
-		AppearanceSettings.setSize(200, 80, loginButton, createAccount);
-		AppearanceSettings.setBackground(Color.darkGray, loginButton, createAccount);
+		AppearanceSettings.setSize(200, 100, loginButton, guestButton, createAccount);
+		AppearanceSettings.setBackground(Color.darkGray, loginButton, createAccount, guestButton);
 		
-		AppearanceSettings.setOpaque(loginButton, createAccount);
-		AppearanceSettings.unSetBorderOnButtons(loginButton, createAccount);
+		AppearanceSettings.setOpaque(loginButton, createAccount, guestButton);
+		AppearanceSettings.unSetBorderOnButtons(loginButton, createAccount, guestButton);
 		
-		AppearanceSettings.setTextAlignment(welcome, alertLabel, jeopardyLabel);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, password, alertLabel, username, loginButton, createAccount);
+		AppearanceSettings.setTextAlignment(welcome, alertLabel, TroJamsLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, password, alertLabel, username, loginButton, createAccount, guestButton);
 		
-		AppearanceSettings.setBackground(AppearanceConstants.lightBlue, mainPanel, welcome, alertLabel, jeopardyLabel, alertPanel, textFieldsPanel, 
+		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, mainPanel, welcome, alertLabel, TroJamsLabel, alertPanel, textFieldsPanel, 
 				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
 		
 		//other appearance settings
 		welcome.setFont(AppearanceConstants.fontMedium);
-		jeopardyLabel.setFont(AppearanceConstants.fontLarge);
+		TroJamsLabel.setFont(AppearanceConstants.fontLarge);
 		
 		loginButton.setEnabled(false);
 		loginButton.setBackground(AppearanceConstants.mediumGray);
+		guestButton.setEnabled(false);
+		guestButton.setBackground(AppearanceConstants.mediumGray);
 		createAccount.setBackground(AppearanceConstants.mediumGray);
 		createAccount.setEnabled(false);
 		
 		//add components to containers
 		welcomePanel.add(welcome);
-		welcomePanel.add(jeopardyLabel);
+		welcomePanel.add(TroJamsLabel);
 		
 		alertPanel.add(alertLabel);
 		textFieldOnePanel.add(username);
@@ -110,7 +114,7 @@ public class LoginScreenWindow extends JFrame {
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
 		
 		//adds components to the panel with glue in between each
-		AppearanceSettings.addGlue(buttonsPanel, BoxLayout.LINE_AXIS, true, loginButton, createAccount);
+		AppearanceSettings.addGlue(buttonsPanel, BoxLayout.LINE_AXIS, true, loginButton, guestButton, createAccount);
 		
 		AppearanceSettings.addGlue(mainPanel, BoxLayout.PAGE_AXIS, false, welcomePanel);
 		//don't want glue in between the following two panels, so they are not passed in to addGlue
@@ -120,7 +124,7 @@ public class LoginScreenWindow extends JFrame {
 		mainPanel.add(buttonsPanel);
 		
 		add(mainPanel, BorderLayout.CENTER);
-		setSize(600, 600);
+		setSize(700, 600);
 	}
 	
 	//returns whether the buttons should be enabled
@@ -135,7 +139,7 @@ public class LoginScreenWindow extends JFrame {
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/JeopardyUsers?user=root&password=adam0601&useSSL=false");			
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TroJamsUsers?user=root&password=adam0601&useSSL=false");			
 			st = conn.createStatement();
 			rs = st.executeQuery("SELECT * FROM Users");
 			while(rs.next()){
@@ -177,6 +181,7 @@ public class LoginScreenWindow extends JFrame {
 		//document listeners
 		username.getDocument().addDocumentListener(new MyDocumentListener());
 		password.getDocument().addDocumentListener(new MyDocumentListener());
+		
 		//action listeners
 		loginButton.addActionListener(new ActionListener(){
 
@@ -229,6 +234,18 @@ public class LoginScreenWindow extends JFrame {
 			}
 			
 		});
+		
+		guestButton.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {			
+				new CreateAccountWindow(new User("Guest", "Guest"), LoginScreenWindow.this).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+					//create account window can call insertUserIntoDB 
+				dispose();
+			}
+		
+		});
+		
 	}
 
 	void insertUserIntoDB(User user){
@@ -237,7 +254,7 @@ public class LoginScreenWindow extends JFrame {
 		PreparedStatement ps = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/JeopardyUsers?user=root&password=adam0601&useSSL=false");	
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TroJamsUsers?user=root&password=adam0601&useSSL=false");	
 			String query = "INSERT INTO Users (username, password) VALUES ('" + user.getUsername() + "','" + user.getPassword() + "')";
 			ps = conn.prepareStatement(query);
 			ps.execute();
