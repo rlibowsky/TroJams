@@ -9,7 +9,7 @@ public class User extends Account{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String username, password;
+	private String username, firstName, lastName, email, password;
 	public Image userImage;
 	private HashSet <Party> parties;
 	public Party hostedParty; //null if user is hosting no parties
@@ -41,5 +41,63 @@ public class User extends Account{
 			p.leaveParty(this);
 		}
 	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Image getUserImage() {
+		return userImage;
+	}
+
+	public void setUserImage(Image userImage) {
+		this.userImage = userImage;
+	}
+
+	public HashSet<Party> getParties() {
+		return parties;
+	}
+
+	public void setParties(HashSet<Party> parties) {
+		this.parties = parties;
+	}
+
+	public Party getHostedParty() {
+		return hostedParty;
+	}
+
+	public void setHostedParty(Party hostedParty) {
+		this.hostedParty = hostedParty;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 	
 }

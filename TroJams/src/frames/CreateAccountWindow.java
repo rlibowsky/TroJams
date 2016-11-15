@@ -13,4 +13,8 @@ public class CreateAccountWindow extends JFrame {
 		this.newUser = newUser;
 		this.loginScreenWindow = loginScreenWindow;
 	}
+	
+	
+	
+	
 }
