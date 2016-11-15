@@ -10,6 +10,7 @@ public class User extends Account{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String username, firstName, lastName, email, password;
+	private int age;
 	public Image userImage;
 	private HashSet <Party> parties;
 	public Party hostedParty; //null if user is hosting no parties

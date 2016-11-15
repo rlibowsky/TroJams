@@ -20,7 +20,8 @@ public class AppearanceConstants {
     public static final Color darkBlue = new Color(0,0,139);
     public static final Color lightBlue = new Color(135,206,250);
     public static final Color mediumGray = new Color(100, 100, 100);
-
+    public static final Color darkGray = new Color(51, 51, 51);
+    
     //TROJAM PURPLE
     public static final Color trojamPurple = new Color(178,	58,	238);
   //  public static final Color trojamLightPurple = new Color(210, 129, 450);

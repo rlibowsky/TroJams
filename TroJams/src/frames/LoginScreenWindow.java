@@ -76,30 +76,32 @@ public class LoginScreenWindow extends JFrame {
 		JPanel welcomePanel = new JPanel(new GridLayout(2,1));
 		
 		//set mass component appearances
-		AppearanceSettings.setForeground(Color.lightGray, createAccount, loginButton, guestButton, password, username);
-		AppearanceSettings.setSize(250, 60, password, username);
+		
+		
+		AppearanceSettings.setForeground(Color.white, createAccount, loginButton, guestButton, password, username);
+		AppearanceSettings.setSize(400, 60, password, username);
 		
 		AppearanceSettings.setSize(200, 100, loginButton, guestButton, createAccount);
-		AppearanceSettings.setBackground(Color.darkGray, loginButton, createAccount, guestButton);
+		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, loginButton, createAccount, guestButton);
 		
 		AppearanceSettings.setOpaque(loginButton, createAccount, guestButton);
 		AppearanceSettings.unSetBorderOnButtons(loginButton, createAccount, guestButton);
 		
 		AppearanceSettings.setTextAlignment(welcome, alertLabel, TroJamsLabel);
+		AppearanceSettings.setForeground(Color.white, welcome, TroJamsLabel);
+		
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, password, alertLabel, username, loginButton, createAccount, guestButton);
 		
-		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, mainPanel, welcome, alertLabel, TroJamsLabel, alertPanel, textFieldsPanel, 
+		AppearanceSettings.setBackground(AppearanceConstants.darkGray, mainPanel, welcome, alertLabel, TroJamsLabel, alertPanel, textFieldsPanel, 
 				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
 		
 		//other appearance settings
-		welcome.setFont(AppearanceConstants.fontMedium);
-		TroJamsLabel.setFont(AppearanceConstants.fontLarge);
+		welcome.setFont(AppearanceConstants.fontLarge);
+		TroJamsLabel.setFont(AppearanceConstants.fontHuge);
 		
+
 		loginButton.setEnabled(false);
-		loginButton.setBackground(AppearanceConstants.mediumGray);
 		guestButton.setEnabled(false);
-		guestButton.setBackground(AppearanceConstants.mediumGray);
-		createAccount.setBackground(AppearanceConstants.mediumGray);
 		createAccount.setEnabled(false);
 		
 		//add components to containers
