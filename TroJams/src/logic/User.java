@@ -9,8 +9,7 @@ public class User extends Account{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String username, firstName, lastName, email, password;
-	private int age;
+	private String username, firstName, lastName, password;
 	public Image userImage;
 	private HashSet <Party> parties;
 	public Party hostedParty; //null if user is hosting no parties
@@ -57,14 +56,6 @@ public class User extends Account{
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public Image getUserImage() {
