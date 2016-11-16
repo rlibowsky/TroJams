@@ -8,7 +8,7 @@ public class MusicPlayerTest {
 
 	public MusicPlayerTest(){
 	    try{
-		    FileInputStream fis = new FileInputStream("sunset_lover.mp3");
+		    FileInputStream fis = new FileInputStream("music/sunset_lover.mp3");
 		    Player playMP3 = new Player(fis);
 		    playMP3.play();
 	    }catch(Exception e){
