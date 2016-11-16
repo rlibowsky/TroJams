@@ -1,8 +1,6 @@
 package frames;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -14,12 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -36,6 +29,7 @@ public class LoginScreenWindow extends JFrame {
 	private JTextField username;
 	private JTextField password;
 	private JLabel alertLabel;
+	private ImageIcon backgroundImage;
 	//users map
 	//could have use <String, String> instead of User object, but chose not to
 	private HashMap<String, User> existingUsers;
@@ -54,7 +48,16 @@ public class LoginScreenWindow extends JFrame {
 	}
 	
 	private void initializeComponents(){
-		
+
+		this.setContentPane(new JPanel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Image image = new ImageIcon("images/backgroundImage.png").getImage();
+				backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
+				g.drawImage(image, 0, 0, 1280, 800, this);
+			}
+		});
+
 		loginButton = new JButton("Login");
 		guestButton = new JButton("Play as Guest");
 		createAccount = new JButton("Create Account");
@@ -92,13 +95,13 @@ public class LoginScreenWindow extends JFrame {
 		
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, password, alertLabel, username, loginButton, createAccount, guestButton);
 		
-		AppearanceSettings.setBackground(AppearanceConstants.darkGray, mainPanel, welcome, alertLabel, TroJamsLabel, alertPanel, textFieldsPanel, 
+		AppearanceSettings.setOpaque(AppearanceConstants.darkGray, mainPanel, welcome, alertLabel, TroJamsLabel, alertPanel, textFieldsPanel,
 				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
-		
+
+
 		//other appearance settings
 		welcome.setFont(AppearanceConstants.fontLarge);
 		TroJamsLabel.setFont(AppearanceConstants.fontHuge);
-		
 
 		loginButton.setEnabled(false);
 		guestButton.setEnabled(false);

@@ -41,6 +41,13 @@ public class AppearanceSettings {
         for (T component : components) component.setBackground(backGround);
     }
 
+    //sets background color to opaque of JComponents passed in
+    @SafeVarargs
+    public static <T extends JComponent>void setOpaque(Color backGround, T ... components ){
+
+        for (T component : components) component.setOpaque(false);
+    }
+
     //sets the layout to boxlayout for each panel
     public static void setBoxLayout(int axis, JPanel... panels){
 
