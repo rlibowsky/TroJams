@@ -26,11 +26,11 @@ public class AppearanceConstants {
     public static final Color trojamPurple = new Color(178,	58,	238);
   //  public static final Color trojamLightPurple = new Color(210, 129, 450);
     
-    public static final Font fontSmall = new Font("Palatino", Font.BOLD,18);
-    public static final Font fontSmallest = new Font("Palatino", Font.BOLD,14);
-    public static final Font fontMedium = new Font("Palatino", Font.BOLD, 22);
-    public static final Font fontLarge = new Font("Palatino", Font.BOLD, 30);
-    public static final Font fontHuge = new Font("Palatino", Font.BOLD, 50);
+    public static final Font fontSmall = new Font("Futura", Font.BOLD,18);
+    public static final Font fontSmallest = new Font("Futura", Font.BOLD,14);
+    public static final Font fontMedium = new Font("Futura", Font.BOLD, 22);
+    public static final Font fontLarge = new Font("Futura", Font.BOLD, 30);
+    public static final Font fontHuge = new Font("Futura", Font.BOLD, 50);
     
     //added a blue border variable used in StartWindowGUI
     public static final Border blueLineBorder = BorderFactory.createLineBorder(darkBlue);
