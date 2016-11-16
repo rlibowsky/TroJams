@@ -36,5 +36,8 @@ public class AppearanceConstants {
     
     //added a blue border variable used in StartWindowGUI
     public static final Border blueLineBorder = BorderFactory.createLineBorder(darkBlue);
+    
+    public static final Integer GUI_WIDTH = 1280;
+    public static final Integer GUI_HEIGHT = 800;
 
 }

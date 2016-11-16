@@ -1,9 +1,12 @@
 package frames;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,6 +20,7 @@ public class PartyWindow extends JFrame {
 	private JButton addSongButton;
 	private JPanel songPanel, leftPanel, profilePanel, mainPanel;
 	private JScrollPane songScrollPane;
+	private ImageIcon backgroundImage;
 	
 	public PartyWindow() {
 		super("");
@@ -27,6 +31,15 @@ public class PartyWindow extends JFrame {
 	}
 	
 	public void initializeComponents() {
+		
+		this.setContentPane(new JPanel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Image image = new ImageIcon("images/backgroundImage.png").getImage();
+				backgroundImage = new ImageIcon(image.getScaledInstance(800, 1000, java.awt.Image.SCALE_SMOOTH));
+				g.drawImage(image, 0, 0, 800, 1000, this);
+			}
+		});
 		
 		addSongButton = new JButton("Add Song");
 		songPanel = new JPanel();
