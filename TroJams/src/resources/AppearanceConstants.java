@@ -24,6 +24,8 @@ public class AppearanceConstants {
     
     //TROJAM PURPLE
     public static final Color trojamPurple = new Color(178,	58,	238);
+
+    public static final Color trojamComplement = new Color(255, 51, 102);
   //  public static final Color trojamLightPurple = new Color(210, 129, 450);
     
     public static final Font fontSmall = new Font("Futura", Font.BOLD,18);

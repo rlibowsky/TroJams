@@ -79,13 +79,12 @@ public class LoginScreenWindow extends JFrame {
 		JPanel welcomePanel = new JPanel(new GridLayout(2,1));
 		
 		//set mass component appearances
-		
-		
+
 		AppearanceSettings.setForeground(Color.white, createAccount, loginButton, guestButton, password, username);
 		AppearanceSettings.setSize(400, 60, password, username);
 		
 		AppearanceSettings.setSize(200, 100, loginButton, guestButton, createAccount);
-		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, loginButton, createAccount, guestButton);
+		AppearanceSettings.setNotOpaque(loginButton, createAccount, guestButton);
 		
 		AppearanceSettings.setOpaque(loginButton, createAccount, guestButton);
 		AppearanceSettings.unSetBorderOnButtons(loginButton, createAccount, guestButton);
@@ -95,7 +94,7 @@ public class LoginScreenWindow extends JFrame {
 		
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, password, alertLabel, username, loginButton, createAccount, guestButton);
 		
-		AppearanceSettings.setOpaque(AppearanceConstants.darkGray, mainPanel, welcome, alertLabel, TroJamsLabel, alertPanel, textFieldsPanel,
+		AppearanceSettings.setNotOpaque(mainPanel, welcome, alertLabel, TroJamsLabel, alertPanel, textFieldsPanel,
 				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
 
 
