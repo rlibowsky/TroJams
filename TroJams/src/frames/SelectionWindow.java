@@ -1,5 +1,9 @@
 package frames;
 
+/*
+ * SELECTION WINDOW: THIS IS OUR MAIN WINDOW, WHERE WE CHOOSE WHICH PARTY TO JOIN/CREATE A PARTY
+ */
+
 import javax.swing.JFrame;
 
 import logic.User;
