@@ -2,11 +2,18 @@ package frames;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -33,7 +40,9 @@ public class CreateAccountWindow extends JFrame {
 	private JLabel infoLabel, instructionsLabel, imageLabel, imageText;
 	private JButton submitButton;
 	private ImageIcon userImage;
+	private ImageIcon backgroundImage;
 	
+	private String imageFilePath;
 	private JFileChooser fileChooser;
 	
 	public CreateAccountWindow(User newUser, LoginScreenWindow loginScreenWindow){
@@ -72,15 +81,35 @@ public class CreateAccountWindow extends JFrame {
              }
 		});
 		
+		
+		submitButton.addActionListener(new ActionListener(){
+			public void actionPerformed (ActionEvent ae){
+				newUser = new User(usernameTextField.getText(), passwordTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(), imageFilePath);
+				loginScreenWindow.insertUserIntoDB(newUser);
+				SelectionWindow sw = new SelectionWindow(newUser);
+				sw.setVisible(true);
+			}
+		});
 	}
 
 
 	private void initializeComponents(){
+		
+		//THIS ISN't WORKING ON THIS FRAME. WHYYYYYYYYYYY??
+		this.setContentPane(new JPanel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Image image = new ImageIcon("images/backgroundImage.png").getImage();
+				backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
+				g.drawImage(image, 0, 0, 1280, 800, this);
+			}
+		});
+		
 		usernameTextField= new JTextField();
 		passwordTextField= new JTextField();
 		firstNameTextField= new JTextField();
 		lastNameTextField= new JTextField();
-		infoLabel = new JLabel("New User");
+		infoLabel = new JLabel("Welcome to TroJams!");
 		instructionsLabel = new JLabel("Please enter your information");
 		imageLabel = new JLabel();
 		fileChooser = new JFileChooser();
@@ -131,11 +160,10 @@ public class CreateAccountWindow extends JFrame {
 		textFieldPanel.add(credentialsPanel, BorderLayout.NORTH);
 		textFieldPanel.add(namePanel, BorderLayout.SOUTH);
 		
-		bottomPanel.setLayout(new BorderLayout());
+		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
 		imageLabel.setPreferredSize(new Dimension(200,200));
 		setUserImage("images/silhouette.png");
-		bottomPanel.add(imageLabel, BorderLayout.WEST);
-		bottomPanel.add(submitButton, BorderLayout.EAST);
+		AppearanceSettings.addGlue(bottomPanel, BoxLayout.LINE_AXIS, true, imageLabel, submitButton);
 		submitButton.setEnabled(false);
 		
 		add(infoPanel, BorderLayout.NORTH);
@@ -145,13 +173,26 @@ public class CreateAccountWindow extends JFrame {
 	}
 	
 	private void setUserImage(String filepath) {
+		this.imageFilePath = filepath;
 		Image image = new ImageIcon(filepath).getImage();
 		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-		newUser.setUserImage(image);
+		newUser.setUserImage(userImage);
 		imageLabel.setIcon(userImage);
 		imageText.setSize(imageLabel.getPreferredSize());
 		imageText.setLocation(imageText.getLocation());
 		imageLabel.add(imageText);
+		
+		//write image to local file in order to retrieve when user logs in
+		 BufferedImage image1 = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
+		 File inputFile = new File(filepath);	    
+		 try {
+			 image1 = ImageIO.read(inputFile);
+			 File outputfile = new File("silhouette - " + newUser.getUsername() + ".png");
+			ImageIO.write(image1, "png", outputfile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	private boolean canPressButtons() {

@@ -80,7 +80,7 @@ public class LoginScreenWindow extends JFrame {
 		
 		//set mass component appearances
 
-		AppearanceSettings.setForeground(Color.white, createAccount, loginButton, guestButton, password, username);
+		AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, createAccount, loginButton, guestButton, password, username);
 		AppearanceSettings.setSize(400, 60, password, username);
 		
 		AppearanceSettings.setSize(200, 100, loginButton, guestButton, createAccount);
@@ -143,7 +143,7 @@ public class LoginScreenWindow extends JFrame {
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TroJamsUsers?user=root&password=adam0601&useSSL=false");			
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TroJamUsers?user=root&password=adam0601&useSSL=false");			
 			st = conn.createStatement();
 			rs = st.executeQuery("SELECT * FROM Users");
 			while(rs.next()){
@@ -229,7 +229,6 @@ public class LoginScreenWindow extends JFrame {
 				//fill in the rest of the info about the user.
 				else{
 					User newUser = new User(usernameString, passwordString);
-					insertUserIntoDB(newUser);
 					new CreateAccountWindow(newUser, LoginScreenWindow.this).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 						//create account window can call insertUserIntoDB 
 					dispose();
@@ -258,8 +257,8 @@ public class LoginScreenWindow extends JFrame {
 		PreparedStatement ps = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TroJamsUsers?user=root&password=adam0601&useSSL=false");	
-			String query = "INSERT INTO Users (username, password) VALUES ('" + user.getUsername() + "','" + user.getPassword() + "')";
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TroJamUsers?user=root&password=adam0601&useSSL=false");	
+			String query = "INSERT INTO Users (username, password, firstName, lastName, imageFilePath) VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getImageFilePath() + "')";
 			ps = conn.prepareStatement(query);
 			ps.execute();
 		} catch (SQLException sqle) {

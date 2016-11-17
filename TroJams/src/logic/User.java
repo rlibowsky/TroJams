@@ -3,14 +3,16 @@ package logic;
 import java.awt.Image;
 import java.util.HashSet;
 
+import javax.swing.ImageIcon;
+
 public class User extends Account{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String username, firstName, lastName, password;
-	public Image userImage;
+	private String username, firstName, lastName, password, imageFilePath;
+	public ImageIcon userImage;
 	private HashSet <Party> parties;
 	public Party hostedParty; //null if user is hosting no parties
 	
@@ -22,6 +24,15 @@ public class User extends Account{
 		this.parties = new HashSet<Party>();
 	}
 	
+	public User(String username, String password, String firstName, String lastName, String imageFilePath) {
+		this(username,password);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.imageFilePath = imageFilePath;
+		Image image = new ImageIcon(imageFilePath).getImage();
+		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -58,11 +69,11 @@ public class User extends Account{
 		this.lastName = lastName;
 	}
 
-	public Image getUserImage() {
+	public ImageIcon getUserImage() {
 		return userImage;
 	}
 
-	public void setUserImage(Image userImage) {
+	public void setUserImage(ImageIcon userImage) {
 		this.userImage = userImage;
 	}
 
@@ -88,6 +99,14 @@ public class User extends Account{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getImageFilePath() {
+		return imageFilePath;
+	}
+
+	public void setImageFilePath(String imageFilePath) {
+		this.imageFilePath = imageFilePath;
 	}
 	
 	
