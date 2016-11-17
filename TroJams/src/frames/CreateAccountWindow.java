@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import listeners.TextFieldFocusListener;
 import logic.User;
@@ -26,7 +30,7 @@ public class CreateAccountWindow extends JFrame {
 	private LoginScreenWindow loginScreenWindow;
 	
 	private JTextField usernameTextField, passwordTextField, firstNameTextField, lastNameTextField;
-	private JLabel infoLabel, instructionsLabel, imageLabel;
+	private JLabel infoLabel, instructionsLabel, imageLabel, imageText;
 	private JButton submitButton;
 	private ImageIcon userImage;
 	
@@ -47,13 +51,24 @@ public class CreateAccountWindow extends JFrame {
 		firstNameTextField.addFocusListener(new TextFieldFocusListener("First Name", firstNameTextField));
 		lastNameTextField.addFocusListener(new TextFieldFocusListener("Last Name", lastNameTextField));
 		usernameTextField.addFocusListener(new TextFieldFocusListener(newUser.getUsername(), usernameTextField));
-		passwordTextField.addFocusListener(new TextFieldFocusListener("password", passwordTextField));
+		passwordTextField.addFocusListener(new TextFieldFocusListener(newUser.getPassword(), passwordTextField));
+		
+		//document listeners
+		firstNameTextField.getDocument().addDocumentListener(new MyDocumentListener());
+		lastNameTextField.getDocument().addDocumentListener(new MyDocumentListener());
+		usernameTextField.getDocument().addDocumentListener(new MyDocumentListener());
+		passwordTextField.getDocument().addDocumentListener(new MyDocumentListener());
 		
 		//image upload
 		imageLabel.addMouseListener(new MouseAdapter() {
 			 @Override
              public void mouseClicked(MouseEvent e) {
-                 fileChooser = new JFileChooser();
+				fileChooser.showOpenDialog(CreateAccountWindow.this);
+				File f = fileChooser.getSelectedFile();
+				if (f != null) {
+					setUserImage(f.getPath());
+					imageText.setVisible(false);
+				}
              }
 		});
 		
@@ -68,8 +83,9 @@ public class CreateAccountWindow extends JFrame {
 		infoLabel = new JLabel("New User");
 		instructionsLabel = new JLabel("Please enter your information");
 		imageLabel = new JLabel();
-        
+		fileChooser = new JFileChooser();
 		submitButton = new JButton("Submit");
+		imageText = new JLabel("Click to upload a profile picture");
 	}
 	
 	private void createGUI(){
@@ -89,6 +105,11 @@ public class CreateAccountWindow extends JFrame {
 		//set sizes
 		//AppearanceSettings.setSize(400, 60, usernameTextField, passwordTextField, firstNameTextField, lastNameTextField);
 		
+		//file chooser settings
+		fileChooser.setPreferredSize(new Dimension(400, 500));
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("IMAGE FILES", "jpeg", "png"));
+				
 		infoPanel.setLayout(new BorderLayout());
 		infoPanel.add(infoLabel, BorderLayout.NORTH);
 		infoPanel.add(instructionsLabel, BorderLayout.SOUTH);
@@ -115,6 +136,7 @@ public class CreateAccountWindow extends JFrame {
 		setUserImage("images/silhouette.png");
 		bottomPanel.add(imageLabel, BorderLayout.WEST);
 		bottomPanel.add(submitButton, BorderLayout.EAST);
+		submitButton.setEnabled(false);
 		
 		add(infoPanel, BorderLayout.NORTH);
 		add(textFieldPanel, BorderLayout.CENTER);
@@ -125,7 +147,42 @@ public class CreateAccountWindow extends JFrame {
 	private void setUserImage(String filepath) {
 		Image image = new ImageIcon(filepath).getImage();
 		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+		newUser.setUserImage(image);
 		imageLabel.setIcon(userImage);
+		imageText.setSize(imageLabel.getPreferredSize());
+		imageText.setLocation(imageText.getLocation());
+		imageLabel.add(imageText);
+	}
+	
+	private boolean canPressButtons() {
+		//usernameTextField, passwordTextField, firstNameTextField, lastNameTextField
+		if ((usernameTextField.getText().length() != 0) && (passwordTextField.getText().length() != 0)) {
+			if (!firstNameTextField.getText().equals("First Name") && firstNameTextField.getText().length() != 0) {
+				if (!lastNameTextField.getText().equals("Last Name") && lastNameTextField.getText().length() != 0) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	//sets the buttons enabled or disabled
+	private class MyDocumentListener implements DocumentListener{
+			
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			submitButton.setEnabled(canPressButtons());
+		}
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			submitButton.setEnabled(canPressButtons());
+		}
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			submitButton.setEnabled(canPressButtons());
+		}
 	}
 	
 	public static void main(String [] args) {
