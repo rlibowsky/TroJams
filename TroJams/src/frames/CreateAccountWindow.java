@@ -137,7 +137,7 @@ public class CreateAccountWindow extends JFrame {
 		//file chooser settings
 		fileChooser.setPreferredSize(new Dimension(400, 500));
 		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-		fileChooser.setFileFilter(new FileNameExtensionFilter("IMAGE FILES", "jpeg", "png"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("IMAGE FILES", "jpeg", "png", "jpg"));
 				
 		infoPanel.setLayout(new BorderLayout());
 		infoPanel.add(infoLabel, BorderLayout.NORTH);
