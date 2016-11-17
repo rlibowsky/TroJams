@@ -30,7 +30,7 @@ import resources.AppearanceSettings;
 
 public class SelectionWindow extends JFrame {
 
-	private JPanel swMainPanel;
+	private JPanel swMainPanel, swCenterPanel;
 	
 	private User user;
 	private JMenuBar menuBar;
@@ -58,7 +58,8 @@ public class SelectionWindow extends JFrame {
 				backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
 				g.drawImage(image, 0, 0, 1280, 800, this);
 			}
-		});  	
+		});  	 
+		swCenterPanel = new JPanel();
 		swMainPanel = new JPanel();
 		createAPartyButton = new JButton("Create a Party");
 		profile = new JMenu("Profile");
@@ -67,13 +68,13 @@ public class SelectionWindow extends JFrame {
 	}
 	
 	private void createGUI(){
-		this.setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
+		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
 		
 		createMenu();
-		createSWMainPanel();
+		createSWCenterPanel();
+		AppearanceSettings.setNotOpaque(swCenterPanel, swMainPanel);
 		
-		AppearanceSettings.setNotOpaque(swMainPanel);
-		
+		swMainPanel.add(swCenterPanel);
 		add(swMainPanel, BorderLayout.CENTER);
 
 	}
@@ -118,14 +119,14 @@ public class SelectionWindow extends JFrame {
             AppearanceSettings.setNotOpaque(button, label);
             mainPanel.add(button);
             mainPanel.add(label);
-            layout.putConstraint(SpringLayout.WEST, button, 10, SpringLayout.WEST, bottomPanel);
+            layout.putConstraint(SpringLayout.WEST, button, 20, SpringLayout.WEST, bottomPanel);
             layout.putConstraint(SpringLayout.NORTH, button, j, SpringLayout.NORTH, bottomPanel);
             layout.putConstraint(SpringLayout.NORTH, label, j, SpringLayout.NORTH, bottomPanel);
             layout.putConstraint(SpringLayout.WEST, label, 20, SpringLayout.EAST, button);
             j+=30;
         }
         //mainPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), mainPanel.getHeight()));
-        scroll.setPreferredSize(new Dimension(500, 600));
+        scroll.setPreferredSize(new Dimension(500, 500));
         scroll.setViewportView(mainPanel);
         
         bottomPanel.add(scroll);
@@ -134,18 +135,19 @@ public class SelectionWindow extends JFrame {
 	}
 	
 	// creates the main panel
-	private void createSWMainPanel() {
-		swMainPanel.setSize(1280, 800);
-		swMainPanel.setLayout(new BoxLayout(swMainPanel, BoxLayout.PAGE_AXIS));
+	private void createSWCenterPanel() {
+		swCenterPanel.setSize(1280, 800);
+		swCenterPanel.setLayout(new BoxLayout(swCenterPanel, BoxLayout.PAGE_AXIS));
 		// getting the panel that holds the "create a party" button
 		JPanel topPanel = createSWTopPanel();
 		// getting the panel that holds the scroll pane with parties
 		JPanel bottomPanel = createSWBottomPanel();
-		AppearanceSettings.setNotOpaque(bottomPanel, topPanel, swMainPanel);
-		swMainPanel.add(Box.createVerticalStrut(50));
-		swMainPanel.add(topPanel);
-		swMainPanel.add(Box.createVerticalStrut(25));
-		swMainPanel.add(bottomPanel);
+		AppearanceSettings.setNotOpaque(bottomPanel, topPanel, swCenterPanel);
+		swCenterPanel.add(Box.createHorizontalStrut(1000));
+		swCenterPanel.add(Box.createVerticalStrut(50));
+		swCenterPanel.add(topPanel);
+		swCenterPanel.add(Box.createVerticalStrut(25));
+		swCenterPanel.add(bottomPanel);
 	}
 	
 	private void addActionListeners(){
@@ -162,7 +164,15 @@ public class SelectionWindow extends JFrame {
 		logout.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				new LoginScreenWindow().setVisible(true);
 				dispose();
+			}
+		});
+		
+		createAPartyButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 	}
