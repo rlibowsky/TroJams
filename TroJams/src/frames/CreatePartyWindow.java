@@ -1,15 +1,18 @@
 package frames;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import logic.User;
-import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
 /*
@@ -17,7 +20,12 @@ import resources.AppearanceSettings;
  */
 public class CreatePartyWindow extends JFrame {
 	
-	private JPanel cpwMainPanel, cpwTopPanel, cpwBottomPanel;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel cpwMainPanel, cpwTopPanel, cpwBottomPanel, cpwRadioButtonPanel, cpwButtonPanel;
+	private JLabel dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6;
 	private JTextField cpwPartyNameTextField;
 	private JTextField cpwPasswordTextField;
 	private JRadioButton cpwPublicRadioButton;
@@ -36,6 +44,15 @@ public class CreatePartyWindow extends JFrame {
 		cpwMainPanel = new JPanel();
 		cpwTopPanel = new JPanel();
 		cpwBottomPanel = new JPanel();
+		//dummyPanel = new JPanel();
+		dummyLabel1 = new JLabel();
+		dummyLabel2 = new JLabel();
+		dummyLabel3 = new JLabel();
+		dummyLabel4 = new JLabel();
+		dummyLabel5 = new JLabel();
+		dummyLabel6 = new JLabel();
+		cpwRadioButtonPanel = new JPanel();
+		cpwButtonPanel = new JPanel();
 		cpwPartyNameTextField = new JTextField();
 		cpwPasswordTextField = new JTextField();
 		cpwPublicRadioButton = new JRadioButton("Public");
@@ -45,7 +62,7 @@ public class CreatePartyWindow extends JFrame {
 	}
 	
 	public void createGUI() {
-		this.setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
+		this.setSize(new Dimension(500,800));
 		createCPWMenu();
 	}
 	
@@ -56,7 +73,18 @@ public class CreatePartyWindow extends JFrame {
 	public void createCPWMenu() {
 		cpwMainPanel.setLayout(new BoxLayout(cpwMainPanel, BoxLayout.Y_AXIS));
 		
-		AppearanceSettings.setSize(300, 75, cpwPartyNameTextField, cpwPasswordTextField);
+		AppearanceSettings.setSize(300, 50, cpwPartyNameTextField, cpwPasswordTextField, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6);
+		
+		//cpwTopPanel.setLayout(new BorderLayout());
+		
+		//cpwMainPanel.add(dummyPanel);
+		cpwTopPanel.add(dummyLabel1);
+		cpwTopPanel.add(dummyLabel2);
+		cpwTopPanel.add(dummyLabel3);
+		cpwTopPanel.add(dummyLabel4);
+		cpwTopPanel.add(dummyLabel5);
+		//setInvisible(false, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5);
+		//cpwTopPanel.add(dummyLabel6);
 		cpwTopPanel.add(cpwPartyNameTextField);
 		cpwMainPanel.add(cpwTopPanel);
 		
@@ -64,13 +92,28 @@ public class CreatePartyWindow extends JFrame {
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(cpwPublicRadioButton);
 		bg.add(cpwPrivateRadioButton);
+		cpwPublicRadioButton.setSelected(true);
+
+		cpwRadioButtonPanel.setLayout(new BoxLayout(cpwRadioButtonPanel, BoxLayout.X_AXIS));
+		cpwRadioButtonPanel.add(cpwPublicRadioButton);
+		cpwRadioButtonPanel.add(cpwPrivateRadioButton);
+		cpwMainPanel.add(cpwRadioButtonPanel);
 		
-		
-		cpwMainPanel.add(cpwPublicRadioButton);
-		cpwMainPanel.add(cpwPrivateRadioButton);
-		
+		//cpwBottomPanel.setLayout(new BorderLayout());
 		cpwBottomPanel.add(cpwPasswordTextField);
+		cpwBottomPanel.add(cpwCreateButton);
 		cpwMainPanel.add(cpwBottomPanel);
+
+		//cpwButtonPanel.add(cpwCreateButton);		
+		//cpwMainPanel.add(cpwButtonPanel);
+		
+		cpwMainPanel.setSize(new Dimension(500,800));
+		cpwTopPanel.setBackground(Color.black);
+		cpwMainPanel.setBackground(Color.black);
+		cpwRadioButtonPanel.setBackground(Color.black);
+		cpwBottomPanel.setBackground(Color.black);
+		cpwPrivateRadioButton.setForeground(Color.white);
+		cpwPublicRadioButton.setForeground(Color.white);
 		
 		add(cpwMainPanel);
 		

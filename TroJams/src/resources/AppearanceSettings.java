@@ -100,6 +100,12 @@ public class AppearanceSettings {
 
         for (T component : components) component.setVisible(visible);
     }
+    
+    @SafeVarargs
+    public static <T extends JComponent>void setInvisible(Boolean invisible, T ... components ){
+
+        for (T component : components) component.setVisible(invisible);
+    }
 
     //sets size of components
     @SafeVarargs
