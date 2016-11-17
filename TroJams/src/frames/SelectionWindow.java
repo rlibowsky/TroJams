@@ -1,12 +1,14 @@
 package frames;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -22,6 +24,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 import javax.swing.SpringLayout;
 
 import logic.User;
@@ -30,13 +33,14 @@ import resources.AppearanceSettings;
 
 public class SelectionWindow extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+
 	private JPanel swMainPanel, swCenterPanel;
 	
 	private User user;
 	private JMenuBar menuBar;
 	private JMenu profile;
 	private JMenu logout;
-	private ImageIcon backgroundImage;
 	private JButton createAPartyButton;
 	
 	public SelectionWindow(User user){
@@ -52,10 +56,12 @@ public class SelectionWindow extends JFrame {
 	private void initializeComponents(){
 		
 		this.setContentPane(new JPanel() {
+			private static final long serialVersionUID = 1L;
+
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				Image image = new ImageIcon("images/backgroundImage.png").getImage();
-				backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
+				new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
 				g.drawImage(image, 0, 0, 1280, 800, this);
 			}
 		});  	 
@@ -113,12 +119,22 @@ public class SelectionWindow extends JFrame {
 		
 		int j = 25;
         for (int i = 0; i < 10; i++) {
-            JButton button = new JButton("Party " + i);
+        	//Image img = new ImageIcon("images/bluebutton.png").getImage();
+        	//JButton button = new JButton("Party " + i, new ImageIcon(img.getScaledInstance(50,50, java.awt.Image.SCALE_SMOOTH)));
+        	JButton button = new JButton("Party " + i);
+        	//button.setHorizontalTextPosition(JButton.CENTER);
+            //button.setVerticalTextPosition(JButton.CENTER);
+            //button.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+            //button.setOpaque(true);
+            //button.setPreferredSize(new Dimension(100, 100));
             JLabel label = new JLabel("Host Name ");
 
-            AppearanceSettings.setNotOpaque(button, label);
+            //AppearanceSettings.setNotOpaque(button, label);
+            AppearanceSettings.setFont(AppearanceConstants.fontMedium, label, button);
+            AppearanceSettings.setForeground(Color.WHITE, label, button);
             mainPanel.add(button);
             mainPanel.add(label);
+          
             layout.putConstraint(SpringLayout.WEST, button, 20, SpringLayout.WEST, bottomPanel);
             layout.putConstraint(SpringLayout.NORTH, button, j, SpringLayout.NORTH, bottomPanel);
             layout.putConstraint(SpringLayout.NORTH, label, j, SpringLayout.NORTH, bottomPanel);
@@ -127,8 +143,12 @@ public class SelectionWindow extends JFrame {
         }
         //mainPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), mainPanel.getHeight()));
         scroll.setPreferredSize(new Dimension(500, 500));
-        scroll.setViewportView(mainPanel);
-        
+        JViewport viewport = new MyViewport();
+        viewport.setView(mainPanel);
+        scroll.setViewport(viewport);
+        //scroll.setViewportView(mainPanel);
+//		scroll.setBorder(BorderFactory.createEmptyBorder()); 
+        scroll.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
         bottomPanel.add(scroll);
         AppearanceSettings.setNotOpaque(bottomPanel, scroll, mainPanel);
 		return bottomPanel;
@@ -175,6 +195,16 @@ public class SelectionWindow extends JFrame {
 				
 			}
 		});
+	}
+	
+	private static class MyViewport extends JViewport {
+
+		private static final long serialVersionUID = 1L;
+
+		public MyViewport() {
+			this.setOpaque(false);
+//			this.setOpaque(true);
+		}
 	}
 	
 	public static void main(String [] args) {
