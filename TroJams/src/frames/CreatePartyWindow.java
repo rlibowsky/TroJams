@@ -1,8 +1,9 @@
 package frames;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -68,6 +69,25 @@ public class CreatePartyWindow extends JFrame {
 	
 	public void addActionListeners() {
 		
+		cpwPrivateRadioButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cpwPasswordTextField.setVisible(true);
+				
+			}
+			
+		});
+		
+		cpwPublicRadioButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cpwPasswordTextField.setVisible(false);
+				
+			}
+			
+		});
 	}
 	
 	public void createCPWMenu() {
@@ -85,6 +105,9 @@ public class CreatePartyWindow extends JFrame {
 		cpwTopPanel.add(dummyLabel5);
 		//setInvisible(false, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5);
 		//cpwTopPanel.add(dummyLabel6);
+		
+		//TODO Set FocusListener for textfields
+		
 		cpwTopPanel.add(cpwPartyNameTextField);
 		cpwMainPanel.add(cpwTopPanel);
 		
@@ -92,7 +115,8 @@ public class CreatePartyWindow extends JFrame {
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(cpwPublicRadioButton);
 		bg.add(cpwPrivateRadioButton);
-		cpwPublicRadioButton.setSelected(true);
+		cpwPrivateRadioButton.setSelected(true);
+		
 
 		cpwRadioButtonPanel.setLayout(new BoxLayout(cpwRadioButtonPanel, BoxLayout.X_AXIS));
 		cpwRadioButtonPanel.add(cpwPublicRadioButton);
