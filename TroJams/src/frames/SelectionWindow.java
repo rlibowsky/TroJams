@@ -80,6 +80,8 @@ public class SelectionWindow extends JFrame {
 		createSWCenterPanel();
 		AppearanceSettings.setNotOpaque(swCenterPanel, swMainPanel);
 		
+		swMainPanel.setPreferredSize(new Dimension(1280, 800));
+		
 		swMainPanel.add(swCenterPanel);
 		add(swMainPanel, BorderLayout.CENTER);
 
@@ -97,7 +99,7 @@ public class SelectionWindow extends JFrame {
 	private JPanel createSWTopPanel() {
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-		topPanel.setSize(AppearanceConstants.GUI_WIDTH, (AppearanceConstants.GUI_HEIGHT)/4);
+		topPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH, (AppearanceConstants.GUI_HEIGHT)/4));
 
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, createAPartyButton);
 		topPanel.add(createAPartyButton);
@@ -109,64 +111,82 @@ public class SelectionWindow extends JFrame {
 	
 	// creates the bottom panel, which houses a jscrollpane
 	private JPanel createSWBottomPanel() {
-		JPanel bottomPanel = new JPanel(new SpringLayout());
-		JScrollPane scroll = new JScrollPane();
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.setPreferredSize(new Dimension(1280,800));
 		
-		SpringLayout layout = new SpringLayout();
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(layout);
-		bottomPanel.setLayout(new BorderLayout());
+		for (int i = 0; i < 10; i++) {
+			JPanel tempPanel = new JPanel();
+			tempPanel.setLayout(new BorderLayout());
+			JButton button = new JButton("Party " + i);
+			button.setPreferredSize(new Dimension(200, 200));
+			button.setOpaque(true);
+			tempPanel.add(button, BorderLayout.WEST);
+			JLabel label = new JLabel("Host Name " + i);
+			label.setPreferredSize(new Dimension(300, 200));
+			tempPanel.add(label, BorderLayout.EAST);
+			
+			tempPanel.setPreferredSize(new Dimension(1280,200));
+			bottomPanel.add(tempPanel);
+		}
 		
-		int j = 25;
-        for (int i = 0; i < 10; i++) {
-        	//Image img = new ImageIcon("images/bluebutton.png").getImage();
-        	//JButton button = new JButton("Party " + i, new ImageIcon(img.getScaledInstance(50,50, java.awt.Image.SCALE_SMOOTH)));
-        	JButton button = new JButton("Party " + i);
-        	//button.setHorizontalTextPosition(JButton.CENTER);
-            //button.setVerticalTextPosition(JButton.CENTER);
-            //button.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-            //button.setOpaque(true);
-            //button.setPreferredSize(new Dimension(100, 100));
-            JLabel label = new JLabel("Host Name ");
-
-            //AppearanceSettings.setNotOpaque(button, label);
-            AppearanceSettings.setFont(AppearanceConstants.fontMedium, label, button);
-            AppearanceSettings.setForeground(Color.WHITE, label, button);
-            mainPanel.add(button);
-            mainPanel.add(label);
-          
-            layout.putConstraint(SpringLayout.WEST, button, 20, SpringLayout.WEST, bottomPanel);
-            layout.putConstraint(SpringLayout.NORTH, button, j, SpringLayout.NORTH, bottomPanel);
-            layout.putConstraint(SpringLayout.NORTH, label, j, SpringLayout.NORTH, bottomPanel);
-            layout.putConstraint(SpringLayout.WEST, label, 20, SpringLayout.EAST, button);
-            j+=30;
-        }
-        //mainPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), mainPanel.getHeight()));
-        scroll.setPreferredSize(new Dimension(500, 500));
-        JViewport viewport = new MyViewport();
-        viewport.setView(mainPanel);
-        scroll.setViewport(viewport);
-        //scroll.setViewportView(mainPanel);
-//		scroll.setBorder(BorderFactory.createEmptyBorder()); 
-        scroll.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
-        bottomPanel.add(scroll);
-        AppearanceSettings.setNotOpaque(bottomPanel, scroll, mainPanel);
+//		JPanel bottomPanel = new JPanel(new SpringLayout());
+//		JScrollPane scroll = new JScrollPane();
+//		
+//		SpringLayout layout = new SpringLayout();
+//		JPanel mainPanel = new JPanel();
+//		mainPanel.setLayout(layout);
+//		bottomPanel.setLayout(new BorderLayout());
+//		
+//		int j = 25;
+//        for (int i = 0; i < 10; i++) {
+//        	//Image img = new ImageIcon("images/bluebutton.png").getImage();
+//        	//JButton button = new JButton("Party " + i, new ImageIcon(img.getScaledInstance(50,50, java.awt.Image.SCALE_SMOOTH)));
+//        	JButton button = new JButton("Party " + i);
+//        	//button.setHorizontalTextPosition(JButton.CENTER);
+//            //button.setVerticalTextPosition(JButton.CENTER);
+//            //button.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+//            //button.setOpaque(true);
+//            //button.setPreferredSize(new Dimension(100, 100));
+//            JLabel label = new JLabel("Host Name ");
+//
+//            //AppearanceSettings.setNotOpaque(button, label);
+//            AppearanceSettings.setFont(AppearanceConstants.fontMedium, label, button);
+//            AppearanceSettings.setForeground(Color.WHITE, label, button);
+//            mainPanel.add(button);
+//            mainPanel.add(label);
+//          
+//            layout.putConstraint(SpringLayout.WEST, button, 20, SpringLayout.WEST, bottomPanel);
+//            layout.putConstraint(SpringLayout.NORTH, button, j, SpringLayout.NORTH, bottomPanel);
+//            layout.putConstraint(SpringLayout.NORTH, label, j, SpringLayout.NORTH, bottomPanel);
+//            layout.putConstraint(SpringLayout.WEST, label, 20, SpringLayout.EAST, button);
+//            j+=30;
+//        }
+//        //mainPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), mainPanel.getHeight()));
+//        scroll.setPreferredSize(new Dimension(500, 500));
+//        JViewport viewport = new MyViewport();
+//        viewport.setView(mainPanel);
+//        scroll.setViewport(viewport);
+//        //scroll.setViewportView(mainPanel);
+////		scroll.setBorder(BorderFactory.createEmptyBorder()); 
+//        scroll.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
+//        bottomPanel.add(scroll);
+//        AppearanceSettings.setNotOpaque(bottomPanel, scroll, mainPanel);
 		return bottomPanel;
 	}
 	
 	// creates the main panel
 	private void createSWCenterPanel() {
-		swCenterPanel.setSize(1280, 800);
+		swCenterPanel.setPreferredSize(new Dimension(800, 800));
 		swCenterPanel.setLayout(new BoxLayout(swCenterPanel, BoxLayout.PAGE_AXIS));
 		// getting the panel that holds the "create a party" button
 		JPanel topPanel = createSWTopPanel();
 		// getting the panel that holds the scroll pane with parties
 		JPanel bottomPanel = createSWBottomPanel();
 		AppearanceSettings.setNotOpaque(bottomPanel, topPanel, swCenterPanel);
-		swCenterPanel.add(Box.createHorizontalStrut(1000));
-		swCenterPanel.add(Box.createVerticalStrut(50));
+		//swCenterPanel.add(Box.createHorizontalStrut(1000));
+		//swCenterPanel.add(Box.createVerticalStrut(50));
 		swCenterPanel.add(topPanel);
-		swCenterPanel.add(Box.createVerticalStrut(25));
+		//swCenterPanel.add(Box.createVerticalStrut(25));
 		swCenterPanel.add(bottomPanel);
 	}
 	
