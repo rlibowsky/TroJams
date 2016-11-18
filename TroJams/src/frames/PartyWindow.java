@@ -35,12 +35,13 @@ public class PartyWindow extends JFrame {
 	
 	private JButton addSongButton, refreshButton;
 	private JList <SingleSongPanel>songList;
-	private JPanel buttonsPanel, testPanel;
+	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel;
 	private JScrollPane songScrollPane;
 	private ImageIcon backgroundImage;
 	private JTextArea jta;
 	//private ArrayList <SingleSongPanel> songs;
 	private Party party;
+	private JLabel currentSongName, currentSongTime;
 	
 	//argument will be taken out once we turn this into a JPanel
 	public PartyWindow(Party partayTime) {
@@ -49,6 +50,11 @@ public class PartyWindow extends JFrame {
 		initializeComponents();
 		createGUI();
 		addListeners();
+	}
+	
+	public void updateCurrentlyPlaying(PartySong ps) {
+		this.currentSongName.setText(ps.getName());
+		this.currentSongTime.setText(Double.toString(ps.getLength()) + "s");
 	}
 	
 	private class SingleSongPanel extends JPanel {
@@ -68,7 +74,6 @@ public class PartyWindow extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("upvote clicked for song " + ps.getName());
 					PartyWindow.this.party.upvoteSong(ps);
 					votesLabel.setText(Integer.toString(ps.getVotes()));
 					setSongs();
@@ -81,7 +86,6 @@ public class PartyWindow extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("downvote clicked for song " + ps.getName());
 					PartyWindow.this.party.downvoteSong(ps);
 					votesLabel.setText(Integer.toString(ps.getVotes()));
 					setSongs();
@@ -123,18 +127,44 @@ public class PartyWindow extends JFrame {
 			}
 		});
 		
+		
+		buttonsPanel = new JPanel();
+		centerPanel = new JPanel();
+		centerPanel.setLayout(new BorderLayout());
+		
+		
 		addSongButton = new JButton("Add Song");
 		refreshButton = new JButton("Refresh");
+		
+		currentlyPlayingPanel = new JPanel();
+		currentlyPlayingPanel.setLayout(new BorderLayout());
+		JLabel currentlyPlayingLabel = new JLabel("Current Song");
+		currentSongName = new JLabel("");
+		currentSongTime = new JLabel("");
+		currentlyPlayingPanel.add(currentlyPlayingLabel, BorderLayout.WEST);
+		currentlyPlayingPanel.add(currentSongName, BorderLayout.CENTER);
+		currentlyPlayingPanel.add(currentSongTime, BorderLayout.EAST);
+		if (this.party.getSongs().size() != 0) {
+			this.updateCurrentlyPlaying(this.party.getSongs().get(0));
+			this.party.playNextSong();
+		}
+		centerPanel.add(currentlyPlayingPanel, BorderLayout.NORTH);
+		
 		songList = new JList<SingleSongPanel>();
 		songList.setLayout(new FlowLayout());
 		setSongs();
-		buttonsPanel = new JPanel();
+		
+		
+		
 		
 		songList.setPreferredSize(new Dimension (1000, 1000));
 		songScrollPane = new JScrollPane(songList);
 		songScrollPane.setPreferredSize(new Dimension(650, 700));
 		songScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		centerPanel.add(songScrollPane, BorderLayout.SOUTH);
 		revalidate();
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	//create the panel that shows songs in order of votes, called when partywindow is created
@@ -184,7 +214,7 @@ public class PartyWindow extends JFrame {
 		buttonsPanel.add(refreshButton, BorderLayout.EAST);
 		
 		add(addSongButton, BorderLayout.WEST);
-		add(songScrollPane, BorderLayout.CENTER);
+		add(centerPanel, BorderLayout.CENTER);
 		//add(testPanel);
 		add(refreshButton, BorderLayout.EAST);
 		
