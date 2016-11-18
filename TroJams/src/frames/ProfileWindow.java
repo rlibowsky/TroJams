@@ -1,10 +1,11 @@
 package frames;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import logic.User;
 
-public class ProfileWindow extends JFrame {
+public class ProfileWindow extends JPanel {
 
 	private User user;
 	

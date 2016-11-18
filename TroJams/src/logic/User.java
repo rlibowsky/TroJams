@@ -7,9 +7,6 @@ import javax.swing.ImageIcon;
 
 public class User extends Account{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String username, firstName, lastName, password, imageFilePath;
 	public ImageIcon userImage;

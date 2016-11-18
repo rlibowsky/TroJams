@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -57,10 +58,11 @@ public class SelectionWindow extends JFrame {
 	private JRadioButton cpwPublicRadioButton;
 	private JRadioButton cpwPrivateRadioButton;
 	private JButton cpwCreateButton;
+	private CardLayout cl;
 	
-	
-	
-	
+	private JPanel pwMainPanel;
+	private JLabel pwUsernameLabel, pwNameLabel, profileLabel, profileIconLabel;
+	private ImageIcon profileIcon;
 		
 	public SelectionWindow(User user){
 		super("TroJams");
@@ -115,10 +117,22 @@ public class SelectionWindow extends JFrame {
 		cpwPrivateRadioButton = new JRadioButton("Private");
 		cpwCreateButton = new JButton("Create Party");
 		
+		pwMainPanel = new JPanel();
+		pwUsernameLabel = new JLabel();
+		//pwUsernameLabel.setText(user.getUsername());
+		pwUsernameLabel.setText("Username");
+		pwNameLabel = new JLabel();
+		//pwNameLabel.setText(user.getFirstName() + user.getLastName());
+		pwNameLabel.setText("First_Name Last_Name");
+		profileLabel = new JLabel("Profile");
+		profileIcon = new ImageIcon("images/silhouette.png");
+		profileIconLabel = new JLabel();
+		profileIconLabel.setIcon(profileIcon);
 	}
 	
 	private void createGUI(){
 		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
+		setLayout(new BorderLayout());
 		
 		createMenu();
 		createCPWMenu();
@@ -127,18 +141,48 @@ public class SelectionWindow extends JFrame {
 
 		
 		swMainPanel.setPreferredSize(new Dimension(1280, 800));
-		
 		swMainPanel.add(swCenterPanel);
+		
+		createPWPanel();
 		
 		cards.add(swMainPanel, "selection window");
 		cards.add(cpwMainPanel, "create party window");
 //		add(swMainPanel, BorderLayout.CENTER);
-		add(cards);
 		
-		CardLayout cl = (CardLayout) cards.getLayout();
+		add(cards, BorderLayout.CENTER);
+		add(pwMainPanel, BorderLayout.EAST); 
+		
+		cl = (CardLayout) cards.getLayout();
 		//cl.show(cards, "selection window");
-		cl.show(cards, "create party window");
+		//cl.show(cards, "create party window");
+		cl.show(cards, "profile window");
 	}
+	
+	// creates Profile Window
+	private void createPWPanel() {
+		AppearanceSettings.setSize((AppearanceConstants.GUI_WIDTH)/5, AppearanceConstants.GUI_HEIGHT, pwMainPanel);
+		AppearanceSettings.setNotOpaque(pwMainPanel);
+		AppearanceSettings.setOpaque(pwUsernameLabel, pwNameLabel, profileLabel);
+		AppearanceSettings.setSize((AppearanceConstants.GUI_WIDTH)/5, AppearanceConstants.GUI_HEIGHT/5, profileLabel);
+		AppearanceSettings.setSize((AppearanceConstants.GUI_WIDTH)/5, AppearanceConstants.GUI_HEIGHT/3, profileIconLabel);
+		AppearanceSettings.setSize((AppearanceConstants.GUI_WIDTH)/5, AppearanceConstants.GUI_HEIGHT/10, pwUsernameLabel, pwNameLabel);
+		pwUsernameLabel.setHorizontalAlignment(JLabel.CENTER);
+	    pwUsernameLabel.setVerticalAlignment(JLabel.CENTER);
+		pwNameLabel.setHorizontalAlignment(JLabel.CENTER);
+	    pwNameLabel.setVerticalAlignment(JLabel.CENTER);
+	    profileLabel.setHorizontalAlignment(JLabel.CENTER);
+	    profileLabel.setVerticalAlignment(JLabel.CENTER);
+	    AppearanceSettings.setFont(AppearanceConstants.fontSmall, pwUsernameLabel, pwNameLabel);
+	    AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileLabel);
+	    AppearanceSettings.setForeground(Color.WHITE, pwUsernameLabel, pwNameLabel, profileLabel);
+	    AppearanceSettings.setNotOpaque(pwUsernameLabel, pwNameLabel, profileLabel);
+		pwMainPanel.add(profileLabel);
+		pwMainPanel.add(profileIconLabel);
+		pwMainPanel.add(pwUsernameLabel);
+		pwMainPanel.add(pwNameLabel);
+		pwMainPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
+	}
+	
 	
 	// creates the JMenuBar
 	private void createMenu() {
@@ -250,7 +294,7 @@ public class SelectionWindow extends JFrame {
 		profile.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ProfileWindow(user);
+				cl.show(cards, "create party window");
 			}
 		});
 		
@@ -381,7 +425,7 @@ public class SelectionWindow extends JFrame {
 		cpwPrivateRadioButton.setForeground(Color.white);
 		cpwPublicRadioButton.setForeground(Color.white);
 		
-		add(cpwMainPanel);
+		//add(cpwMainPanel);
 		
 	}
 	
