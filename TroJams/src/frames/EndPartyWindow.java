@@ -3,17 +3,16 @@ package frames;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import logic.User;
 import resources.AppearanceConstants;
@@ -27,10 +26,12 @@ public class EndPartyWindow extends JPanel {
 	private JLabel thanksLabel;
 	private JButton quitButton, joinAnotherPartyButton;
 	private JPanel thanksPanel, endPartyButtonPanel;
+	private SelectionWindow selectionWindow;
 	
 	
-	public EndPartyWindow (User User){
-		this.user = User;
+	public EndPartyWindow (SelectionWindow selectionWindow){
+		this.selectionWindow = selectionWindow;
+		this.user = selectionWindow.getUser();
 		initializeComponents();
 		createGUI();
 		addListeners();
@@ -79,6 +80,18 @@ public class EndPartyWindow extends JPanel {
 	}
 	
 	private void addListeners(){
+		quitButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent ae){
+				selectionWindow.dispose();
+			}
+		});
+		
+		joinAnotherPartyButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent ae){
+				selectionWindow.dispose();
+				new SelectionWindow(user).setVisible(true);
+			}
+		});
 		
 	}
 	
@@ -94,7 +107,7 @@ public class EndPartyWindow extends JPanel {
 
 		public static void main(String [] args) {
 			JFrame test = new JFrame();
-			EndPartyWindow epw = new EndPartyWindow(new User("a", "b"));
+			EndPartyWindow epw = new EndPartyWindow(new SelectionWindow(new User("a", "b")));
 			test.add(epw);
 			test.setVisible(true);
 		}
