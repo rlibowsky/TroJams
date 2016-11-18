@@ -22,7 +22,7 @@ import resources.AppearanceSettings;
 /*
  * CREATE A PARTY. SHOULD BE A PANEL. CARD LAYOUT WITH SELECTIONWINDOW AS MAIN
  */
-public class CreatePartyWindow extends JFrame {
+public class CreatePartyWindow extends JPanel {
 	
 	/**
 	 * 
@@ -35,9 +35,11 @@ public class CreatePartyWindow extends JFrame {
 	private JRadioButton cpwPublicRadioButton;
 	private JRadioButton cpwPrivateRadioButton;
 	private JButton cpwCreateButton;
+	private SelectionWindow sw;
 	
-	public CreatePartyWindow() {
-		super("TroJams");
+	public CreatePartyWindow(SelectionWindow sw) {
+		super();
+		this.sw = sw;
 		initializeComponents();
 		createGUI();
 		addActionListeners();
@@ -210,8 +212,8 @@ public class CreatePartyWindow extends JFrame {
 		}
 	}
 	
-	public static void main(String [] args) {
-		new CreatePartyWindow().setVisible(true);
-	}
+//	public static void main(String [] args) {
+//		new CreatePartyWindow().setVisible(true);
+//	}
 	
 }

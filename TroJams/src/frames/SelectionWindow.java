@@ -1,6 +1,7 @@
 package frames;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -8,7 +9,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -23,9 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-import javax.swing.SpringLayout;
 
 import logic.User;
 import resources.AppearanceConstants;
@@ -35,14 +33,15 @@ public class SelectionWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private JPanel swMainPanel, swCenterPanel;
+	private JPanel swMainPanel, swCenterPanel, cards;
 	
 	private User user;
 	private JMenuBar menuBar;
 	private JMenu profile;
 	private JMenu logout;
 	private JButton createAPartyButton;
-	
+	private CreatePartyWindow cpw;
+		
 	public SelectionWindow(User user){
 		super("TroJams");
 		this.user = user;
@@ -71,6 +70,8 @@ public class SelectionWindow extends JFrame {
 		profile = new JMenu("Profile");
 		logout = new JMenu("Logout");
 		menuBar = new JMenuBar();
+		cards = new JPanel(new CardLayout());
+		cpw = new CreatePartyWindow(this);
 	}
 	
 	private void createGUI(){
@@ -83,8 +84,14 @@ public class SelectionWindow extends JFrame {
 		swMainPanel.setPreferredSize(new Dimension(1280, 800));
 		
 		swMainPanel.add(swCenterPanel);
-		add(swMainPanel, BorderLayout.CENTER);
-
+		
+		cards.add(swMainPanel, "selection window");
+		cards.add(cpw, "create party window");
+//		add(swMainPanel, BorderLayout.CENTER);
+		add(cards);
+		
+		CardLayout cl = (CardLayout) cards.getLayout();
+		cl.show(cards, "selection window");
 	}
 	
 	// creates the JMenuBar
@@ -212,7 +219,8 @@ public class SelectionWindow extends JFrame {
 		createAPartyButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				CardLayout cl = (CardLayout) cards.getLayout();
+				cl.show(cards, "create party window");
 			}
 		});
 	}
