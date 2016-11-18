@@ -15,7 +15,11 @@ public class PartySong extends Song{
 	}
 	
 	public void downvote() {
-		votes--;
+		if (votes == 0) {
+			return;
+		} else {
+			votes--;
+		}
 	}
 
 	public int getVotes() {
