@@ -99,7 +99,11 @@ public class SelectionWindow extends JFrame {
 		//dummyPanel = new JPanel();
 		dummyLabel1 = new JLabel();
 		dummyLabel2 = new JLabel();
-		dummyLabel3 = new JLabel();
+		dummyLabel3 = new JLabel("Create a Party!");
+		AppearanceSettings.setFont(AppearanceConstants.fontLarge, dummyLabel3);
+		dummyLabel3.setHorizontalAlignment(JLabel.CENTER);
+	    dummyLabel3.setVerticalAlignment(JLabel.CENTER);
+	    dummyLabel3.setForeground(Color.WHITE);
 		dummyLabel4 = new JLabel();
 		dummyLabel5 = new JLabel();
 		dummyLabel6 = new JLabel();
