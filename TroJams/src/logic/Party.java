@@ -28,6 +28,10 @@ public abstract class Party {
 		return partyName;
 	}
 	
+	public String getHostName() {
+		return host.getUsername();
+	}
+	
 	public void leaveParty(Account account) {
 		partyMembers.remove(account);
 	}
