@@ -49,15 +49,15 @@ public class PartyWindow extends JFrame {
 	private class SingleSongPanel extends JPanel {
 		private PartySong partySong;
 		private JButton upvoteButton, downvoteButton;
-		private JLabel votesLabel;
+		private JLabel votesLabel, songNameLabel;
 		
 		public SingleSongPanel (PartySong ps) {
 			partySong = ps;
 			setLayout(new GridLayout(1,4));
-			JLabel jl1 = new JLabel(ps.getName());
-			add(jl1);
-			JButton upvoteButton = new JButton("upvote");
-			add(upvoteButton);
+			songNameLabel = new JLabel(ps.getName());
+			
+			upvoteButton = new JButton();
+			
 			upvoteButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -69,8 +69,8 @@ public class PartyWindow extends JFrame {
 				}
 				
 			});
-			JButton downvoteButton = new JButton("downvote");
-			add(downvoteButton);
+			downvoteButton = new JButton("downvote");
+			
 			downvoteButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -83,7 +83,22 @@ public class PartyWindow extends JFrame {
 				
 			});
 			votesLabel = new JLabel(Integer.toString(ps.getVotes()));
+			
+			AppearanceSettings.setForeground(Color.white, songNameLabel, votesLabel);
+			AppearanceSettings.setSize(100, 40, songNameLabel, votesLabel);
+			AppearanceSettings.setBackground(AppearanceConstants.mediumGray, songNameLabel, votesLabel);
+			AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, this);
+			AppearanceSettings.setOpaque(songNameLabel, votesLabel);
+			AppearanceSettings.setFont(AppearanceConstants.fontSmall, songNameLabel, votesLabel);
+			
+			add(songNameLabel);
+			add(upvoteButton);
+			add(downvoteButton);
 			add(votesLabel);
+			
+			Image thumbsUpImage = new ImageIcon("images/images.png").getImage();
+			userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+			newUser.setUserImage(userImage);
 		}
 	}
 	
@@ -108,6 +123,8 @@ public class PartyWindow extends JFrame {
 		
 	}
 	
+	//create the panel that shows songs in order of votes, called when partywindow is created
+	//and whenever someone upvotes or downvotes a song
 	public void setSongs() {
 		if (songs != null) {
 			songs.clear();
@@ -129,12 +146,12 @@ public class PartyWindow extends JFrame {
 		setLayout(new BorderLayout());
 		
 		// Set appearance settings
-		AppearanceSettings.setForeground(Color.white, addSongButton);
-		AppearanceSettings.setSize(200, 80, addSongButton);
-		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton);
-		AppearanceSettings.setOpaque(addSongButton);
-		AppearanceSettings.unSetBorderOnButtons(addSongButton);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addSongButton);
+		AppearanceSettings.setForeground(Color.white, addSongButton, refreshButton);
+		AppearanceSettings.setSize(200, 80, addSongButton, refreshButton);
+		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton, refreshButton);
+		AppearanceSettings.setOpaque(addSongButton, refreshButton);
+		AppearanceSettings.unSetBorderOnButtons(addSongButton, refreshButton);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addSongButton, refreshButton);
 		//AppearanceSettings.setSize(x, y, components);
 		//AppearanceSettings.setBackground(Color.black, mainPanel, songPanel, leftPanel, profilePanel, mainPanel, songScrollPane);
 		
@@ -143,8 +160,6 @@ public class PartyWindow extends JFrame {
 		buttonsPanel.setLayout(new BorderLayout());
 		buttonsPanel.add(addSongButton, BorderLayout.WEST);
 		buttonsPanel.add(refreshButton, BorderLayout.EAST);
-		JLabel testLabel = new JLabel("TEST!!!");
-		songPanel.add(testLabel);
 		
 		add(buttonsPanel, BorderLayout.NORTH);
 		add(songPanel, BorderLayout.SOUTH);
@@ -158,6 +173,15 @@ public class PartyWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//new AddSongWindow().setVisible(true);
+			}
+			
+		});
+		
+		refreshButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setSongs();
 			}
 			
 		});
