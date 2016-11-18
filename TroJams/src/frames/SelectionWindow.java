@@ -79,7 +79,7 @@ public class SelectionWindow extends JFrame {
 		
 		createMenu();
 		createSWCenterPanel();
-		AppearanceSettings.setNotOpaque(swCenterPanel, swMainPanel);
+		AppearanceSettings.setNotOpaque(swCenterPanel, swMainPanel, cards, cpw);
 		
 		swMainPanel.setPreferredSize(new Dimension(1280, 800));
 		
@@ -194,7 +194,7 @@ public class SelectionWindow extends JFrame {
 		//swCenterPanel.add(Box.createVerticalStrut(50));
 		swCenterPanel.add(topPanel);
 		//swCenterPanel.add(Box.createVerticalStrut(25));
-		swCenterPanel.add(bottomPanel);
+		//swCenterPanel.add(bottomPanel);
 	}
 	
 	private void addActionListeners(){
@@ -225,6 +225,10 @@ public class SelectionWindow extends JFrame {
 		});
 	}
 	
+	public User getUser() {
+		return this.user;
+	}
+
 	private static class MyViewport extends JViewport {
 
 		private static final long serialVersionUID = 1L;
