@@ -132,8 +132,8 @@ public class SelectionWindow extends JFrame {
 		add(cards);
 		
 		CardLayout cl = (CardLayout) cards.getLayout();
-		cl.show(cards, "selection window");
-		//cl.show(cards, "create party window");
+		//cl.show(cards, "selection window");
+		cl.show(cards, "create party window");
 	}
 	
 	// creates the JMenuBar
@@ -327,15 +327,17 @@ public class SelectionWindow extends JFrame {
 	public void createCPWMenu() {
 		cpwMainPanel.setLayout(new BoxLayout(cpwMainPanel, BoxLayout.Y_AXIS));
 		
-		AppearanceSettings.setSize(300, 50, cpwPartyNameTextField, cpwPasswordTextField, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6);
+		AppearanceSettings.setSize(1280, 50, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6);
+		AppearanceSettings.setSize(300, 50, cpwPartyNameTextField, cpwPasswordTextField);
+		AppearanceSettings.setSize(1280, 20, cpwTopPanel);
 		
 		// Creates top panel with dummy labels so that the text field is at the bottom of the panel
-		
-		//cpwTopPanel.add(dummyLabel1);
-		//cpwTopPanel.add(dummyLabel2);
-		//cpwTopPanel.add(dummyLabel3);
-		/*cpwTopPanel.add(dummyLabel4);*/
-/*		cpwTopPanel.add(dummyLabel5);	*/	
+
+		cpwTopPanel.add(dummyLabel1);
+		cpwTopPanel.add(dummyLabel2);
+		cpwTopPanel.add(dummyLabel3);
+		cpwTopPanel.add(dummyLabel4);
+		cpwTopPanel.add(dummyLabel5);	
 		cpwTopPanel.add(cpwPartyNameTextField);
 		cpwMainPanel.add(cpwTopPanel);
 		
@@ -352,16 +354,26 @@ public class SelectionWindow extends JFrame {
 		cpwMainPanel.add(cpwRadioButtonPanel);
 		
 		// Creates the bottom panel with password text field and create party button
-		cpwBottomPanel.add(cpwPasswordTextField);
-		cpwBottomPanel.add(cpwCreateButton);
+		JPanel tempPanel1 = new JPanel();
+		tempPanel1.add(cpwPasswordTextField);
+		//cpwBottomPanel.add(cpwPasswordTextField);
+		cpwBottomPanel.add(tempPanel1);
+		JPanel tempPanel2 = new JPanel();
+		tempPanel2.add(cpwCreateButton);
+		//cpwBottomPanel.add(cpwCreateButton);
+		cpwBottomPanel.add(tempPanel2);
+		AppearanceSettings.setNotOpaque(tempPanel1, tempPanel2);
 		cpwMainPanel.add(cpwBottomPanel);
+		AppearanceSettings.setSize(1280, 80, cpwBottomPanel);
+		AppearanceSettings.setSize(1280, 100, tempPanel1, tempPanel2);
 
 		// Appearance settings
 		cpwMainPanel.setSize(new Dimension(500,800));
-		cpwTopPanel.setBackground(Color.black);
-		cpwMainPanel.setBackground(Color.black);
-		cpwRadioButtonPanel.setBackground(Color.black);
-		cpwBottomPanel.setBackground(Color.black);
+		//cpwTopPanel.setBackground(Color.orange);
+		AppearanceSettings.setNotOpaque(cpwTopPanel, cpwMainPanel, cpwBottomPanel, cpwRadioButtonPanel);
+//		cpwMainPanel.setBackground(Color.black);
+		//cpwRadioButtonPanel.setBackground(Color.black);
+		//cpwBottomPanel.setBackground(Color.black);
 		cpwPrivateRadioButton.setForeground(Color.white);
 		cpwPublicRadioButton.setForeground(Color.white);
 		
