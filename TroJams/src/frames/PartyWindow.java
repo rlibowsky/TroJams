@@ -56,7 +56,7 @@ public class PartyWindow extends JFrame {
 			setLayout(new GridLayout(1,4));
 			songNameLabel = new JLabel(ps.getName());
 			
-			upvoteButton = new JButton("upvote");
+			upvoteButton = new JButton();
 			
 			upvoteButton.addActionListener(new ActionListener() {
 
@@ -95,6 +95,10 @@ public class PartyWindow extends JFrame {
 			add(upvoteButton);
 			add(downvoteButton);
 			add(votesLabel);
+			
+			Image thumbsUpImage = new ImageIcon("images/images.png").getImage();
+			userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+			newUser.setUserImage(userImage);
 		}
 	}
 	
@@ -119,6 +123,8 @@ public class PartyWindow extends JFrame {
 		
 	}
 	
+	//create the panel that shows songs in order of votes, called when partywindow is created
+	//and whenever someone upvotes or downvotes a song
 	public void setSongs() {
 		if (songs != null) {
 			songs.clear();
