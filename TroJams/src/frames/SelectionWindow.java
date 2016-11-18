@@ -79,7 +79,8 @@ public class SelectionWindow extends JFrame {
 		
 		createMenu();
 		createSWCenterPanel();
-		AppearanceSettings.setNotOpaque(swCenterPanel, swMainPanel, cards, cpw);
+		AppearanceSettings.setNotOpaque(swCenterPanel, swMainPanel, cards);
+		AppearanceSettings.setBackground(Color.GREEN, cpw);
 		
 		swMainPanel.setPreferredSize(new Dimension(1280, 800));
 		
@@ -91,7 +92,8 @@ public class SelectionWindow extends JFrame {
 		add(cards);
 		
 		CardLayout cl = (CardLayout) cards.getLayout();
-		cl.show(cards, "selection window");
+		//cl.show(cards, "selection window");
+		cl.show(cards, "create party window");
 	}
 	
 	// creates the JMenuBar
