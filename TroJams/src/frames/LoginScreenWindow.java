@@ -1,6 +1,11 @@
 package frames;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,7 +17,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -30,6 +42,8 @@ public class LoginScreenWindow extends JFrame {
 	private JTextField password;
 	private JLabel alertLabel;
 	private ImageIcon backgroundImage;
+	JLabel logoLabel;
+	
 	//users map
 	//could have use <String, String> instead of User object, but chose not to
 	private HashMap<String, User> existingUsers;
@@ -64,6 +78,9 @@ public class LoginScreenWindow extends JFrame {
 		username = new JTextField("username");
 		password = new JTextField("password");
 		alertLabel = new JLabel();
+		Image image = new ImageIcon("images/TroJamsLogo4.png").getImage();
+		ImageIcon logoImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+		logoLabel = new JLabel(logoImage);
 	}
 	
 	private void createGUI(){
@@ -77,6 +94,7 @@ public class LoginScreenWindow extends JFrame {
 		JPanel textFieldsPanel = new JPanel();
 		JPanel buttonsPanel = new JPanel();
 		JPanel welcomePanel = new JPanel(new GridLayout(2,1));
+		JPanel logoPanel = new JPanel();
 		
 		//set mass component appearances
 
@@ -127,6 +145,13 @@ public class LoginScreenWindow extends JFrame {
 		AppearanceSettings.addGlue(mainPanel, BoxLayout.PAGE_AXIS, false, textFieldTwoPanel);
 		mainPanel.add(buttonsPanel);
 		
+		logoPanel.setLayout(new BoxLayout(logoPanel, BoxLayout.LINE_AXIS));
+		logoPanel.add(Box.createHorizontalGlue());
+		logoPanel.add(logoLabel);
+		logoPanel.add(Box.createHorizontalGlue());
+		logoPanel.setOpaque(false);
+		
+		mainPanel.add(logoPanel);
 		add(mainPanel, BorderLayout.CENTER);
 		setSize(700, 600);
 	}
@@ -242,7 +267,7 @@ public class LoginScreenWindow extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {			
-				new CreateAccountWindow(new User("Guest", "Guest"), LoginScreenWindow.this).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+				new CreateAccountWindow(new User("Guest", "Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), LoginScreenWindow.this).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 					//create account window can call insertUserIntoDB 
 				dispose();
 			}
