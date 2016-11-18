@@ -212,8 +212,4 @@ public class CreatePartyWindow extends JPanel {
 		}
 	}
 	
-//	public static void main(String [] args) {
-//		new CreatePartyWindow().setVisible(true);
-//	}
-	
 }
