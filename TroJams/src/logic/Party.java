@@ -20,6 +20,10 @@ public abstract class Party {
 		partyMembers = new HashSet<Account>();
 	}
 	
+	public ArrayList<PartySong> getSongs() {
+		return songList;
+	}
+	
 	public String getPartyName() {
 		return partyName;
 	}

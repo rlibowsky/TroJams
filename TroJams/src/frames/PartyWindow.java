@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,23 +21,70 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import logic.Party;
+import logic.PartySong;
+import logic.PublicParty;
+import logic.User;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
 public class PartyWindow extends JFrame {
 	
-	private JButton addSongButton, refreshPanel;
+	private JButton addSongButton, refreshButton;
 	private JPanel songPanel, buttonsPanel;
 	private JScrollPane songScrollPane;
 	private ImageIcon backgroundImage;
-	private ArrayList <JPanel> songs;
+	private ArrayList <SingleSongPanel> songs;
+	private Party party;
 	
-	public PartyWindow() {
+	//argument will be taken out once we turn this into a JPanel
+	public PartyWindow(Party partayTime) {
 		super("");
-		songs = new ArrayList <JPanel>();
+		this.party = partayTime;
 		initializeComponents();
 		createGUI();
 		addListeners();
+	}
+	
+	private class SingleSongPanel extends JPanel {
+		private PartySong partySong;
+		private JButton upvoteButton, downvoteButton;
+		private JLabel votesLabel;
+		
+		public SingleSongPanel (PartySong ps) {
+			partySong = ps;
+			setLayout(new GridLayout(1,4));
+			JLabel jl1 = new JLabel(ps.getName());
+			add(jl1);
+			JButton upvoteButton = new JButton("upvote");
+			add(upvoteButton);
+			upvoteButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("upvote clicked for song " + ps.getName());
+					PartyWindow.this.party.upvoteSong(ps);
+					votesLabel.setText(Integer.toString(ps.getVotes()));
+					setSongs();
+				}
+				
+			});
+			JButton downvoteButton = new JButton("downvote");
+			add(downvoteButton);
+			downvoteButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("downvote clicked for song " + ps.getName());
+					PartyWindow.this.party.downvoteSong(ps);
+					votesLabel.setText(Integer.toString(ps.getVotes()));
+					setSongs();
+				}
+				
+			});
+			votesLabel = new JLabel(Integer.toString(ps.getVotes()));
+			add(votesLabel);
+		}
 	}
 	
 	public void initializeComponents() {
@@ -51,14 +99,34 @@ public class PartyWindow extends JFrame {
 		});
 		
 		addSongButton = new JButton("Add Song");
+		refreshButton = new JButton("Refresh");
 		songPanel = new JPanel();
+		songPanel.setLayout(new GridLayout(0, 1));
+		setSongs();
 		buttonsPanel = new JPanel();
 		songScrollPane = new JScrollPane(songPanel);
 		
 	}
 	
+	public void setSongs() {
+		if (songs != null) {
+			songs.clear();
+			songPanel.removeAll();
+		} else {
+			songs = new ArrayList <SingleSongPanel>();
+		}
+		//add songs in party to songs arraylist
+		for (PartySong ps : party.getSongs()) {
+			SingleSongPanel ssp = new SingleSongPanel(ps);
+			songs.add(ssp);
+			songPanel.add(ssp);
+		}
+		revalidate();
+	}
+	
 	public void createGUI() {
 		setSize(1280, 800);
+		setLayout(new BorderLayout());
 		
 		// Set appearance settings
 		AppearanceSettings.setForeground(Color.white, addSongButton);
@@ -72,13 +140,14 @@ public class PartyWindow extends JFrame {
 		
 		//songPanel.add(songScrollPane);
 		
-		// Left panel has the scroll pane to display songs and the add song button and should take up about 2/3 of the screen 
-		buttonsPanel.add(addSongButton);
+		buttonsPanel.setLayout(new BorderLayout());
+		buttonsPanel.add(addSongButton, BorderLayout.WEST);
+		buttonsPanel.add(refreshButton, BorderLayout.EAST);
 		JLabel testLabel = new JLabel("TEST!!!");
 		songPanel.add(testLabel);
 		
 		add(buttonsPanel, BorderLayout.NORTH);
-		add(songScrollPane, BorderLayout.SOUTH);
+		add(songPanel, BorderLayout.SOUTH);
 		
 	}
 	
@@ -96,6 +165,10 @@ public class PartyWindow extends JFrame {
 	}
 	
 	public static void main(String [] args) {
-		new PartyWindow().setVisible(true);
+		PublicParty partayTime = new PublicParty("theBestParty", new User("testUsername", "testPassword"));
+		partayTime.addSong(new PartySong("Song1", 3.0));
+		partayTime.addSong(new PartySong("Song2", 3.0));
+		partayTime.addSong(new PartySong("Song3", 3.0));
+		new PartyWindow(partayTime).setVisible(true);
 	}
 }
