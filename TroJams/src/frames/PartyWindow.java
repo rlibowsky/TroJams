@@ -14,7 +14,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import logic.Party;
 import logic.PartySong;
@@ -34,10 +34,11 @@ import resources.AppearanceSettings;
 public class PartyWindow extends JFrame {
 	
 	private JButton addSongButton, refreshButton;
-	private JList songPanel;
-	private JPanel buttonsPanel;
+	private JList <SingleSongPanel>songList;
+	private JPanel buttonsPanel, testPanel;
 	private JScrollPane songScrollPane;
 	private ImageIcon backgroundImage;
+	private JTextArea jta;
 	//private ArrayList <SingleSongPanel> songs;
 	private Party party;
 	
@@ -124,36 +125,39 @@ public class PartyWindow extends JFrame {
 		
 		addSongButton = new JButton("Add Song");
 		refreshButton = new JButton("Refresh");
-		songPanel = new JList<SingleSongPanel>();
-		songPanel.setLayout(new FlowLayout());
+		songList = new JList<SingleSongPanel>();
+		songList.setLayout(new FlowLayout());
 		setSongs();
 		buttonsPanel = new JPanel();
-		songPanel.setVisibleRowCount(10);
-		songScrollPane = new JScrollPane(songPanel);
-		songScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+		
+		songList.setPreferredSize(new Dimension (1000, 1000));
+		songScrollPane = new JScrollPane(songList);
+		songScrollPane.setPreferredSize(new Dimension(650, 700));
+		songScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		revalidate();
 	}
 	
 	//create the panel that shows songs in order of votes, called when partywindow is created
 	//and whenever someone upvotes or downvotes a song
 	public void setSongs() {
-		if (songPanel != null) {
-			songPanel.removeAll();
+		if (songList != null) {
+			songList.removeAll();
 		} else {
-			songPanel = new JList <SingleSongPanel>();
+			songList = new JList <SingleSongPanel>();
 		}
 		//add songs in party to songs arraylist
 		for (PartySong ps : party.getSongs()) {
 			SingleSongPanel ssp = new SingleSongPanel(ps);
 			//songs.add(ssp);
-			songPanel.add(ssp);
+			songList.add(ssp);
 		}
 		
 		//set at least 10
-		if (songPanel.getVisibleRowCount()< 10) {
-			for (int i = 0; i < 10-songPanel.getVisibleRowCount(); i ++) {
+		if (songList.getVisibleRowCount()< 10) {
+			for (int i = 0; i < 10-songList.getVisibleRowCount(); i ++) {
 				SingleSongPanel ssp = new SingleSongPanel(new PartySong("", 0.0));
 				//songs.add(ssp);
-				songPanel.add(ssp);
+				songList.add(ssp);
 			}
 		}
 		revalidate();
@@ -161,7 +165,7 @@ public class PartyWindow extends JFrame {
 	
 	public void createGUI() {
 		setSize(1280, 800);
-		setLayout(new BorderLayout());
+		//setLayout(new BorderLayout());
 		
 		// Set appearance settings
 		AppearanceSettings.setForeground(Color.white, addSongButton, refreshButton);
@@ -180,7 +184,8 @@ public class PartyWindow extends JFrame {
 		buttonsPanel.add(refreshButton, BorderLayout.EAST);
 		
 		add(addSongButton, BorderLayout.WEST);
-		add(songPanel, BorderLayout.CENTER);
+		add(songScrollPane, BorderLayout.CENTER);
+		//add(testPanel);
 		add(refreshButton, BorderLayout.EAST);
 		
 	}
@@ -212,6 +217,15 @@ public class PartyWindow extends JFrame {
 		partayTime.addSong(new PartySong("Song1", 3.0));
 		partayTime.addSong(new PartySong("Song2", 3.0));
 		partayTime.addSong(new PartySong("Song3", 3.0));
+		partayTime.addSong(new PartySong("Song4", 3.0));
+		partayTime.addSong(new PartySong("Song5", 3.0));
+		partayTime.addSong(new PartySong("Song6", 3.0));
+		partayTime.addSong(new PartySong("Song7", 3.0));
+		partayTime.addSong(new PartySong("Song8", 3.0));
+		partayTime.addSong(new PartySong("Song9", 3.0));
+		partayTime.addSong(new PartySong("Song10", 3.0));
+		partayTime.addSong(new PartySong("Song11", 3.0));
+		partayTime.addSong(new PartySong("Song12", 3.0));
 		new PartyWindow(partayTime).setVisible(true);
 	}
 }
