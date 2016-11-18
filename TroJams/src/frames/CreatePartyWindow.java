@@ -13,7 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+import listeners.TextFieldFocusListener;
 import resources.AppearanceSettings;
 
 /*
@@ -69,11 +72,28 @@ public class CreatePartyWindow extends JFrame {
 	
 	public void addActionListeners() {
 		
+		//focus listeners
+		cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
+		cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
+		
+		//document listeners
+		cpwPartyNameTextField.getDocument().addDocumentListener(new MyDocumentListener());
+		cpwPasswordTextField.getDocument().addDocumentListener(new MyDocumentListener());
+		
 		cpwPrivateRadioButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// If private, show password field
 				cpwPasswordTextField.setVisible(true);
+				
+				// Check if text fields are filled: enable create button
+				if (canPressButtons()) {
+					cpwCreateButton.setEnabled(true);
+				}
+				else {
+					cpwCreateButton.setEnabled(false);
+				}
 				
 			}
 			
@@ -83,7 +103,25 @@ public class CreatePartyWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// If public, get rid of password field
 				cpwPasswordTextField.setVisible(false);
+				// Check if text fields are filled: enable create button
+				if (canPressButtons()) {
+					cpwCreateButton.setEnabled(true);
+				}
+				else {
+					cpwCreateButton.setEnabled(false);
+				}
+				
+			}
+			
+		});
+		
+		cpwCreateButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 
 				
 			}
 			
@@ -95,19 +133,12 @@ public class CreatePartyWindow extends JFrame {
 		
 		AppearanceSettings.setSize(300, 50, cpwPartyNameTextField, cpwPasswordTextField, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6);
 		
-		//cpwTopPanel.setLayout(new BorderLayout());
-		
-		//cpwMainPanel.add(dummyPanel);
+		// Creates top panel with dummy labels so that the text field is at the bottom of the panel
 		cpwTopPanel.add(dummyLabel1);
 		cpwTopPanel.add(dummyLabel2);
 		cpwTopPanel.add(dummyLabel3);
 		cpwTopPanel.add(dummyLabel4);
-		cpwTopPanel.add(dummyLabel5);
-		//setInvisible(false, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5);
-		//cpwTopPanel.add(dummyLabel6);
-		
-		//TODO Set FocusListener for textfields
-		
+		cpwTopPanel.add(dummyLabel5);		
 		cpwTopPanel.add(cpwPartyNameTextField);
 		cpwMainPanel.add(cpwTopPanel);
 		
@@ -117,20 +148,18 @@ public class CreatePartyWindow extends JFrame {
 		bg.add(cpwPrivateRadioButton);
 		cpwPrivateRadioButton.setSelected(true);
 		
-
+		// Adds radio buttons horizontally
 		cpwRadioButtonPanel.setLayout(new BoxLayout(cpwRadioButtonPanel, BoxLayout.X_AXIS));
 		cpwRadioButtonPanel.add(cpwPublicRadioButton);
 		cpwRadioButtonPanel.add(cpwPrivateRadioButton);
 		cpwMainPanel.add(cpwRadioButtonPanel);
 		
-		//cpwBottomPanel.setLayout(new BorderLayout());
+		// Creates the bottom panel with password text field and create party button
 		cpwBottomPanel.add(cpwPasswordTextField);
 		cpwBottomPanel.add(cpwCreateButton);
 		cpwMainPanel.add(cpwBottomPanel);
 
-		//cpwButtonPanel.add(cpwCreateButton);		
-		//cpwMainPanel.add(cpwButtonPanel);
-		
+		// Appearance settings
 		cpwMainPanel.setSize(new Dimension(500,800));
 		cpwTopPanel.setBackground(Color.black);
 		cpwMainPanel.setBackground(Color.black);
@@ -141,6 +170,44 @@ public class CreatePartyWindow extends JFrame {
 		
 		add(cpwMainPanel);
 		
+	}
+	
+	private boolean canPressButtons() {
+		//usernameTextField, passwordTextField, firstNameTextField, lastNameTextField
+		if (cpwPrivateRadioButton.isSelected()) {
+			if (!cpwPartyNameTextField.getText().equals("Party name") && cpwPartyNameTextField.getText().length() != 0) {
+				if (!cpwPasswordTextField.getText().equals("Password") && cpwPasswordTextField.getText().length() != 0) {
+					return true;
+				}
+			}
+		}
+		
+		else if (cpwPublicRadioButton.isSelected()) {
+			if (!cpwPartyNameTextField.getText().equals("Party name") && cpwPartyNameTextField.getText().length() != 0) {
+				return true;
+			}
+		}
+	
+		return false;
+	}
+	
+	//sets the buttons enabled or disabled
+	private class MyDocumentListener implements DocumentListener{
+			
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			cpwCreateButton.setEnabled(canPressButtons());
+		}
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			cpwCreateButton.setEnabled(canPressButtons());
+		}
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			cpwCreateButton.setEnabled(canPressButtons());
+		}
 	}
 	
 	public static void main(String [] args) {
