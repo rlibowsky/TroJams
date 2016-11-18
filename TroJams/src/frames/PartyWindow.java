@@ -1,5 +1,7 @@
 package frames;
 
+import java.awt.BorderLayout;
+
 /*
  * PARTY WINDOW - SHOULD BE A PANEL. THIS IS WHERE THE SONGS LIST/QUEUE WILL BE. CARD LAYOUT WITH SELECTIONWINDOW AS MAIN 
  */
@@ -9,10 +11,12 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -21,13 +25,15 @@ import resources.AppearanceSettings;
 
 public class PartyWindow extends JFrame {
 	
-	private JButton addSongButton;
-	private JPanel songPanel, leftPanel, profilePanel, mainPanel;
+	private JButton addSongButton, refreshPanel;
+	private JPanel songPanel, buttonsPanel;
 	private JScrollPane songScrollPane;
 	private ImageIcon backgroundImage;
+	private ArrayList <JPanel> songs;
 	
 	public PartyWindow() {
 		super("");
+		songs = new ArrayList <JPanel>();
 		initializeComponents();
 		createGUI();
 		addListeners();
@@ -46,10 +52,8 @@ public class PartyWindow extends JFrame {
 		
 		addSongButton = new JButton("Add Song");
 		songPanel = new JPanel();
-		leftPanel = new JPanel();
-		profilePanel = new JPanel();
-		mainPanel = new JPanel();
-		songScrollPane = new JScrollPane();
+		buttonsPanel = new JPanel();
+		songScrollPane = new JScrollPane(songPanel);
 		
 	}
 	
@@ -63,21 +67,18 @@ public class PartyWindow extends JFrame {
 		AppearanceSettings.setOpaque(addSongButton);
 		AppearanceSettings.unSetBorderOnButtons(addSongButton);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addSongButton);
-		AppearanceSettings.setSize(1280, 800, mainPanel);
 		//AppearanceSettings.setSize(x, y, components);
-		AppearanceSettings.setNotOpaque(mainPanel);
 		//AppearanceSettings.setBackground(Color.black, mainPanel, songPanel, leftPanel, profilePanel, mainPanel, songScrollPane);
 		
-//		songPanel.add(songScrollPane);
+		//songPanel.add(songScrollPane);
 		
 		// Left panel has the scroll pane to display songs and the add song button and should take up about 2/3 of the screen 
-	//	leftPanel.add(songPanel);
-		//leftPanel.add(addSongButton);
+		buttonsPanel.add(addSongButton);
+		JLabel testLabel = new JLabel("TEST!!!");
+		songPanel.add(testLabel);
 		
-	//	mainPanel.add(leftPanel);
-		//mainPanel.add(profilePanel);
-		
-		add(mainPanel);
+		add(buttonsPanel, BorderLayout.NORTH);
+		add(songScrollPane, BorderLayout.SOUTH);
 		
 	}
 	

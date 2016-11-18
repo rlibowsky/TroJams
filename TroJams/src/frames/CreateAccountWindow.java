@@ -95,16 +95,6 @@ public class CreateAccountWindow extends JFrame {
 
 	private void initializeComponents(){
 		
-		//THIS ISN't WORKING ON THIS FRAME. WHYYYYYYYYYYY??
-		this.setContentPane(new JPanel() {
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Image image = new ImageIcon("images/backgroundImage.png").getImage();
-				backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
-				g.drawImage(image, 0, 0, 1280, 800, this);
-			}
-		});
-		
 		usernameTextField= new JTextField();
 		passwordTextField= new JTextField();
 		firstNameTextField= new JTextField();
