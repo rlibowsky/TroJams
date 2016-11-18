@@ -14,6 +14,7 @@ public class User extends Account{
 	private String username, firstName, lastName, password, imageFilePath;
 	public ImageIcon userImage;
 	private HashSet <Party> parties;
+	private boolean isHost;
 	public Party hostedParty; //null if user is hosting no parties
 	
 	public User(String username, String password) {
@@ -108,6 +109,15 @@ public class User extends Account{
 	public void setImageFilePath(String imageFilePath) {
 		this.imageFilePath = imageFilePath;
 	}
+
+	public boolean isHost() {
+		return isHost;
+	}
+
+	public void setHost(boolean isHost) {
+		this.isHost = isHost;
+	}
+	
 	
 	
 	
