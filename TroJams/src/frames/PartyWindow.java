@@ -1,6 +1,7 @@
 package frames;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 
 /*
  * PARTY WINDOW - SHOULD BE A PANEL. THIS IS WHERE THE SONGS LIST/QUEUE WILL BE. CARD LAYOUT WITH SELECTIONWINDOW AS MAIN 
@@ -15,6 +16,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +25,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import logic.Party;
 import logic.PartySong;
@@ -33,15 +36,17 @@ import resources.AppearanceSettings;
 
 public class PartyWindow extends JFrame {
 	
-	private JButton addSongButton, refreshButton;
+	private JButton addSongButton, refreshButton, addNewSongButton, searchButton;
 	private JList <SingleSongPanel>songList;
-	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel;
+	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, cards;
 	private JScrollPane songScrollPane;
 	private ImageIcon backgroundImage;
 	private JTextArea hostLabel;
 	//private ArrayList <SingleSongPanel> songs;
 	private Party party;
-	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel, hostImage;
+	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel, hostImage, searchedSong;
+	private JTextField searchBar;
+	private CardLayout cl;
 	
 	//argument will be taken out once we turn this into a JPanel
 	public PartyWindow(Party partayTime) {
@@ -154,7 +159,6 @@ public class PartyWindow extends JFrame {
 		hostPanel.add(hostLabel, BorderLayout.NORTH);
 		hostPanel.add(hostImage, BorderLayout.SOUTH);
 		
-		
 		currentlyPlayingPanel = new JPanel();
 		currentlyPlayingPanel.setLayout(new GridLayout(1,3));
 		currentlyPlayingLabel = new JLabel("Current Song");
@@ -172,8 +176,13 @@ public class PartyWindow extends JFrame {
 		songList.setLayout(new FlowLayout());
 		setSongs();
 		
-		
-		
+		// Intializing components for add song panel 
+		addNewSongButton = new JButton("Add song to queue");
+		searchButton = new JButton("Search");
+		searchedSong = new JLabel();
+		searchBar = new JTextField();
+
+		cards = new JPanel(new CardLayout());
 		
 		songList.setPreferredSize(new Dimension (600, 1000));
 		songScrollPane = new JScrollPane(songList);
@@ -227,9 +236,21 @@ public class PartyWindow extends JFrame {
 		
 		//songPanel.add(songScrollPane);
 		
+		addSongPanel = createAddSongPanel();
+		
+		cards.add(buttonsPanel, "button panel");
+		cards.add(addSongPanel, "add song panel");
+//		add(swMainPanel, BorderLayout.CENTER);
+		
+		add(cards, BorderLayout.CENTER);
+		//add(pwMainPanel, BorderLayout.EAST); 
+		
+		cl = (CardLayout) cards.getLayout();
+		cl.show(cards, "button panel");
+		
 		add(hostPanel, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
-		add(buttonsPanel, BorderLayout.EAST);
+		add(cards, BorderLayout.EAST);
 		
 	}
 	
@@ -239,7 +260,8 @@ public class PartyWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//new AddSongWindow().setVisible(true);
+				CardLayout cl = (CardLayout) cards.getLayout();
+				cl.show(cards, "add song panel");	
 			}
 			
 		});
@@ -252,6 +274,38 @@ public class PartyWindow extends JFrame {
 			}
 			
 		});
+		
+	}
+	
+	public JPanel createAddSongPanel() {
+		JPanel tempPanel = new JPanel();
+		JPanel centerPanel = new JPanel();
+		JPanel searchBarPanel = new JPanel();
+		searchBarPanel.setLayout(new BoxLayout(searchBarPanel, BoxLayout.Y_AXIS));
+		
+		tempPanel.setLayout(new BorderLayout());
+		
+		tempPanel.setSize(new Dimension(450, 800));
+		AppearanceSettings.setNotOpaque(tempPanel, centerPanel, searchedSong, searchBar);
+		AppearanceSettings.setSize(100,50, searchButton, addNewSongButton);
+		AppearanceSettings.setSize(450,400, centerPanel);
+		AppearanceSettings.setSize(450,150, searchBar);
+		
+		AppearanceSettings.setSize(350, 50, searchBar);
+		
+		buttonsPanel.add(searchBar);
+		buttonsPanel.add(searchButton);
+		
+		centerPanel.add(searchBar);
+		centerPanel.add(searchButton);
+		centerPanel.add(searchedSong);
+		centerPanel.add(addNewSongButton);
+		
+		tempPanel.add(centerPanel, BorderLayout.CENTER);
+		
+		
+		
+		return tempPanel;
 		
 	}
 	
