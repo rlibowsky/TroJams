@@ -24,6 +24,10 @@ public abstract class Party {
 		return songList;
 	}
 	
+	public User getHost() {
+		return host;
+	}
+	
 	public String getPartyName() {
 		return partyName;
 	}

@@ -35,13 +35,13 @@ public class PartyWindow extends JFrame {
 	
 	private JButton addSongButton, refreshButton;
 	private JList <SingleSongPanel>songList;
-	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel;
+	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel;
 	private JScrollPane songScrollPane;
 	private ImageIcon backgroundImage;
-	private JTextArea jta;
+	private JTextArea hostLabel;
 	//private ArrayList <SingleSongPanel> songs;
 	private Party party;
-	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel;
+	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel, hostImage;
 	
 	//argument will be taken out once we turn this into a JPanel
 	public PartyWindow(Party partayTime) {
@@ -140,6 +140,20 @@ public class PartyWindow extends JFrame {
 		
 		addSongButton = new JButton("Add Song");
 		refreshButton = new JButton("Refresh");
+		buttonsPanel.add(addSongButton, BorderLayout.NORTH);
+		buttonsPanel.add(refreshButton, BorderLayout.SOUTH);
+		
+		hostLabel = new JTextArea(party.getHostName() + "'s \nparty!");
+		hostLabel.setEditable(false);
+		hostLabel.setLineWrap(true);
+		hostImage = new JLabel();
+		Image image = new ImageIcon(this.party.getHost().getImageFilePath()).getImage();
+		hostImage.setIcon(new ImageIcon(image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
+		hostPanel = new JPanel();
+		hostPanel.setLayout(new BorderLayout());
+		hostPanel.add(hostLabel, BorderLayout.NORTH);
+		hostPanel.add(hostImage, BorderLayout.SOUTH);
+		
 		
 		currentlyPlayingPanel = new JPanel();
 		currentlyPlayingPanel.setLayout(new GridLayout(1,3));
@@ -201,25 +215,21 @@ public class PartyWindow extends JFrame {
 		//setLayout(new BorderLayout());
 		
 		// Set appearance settings
-		AppearanceSettings.setForeground(Color.white, addSongButton, refreshButton);
-		AppearanceSettings.setSize(200, 80, addSongButton, refreshButton);
-		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton, refreshButton);
-		AppearanceSettings.setOpaque(addSongButton, refreshButton);
+		AppearanceSettings.setForeground(Color.white, addSongButton, refreshButton, hostLabel);
+		AppearanceSettings.setSize(150, 80, addSongButton, refreshButton, hostLabel);
+		AppearanceSettings.setSize(150, 150, hostLabel);
+		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton, refreshButton, hostLabel);
+		AppearanceSettings.setOpaque(addSongButton, refreshButton, hostLabel);
 		AppearanceSettings.unSetBorderOnButtons(addSongButton, refreshButton);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addSongButton, refreshButton);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addSongButton, refreshButton, hostLabel);
 		//AppearanceSettings.setSize(x, y, components);
 		//AppearanceSettings.setBackground(Color.black, mainPanel, songPanel, leftPanel, profilePanel, mainPanel, songScrollPane);
 		
 		//songPanel.add(songScrollPane);
 		
-		buttonsPanel.setLayout(new BorderLayout());
-		buttonsPanel.add(addSongButton, BorderLayout.WEST);
-		buttonsPanel.add(refreshButton, BorderLayout.EAST);
-		
-		add(addSongButton, BorderLayout.WEST);
+		add(hostPanel, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
-		//add(testPanel);
-		add(refreshButton, BorderLayout.EAST);
+		add(buttonsPanel, BorderLayout.EAST);
 		
 	}
 	

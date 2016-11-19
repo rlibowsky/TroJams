@@ -18,7 +18,11 @@ public class User extends Account{
 		super();
 		this.username = username;
 		this.password = password;
-		this.userImage = null;
+		if (imageFilePath == null) {
+			imageFilePath = "images/silhouette.png";
+		}
+		Image image = new ImageIcon(imageFilePath).getImage();
+		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 		this.parties = new HashSet<Party>();
 	}
 	
@@ -27,6 +31,9 @@ public class User extends Account{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.imageFilePath = imageFilePath;
+		if (imageFilePath == null) {
+			imageFilePath = "images/silhouette.png";
+		}
 		Image image = new ImageIcon(imageFilePath).getImage();
 		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 	}
