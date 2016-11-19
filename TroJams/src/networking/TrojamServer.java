@@ -5,17 +5,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import logic.Account;
 import logic.Party;
 
 public class TrojamServer extends Thread{
 	private ServerSocket serverSocket;
 	private ArrayList <TrojamServerThread> trojamServerThreads;
 	private int port;
-	private Party party;
+	private ArrayList <Party> parties;
 	
-	public TrojamServer(int port, Party party) {
+	public TrojamServer(int port) {
 		this.port = port;
-		this.party = party;
+		this.parties = new ArrayList <Party> ();
 		trojamServerThreads = new ArrayList <TrojamServerThread>();
 		this.start();
 	}
@@ -33,6 +34,16 @@ public class TrojamServer extends Thread{
 			}
 		} catch (NumberFormatException | IOException e) {
 			System.out.println("io in server "+e.getMessage());
+		}
+	}
+	
+	public void sendToHost(Party p, Message message) {
+		p.getHost().st.sendMessage(message);
+	}
+	
+	public void sendToGuests(Party p, Message message) {
+		for (Account act : p.getPartyMembers()) {
+			act.st.sendMessage(message);
 		}
 	}
 	
