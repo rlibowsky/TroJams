@@ -95,6 +95,15 @@ public class CreateAccountWindow extends JFrame {
 
 	private void initializeComponents(){
 		
+		this.setContentPane(new JPanel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Image image = new ImageIcon("images/backgroundImage.png").getImage();
+				backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
+				g.drawImage(image, 0, 0, 1280, 800, this);
+			}
+		});
+		
 		usernameTextField= new JTextField();
 		passwordTextField= new JTextField();
 		firstNameTextField= new JTextField();
@@ -106,7 +115,12 @@ public class CreateAccountWindow extends JFrame {
 		submitButton = new JButton();
 		ImageIcon submitButtonImage = new ImageIcon("images/button_submit.png");
 		submitButton.setIcon(submitButtonImage);
+		submitButton.setOpaque(false);
+		submitButton.setBorderPainted(false);
+		submitButton.setContentAreaFilled(false);
 		imageText = new JLabel("Click to upload a profile picture");
+		
+		
 	}
 	
 	private void createGUI(){

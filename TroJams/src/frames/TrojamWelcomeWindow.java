@@ -1,5 +1,6 @@
 package frames;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -33,7 +34,7 @@ public class TrojamWelcomeWindow extends JFrame{
 	}
 	
 	private void initializeComponents(){
-		setSize(1280,800);
+		setSize(AppearanceConstants.GUI_WIDTH,AppearanceConstants.GUI_HEIGHT);
 		setLocation(100,100);
 		
 		//To paint Trojams photo on JFrame and make it possible to put opaque button on top of it
@@ -41,8 +42,8 @@ public class TrojamWelcomeWindow extends JFrame{
 	        public void paintComponent(Graphics g) {
 	            super.paintComponent(g);
 	        	Image image = new ImageIcon("images/TroJams.png").getImage();
-				trojamsImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
-	            g.drawImage(image, 0, 0, 1280, 800, this);
+				trojamsImage = new ImageIcon(image.getScaledInstance(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT, java.awt.Image.SCALE_SMOOTH));
+	            g.drawImage(image, 0, 0, AppearanceConstants.GUI_WIDTH,  AppearanceConstants.GUI_HEIGHT, this);
 	        }
 	    });
 		
@@ -59,7 +60,7 @@ public class TrojamWelcomeWindow extends JFrame{
 		System.out.println(width + " " + height + " " + buttonWidth + " " + buttonHeight + " " + buttonX + " " + buttonY);
 		startButton = new JButton("Click to Party");
 		
-		startButton.setForeground(AppearanceConstants.trojamPurple);
+		startButton.setForeground(Color.black);
 		startButton.setOpaque(false);
 		startButton.setContentAreaFilled(false);
 		startButton.setBorderPainted(false);
@@ -74,14 +75,6 @@ public class TrojamWelcomeWindow extends JFrame{
 		this.add(Box.createGlue());
 		startButton.setAlignmentX(CENTER_ALIGNMENT);
 		startButton.setAlignmentY(buttonY);
-		
-//		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-//		mainPanel.add(Box.createVerticalGlue());
-//		mainPanel.add(Box.createHorizontalGlue());
-//		mainPanel.add(startButton);
-//		mainPanel.add(Box.createVerticalGlue());
-//		mainPanel.add(Box.createHorizontalGlue());
-//		add(mainPanel);
 		
 	}
 	

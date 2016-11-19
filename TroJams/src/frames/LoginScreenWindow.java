@@ -59,6 +59,8 @@ public class LoginScreenWindow extends JFrame {
 		initializeComponents();
 		createGUI();
 		addListeners();
+		
+		setLocation(100,100);
 	}
 	
 	private void initializeComponents(){
