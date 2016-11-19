@@ -41,7 +41,7 @@ public class PartyWindow extends JFrame {
 	private JTextArea jta;
 	//private ArrayList <SingleSongPanel> songs;
 	private Party party;
-	private JLabel currentSongName, currentSongTime;
+	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel;
 	
 	//argument will be taken out once we turn this into a JPanel
 	public PartyWindow(Party partayTime) {
@@ -52,11 +52,14 @@ public class PartyWindow extends JFrame {
 		addListeners();
 	}
 	
-	public void updateCurrentlyPlaying(PartySong ps) {
-		this.currentSongName.setText(ps.getName());
-		this.currentSongTime.setText(Double.toString(ps.getLength()) + "s");
+	//plays next song in party and updates display to show current song name and time
+	public void updateCurrentlyPlaying() {
+		this.currentSongName.setText(this.party.getSongs().get(0).getName());
+		this.currentSongTime.setText(Double.toString(this.party.getSongs().get(0).getLength()) + "s");
+		this.party.playNextSong();
 	}
 	
+	//shows song name, upvote and downvote buttons, and total votes for the song
 	private class SingleSongPanel extends JPanel {
 		private PartySong partySong;
 		private JButton upvoteButton, downvoteButton;
@@ -69,6 +72,7 @@ public class PartyWindow extends JFrame {
 			songNameLabel = new JLabel(ps.getName());
 			
 			upvoteButton = new JButton();
+			
 			
 			upvoteButton.addActionListener(new ActionListener() {
 
@@ -95,11 +99,13 @@ public class PartyWindow extends JFrame {
 			votesLabel = new JLabel(Integer.toString(ps.getVotes()));
 			
 			AppearanceSettings.setForeground(Color.white, songNameLabel, votesLabel);
-			AppearanceSettings.setSize(100, 40, songNameLabel, votesLabel);
-			AppearanceSettings.setBackground(AppearanceConstants.mediumGray, songNameLabel, votesLabel);
-			AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, this);
-			AppearanceSettings.setOpaque(songNameLabel, votesLabel);
+			AppearanceSettings.setForeground(Color.black, currentSongName, currentSongTime, currentlyPlayingLabel);
+			AppearanceSettings.setSize(100, 40, songNameLabel, votesLabel, currentSongName, currentSongTime, currentlyPlayingLabel);
+			AppearanceSettings.setBackground(AppearanceConstants.mediumGray, songNameLabel, votesLabel, songList, upvoteButton, downvoteButton, this);
+			AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, currentSongName, currentSongTime, currentlyPlayingLabel);
+			AppearanceSettings.setOpaque(songNameLabel, votesLabel, currentSongName, currentSongTime, currentlyPlayingLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontSmall, songNameLabel, votesLabel);
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, currentSongName, currentSongTime, currentlyPlayingLabel);
 			
 			add(songNameLabel);
 			add(upvoteButton);
@@ -127,7 +133,6 @@ public class PartyWindow extends JFrame {
 			}
 		});
 		
-		
 		buttonsPanel = new JPanel();
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new BorderLayout());
@@ -137,16 +142,15 @@ public class PartyWindow extends JFrame {
 		refreshButton = new JButton("Refresh");
 		
 		currentlyPlayingPanel = new JPanel();
-		currentlyPlayingPanel.setLayout(new BorderLayout());
-		JLabel currentlyPlayingLabel = new JLabel("Current Song");
+		currentlyPlayingPanel.setLayout(new GridLayout(1,3));
+		currentlyPlayingLabel = new JLabel("Current Song");
 		currentSongName = new JLabel("");
 		currentSongTime = new JLabel("");
-		currentlyPlayingPanel.add(currentlyPlayingLabel, BorderLayout.WEST);
-		currentlyPlayingPanel.add(currentSongName, BorderLayout.CENTER);
-		currentlyPlayingPanel.add(currentSongTime, BorderLayout.EAST);
+		currentlyPlayingPanel.add(currentlyPlayingLabel);
+		currentlyPlayingPanel.add(currentSongName);
+		currentlyPlayingPanel.add(currentSongTime);
 		if (this.party.getSongs().size() != 0) {
-			this.updateCurrentlyPlaying(this.party.getSongs().get(0));
-			this.party.playNextSong();
+			this.updateCurrentlyPlaying();
 		}
 		centerPanel.add(currentlyPlayingPanel, BorderLayout.NORTH);
 		
@@ -157,9 +161,9 @@ public class PartyWindow extends JFrame {
 		
 		
 		
-		songList.setPreferredSize(new Dimension (1000, 1000));
+		songList.setPreferredSize(new Dimension (600, 1000));
 		songScrollPane = new JScrollPane(songList);
-		songScrollPane.setPreferredSize(new Dimension(650, 700));
+		songScrollPane.setPreferredSize(new Dimension(600, 700));
 		songScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		centerPanel.add(songScrollPane, BorderLayout.SOUTH);
 		revalidate();
@@ -186,7 +190,6 @@ public class PartyWindow extends JFrame {
 		if (songList.getVisibleRowCount()< 10) {
 			for (int i = 0; i < 10-songList.getVisibleRowCount(); i ++) {
 				SingleSongPanel ssp = new SingleSongPanel(new PartySong("", 0.0));
-				//songs.add(ssp);
 				songList.add(ssp);
 			}
 		}
