@@ -139,14 +139,14 @@ public class SelectionWindow extends JFrame {
 		createCPWMenu();
 		createSWPanel();
 		AppearanceSettings.setNotOpaque(swMainPanel, cards);
-		createPWPanel();
+		//createPWPanel();
 		
 		cards.add(swMainPanel, "selection window");
 		cards.add(cpwMainPanel, "create party window");
 //		add(swMainPanel, BorderLayout.CENTER);
 		
 		add(cards, BorderLayout.CENTER);
-		add(pwMainPanel, BorderLayout.EAST); 
+		//add(pwMainPanel, BorderLayout.EAST); 
 		
 		cl = (CardLayout) cards.getLayout();
 		cl.show(cards, "selection window");

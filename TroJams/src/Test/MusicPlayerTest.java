@@ -6,11 +6,22 @@ import javazoom.jl.player.Player;
 
 public class MusicPlayerTest {
 
+	
+	// retrieve text from search, check if vector contains that song
+	// call method with that song name
 	public MusicPlayerTest(){
 	    try{
-		    FileInputStream fis = new FileInputStream("music/sunset_lover.mp3");
+		    FileInputStream fis = new FileInputStream("music/robot.mp3");
 		    Player playMP3 = new Player(fis);
 		    playMP3.play();
+		    while (!playMP3.isComplete()) {
+		    	
+		    }
+		    System.out.println("finished");
+		    FileInputStream fis2 = new FileInputStream("music/kid.mp3");
+		    Player playMP3_2 = new Player(fis2);
+		    playMP3_2.play();
+		    
 	    }catch(Exception e){
 	    	System.out.println(e);
 	    }
