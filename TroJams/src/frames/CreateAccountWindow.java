@@ -103,7 +103,9 @@ public class CreateAccountWindow extends JFrame {
 		instructionsLabel = new JLabel("Please enter your information");
 		imageLabel = new JLabel();
 		fileChooser = new JFileChooser();
-		submitButton = new JButton("Submit");
+		submitButton = new JButton();
+		ImageIcon submitButtonImage = new ImageIcon("images/button_submit.png");
+		submitButton.setIcon(submitButtonImage);
 		imageText = new JLabel("Click to upload a profile picture");
 	}
 	

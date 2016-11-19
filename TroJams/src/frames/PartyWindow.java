@@ -318,7 +318,7 @@ public class PartyWindow extends JFrame {
 	}
 	
 	public static void main(String [] args) {
-		PublicParty partayTime = new PublicParty("theBestParty", new User("testUsername", "testPassword"));
+		PublicParty partayTime = new PublicParty("theBestParty", new User("testUsername", "testPassword"), new ImageIcon("party-purple.jpg"));
 		partayTime.addSong(new PartySong("Song1", 3.0));
 		partayTime.addSong(new PartySong("Song2", 3.0));
 		partayTime.addSong(new PartySong("Song3", 3.0));

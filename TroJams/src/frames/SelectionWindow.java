@@ -114,7 +114,9 @@ public class SelectionWindow extends JFrame {
 		
 		swMainPanel = new JPanel();
 		swMainPanel.setLayout(new BorderLayout());
-		createAPartyButton = new JButton("Create a Party");
+		createAPartyButton = new JButton();
+		ImageIcon createButtonImage = new ImageIcon("images/button_create-a-party.png");
+		createAPartyButton.setIcon(createButtonImage);
 		cards = new JPanel(new CardLayout());
 		
 		
@@ -137,7 +139,9 @@ public class SelectionWindow extends JFrame {
 		cpwPasswordTextField = new JTextField();
 		cpwPublicRadioButton = new JRadioButton("Public");
 		cpwPrivateRadioButton = new JRadioButton("Private");
-		cpwCreateButton = new JButton("Create Party");
+		cpwCreateButton = new JButton();
+		ImageIcon cButtonImage = new ImageIcon("images/button_create-party.png");
+		cpwCreateButton.setIcon(cButtonImage);
 		fileChooser = new JFileChooser();
 		imageText = new JLabel("Click to upload a party picture");
 		imageText.setForeground(Color.white);
@@ -240,7 +244,10 @@ public class SelectionWindow extends JFrame {
 		createAPartyButton.setOpaque(true);
 		//topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.PAGE_AXIS));
 		topPanel.add(createAPartyButton);
-		topPanel.setOpaque(true);
+		createAPartyButton.setOpaque(false);
+		createAPartyButton.setContentAreaFilled(false);
+		createAPartyButton.setBorderPainted(false);
+		topPanel.setOpaque(false);
 		AppearanceSettings.setBackground(Color.WHITE, topPanel);
 		topPanel.setOpaque(false);
 		swMainPanel.add(topPanel, BorderLayout.SOUTH);
