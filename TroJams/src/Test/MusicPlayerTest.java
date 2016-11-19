@@ -21,6 +21,7 @@ public class MusicPlayerTest extends Thread{
 		    //playMP3.
 		    Thread.sleep(5000);
 		    System.out.println("done sleeping");
+		    
 		    playMP3.close();
 //		    while (!playMP3.isComplete()) {
 //		    	
