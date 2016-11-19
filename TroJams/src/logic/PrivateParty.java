@@ -7,7 +7,7 @@ public class PrivateParty extends Party{
 	private String password;
 	
 	public PrivateParty(String partyName, String password, User host, ImageIcon partyImage) {
-		super(partyName, host,  partyImage);
+		super(partyName, host, partyImage);
 		this.password = password;
 	}
 	

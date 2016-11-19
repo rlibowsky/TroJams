@@ -350,8 +350,23 @@ public class SelectionWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {	
 				// CHANGE TO PARTY WINDOW
-				CardLayout cl = (CardLayout) cards.getLayout();
-				cl.show(cards, "selection window");					
+				String pName = cpwPartyNameTextField.getText();
+				ImageIcon pImage = (ImageIcon) imageLabel.getIcon();
+				Party p = null;
+				if(cpwPublicRadioButton.isSelected()){
+					p = new PublicParty(pName, user, pImage);
+				}
+				else if(cpwPrivateRadioButton.isSelected()){
+					String password = cpwPasswordTextField.getText();
+					p = new PrivateParty(pName, password, user, pImage);
+				}
+				
+				//ADD TO PARTIES LIST
+				currentParties.add(p);
+				setSongs();
+				
+//				CardLayout cl = (CardLayout) cards.getLayout();
+//				cl.show(cards, "selection window");					
 			}		
 		});
 		
@@ -434,18 +449,23 @@ public class SelectionWindow extends JFrame {
 		imageText.setSize(imageLabel.getPreferredSize());
 		imageText.setLocation(imageText.getLocation());
 		imageLabel.add(imageText);
-		
-		//write image to local file in order to retrieve when user logs in
-		 BufferedImage image1 = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
-		 File inputFile = new File(filepath);	    
-		 try {
-			 image1 = ImageIO.read(inputFile);
-			 File outputfile = new File("party - " + cpwPartyNameTextField.getText() + ".png");
-			ImageIO.write(image1, "png", outputfile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+		if (canPressButtons()) {
+			cpwCreateButton.setEnabled(true);
+		} else {
+			cpwCreateButton.setEnabled(false);
 		}
+		
+//		//write image to local file in order to retrieve when user logs in
+//		 BufferedImage image1 = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
+//		 File inputFile = new File(filepath);	    
+//		 try {
+//			 image1 = ImageIO.read(inputFile);
+//			 File outputfile = new File("party - " + cpwPartyNameTextField.getText() + ".png");
+//			ImageIO.write(image1, "png", outputfile);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			System.out.println(e.getMessage());
+//		}
 	}
 	
 	private boolean canPressButtons() {
@@ -453,12 +473,16 @@ public class SelectionWindow extends JFrame {
 		if (cpwPrivateRadioButton.isSelected()) {
 			if (!cpwPartyNameTextField.getText().equals("Party name") && cpwPartyNameTextField.getText().length() != 0) {
 				if (!cpwPasswordTextField.getText().equals("Password") && cpwPasswordTextField.getText().length() != 0) {
-					return true;
+					if(imageLabel.getIcon() != null){
+						return true;
+					}
 				}
 			}
 		} else if (cpwPublicRadioButton.isSelected()) {
 			if (!cpwPartyNameTextField.getText().equals("Party name") && cpwPartyNameTextField.getText().length() != 0) {
-				return true;
+				if(imageLabel.getIcon() != null){
+					return true;
+				}
 			}
 		}
 	
