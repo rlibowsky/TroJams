@@ -256,31 +256,21 @@ public class SelectionWindow extends JFrame {
 		private static final long serialVersionUID = 1L;
 		private Party party;
 		private JButton partyButton;
-<<<<<<< Updated upstream
-		private JLabel hostLabel;
+		private JLabel hostLabel, hostImageLabel;
 		private JLabel partyIconLabel;
 		private ImageIcon partyImageIcon;
-=======
-		private JLabel hostLabel, hostImageLabel;
->>>>>>> Stashed changes
 		
 		public SinglePartyPanel (Party p) {
 			AppearanceSettings.setSize(600, 100, this);
-<<<<<<< Updated upstream
 			this.party = p;
-			setLayout(new GridLayout(1,3));
+			setLayout(new GridLayout(1,4));
 			hostLabel = new JLabel(party.getHostName());
 			partyImageIcon = party.getPartyImage();
 			partyIconLabel = new JLabel(partyImageIcon);
-=======
-			this.party = party;
-			setLayout(new GridLayout(1,3));
-			hostLabel = new JLabel(party.getHostName());
 			hostImageLabel = new JLabel();
 			Image image = new ImageIcon(party.getHost().getImageFilePath()).getImage();
 			ImageIcon img = new ImageIcon(image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
 			hostImageLabel.setIcon(img);
->>>>>>> Stashed changes
 			partyButton = new JButton(party.getPartyName());
 			
 			partyButton.addActionListener(new ActionListener() {
@@ -290,26 +280,16 @@ public class SelectionWindow extends JFrame {
 					//switch gui so it shows that party (asking for password if the party is private)
 				}	
 			});
-			
-<<<<<<< Updated upstream
 			AppearanceSettings.setForeground(Color.white, hostLabel);
 			AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, partyButton);
 			AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, partyButton, hostLabel);
 			AppearanceSettings.setSize(100, 40, partyButton, hostLabel);
 			AppearanceSettings.setOpaque(partyButton, hostLabel);
-=======
-			AppearanceSettings.setForeground(Color.white, partyButton, hostLabel);
-			AppearanceSettings.setBackground(AppearanceConstants.darkGray, hostLabel, hostImageLabel, this);
-			AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, partyButton);
-			AppearanceSettings.setSize(100, 40, partyButton, hostLabel, hostImageLabel);
-			AppearanceSettings.setOpaque( hostLabel);
->>>>>>> Stashed changes
 			AppearanceSettings.setFont(AppearanceConstants.fontSmall, partyButton, hostLabel);
 
 			add(partyIconLabel);
 			add(partyButton);
 			add(hostLabel);
-<<<<<<< Updated upstream
 			
 			Border raisedbevel, loweredbevel;
 			raisedbevel = BorderFactory.createRaisedBevelBorder();
@@ -317,10 +297,7 @@ public class SelectionWindow extends JFrame {
 			Border compound = BorderFactory.createCompoundBorder(
                     raisedbevel, loweredbevel);
 			this.setBorder(compound);
-			
-=======
 			add(hostImageLabel);
->>>>>>> Stashed changes
 		}
 	}
 	
@@ -390,7 +367,7 @@ public class SelectionWindow extends JFrame {
 				
 				//ADD TO PARTIES LIST
 				currentParties.add(p);
-				setSongs();
+				setParties();
 				
 //				CardLayout cl = (CardLayout) cards.getLayout();
 //				cl.show(cards, "selection window");					
