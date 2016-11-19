@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 import java.io.FileInputStream;
 
@@ -11,7 +11,8 @@ public class MusicPlayerTest {
 	// call method with that song name
 	public MusicPlayerTest(){
 	    try{
-		    FileInputStream fis = new FileInputStream("music/robot.mp3");
+		    //FileInputStream fis = new FileInputStream("music/sunset_lover.mp3");
+	    	FileInputStream fis = new FileInputStream("song_bin/curr_song.mp3");
 		    Player playMP3 = new Player(fis);
 		    playMP3.play();
 		    while (!playMP3.isComplete()) {
