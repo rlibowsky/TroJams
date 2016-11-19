@@ -285,6 +285,7 @@ public class SelectionWindow extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					//join that party
 					//switch gui so it shows that party (asking for password if the party is private)
+					//create a new client for that party
 				}	
 			});
 			AppearanceSettings.setForeground(Color.white, hostLabel);
