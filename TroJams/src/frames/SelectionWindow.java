@@ -117,6 +117,9 @@ public class SelectionWindow extends JFrame {
 		createAPartyButton = new JButton();
 		ImageIcon createButtonImage = new ImageIcon("images/button_create-a-party.png");
 		createAPartyButton.setIcon(createButtonImage);
+		createAPartyButton.setOpaque(false);
+		createAPartyButton.setContentAreaFilled(false);
+		createAPartyButton.setBorderPainted(false);
 		cards = new JPanel(new CardLayout());
 		
 		
@@ -142,6 +145,9 @@ public class SelectionWindow extends JFrame {
 		cpwCreateButton = new JButton();
 		ImageIcon cButtonImage = new ImageIcon("images/button_create-party.png");
 		cpwCreateButton.setIcon(cButtonImage);
+		cpwCreateButton.setContentAreaFilled(false);
+		cpwCreateButton.setBorderPainted(false);
+		cpwCreateButton.setOpaque(false);
 		fileChooser = new JFileChooser();
 		imageText = new JLabel("Click to upload a party picture");
 		imageText.setForeground(Color.white);
