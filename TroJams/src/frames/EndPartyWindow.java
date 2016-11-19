@@ -89,7 +89,7 @@ public class EndPartyWindow extends JPanel {
 		joinAnotherPartyButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ae){
 				selectionWindow.dispose();
-				new SelectionWindow(user).setVisible(true);
+				new SelectionWindow(user, null).setVisible(true);
 			}
 		});
 		
@@ -107,7 +107,7 @@ public class EndPartyWindow extends JPanel {
 
 		public static void main(String [] args) {
 			JFrame test = new JFrame();
-			EndPartyWindow epw = new EndPartyWindow(new SelectionWindow(new User("a", "b")));
+			EndPartyWindow epw = new EndPartyWindow(new SelectionWindow(new User("a", "b"), null));
 			test.add(epw);
 			test.setSize(1280, 800);
 			test.setVisible(true);

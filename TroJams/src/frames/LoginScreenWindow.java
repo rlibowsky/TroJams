@@ -232,7 +232,7 @@ public class LoginScreenWindow extends JFrame {
 					}
 					//login successful - GO TO MAIN TROJAMS WINDOW
 					else{
-						new SelectionWindow(user).setVisible(true);
+						new SelectionWindow(user, null).setVisible(true);
 						dispose();
 					}
 				}

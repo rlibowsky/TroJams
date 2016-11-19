@@ -86,7 +86,7 @@ public class CreateAccountWindow extends JFrame {
 			public void actionPerformed (ActionEvent ae){
 				newUser = new User(usernameTextField.getText(), passwordTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(), imageFilePath);
 				loginScreenWindow.insertUserIntoDB(newUser);
-				SelectionWindow sw = new SelectionWindow(newUser);
+				SelectionWindow sw = new SelectionWindow(newUser, null);
 				sw.setVisible(true);
 			}
 		});
