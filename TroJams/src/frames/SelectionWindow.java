@@ -4,22 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -39,8 +34,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -173,6 +166,7 @@ public class SelectionWindow extends JFrame {
 		createSWPanel();
 		AppearanceSettings.setNotOpaque(swMainPanel, cards);
 		//createPWPanel();
+		
 		
 		cards.add(swMainPanel, "selection window");
 		cards.add(cpwMainPanel, "create party window");
@@ -382,8 +376,11 @@ public class SelectionWindow extends JFrame {
 				//ADD TO PARTIES LIST
 				currentParties.add(p);
 				setParties();
-//				CardLayout cl = (CardLayout) cards.getLayout();
-//				cl.show(cards, "selection window");					
+				
+				PartyWindow pw = new PartyWindow(p);
+				cards.add(pw, "party window");
+				CardLayout cl = (CardLayout) cards.getLayout();
+				cl.show(cards, "party window");					
 			}		
 		});
 		

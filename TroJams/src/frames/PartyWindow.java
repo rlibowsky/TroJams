@@ -19,7 +19,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -34,9 +33,9 @@ import logic.User;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
-public class PartyWindow extends JFrame {
+public class PartyWindow extends JPanel {
 	
-	private JButton addSongButton, refreshButton, addNewSongButton, searchButton;
+	private JButton addSongButton, refreshButton, addNewSongButton, searchButton, leaveButton;
 	private JList <SingleSongPanel>songList;
 	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, cards;
 	private JScrollPane songScrollPane;
@@ -50,7 +49,7 @@ public class PartyWindow extends JFrame {
 	
 	//argument will be taken out once we turn this into a JPanel
 	public PartyWindow(Party partayTime) {
-		super("");
+		super();
 		this.party = partayTime;
 		initializeComponents();
 		createGUI();
@@ -103,14 +102,20 @@ public class PartyWindow extends JFrame {
 			votesLabel = new JLabel(Integer.toString(ps.getVotes()));
 			
 			AppearanceSettings.setForeground(Color.white, songNameLabel, votesLabel);
-			AppearanceSettings.setForeground(Color.black, currentSongName, currentSongTime, currentlyPlayingLabel);
+			AppearanceSettings.setForeground(Color.white, currentSongName, currentSongTime, currentlyPlayingLabel);
 			AppearanceSettings.setSize(100, 40, songNameLabel, votesLabel, currentSongName, currentSongTime, currentlyPlayingLabel);
-			AppearanceSettings.setBackground(AppearanceConstants.mediumGray, songNameLabel, votesLabel, songList, upvoteButton, downvoteButton, this);
-			AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, currentSongName, currentSongTime, currentlyPlayingLabel);
-			AppearanceSettings.setOpaque(songNameLabel, votesLabel, currentSongName, currentSongTime, currentlyPlayingLabel);
+			//AppearanceSettings.setBackground(AppearanceConstants.mediumGray, songNameLabel, votesLabel, songList, upvoteButton, downvoteButton, this);
+			//AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, currentSongName, currentSongTime, currentlyPlayingLabel);
+			//AppearanceSettings.setOpaque(songNameLabel, votesLabel, currentSongName, currentSongTime, currentlyPlayingLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontSmall, songNameLabel, votesLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontMedium, currentSongName, currentSongTime, currentlyPlayingLabel);
 			
+			this.setOpaque(false);
+			AppearanceSettings.setNotOpaque(songNameLabel, upvoteButton, downvoteButton, votesLabel);
+			upvoteButton.setContentAreaFilled(false);
+			downvoteButton.setContentAreaFilled(false);
+			upvoteButton.setBorderPainted(false);
+			downvoteButton.setBorderPainted(false);
 			add(songNameLabel);
 			add(upvoteButton);
 			add(downvoteButton);
@@ -128,15 +133,15 @@ public class PartyWindow extends JFrame {
 	
 	public void initializeComponents() {
 		
-		this.setContentPane(new JPanel() {
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Image image = new ImageIcon("images/backgroundImage.png").getImage();
-				backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
-				g.drawImage(image, 0, 0, 1280, 800, this);
-			}
-		});
-		
+//		this.setContentPane(new JPanel() {
+//			public void paintComponent(Graphics g) {
+//				super.paintComponent(g);
+//				Image image = new ImageIcon("images/backgroundImage.png").getImage();
+//				backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
+//				g.drawImage(image, 0, 0, 1280, 800, this);
+//			}
+//		});
+//		
 		buttonsPanel = new JPanel();
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new BorderLayout());
@@ -152,16 +157,23 @@ public class PartyWindow extends JFrame {
 		hostImage = new JLabel();
 		Image image = new ImageIcon(this.party.getHost().getImageFilePath()).getImage();
 		hostImage.setIcon(new ImageIcon(image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
+		leaveButton = new JButton("Leave this party");
 		hostPanel = new JPanel();
 		hostPanel.setLayout(new BorderLayout());
+		hostLabel.setOpaque(false);
 		hostPanel.add(hostLabel, BorderLayout.NORTH);
-		hostPanel.add(hostImage, BorderLayout.SOUTH);
-		
+		hostPanel.add(hostImage, BorderLayout.CENTER);
+		hostPanel.add(leaveButton, BorderLayout.SOUTH);
+		hostPanel.setOpaque(false);
 		currentlyPlayingPanel = new JPanel();
 		currentlyPlayingPanel.setLayout(new GridLayout(1,3));
 		currentlyPlayingLabel = new JLabel("Current Song");
-		currentSongName = new JLabel("");
-		currentSongTime = new JLabel("");
+	
+		currentSongName = new JLabel("closer");
+		currentSongTime = new JLabel("3");
+		AppearanceSettings.setNotOpaque(currentSongName, currentSongTime, currentlyPlayingPanel, currentlyPlayingLabel);
+		AppearanceSettings.setForeground(Color.WHITE, currentSongName, currentSongTime, currentlyPlayingPanel, currentlyPlayingLabel);
+		currentlyPlayingLabel.setForeground(Color.white);
 		currentlyPlayingPanel.add(currentlyPlayingLabel);
 		currentlyPlayingPanel.add(currentSongName);
 		currentlyPlayingPanel.add(currentSongTime);
@@ -174,7 +186,7 @@ public class PartyWindow extends JFrame {
 		songList.setLayout(new FlowLayout());
 		setSongs();
 		
-		// Intializing components for add song panel 
+		// Initializing components for add song panel 
 		addNewSongButton = new JButton("Add song");
 		searchButton = new JButton("Search");
 		searchedSong = new JLabel();
@@ -183,13 +195,20 @@ public class PartyWindow extends JFrame {
 		cards = new JPanel(new CardLayout());
 		
 		songList.setPreferredSize(new Dimension (600, 1000));
+		songList.setOpaque(false);
 		songScrollPane = new JScrollPane(songList);
 		songScrollPane.setPreferredSize(new Dimension(600, 700));
 		songScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		songScrollPane.setOpaque(false);
+		songScrollPane.getViewport().setOpaque(false);
+		centerPanel.setOpaque(false);
+		
 		centerPanel.add(songScrollPane, BorderLayout.SOUTH);
 		revalidate();
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	//create the panel that shows songs in order of votes, called when partywindow is created
@@ -226,9 +245,12 @@ public class PartyWindow extends JFrame {
 		AppearanceSettings.setSize(150, 80, addSongButton, refreshButton, hostLabel);
 		AppearanceSettings.setSize(150, 150, hostLabel);
 		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton, refreshButton, hostLabel);
-		AppearanceSettings.setOpaque(addSongButton, refreshButton, hostLabel);
+		AppearanceSettings.setOpaque(addSongButton, refreshButton);
+		//AppearanceSettings.setNotOpaque(hostLabel);
 		AppearanceSettings.unSetBorderOnButtons(addSongButton, refreshButton);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addSongButton, refreshButton, hostLabel);
+		
+		
 		//AppearanceSettings.setSize(x, y, components);
 		//AppearanceSettings.setBackground(Color.black, mainPanel, songPanel, leftPanel, profilePanel, mainPanel, songScrollPane);
 		
@@ -260,8 +282,8 @@ public class PartyWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout) cards.getLayout();
-				cl.show(cards, "add song panel");	
+				CardLayout cl2 = (CardLayout) cards.getLayout();
+				cl2.show(cards, "add song panel");	
 			}
 			
 		});
@@ -271,6 +293,17 @@ public class PartyWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setSongs();
+			}
+			
+		});
+		
+		addNewSongButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				CardLayout cl3 = (CardLayout) cards.getLayout();
+				cl3.show(cards, "button panel");	
 			}
 			
 		});
@@ -317,6 +350,15 @@ public class PartyWindow extends JFrame {
 		
 	}
 	
+	//Paint background image -- needs to be outside of other methods
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Image image = new ImageIcon("images/backgroundImage.png").getImage();
+		//backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
+		g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+	};
+	
 	public static void main(String [] args) {
 		PublicParty partayTime = new PublicParty("theBestParty", new User("testUsername", "testPassword"), new ImageIcon("party-purple.jpg"));
 		partayTime.addSong(new PartySong("Song1", 3.0));
@@ -333,4 +375,6 @@ public class PartyWindow extends JFrame {
 		partayTime.addSong(new PartySong("Song12", 3.0));
 		new PartyWindow(partayTime).setVisible(true);
 	}
+	
+	
 }
