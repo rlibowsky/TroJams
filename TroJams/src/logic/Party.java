@@ -32,6 +32,10 @@ public abstract class Party {
 		return songList;
 	}
 	
+	public HashSet <Account> getPartyMembers() {
+		return partyMembers;
+	}
+	
 	public User getHost() {
 		return host;
 	}
@@ -58,7 +62,7 @@ public abstract class Party {
 	
 	//add a user to the party
 	public void addAccount(Account account) {
-		//not sure if this will be done through a database
+		partyMembers.add(account);
 	}
 	
 	public void addSong(PartySong song) {

@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import logic.Account;
+import logic.Party;
 
 public class TrojamServerThread extends Thread{
 	private Socket socket;
@@ -17,14 +18,11 @@ public class TrojamServerThread extends Thread{
 	public TrojamServerThread(Socket socket, TrojamServer trojamServer) {
 		this.socket = socket;
 		this.trojamServer = trojamServer;
+		this.account = null;
 		try {
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.flush();
 			ois = new ObjectInputStream(socket.getInputStream());
-			//handle when a new person joins the party
-			try {
-				account = (Account) ois.readObject();
-			} catch (ClassNotFoundException e) {}
 			
 			this.start();
 
@@ -33,11 +31,24 @@ public class TrojamServerThread extends Thread{
 		this.start();
 	}
 	
+	public void setAccount(Account a) {
+		this.account = a;
+	}
+	
 	@Override
 	public void run(){
 		try {
 			while (true){
-				Message message = (Message) ois.readObject();
+				Object obj = ois.readObject();
+				if (obj instanceof Message) {
+					Message message = (Message) obj;
+				} else if (obj instanceof Account) {
+					System.out.println("setting account");
+					this.account = (Account) obj;
+					this.account.st = this;
+				}
+				
+				
 			}
 		} 
 		catch (ClassNotFoundException e) {}
