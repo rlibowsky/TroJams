@@ -175,7 +175,7 @@ public class PartyWindow extends JFrame {
 		setSongs();
 		
 		// Intializing components for add song panel 
-		addNewSongButton = new JButton("Add song to queue");
+		addNewSongButton = new JButton("Add song");
 		searchButton = new JButton("Search");
 		searchedSong = new JLabel();
 		searchBar = new JTextField();
@@ -240,15 +240,17 @@ public class PartyWindow extends JFrame {
 		cards.add(addSongPanel, "add song panel");
 //		add(swMainPanel, BorderLayout.CENTER);
 		
-		add(cards, BorderLayout.CENTER);
+		//add(cards, BorderLayout.CENTER);
 		//add(pwMainPanel, BorderLayout.EAST); 
 		
-		cl = (CardLayout) cards.getLayout();
-		cl.show(cards, "button panel");
+		
 		
 		add(hostPanel, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
 		add(cards, BorderLayout.EAST);
+		
+		//cl = (CardLayout) cards.getLayout();
+		//cl.show(cards, "button panel");
 		
 	}
 	
@@ -279,28 +281,36 @@ public class PartyWindow extends JFrame {
 		JPanel tempPanel = new JPanel();
 		JPanel centerPanel = new JPanel();
 		JPanel searchBarPanel = new JPanel();
-		searchBarPanel.setLayout(new BoxLayout(searchBarPanel, BoxLayout.Y_AXIS));
+		searchBarPanel.setLayout(new BoxLayout(searchBarPanel, BoxLayout.X_AXIS));
+		centerPanel.setLayout(new BorderLayout());
 		
 		tempPanel.setLayout(new BorderLayout());
 		
 		tempPanel.setSize(new Dimension(450, 800));
-		AppearanceSettings.setNotOpaque(tempPanel, centerPanel, searchedSong, searchBar);
-		AppearanceSettings.setSize(100,50, searchButton, addNewSongButton);
+		AppearanceSettings.setNotOpaque(tempPanel, centerPanel, searchBarPanel, searchedSong, searchBar, cards, buttonsPanel);
+		AppearanceSettings.setSize(150,50, searchButton, addNewSongButton);
 		AppearanceSettings.setSize(450,400, centerPanel);
 		AppearanceSettings.setSize(450,150, searchBar);
 		
+		AppearanceSettings.setForeground(Color.white, addNewSongButton, searchButton, searchedSong);
+		//AppearanceSettings.setSize(150, 80, addSongButton, refreshButton, hostLabel);
+		//AppearanceSettings.setSize(150, 150, hostLabel);
+		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addNewSongButton, searchButton);
+		//AppearanceSettings.setOpaque(addSongButton, refreshButton, hostLabel);
+		AppearanceSettings.unSetBorderOnButtons(addNewSongButton, searchButton);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addNewSongButton, searchButton, hostLabel);
+		
 		AppearanceSettings.setSize(350, 50, searchBar);
 		
-		buttonsPanel.add(searchBar);
-		buttonsPanel.add(searchButton);
+		searchBarPanel.add(searchBar);
+		searchBarPanel.add(searchButton);
 		
-		centerPanel.add(searchBar);
-		centerPanel.add(searchButton);
-		centerPanel.add(searchedSong);
-		centerPanel.add(addNewSongButton);
+		searchedSong.setText("Closer");
+		centerPanel.add(searchBarPanel, BorderLayout.NORTH);
+		centerPanel.add(searchedSong, BorderLayout.CENTER);
+		centerPanel.add(addNewSongButton, BorderLayout.SOUTH);
 		
 		tempPanel.add(centerPanel, BorderLayout.CENTER);
-		
 		
 		
 		return tempPanel;
