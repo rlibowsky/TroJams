@@ -11,6 +11,10 @@ public class Song {
 		this.length = length;
 	}
 	
+	public Song() {
+		
+	}
+	
 	public String getName() {
 		return name;
 	}
