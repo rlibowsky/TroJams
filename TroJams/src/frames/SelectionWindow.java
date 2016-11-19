@@ -582,8 +582,6 @@ public class SelectionWindow extends JFrame {
 			this.add(joinedParties);
 			this.add(logout);
 		}
-
-		
 		
 	}
 
