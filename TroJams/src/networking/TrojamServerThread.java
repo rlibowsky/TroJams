@@ -27,8 +27,6 @@ public class TrojamServerThread extends Thread{
 			this.start();
 
 		} catch (IOException e) {}
-		
-		this.start();
 	}
 	
 	public void setAccount(Account a) {

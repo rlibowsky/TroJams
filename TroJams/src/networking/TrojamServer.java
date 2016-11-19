@@ -52,4 +52,8 @@ public class TrojamServer extends Thread{
 			if (currentThread != null) currentThread.sendMessage((Message)message);
 		}
 	}
+	
+	public static void main (String [] args) {
+		TrojamServer tjs = new TrojamServer(1111);
+	}
 }

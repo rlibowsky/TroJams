@@ -30,6 +30,7 @@ import javax.swing.event.DocumentListener;
 
 import listeners.TextFieldFocusListener;
 import logic.User;
+import networking.TrojamClient;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
@@ -235,6 +236,7 @@ public class LoginScreenWindow extends JFrame {
 					}
 					//login successful - GO TO MAIN TROJAMS WINDOW
 					else{
+						new TrojamClient(new User("testUser", "testPassword"), "localhost", 1111);
 						new SelectionWindow(user, null).setVisible(true);
 						dispose();
 					}
