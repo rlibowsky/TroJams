@@ -221,7 +221,8 @@ public class LoginScreenWindow extends JFrame {
 				
 				//if the username does not exist
 				if (!existingUsers.containsKey(usernameString)){
-					alertLabel.setText("This username does not exist.");
+					alertLabel.setForeground(Color.white);
+					alertLabel.setText("Wait a second! This username does not exist.");
 				}
 				//else if the username exists
 				else{

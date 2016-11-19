@@ -4,19 +4,28 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 /*
@@ -25,18 +34,20 @@ import javax.swing.JFrame;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import listeners.TextFieldFocusListener;
 import logic.Party;
-import logic.PartySong;
 import logic.PrivateParty;
 import logic.PublicParty;
 import logic.User;
@@ -54,9 +65,7 @@ public class SelectionWindow extends JFrame {
 	private JScrollPane partyScrollPane;
 	
 	private User user;
-	private JMenuBar menuBar;
-	private JMenu profile;
-	private JMenu logout;
+
 	
 	private JPanel cpwMainPanel, cpwTopPanel, cpwBottomPanel, cpwRadioButtonPanel;
 	private JLabel dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6;
@@ -65,6 +74,11 @@ public class SelectionWindow extends JFrame {
 	private JRadioButton cpwPublicRadioButton;
 	private JRadioButton cpwPrivateRadioButton;
 	private JButton cpwCreateButton;
+	private JLabel imageLabel, imageText;
+	private ImageIcon partyImage;
+	private String imageFilePath;
+	private JFileChooser fileChooser;
+	
 	private CardLayout cl;
 	
 	private JPanel pwMainPanel;
@@ -99,12 +113,12 @@ public class SelectionWindow extends JFrame {
 		});  	
 		
 		swMainPanel = new JPanel();
+		swMainPanel.setLayout(new BorderLayout());
 		createAPartyButton = new JButton("Create a Party");
-		profile = new JMenu("Profile");
-		logout = new JMenu("Logout");
-		menuBar = new JMenuBar();
 		cards = new JPanel(new CardLayout());
 		
+		
+		//create party image selection		
 		cpwMainPanel = new JPanel();
 		cpwTopPanel = new JPanel();
 		cpwBottomPanel = new JPanel();
@@ -124,6 +138,10 @@ public class SelectionWindow extends JFrame {
 		cpwPublicRadioButton = new JRadioButton("Public");
 		cpwPrivateRadioButton = new JRadioButton("Private");
 		cpwCreateButton = new JButton("Create Party");
+		fileChooser = new JFileChooser();
+		imageText = new JLabel("Click to upload a party picture");
+		imageText.setForeground(Color.white);
+		imageLabel = new JLabel();
 		
 		pwMainPanel = new JPanel();
 		pwUsernameLabel = new JLabel();
@@ -142,7 +160,6 @@ public class SelectionWindow extends JFrame {
 		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
 		setLayout(new BorderLayout());
 		setParties();
-		createMenu();
 		createCPWMenu();
 		createSWPanel();
 		AppearanceSettings.setNotOpaque(swMainPanel, cards);
@@ -187,14 +204,6 @@ public class SelectionWindow extends JFrame {
 		pwMainPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
 	}
 	
-	// creates the JMenuBar
-	private void createMenu() {
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, profile, logout);
-		menuBar.add(profile);
-		menuBar.add(logout);
-		setJMenuBar(menuBar);
-	}
-	
 	private void setParties() {
 		System.out.println("setting parties ... " + currentParties.size());
 		swcurrentParties = new JList<SinglePartyPanel>();
@@ -214,21 +223,32 @@ public class SelectionWindow extends JFrame {
 	private void createSWPanel() {
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH*(4/5), AppearanceConstants.GUI_HEIGHT, swMainPanel);
 		
+		
+		// getting the panel that holds the scroll pane with parties
+		swcurrentParties.setPreferredSize(new Dimension (600, 1000));
+		swcurrentParties.setOpaque(false);
+		partyScrollPane = new JScrollPane(swcurrentParties);
+		partyScrollPane.setPreferredSize(new Dimension(600, 700));
+		partyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
+		partyScrollPane.setOpaque(false);
+		partyScrollPane.getViewport().setOpaque(false);
+		swMainPanel.add(partyScrollPane, BorderLayout.CENTER);
+
 		// getting the panel that holds the "create a party" button
 		JPanel topPanel = new JPanel();
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, createAPartyButton);
 		createAPartyButton.setOpaque(true);
+		//topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.PAGE_AXIS));
 		topPanel.add(createAPartyButton);
 		topPanel.setOpaque(true);
 		AppearanceSettings.setBackground(Color.WHITE, topPanel);
-		swMainPanel.add(topPanel);
+		topPanel.setOpaque(false);
+		swMainPanel.add(topPanel, BorderLayout.SOUTH);
 		
-		// getting the panel that holds the scroll pane with parties
-		swcurrentParties.setPreferredSize(new Dimension (600, 1000));
-		partyScrollPane = new JScrollPane(swcurrentParties);
-		partyScrollPane.setPreferredSize(new Dimension(600, 700));
-		partyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
-		swMainPanel.add(partyScrollPane);
+		ProfilePanel profilePanel = new ProfilePanel(user);
+		profilePanel.setOpaque(false);
+		swMainPanel.add(profilePanel, BorderLayout.EAST);
+		
 	}
 	
 	private class SinglePartyPanel extends JPanel {
@@ -237,12 +257,16 @@ public class SelectionWindow extends JFrame {
 		private Party party;
 		private JButton partyButton;
 		private JLabel hostLabel;
+		private JLabel partyIconLabel;
+		private ImageIcon partyImageIcon;
 		
-		public SinglePartyPanel (Party party) {
+		public SinglePartyPanel (Party p) {
 			AppearanceSettings.setSize(600, 100, this);
-			this.party = party;
-			setLayout(new GridLayout(1,2));
+			this.party = p;
+			setLayout(new GridLayout(1,3));
 			hostLabel = new JLabel(party.getHostName());
+			partyImageIcon = party.getPartyImage();
+			partyIconLabel = new JLabel(partyImageIcon);
 			partyButton = new JButton(party.getPartyName());
 			partyButton.addActionListener(new ActionListener() {
 				@Override
@@ -252,35 +276,31 @@ public class SelectionWindow extends JFrame {
 				}	
 			});
 			
-			AppearanceSettings.setForeground(Color.white, partyButton, hostLabel);
+			AppearanceSettings.setForeground(Color.white, hostLabel);
+			AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, partyButton);
 			AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, partyButton, hostLabel);
 			AppearanceSettings.setSize(100, 40, partyButton, hostLabel);
 			AppearanceSettings.setOpaque(partyButton, hostLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontSmall, partyButton, hostLabel);
-			
+
+			add(partyIconLabel);
 			add(partyButton);
 			add(hostLabel);
+			
+			Border raisedbevel, loweredbevel;
+			raisedbevel = BorderFactory.createRaisedBevelBorder();
+			loweredbevel = BorderFactory.createLoweredBevelBorder();
+			Border compound = BorderFactory.createCompoundBorder(
+                    raisedbevel, loweredbevel);
+			this.setBorder(compound);
+			
 		}
 	}
 	
 	private void addActionListeners(){
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-		profile.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cl.show(cards, "create party window");
-			}
-		});
 		
-		logout.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new LoginScreenWindow().setVisible(true);
-				dispose();
-			}
-		});
 		
 		createAPartyButton.addActionListener(new ActionListener() {
 			@Override
@@ -334,22 +354,41 @@ public class SelectionWindow extends JFrame {
 				cl.show(cards, "selection window");					
 			}		
 		});
+		
+		imageLabel.addMouseListener(new MouseAdapter() {
+			 @Override
+           public void mouseClicked(MouseEvent e) {
+				fileChooser.showOpenDialog(SelectionWindow.this);
+				File f = fileChooser.getSelectedFile();
+				if (f != null) {
+					setPartyImage(f.getPath());
+					imageText.setVisible(false);
+				}
+           }
+		});
 	}
 	
 	public void createCPWMenu() {
 		cpwMainPanel.setLayout(new BoxLayout(cpwMainPanel, BoxLayout.Y_AXIS));
 		
-		AppearanceSettings.setSize(1280, 50, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6);
+		AppearanceSettings.setSize(1280, 50, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel5, dummyLabel6);
+		AppearanceSettings.setSize(1280, 20, dummyLabel4);
 		AppearanceSettings.setSize(300, 50, cpwPartyNameTextField, cpwPasswordTextField);
-		AppearanceSettings.setSize(1280, 20, cpwTopPanel);
+		AppearanceSettings.setSize(1280, 50, cpwTopPanel);
 		
 		// Creates top panel with dummy labels so that the text field is at the bottom of the panel
 
-		cpwTopPanel.add(dummyLabel1);
-		cpwTopPanel.add(dummyLabel2);
+		//file chooser settings
+		fileChooser.setPreferredSize(new Dimension(400, 500));
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("IMAGE FILES", "jpeg", "png", "jpg"));		
+		setPartyImage("images/party-purple.jpg");
+		JPanel cpwImagePanel = new JPanel();
+		cpwImagePanel.add(imageLabel);
+		cpwImagePanel.setOpaque(false);
 		cpwTopPanel.add(dummyLabel3);
+		cpwTopPanel.add(cpwImagePanel);
 		cpwTopPanel.add(dummyLabel4);
-		cpwTopPanel.add(dummyLabel5);	
 		cpwTopPanel.add(cpwPartyNameTextField);
 		cpwMainPanel.add(cpwTopPanel);
 		
@@ -385,6 +424,28 @@ public class SelectionWindow extends JFrame {
 		cpwPrivateRadioButton.setForeground(Color.white);
 		cpwPublicRadioButton.setForeground(Color.white);
 		
+	}
+
+	private void setPartyImage(String filepath) {
+		this.imageFilePath = filepath;
+		Image image = new ImageIcon(filepath).getImage();
+		partyImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+		imageLabel.setIcon(partyImage);
+		imageText.setSize(imageLabel.getPreferredSize());
+		imageText.setLocation(imageText.getLocation());
+		imageLabel.add(imageText);
+		
+		//write image to local file in order to retrieve when user logs in
+		 BufferedImage image1 = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
+		 File inputFile = new File(filepath);	    
+		 try {
+			 image1 = ImageIO.read(inputFile);
+			 File outputfile = new File("party - " + cpwPartyNameTextField.getText() + ".png");
+			ImageIO.write(image1, "png", outputfile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	private boolean canPressButtons() {
@@ -429,9 +490,11 @@ public class SelectionWindow extends JFrame {
 
 	public static void main(String [] args) {
 		User user = new User("username", "password");
-		PrivateParty p1 = new PrivateParty("party1", "password1", user);
-		PrivateParty p2 = new PrivateParty("party2", "password2", user);
-		PublicParty p3 = new PublicParty("party3", user);
+		Image image = new ImageIcon("images/party-purple.jpg").getImage();
+		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+		PrivateParty p1 = new PrivateParty("party1", "password1", user, tempImage);
+		PrivateParty p2 = new PrivateParty("party2", "password2", user, tempImage);
+		PublicParty p3 = new PublicParty("party3", user, tempImage);
 		ArrayList <Party> parties = new ArrayList <Party>();
 		parties.add(p1);
 		parties.add(p2);
@@ -439,4 +502,48 @@ public class SelectionWindow extends JFrame {
 		new SelectionWindow(user, parties).setVisible(true);
 	}
 	
+	
+	private class ProfilePanel extends JPanel{
+		
+		ImageIcon profilePic;
+		JLabel profileName;
+		JLabel profileUserName;
+		User user;
+		JScrollPane suggestedSongs;
+		JTextArea partiesTextArea;
+		JScrollPane joinedParties;
+		JButton logout;
+		
+		public ProfilePanel(User user){
+			this.user = user;
+			profilePic = user.getUserImage();
+			profileName = new JLabel(user.getFirstName() + " " + user.getLastName());
+			profileUserName = new JLabel(user.getUsername());
+			partiesTextArea = new JTextArea(5,20);
+			joinedParties = new JScrollPane(partiesTextArea);
+			for(Party p : user.getParties()){
+				partiesTextArea.append(p.getPartyName() + "\n");
+			}
+			
+			logout = new JButton("Logout");
+			logout.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new LoginScreenWindow().setVisible(true);
+					dispose();
+				}
+			});
+			
+			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			this.add(new JLabel(profilePic));
+			this.add(profileName);
+			this.add(profileUserName);
+			this.add(joinedParties);
+			this.add(logout);
+		}
+
+		
+		
+	}
+
 }

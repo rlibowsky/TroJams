@@ -1,11 +1,13 @@
 package logic;
 
+import javax.swing.ImageIcon;
+
 public class PrivateParty extends Party{
 
 	private String password;
 	
-	public PrivateParty(String partyName, String password, User host) {
-		super(partyName, host);
+	public PrivateParty(String partyName, String password, User host, ImageIcon partyImage) {
+		super(partyName, host,  partyImage);
 		this.password = password;
 	}
 	

@@ -2,21 +2,31 @@ package frames;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import listeners.TextFieldFocusListener;
+import logic.Party;
 import resources.AppearanceSettings;
 
 /*
@@ -33,6 +43,7 @@ public class CreatePartyWindow extends JPanel {
 	private JRadioButton cpwPrivateRadioButton;
 	private JButton cpwCreateButton;
 	private SelectionWindow sw;
+
 	
 	public CreatePartyWindow(SelectionWindow sw) {
 		super();
@@ -61,10 +72,12 @@ public class CreatePartyWindow extends JPanel {
 		cpwPublicRadioButton = new JRadioButton("Public");
 		cpwPrivateRadioButton = new JRadioButton("Private");
 		cpwCreateButton = new JButton("Create Party");
+
 		
 	}
 	
 	public void createGUI() {
+				
 		this.setSize(new Dimension(500,800));
 		createCPWMenu();
 	}
@@ -98,6 +111,8 @@ public class CreatePartyWindow extends JPanel {
 			
 		});
 		
+	
+		
 		cpwPublicRadioButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -121,16 +136,46 @@ public class CreatePartyWindow extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 
-				
+
 			}
 			
 		});
+	}
+	
+	
+	private void setUserImage(String filepath) {
+		this.imageFilePath = filepath;
+		Image image = new ImageIcon(filepath).getImage();
+		partyImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+		imageLabel.setIcon(partyImage);
+		imageText.setSize(imageLabel.getPreferredSize());
+		imageText.setLocation(imageText.getLocation());
+		imageLabel.add(imageText);
+		
+		//write image to local file in order to retrieve when user logs in
+		 BufferedImage image1 = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
+		 File inputFile = new File(filepath);	    
+		 try {
+			 image1 = ImageIO.read(inputFile);
+			 File outputfile = new File("party - " + cpwPartyNameTextField.getText() + ".png");
+			ImageIO.write(image1, "png", outputfile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	public void createCPWMenu() {
 		cpwMainPanel.setLayout(new BoxLayout(cpwMainPanel, BoxLayout.Y_AXIS));
 		
 		AppearanceSettings.setSize(300, 50, cpwPartyNameTextField, cpwPasswordTextField, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6);
+		
+		//file chooser settings
+		fileChooser.setPreferredSize(new Dimension(400, 500));
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("IMAGE FILES", "jpeg", "png", "jpg"));		
+		setUserImage("images/party-purple.jpg");
+		cpwTopPanel.add(imageLabel);
 		
 		// Creates top panel with dummy labels so that the text field is at the bottom of the panel
 		cpwTopPanel.add(dummyLabel1);

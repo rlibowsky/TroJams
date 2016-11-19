@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
 
+import javax.swing.ImageIcon;
+
 public abstract class Party {
 	
 	private String partyName;
@@ -12,12 +14,18 @@ public abstract class Party {
 	private ArrayList <PartySong> songList = new ArrayList<PartySong>();
 	private HashMap <PartySong, Integer> songSet = new HashMap<PartySong, Integer>();
 	private HashSet <Account> partyMembers;
+	private ImageIcon partyImage;
 	
 	//abstract class for a party
 	public Party (String partyName, User host) {
 		this.partyName = partyName;
 		this.host = host;
 		partyMembers = new HashSet<Account>();
+	}
+	
+	public Party (String partyName, User host, ImageIcon i) {
+		this(partyName, host);
+		this.partyImage = i;
 	}
 	
 	public ArrayList<PartySong> getSongs() {
@@ -36,6 +44,14 @@ public abstract class Party {
 		return host.getUsername();
 	}
 	
+	public ImageIcon getPartyImage() {
+		return partyImage;
+	}
+
+	public void setPartyImage(ImageIcon partyImage) {
+		this.partyImage = partyImage;
+	}
+
 	public void leaveParty(Account account) {
 		partyMembers.remove(account);
 	}
@@ -95,4 +111,6 @@ public abstract class Party {
 			e.setValue(e.getValue()-1);
 		}
 	}
+	
+	
 }
