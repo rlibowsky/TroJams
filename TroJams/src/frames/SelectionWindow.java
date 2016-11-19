@@ -65,7 +65,6 @@ public class SelectionWindow extends JFrame {
 	private JScrollPane partyScrollPane;
 	
 	private User user;
-
 	
 	private JPanel cpwMainPanel, cpwTopPanel, cpwBottomPanel, cpwRadioButtonPanel;
 	private JLabel dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6;
@@ -278,6 +277,7 @@ public class SelectionWindow extends JFrame {
 			this.party = p;
 			setLayout(new GridLayout(1,4));
 			hostLabel = new JLabel(party.getHostName());
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, hostLabel);
 			partyImageIcon = party.getPartyImage();
 			partyIconLabel = new JLabel(partyImageIcon);
 			hostImageLabel = new JLabel();
@@ -382,7 +382,6 @@ public class SelectionWindow extends JFrame {
 				//ADD TO PARTIES LIST
 				currentParties.add(p);
 				setParties();
-				
 //				CardLayout cl = (CardLayout) cards.getLayout();
 //				cl.show(cards, "selection window");					
 			}		

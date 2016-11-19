@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import resources.AppearanceConstants;
+import resources.AppearanceSettings;
 
 //This window is the first thing that the user should see when they start the program 
 public class TrojamWelcomeWindow extends JFrame{
@@ -59,6 +60,7 @@ public class TrojamWelcomeWindow extends JFrame{
 		
 		System.out.println(width + " " + height + " " + buttonWidth + " " + buttonHeight + " " + buttonX + " " + buttonY);
 		startButton = new JButton("Click to Party");
+		AppearanceSettings.setFont(AppearanceConstants.fontHuge, startButton);
 		
 		startButton.setForeground(Color.black);
 		startButton.setOpaque(false);
@@ -66,7 +68,6 @@ public class TrojamWelcomeWindow extends JFrame{
 		startButton.setBorderPainted(false);
 		startButton.setLocation(buttonX, buttonY);
 		startButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-		startButton.setFont(AppearanceConstants.fontHuge);
 		
 		this.setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 		this.add(Box.createGlue());
