@@ -78,7 +78,6 @@ public class PartyWindow extends JFrame {
 			
 			upvoteButton = new JButton();
 			
-			
 			upvoteButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -141,7 +140,6 @@ public class PartyWindow extends JFrame {
 		buttonsPanel = new JPanel();
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new BorderLayout());
-		
 		
 		addSongButton = new JButton("Add Song");
 		refreshButton = new JButton("Refresh");

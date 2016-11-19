@@ -10,9 +10,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -31,12 +31,14 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JViewport;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import listeners.TextFieldFocusListener;
 import logic.Party;
+import logic.PartySong;
+import logic.PrivateParty;
+import logic.PublicParty;
 import logic.User;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
@@ -47,7 +49,7 @@ public class SelectionWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JPanel swMainPanel, cards;
-	private JList swBottomPanel;
+	private JList swcurrentParties;
 	private JButton createAPartyButton;
 	private JScrollPane partyScrollPane;
 	
@@ -68,16 +70,20 @@ public class SelectionWindow extends JFrame {
 	private JPanel pwMainPanel;
 	private JLabel pwUsernameLabel, pwNameLabel, profileLabel, profileIconLabel;
 	private ImageIcon profileIcon;
+	private ArrayList <Party> currentParties;
 		
-	public SelectionWindow(User user){
+	public SelectionWindow(User user, ArrayList<Party> parties){
 		super("TroJams");
 		this.user = user;
-		
+		this.currentParties = parties;
+		if (currentParties == null) {
+			System.out.println("No parties :(");
+			currentParties = new ArrayList<Party> ();
+		}
 		initializeComponents();
 		createGUI();
 		addActionListeners();
 	}
-	
 
 	private void initializeComponents(){
 		
@@ -90,7 +96,8 @@ public class SelectionWindow extends JFrame {
 				new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
 				g.drawImage(image, 0, 0, 1280, 800, this);
 			}
-		});  	 
+		});  	
+		
 		swMainPanel = new JPanel();
 		createAPartyButton = new JButton("Create a Party");
 		profile = new JMenu("Profile");
@@ -134,7 +141,7 @@ public class SelectionWindow extends JFrame {
 	private void createGUI(){
 		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
 		setLayout(new BorderLayout());
-		
+		setParties();
 		createMenu();
 		createCPWMenu();
 		createSWPanel();
@@ -188,27 +195,19 @@ public class SelectionWindow extends JFrame {
 		setJMenuBar(menuBar);
 	}
 	
-	// creates the bottom panel, which houses a jscrollpane
-	private void createSWBottomPanel() {
-		//JPanel bottomPanel = new JPanel();
-		//bottomPanel.setPreferredSize(new Dimension(1280,800));
-
+	private void setParties() {
+		System.out.println("setting parties ... " + currentParties.size());
+		swcurrentParties = new JList<SinglePartyPanel>();
+		swcurrentParties.setLayout(new FlowLayout());
+		swcurrentParties.setVisibleRowCount(10);
+		//add parties to list
 		
-		/*for (int i = 0; i < 10; i++) {
-			JPanel tempPanel = new JPanel();
-			tempPanel.setLayout(new BorderLayout());
-			JButton button = new JButton("Party " + i);
-			button.setPreferredSize(new Dimension(200, 200));
-			button.setOpaque(true);
-			tempPanel.add(button, BorderLayout.WEST);
-			JLabel label = new JLabel("Host Name " + i);
-			label.setPreferredSize(new Dimension(300, 200));
-			tempPanel.add(label, BorderLayout.EAST);
-			
-			tempPanel.setPreferredSize(new Dimension(1280,200));
-			bottomPanel.add(tempPanel);
-		} */
-		
+		for (Party p : currentParties) {
+			SinglePartyPanel spp = new SinglePartyPanel(p);
+			System.out.println("adding a party");
+			swcurrentParties.add(spp);
+		}
+		revalidate();
 	}
 	
 	// creates the main panel
@@ -217,45 +216,20 @@ public class SelectionWindow extends JFrame {
 		
 		// getting the panel that holds the "create a party" button
 		JPanel topPanel = new JPanel();
-		//topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-		//AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH*(4/5), AppearanceConstants.GUI_HEIGHT, topPanel);
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, createAPartyButton);
 		createAPartyButton.setOpaque(true);
 		topPanel.add(createAPartyButton);
-		//topPanel.add(Box.createHorizontalGlue());
-		//topPanel.add(Box.createHorizontalGlue());
 		topPanel.setOpaque(true);
 		AppearanceSettings.setBackground(Color.WHITE, topPanel);
-		//AppearanceSettings.setNotOpaque(topPanel);
 		swMainPanel.add(topPanel);
 		
 		// getting the panel that holds the scroll pane with parties
-		swBottomPanel = new JList<SinglePartyPanel>();
-		swBottomPanel.setLayout(new FlowLayout());
-		swBottomPanel.setVisibleRowCount(10);
-		partyScrollPane = new JScrollPane();
+		swcurrentParties.setPreferredSize(new Dimension (600, 1000));
+		partyScrollPane = new JScrollPane(swcurrentParties);
+		partyScrollPane.setPreferredSize(new Dimension(600, 700));
 		partyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
-		//AppearanceSettings.setNotOpaque(swBottomPanel, topPanel, swCenterPanel, partyScrollPane);
-		JViewport viewport = new MyViewport();
-		viewport.setView(swBottomPanel);
-		partyScrollPane.setViewport(viewport);
-		partyScrollPane.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
-		//AppearanceSettings.setSize(AppearanceConstants.GUI_HEIGHT*(4/5), AppearanceConstants.GUI_WIDTH/4, partyScrollPane);
-		//swCenterPanel.add(Box.createHorizontalStrut(1000));
-		//swCenterPanel.add(Box.createVerticalStrut(50));
-		//swCenterPanel.add(Box.createVerticalStrut(25));
-
 		swMainPanel.add(partyScrollPane);
 	}
-	
-	private static class MyViewport extends JViewport {
- 
- 		private static final long serialVersionUID = 1L;
- 
- 		public MyViewport() {
- 			this.setOpaque(false);
- 		}
- 	}
 	
 	private class SinglePartyPanel extends JPanel {
 
@@ -268,19 +242,18 @@ public class SelectionWindow extends JFrame {
 			AppearanceSettings.setSize(600, 100, this);
 			this.party = party;
 			setLayout(new GridLayout(1,2));
-			//hostLabel = new JLabel(party.getHostName());
-			hostLabel = new JLabel("Host name");
-			//partyButton = new JButton(party.getPartyName());
-			partyButton = new JButton("Party name");
-			
+			hostLabel = new JLabel(party.getHostName());
+			partyButton = new JButton(party.getPartyName());
 			partyButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
+					//join that party
+					//switch gui so it shows that party (asking for password if the party is private)
 				}	
 			});
 			
 			AppearanceSettings.setForeground(Color.white, partyButton, hostLabel);
+			AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, partyButton, hostLabel);
 			AppearanceSettings.setSize(100, 40, partyButton, hostLabel);
 			AppearanceSettings.setOpaque(partyButton, hostLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontSmall, partyButton, hostLabel);
@@ -456,7 +429,14 @@ public class SelectionWindow extends JFrame {
 
 	public static void main(String [] args) {
 		User user = new User("username", "password");
-		new SelectionWindow(user).setVisible(true);
+		PrivateParty p1 = new PrivateParty("party1", "password1", user);
+		PrivateParty p2 = new PrivateParty("party2", "password2", user);
+		PublicParty p3 = new PublicParty("party3", user);
+		ArrayList <Party> parties = new ArrayList <Party>();
+		parties.add(p1);
+		parties.add(p2);
+		parties.add(p3);
+		new SelectionWindow(user, parties).setVisible(true);
 	}
 	
 }
