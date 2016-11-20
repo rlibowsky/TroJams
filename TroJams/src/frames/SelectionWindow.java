@@ -15,7 +15,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -31,6 +30,7 @@ import javax.swing.JFrame;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -299,10 +299,12 @@ public class SelectionWindow extends JFrame {
 		private JLabel hostLabel, hostImageLabel;
 		private JLabel partyIconLabel;
 		private ImageIcon partyImageIcon;
+		private boolean isPublic;
 		
 		public SinglePartyPanel (Party p) {
 			AppearanceSettings.setSize(600, 100, this);
 			this.party = p;
+			isPublic = (p instanceof PublicParty);
 			setLayout(new GridLayout(1,4));
 			hostLabel = new JLabel(party.getHostName());
 			AppearanceSettings.setFont(AppearanceConstants.fontMedium, hostLabel);
@@ -320,6 +322,18 @@ public class SelectionWindow extends JFrame {
 					//join that party
 					//switch gui so it shows that party (asking for password if the party is private)
 					//create a new client for that party
+					if (!isPublic) {
+						String givenPassword = JOptionPane.showInputDialog(SelectionWindow.this, "Please "
+								+ "enter the password for " + party.getPartyName(), "Join "+ party.getPartyName(), 
+								JOptionPane.QUESTION_MESSAGE);
+						PrivateParty pp = (PrivateParty) party;
+						if (pp.verifyPassword(givenPassword)) {
+							//join party
+						}
+					} else {
+						//join party
+					}
+					
 				}	
 			});
 			AppearanceSettings.setForeground(Color.white, hostLabel);
