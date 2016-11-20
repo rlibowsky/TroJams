@@ -84,7 +84,7 @@ public class SelectionWindow extends JFrame {
 		super("TroJams");
 		this.user = user;
 		sw = this;
-		//this.client = new TrojamClient(user, "localhost", 1111, this);
+		this.client = new TrojamClient(user, "localhost", 1111, this);
 		this.currentParties = parties;
 		if (currentParties == null) {
 			System.out.println("No parties :(");
@@ -394,7 +394,8 @@ public class SelectionWindow extends JFrame {
 				if (cpwPrivateRadioButton.isSelected()) {
 					password = cpwPasswordTextField.getText();
 				}
-//				client.sendNewPartyMessage(new NewPartyMessage(pName, pName, password));
+				System.out.println("about to send new party info to server");
+				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
 				
 				//user.st.createParty(p);
 				
