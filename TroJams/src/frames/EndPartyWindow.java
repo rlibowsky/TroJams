@@ -55,9 +55,20 @@ public class EndPartyWindow extends JPanel {
 		
 		AppearanceSettings.setFont(AppearanceConstants.fontHuge, thanksLabel);
 		thanksLabel.setForeground(Color.white);
-		quitButton = new JButton("Quit Trojams");
-		joinAnotherPartyButton = new JButton("Join another Party");
-		AppearanceSettings.setSize(300, 200, quitButton, joinAnotherPartyButton);
+		quitButton = new JButton();
+		ImageIcon quitButtonImage = new ImageIcon("images/button_quit-trojams.png");
+		quitButton.setIcon(quitButtonImage);
+		quitButton.setOpaque(false);
+		quitButton.setBorderPainted(false);
+		quitButton.setContentAreaFilled(false);
+		
+		joinAnotherPartyButton = new JButton();
+		ImageIcon joinAnotherPartyButtonImage = new ImageIcon("images/button_join-another-party.png");
+		joinAnotherPartyButton.setIcon(joinAnotherPartyButtonImage);
+		joinAnotherPartyButton.setOpaque(false);
+		joinAnotherPartyButton.setBorderPainted(false);
+		joinAnotherPartyButton.setContentAreaFilled(false);
+		AppearanceSettings.setSize(600, 400, quitButton, joinAnotherPartyButton);
 		AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, quitButton, joinAnotherPartyButton);
 		
 		thanksPanel = new JPanel();

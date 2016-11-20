@@ -105,8 +105,6 @@ public class CreateAccountWindow extends JFrame {
 			}
 		});
 		
-		
-		
 		usernameTextField= new JTextField();
 		passwordTextField= new JTextField();
 		firstNameTextField= new JTextField();
