@@ -7,6 +7,6 @@ public class Main {
 
     public static void main (String [] args) {
     	
-    	new TrojamWelcomeWindow(new TrojamClient(user, "localhost", 1111, this)).setVisible(true);
+    	new TrojamWelcomeWindow(new TrojamClient("localhost", 1111)).setVisible(true);
     }
 }

@@ -15,10 +15,10 @@ public class TrojamClient extends Thread{
 	private ObjectInputStream ois;
 	private SelectionWindow sw;
 
-	public TrojamClient(Account account, String IPAddress, int port, SelectionWindow sw) {
+	public TrojamClient(String IPAddress, int port) {
 		System.out.println("creating a new client!!!");
-		this.account = account;
-		this.sw = sw;
+		this.account = null;
+		this.sw = null;
 		try {
 			s = new Socket(IPAddress, port);
 			oos = new ObjectOutputStream(s.getOutputStream());
@@ -34,8 +34,16 @@ public class TrojamClient extends Thread{
 		}
 	}
 	
+	public void setSelectionWindow(SelectionWindow sw) {
+		this.sw = sw;
+	}
+	
 	public Account getAccount() {
 		return account;
+	}
+	
+	public void setAccount(Account a) {
+		this.account = a;
 	}
 	
 	@Override
