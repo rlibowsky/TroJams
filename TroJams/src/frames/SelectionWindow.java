@@ -397,10 +397,10 @@ public class SelectionWindow extends JFrame {
 				
 				//user.st.createParty(p);
 				
-//				PartyWindow pw = new PartyWindow(p, sw);
-//				cards.add(pw, "party window");
-//				CardLayout cl = (CardLayout) cards.getLayout();
-//				cl.show(cards, "party window");		
+				PartyWindow pw = new PartyWindow(p, sw);
+				cards.add(pw, "party window");
+				CardLayout cl = (CardLayout) cards.getLayout();
+				cl.show(cards, "party window");		
 				
 				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
 				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
