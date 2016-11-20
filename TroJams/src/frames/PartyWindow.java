@@ -146,6 +146,7 @@ public class PartyWindow extends JPanel {
 //		});
 //		
 		buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new BorderLayout());
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new BorderLayout());
 		
@@ -201,7 +202,9 @@ public class PartyWindow extends JPanel {
 		songList.setOpaque(false);
 		songScrollPane = new JScrollPane(songList);
 		songScrollPane.setPreferredSize(new Dimension(600, 700));
-		songScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		songScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		//songScrollPane.setViewportBorder(null);
+		songScrollPane.setBorder(null);
 		songScrollPane.setOpaque(false);
 		songScrollPane.getViewport().setOpaque(false);
 		centerPanel.setOpaque(false);
@@ -241,7 +244,7 @@ public class PartyWindow extends JPanel {
 	
 	public void createGUI() {
 		setSize(1280, 800);
-		//setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 		
 		// Set appearance settings
 		AppearanceSettings.setForeground(Color.white, addSongButton, refreshButton, hostLabel);
@@ -267,14 +270,17 @@ public class PartyWindow extends JPanel {
 		//add(cards, BorderLayout.CENTER);
 		//add(pwMainPanel, BorderLayout.EAST); 
 		
-		
+		centerPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/2,AppearanceConstants.GUI_HEIGHT));
+		hostPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
+		addSongPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
+		buttonsPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
 		
 		add(hostPanel, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
 		add(cards, BorderLayout.EAST);
 		
-		//cl = (CardLayout) cards.getLayout();
-		//cl.show(cards, "button panel");
+		cl = (CardLayout) cards.getLayout();
+		cl.show(cards, "button panel");
 		
 	}
 	
