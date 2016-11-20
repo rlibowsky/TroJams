@@ -616,7 +616,8 @@ public class SelectionWindow extends JFrame {
 		parties.add(p7);
 		parties.add(p8);
 		parties.add(p9);
-		//new SelectionWindow(user, parties, client).setVisible(true);
+		//new SelectionWindow(user, parties, clien).setVisible(true);
+		new SelectionWindow(user, parties, null).setVisible(true);
 	}
 	
 	

@@ -3,6 +3,7 @@ package frames;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -166,27 +167,32 @@ public class CreateAccountWindow extends JFrame {
 		infoPanel.add(infoLabel, BorderLayout.NORTH);
 		infoPanel.add(instructionsLabel, BorderLayout.SOUTH);
 		
-		firstNameTextField.setPreferredSize(new Dimension(80, 60));
-		lastNameTextField.setPreferredSize(new Dimension(80, 60));
-		usernameTextField.setPreferredSize(new Dimension(80, 60));
-		passwordTextField.setPreferredSize(new Dimension(80, 60));
+		firstNameTextField.setPreferredSize(new Dimension(800, 60));
+		lastNameTextField.setPreferredSize(new Dimension(800, 60));
+		usernameTextField.setPreferredSize(new Dimension(800, 60));
+		passwordTextField.setPreferredSize(new Dimension(800, 60));
 		JPanel credentialsPanel = new JPanel();
-		credentialsPanel.setLayout(new BorderLayout());
-		credentialsPanel.add(firstNameTextField, BorderLayout.NORTH);
-		credentialsPanel.add(lastNameTextField, BorderLayout.SOUTH);
+		credentialsPanel.setPreferredSize(new Dimension(800, 260));
+		credentialsPanel.setLayout(new FlowLayout());
+		credentialsPanel.add(firstNameTextField);
+		credentialsPanel.add(lastNameTextField);
+		
 		credentialsPanel.setOpaque(false);
 		
 		JPanel namePanel = new JPanel();
-		namePanel.setLayout(new BorderLayout());
-		namePanel.add(usernameTextField, BorderLayout.NORTH);
-		namePanel.add(passwordTextField, BorderLayout.SOUTH);
+		namePanel.setLayout(new FlowLayout());
+		namePanel.setPreferredSize(new Dimension(800, 260));
+		namePanel.add(usernameTextField);
+		namePanel.add(passwordTextField);
 		namePanel.setOpaque(false);
 		
 		textFieldPanel.setLayout(new BorderLayout());
+		textFieldPanel.setPreferredSize(new Dimension(800, 800));
 		textFieldPanel.add(credentialsPanel, BorderLayout.NORTH);
 		textFieldPanel.add(namePanel, BorderLayout.SOUTH);
 		
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
+		bottomPanel.setPreferredSize(new Dimension(800, 260));
 		imageLabel.setPreferredSize(new Dimension(200,200));
 		setUserImage("images/silhouette.png");
 		AppearanceSettings.addGlue(bottomPanel, BoxLayout.LINE_AXIS, true, imageLabel, submitButton);
@@ -256,7 +262,7 @@ public class CreateAccountWindow extends JFrame {
 	}
 	
 	public static void main(String [] args) {
-		System.out.println("test!");
+		//System.out.println("test!");
 		//CreateAccountWindow caw = new CreateAccountWindow(new User("test", "test"), new LoginScreenWindow());
 		//caw.setVisible(true);
 	}

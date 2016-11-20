@@ -41,4 +41,5 @@ public class TestServerFunctionality {
 		tj2.setSelectionWindow(sw2);
 		sw2.setVisible(true);
 	}
+	
 }
