@@ -114,6 +114,9 @@ public class LoginScreenWindow extends JFrame {
 	
 	private void createGUI(){
 		
+		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
+		setLocation(100,100);
+		
 		mainPanel = new JPanel();
 		JPanel textFieldOnePanel = new JPanel();
 		JPanel textFieldTwoPanel = new JPanel();
@@ -184,8 +187,7 @@ public class LoginScreenWindow extends JFrame {
 		//CreateAccountWindow caw = new CreateAccountWindow(this, client);
 		//cards.add(caw, "create account window");
 		add(cards, BorderLayout.CENTER);
-		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
-		setLocation(100,100);
+
 	}
 
 	/*public void dispose() {

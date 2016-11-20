@@ -180,6 +180,7 @@ public class SelectionWindow extends JFrame {
 	
 	private void createGUI(){
 		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
+		setLocation(100, 100);
 		setLayout(new BorderLayout());
 		setParties();
 		createCPWMenu();
