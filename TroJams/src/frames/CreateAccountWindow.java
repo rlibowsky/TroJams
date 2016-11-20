@@ -47,7 +47,7 @@ public class CreateAccountWindow extends JFrame {
 	private JFileChooser fileChooser;
 	
 	public CreateAccountWindow(User newUser, LoginScreenWindow loginScreenWindow){
-		super("Create Account");
+		super("TroJams");
 		this.newUser = newUser;
 		this.loginScreenWindow = loginScreenWindow;
 		initializeComponents();

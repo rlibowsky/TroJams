@@ -52,7 +52,7 @@ public class LoginScreenWindow extends JFrame {
 	private File file;
 
 	public LoginScreenWindow() {
-		
+		super("TroJams");
 		file = new File("users.txt");
 		existingUsers = new HashMap<>();
 		//reads in stored users from file and populates existingUsers
