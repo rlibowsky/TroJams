@@ -425,7 +425,8 @@ public class SelectionWindow extends JFrame {
 				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
 				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
 				
-				
+				cpwPublicRadioButton.setSelected(true);
+				cpwPasswordTextField.setVisible(false);
 				
 			}		
 		});
