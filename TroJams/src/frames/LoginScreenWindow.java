@@ -248,8 +248,16 @@ public class LoginScreenWindow extends JFrame {
 		password.getDocument().addDocumentListener(new MyDocumentListener());
 		
 		//action listeners
-		loginButton.addActionListener(new loginEvent());
-		
+		//loginButton.addActionListener(new loginEvent());
+		loginButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				client.attemptToLogin(username.getText(), password.getText());
+			}
+			
+		});
+				
 		//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES
 		
 		

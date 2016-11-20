@@ -77,6 +77,16 @@ public class TrojamClient extends Thread{
 		}
 	}
 	
+	public void attemptToLogin(String username, String password){
+		try {
+			oos.writeObject(new LoginMessage(username, password));
+			oos.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void sendNewPartyMessage(NewPartyMessage npm) {
 		try {
 			System.out.println("trying to send a new party");
