@@ -61,4 +61,9 @@ public class TrojamServerThread extends Thread{
 		} catch (IOException e) {}
 	}
 
+	public void createParty(Party p) {
+		server.addParty(p);
+		
+	}
+
 }

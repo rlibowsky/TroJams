@@ -376,8 +376,8 @@ public class SelectionWindow extends JFrame {
 				//ADD TO PARTIES LIST
 				currentParties.add(p);
 				setParties();
-				
-				PartyWindow pw = new PartyWindow(p);
+				user.st.createParty(p);
+				PartyWindow pw = new PartyWindow(p, user, currentParties);
 				cards.add(pw, "party window");
 				CardLayout cl = (CardLayout) cards.getLayout();
 				cl.show(cards, "party window");					
