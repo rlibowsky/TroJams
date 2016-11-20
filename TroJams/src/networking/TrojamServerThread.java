@@ -58,7 +58,10 @@ public class TrojamServerThread extends Thread{
 					//returns a boolean of whether or not the account was created
 					boolean accountCreated = trojamServer.createAccount(cam);
 					trojamServer.sendMessageToOne(account, new AccountCreatedMessage(accountCreated, cam.getUser()));
+				} else if (obj instanceof SongVoteMessage) {
+					trojamServer.voteOnSong((SongVoteMessage) obj);
 				} else if (obj instanceof Message) {
+					System.out.println("got a generic message");
 					Message message = (Message) obj;
 					trojamServer.sendMessageToAll(message);
 				} 

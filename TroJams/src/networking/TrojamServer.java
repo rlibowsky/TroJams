@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 import logic.Account;
 import logic.Party;
+import logic.PartySong;
 import logic.PrivateParty;
 import logic.PublicParty;
 import logic.User;
@@ -200,5 +201,18 @@ public class TrojamServer extends Thread{
 			}
 		}
 		return false;
+	}
+
+	public void voteOnSong(SongVoteMessage svm) {
+		Party receivedParty = svm.getParty();
+		PartySong receivedSong = svm.getSong();
+		if (svm.getName().equals("upvote")) {
+			System.out.println("upvoting a song");
+			receivedParty.upvoteSong(receivedSong);
+		} else {
+			System.out.println("downvoting a song");
+			receivedParty.downvoteSong(receivedSong);
+		}
+		sendMessageToAll(svm);
 	}
 }

@@ -89,7 +89,7 @@ public class SelectionWindow extends JFrame {
 	private ImageIcon profileIcon;
 	private ArrayList <Party> currentParties;
 	private SelectionWindow sw;
-	private TrojamClient client;
+	public TrojamClient client;
 		
 	public SelectionWindow(User user, ArrayList<Party> parties, TrojamClient client){
 		super("TroJams");

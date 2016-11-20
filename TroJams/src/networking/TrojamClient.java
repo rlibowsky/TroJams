@@ -8,6 +8,8 @@ import java.net.Socket;
 import frames.LoginScreenWindow;
 import frames.SelectionWindow;
 import logic.Account;
+import logic.Party;
+import logic.PartySong;
 import logic.User;
 
 public class TrojamClient extends Thread{
@@ -73,7 +75,9 @@ public class TrojamClient extends Thread{
 				if (obj instanceof StringMessage) {
 					StringMessage message = (StringMessage) obj;
 					parseStringMessage(message);
-				} else if (obj instanceof PartyMessage) {
+				} else if (obj instanceof SongVoteMessage) {
+					System.out.println("client has received song upvoted message!");
+				}else if (obj instanceof PartyMessage) {
 					PartyMessage pm = (PartyMessage) obj;
 					//if (pm.getName().equals("newParty")) {
 					System.out.println("new party sent to client");
@@ -140,5 +144,17 @@ public class TrojamClient extends Thread{
 			e.printStackTrace();
 		}
 		
+	}
+
+	public void sendVotesChange(Party party, PartySong partySong, String voteType) {
+		System.out.println(partySong.getName() + " was voted");
+		try {
+			oos.writeObject(new SongVoteMessage(voteType, party, partySong));
+			oos.flush();
+			System.out.println("send party song info to serverthread");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
