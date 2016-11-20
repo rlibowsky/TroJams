@@ -189,7 +189,7 @@ public class CreateAccountWindow extends JPanel {
 		namePanel.setOpaque(false);
 		
 		textFieldPanel.setLayout(new BorderLayout());
-		textFieldPanel.setPreferredSize(new Dimension(800, 800));
+		textFieldPanel.setPreferredSize(new Dimension(800, 400));
 		textFieldPanel.add(credentialsPanel, BorderLayout.NORTH);
 		textFieldPanel.add(namePanel, BorderLayout.SOUTH);
 		
