@@ -61,9 +61,10 @@ public class PartyWindow extends JPanel {
 	
 	//plays next song in party and updates display to show current song name and time
 	public void updateCurrentlyPlaying() {
-		this.currentSongName.setText(this.party.getSongs().get(0).getName());
-		this.currentSongTime.setText(Double.toString(this.party.getSongs().get(0).getLength()) + "s");
-		this.party.playNextSong();
+		// Uncomment when party isn't null
+//		this.currentSongName.setText(this.party.getSongs().get(0).getName());
+//		this.currentSongTime.setText(Double.toString(this.party.getSongs().get(0).getLength()) + "s");
+//		this.party.playNextSong();
 	}
 	
 	//shows song name, upvote and downvote buttons, and total votes for the song
@@ -84,7 +85,7 @@ public class PartyWindow extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					PartyWindow.this.party.upvoteSong(ps);
+//					PartyWindow.this.party.upvoteSong(ps);
 					votesLabel.setText(Integer.toString(ps.getVotes()));
 					setSongs();
 				}
@@ -96,7 +97,7 @@ public class PartyWindow extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					PartyWindow.this.party.downvoteSong(ps);
+//					PartyWindow.this.party.downvoteSong(ps);
 					votesLabel.setText(Integer.toString(ps.getVotes()));
 					setSongs();
 				}
@@ -155,24 +156,24 @@ public class PartyWindow extends JPanel {
 		addSongButton.setIcon(addSongButtonImage);
 		addSongButton.setOpaque(false);
 		addSongButton.setBorderPainted(false);
-		addSongButton.setContentAreaFilled(false);
+		//addSongButton.setContentAreaFilled(false);
 		
 		refreshButton = new JButton();
 		ImageIcon refreshButtonImage = new ImageIcon("images/button_refresh.png");
 		refreshButton.setIcon(refreshButtonImage);
 		refreshButton.setOpaque(false);
 		refreshButton.setBorderPainted(false);
-		refreshButton.setContentAreaFilled(false);
+		//refreshButton.setContentAreaFilled(false);
 		
 		buttonsPanel.add(addSongButton, BorderLayout.NORTH);
 		buttonsPanel.add(refreshButton, BorderLayout.SOUTH);
 		
-		hostLabel = new JTextArea(party.getHostName() + "'s \nparty!");
+		hostLabel = new JTextArea("'s \nparty!");
 		hostLabel.setEditable(false);
 		hostLabel.setLineWrap(true);
 		hostImage = new JLabel();
-		Image image = new ImageIcon(this.party.getHost().getImageFilePath()).getImage();
-		hostImage.setIcon(new ImageIcon(image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
+		//Image image = new ImageIcon(this.party.getHost().getImageFilePath()).getImage();
+		//hostImage.setIcon(new ImageIcon(image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
 		leaveButton = new JButton();
 		ImageIcon leaveButtonImage = new ImageIcon("images/button_leave-party.png");
 		leaveButton.setIcon(leaveButtonImage);
@@ -199,9 +200,9 @@ public class PartyWindow extends JPanel {
 		currentlyPlayingPanel.add(currentlyPlayingLabel);
 		currentlyPlayingPanel.add(currentSongName);
 		currentlyPlayingPanel.add(currentSongTime);
-		if (this.party.getSongs().size() != 0) {
-			this.updateCurrentlyPlaying();
-		}
+//		if (this.party.getSongs().size() != 0) {
+//			this.updateCurrentlyPlaying();
+//		}
 		centerPanel.add(currentlyPlayingPanel, BorderLayout.NORTH);
 		
 		songList = new JList<SingleSongPanel>();
@@ -256,11 +257,11 @@ public class PartyWindow extends JPanel {
 			songList = new JList <SingleSongPanel>();
 		}
 		//add songs in party to songs arraylist
-		for (PartySong ps : party.getSongs()) {
-			SingleSongPanel ssp = new SingleSongPanel(ps);
-			//songs.add(ssp);
-			songList.add(ssp);
-		}
+//		for (PartySong ps : party.getSongs()) {
+//			SingleSongPanel ssp = new SingleSongPanel(ps);
+//			//songs.add(ssp);
+//			songList.add(ssp);
+//		}
 		
 		//set at least 10
 		if (songList.getVisibleRowCount()< 10) {
