@@ -109,7 +109,7 @@ public class LoginScreenWindow extends JFrame {
 		JPanel mainPanel = new JPanel();
 		JPanel textFieldOnePanel = new JPanel();
 		JPanel textFieldTwoPanel = new JPanel();
-		JLabel welcome = new JLabel("login or create an account to play", JLabel.CENTER);
+		JLabel welcome = new JLabel("", JLabel.CENTER);
 		JLabel TroJamsLabel = new JLabel("TroJams!", JLabel.CENTER);
 		JPanel alertPanel = new JPanel();
 		JPanel textFieldsPanel = new JPanel();
