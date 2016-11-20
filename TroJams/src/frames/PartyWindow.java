@@ -15,6 +15,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -46,11 +47,15 @@ public class PartyWindow extends JPanel {
 	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel, hostImage, searchedSong;
 	private JTextField searchBar;
 	private CardLayout cl;
+	private User user;
+	private ArrayList<Party> parties;
 	
 	//argument will be taken out once we turn this into a JPanel
-	public PartyWindow(Party partayTime) {
+	public PartyWindow(Party partayTime, User user, ArrayList<Party> parties) {
 		super();
 		this.party = partayTime;
+		this.user = user;
+		this.parties = parties;
 		initializeComponents();
 		createGUI();
 		addListeners();
@@ -257,7 +262,7 @@ public class PartyWindow extends JPanel {
 		//songPanel.add(songScrollPane);
 		
 		addSongPanel = createAddSongPanel();
-		
+		JPanel endPartyWindow = new EndPartyWindow(new SelectionWindow(user, parties));
 		cards.add(buttonsPanel, "button panel");
 		cards.add(addSongPanel, "add song panel");
 //		add(swMainPanel, BorderLayout.CENTER);
@@ -304,6 +309,17 @@ public class PartyWindow extends JPanel {
 				// TODO Auto-generated method stub
 				CardLayout cl3 = (CardLayout) cards.getLayout();
 				cl3.show(cards, "button panel");	
+			}
+			
+		});
+		
+		leaveButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+				
 			}
 			
 		});
@@ -359,21 +375,25 @@ public class PartyWindow extends JPanel {
 		g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
 	};
 	
-	public static void main(String [] args) {
-		PublicParty partayTime = new PublicParty("theBestParty", new User("testUsername", "testPassword"), new ImageIcon("party-purple.jpg"));
-		partayTime.addSong(new PartySong("Song1", 3.0));
-		partayTime.addSong(new PartySong("Song2", 3.0));
-		partayTime.addSong(new PartySong("Song3", 3.0));
-		partayTime.addSong(new PartySong("Song4", 3.0));
-		partayTime.addSong(new PartySong("Song5", 3.0));
-		partayTime.addSong(new PartySong("Song6", 3.0));
-		partayTime.addSong(new PartySong("Song7", 3.0));
-		partayTime.addSong(new PartySong("Song8", 3.0));
-		partayTime.addSong(new PartySong("Song9", 3.0));
-		partayTime.addSong(new PartySong("Song10", 3.0));
-		partayTime.addSong(new PartySong("Song11", 3.0));
-		partayTime.addSong(new PartySong("Song12", 3.0));
-		new PartyWindow(partayTime).setVisible(true);
+//	public static void main(String [] args) {
+//		PublicParty partayTime = new PublicParty("theBestParty", new User("testUsername", "testPassword"), new ImageIcon("party-purple.jpg"));
+//		partayTime.addSong(new PartySong("Song1", 3.0));
+//		partayTime.addSong(new PartySong("Song2", 3.0));
+//		partayTime.addSong(new PartySong("Song3", 3.0));
+//		partayTime.addSong(new PartySong("Song4", 3.0));
+//		partayTime.addSong(new PartySong("Song5", 3.0));
+//		partayTime.addSong(new PartySong("Song6", 3.0));
+//		partayTime.addSong(new PartySong("Song7", 3.0));
+//		partayTime.addSong(new PartySong("Song8", 3.0));
+//		partayTime.addSong(new PartySong("Song9", 3.0));
+//		partayTime.addSong(new PartySong("Song10", 3.0));
+//		partayTime.addSong(new PartySong("Song11", 3.0));
+//		partayTime.addSong(new PartySong("Song12", 3.0));
+//		new PartyWindow(partayTime, user, parties).setVisible(true);
+//	}
+	
+	public void dispose() {
+		this.dispose();
 	}
 	
 	
