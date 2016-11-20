@@ -39,6 +39,7 @@ public class TrojamServerThread extends Thread{
 			while (true){
 				Object obj = ois.readObject();
 				 if (obj instanceof Account) {
+					 System.out.println("received account");
 					this.account = (Account) obj;
 					this.account.st = this;
 				} else if (obj instanceof NewPartyMessage) {
