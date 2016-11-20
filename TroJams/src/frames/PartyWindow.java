@@ -15,10 +15,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,10 +26,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import frames.PartyWindow.SingleSongPanel;
 import logic.Party;
 import logic.PartySong;
-import logic.PublicParty;
-import logic.User;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
@@ -49,6 +46,7 @@ public class PartyWindow extends JPanel {
 	private JTextField searchBar;
 	private CardLayout cl;
 	private SelectionWindow sw;
+	private DefaultListModel<SingleSongPanel> listModel;
 	
 	//argument will be taken out once we turn this into a JPanel
 	public PartyWindow(Party partayTime, SelectionWindow sw) {
@@ -69,8 +67,8 @@ public class PartyWindow extends JPanel {
 	}
 	
 	//shows song name, upvote and downvote buttons, and total votes for the song
-	private class SingleSongPanel extends JPanel {
-		private PartySong partySong;
+	public class SingleSongPanel extends JPanel {
+		PartySong partySong;
 		private JButton upvoteButton, downvoteButton;
 		private JLabel votesLabel, songNameLabel;
 		
@@ -114,7 +112,7 @@ public class PartyWindow extends JPanel {
 			//AppearanceSettings.setOpaque(songNameLabel, votesLabel, currentSongName, currentSongTime, currentlyPlayingLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontSmall, songNameLabel, votesLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontLarge, currentSongName, currentSongTime, currentlyPlayingLabel);
-			
+			revalidate();
 			this.setOpaque(false);
 			AppearanceSettings.setNotOpaque(songNameLabel, upvoteButton, downvoteButton, votesLabel);
 			upvoteButton.setContentAreaFilled(false);
@@ -214,8 +212,9 @@ public class PartyWindow extends JPanel {
 		
 		
 		centerPanel.add(currentlyPlayingPanel, BorderLayout.NORTH);
-		
-		songList = new JList<SingleSongPanel>();
+		listModel = new DefaultListModel<SingleSongPanel>();
+
+		songList = new JList<SingleSongPanel>(listModel);
 		songList.setLayout(new FlowLayout());
 		//setSongs();
 		
@@ -332,7 +331,11 @@ public class PartyWindow extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//setSongs();
+				System.out.println(songList.getModel().getSize());
+				if (songList.getModel().getSize()>0) {
+					currentSongName.setText(songList.getModel().getElementAt(0).partySong.getName());
+				}
+				revalidate();
 			}
 			
 		});
@@ -342,7 +345,9 @@ public class PartyWindow extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchBar.getText(), 0.0));
-				songList.add(ssp);
+				((DefaultListModel<SingleSongPanel>)songList.getModel()).addElement(ssp);
+				//listModel.addElement(ssp);
+				System.out.println(songList.getModel().getSize());
 				revalidate();
 			}
 			
