@@ -412,4 +412,9 @@ public class LoginScreenWindow extends JFrame {
 			System.out.println("account was not created");
 		}
 	}
+	
+	public void showLoginWindow() {
+		cl = (CardLayout) cards.getLayout();
+		cl.show(cards, "main window");
+	}
 }
