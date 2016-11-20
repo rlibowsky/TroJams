@@ -329,9 +329,18 @@ public class SelectionWindow extends JFrame {
 						PrivateParty pp = (PrivateParty) party;
 						if (pp.verifyPassword(givenPassword)) {
 							//join party
+							PartyWindow pw = new PartyWindow(party, sw);
+							cards.add(pw, "party window");
+							CardLayout cl = (CardLayout) cards.getLayout();
+							cl.show(cards,  "party window");
+							revalidate();
 						}
 					} else {
-						//join party
+						PartyWindow pw = new PartyWindow(party, sw);
+						cards.add(pw, "party window");
+						CardLayout cl = (CardLayout) cards.getLayout();
+						cl.show(cards,  "party window");
+						revalidate();
 					}
 					
 				}	
