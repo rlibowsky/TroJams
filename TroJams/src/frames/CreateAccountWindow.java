@@ -105,7 +105,7 @@ public class CreateAccountWindow extends JPanel {
 				SelectionWindow sw = new SelectionWindow(newUser, null, client);
 				client.setSelectionWindow(sw);
 				sw.setVisible(true);
-				loginScreenWindow.dispose();
+				//loginScreenWindow.dispose();
 			}
 		});
 	}

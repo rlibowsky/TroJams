@@ -188,9 +188,9 @@ public class LoginScreenWindow extends JFrame {
 		setLocation(100,100);
 	}
 
-	public void dispose() {
+	/*public void dispose() {
 		this.dispose();
-	}
+	}*/
 	
 	//returns whether the buttons should be enabled
 	private boolean canPressButtons(){
