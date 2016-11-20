@@ -49,10 +49,12 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import listeners.TextFieldFocusListener;
 import logic.Party;
+import logic.PartySong;
 import logic.PrivateParty;
 import logic.PublicParty;
 import logic.User;
 import networking.NewPartyMessage;
+import networking.SongVoteMessage;
 import networking.TrojamClient;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
@@ -81,6 +83,7 @@ public class SelectionWindow extends JFrame {
 	private String imageFilePath;
 	private JFileChooser fileChooser;
 	private JPanel swRightPanel;
+	private PartyWindow pw;
 	
 	private CardLayout cl;
 	
@@ -354,7 +357,7 @@ public class SelectionWindow extends JFrame {
 						PrivateParty pp = (PrivateParty) party;
 						if (pp.verifyPassword(givenPassword)) {
 							//join party
-							PartyWindow pw = new PartyWindow(party, sw);
+							pw = new PartyWindow(party, sw);
 							cards.add(pw, "party window");
 							CardLayout cl = (CardLayout) cards.getLayout();
 							cl.show(cards,  "party window");
@@ -764,6 +767,11 @@ public class SelectionWindow extends JFrame {
 	public void showSelectionWindow() {
 		CardLayout cl = (CardLayout) cards.getLayout();
 		cl.show(cards, "selection window");
+	}
+
+	public void sendSongVoteUpdate(SongVoteMessage svm) {
+		this.pw.sendSongVoteUpdate(svm);
+		
 	}
 	
 	

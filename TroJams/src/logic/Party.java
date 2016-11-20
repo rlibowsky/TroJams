@@ -17,7 +17,7 @@ public abstract class Party implements Serializable{
 	private String partyName;
 	private User host;
 	private ArrayList <PartySong> songList = new ArrayList<PartySong>();
-	private HashMap <PartySong, Integer> songSet = new HashMap<PartySong, Integer>();
+	private HashMap <String, Integer> songSet = new HashMap<String, Integer>();
 	private HashSet <Account> partyMembers;
 	private ImageIcon partyImage;
 	
@@ -77,18 +77,20 @@ public abstract class Party implements Serializable{
 			return;
 		}
 		songList.add(song);
-		songSet.put(song, songList.size()-1);
+		songSet.put(song.getName(), songList.size()-1);
 	}
 	
 	public void upvoteSong(PartySong song) {
-		int loc = songSet.get(song);
-		song.upvote();
+		
+		int loc = songSet.get(song.getName());
+		System.out.println("loc is ..." + loc);
+		songList.get(loc).upvote();
 		//look at the indices before in the array and keep swapping while the
 		//number of votes of loc - 1 is less than the number of votes of song
 		while (loc > 0 && songList.get(loc - 1).getVotes() < songList.get(loc).getVotes()) {
 			PartySong tempSong = songList.get(loc-1);
-			songSet.put(tempSong, loc);
-			songSet.put(song, loc - 1);
+			songSet.put(tempSong.getName(), loc);
+			songSet.put(song.getName(), loc - 1);
 			songList.set(loc, tempSong);
 			songList.set(loc - 1, song);
 			loc --;
@@ -97,13 +99,13 @@ public abstract class Party implements Serializable{
 	
 	public void downvoteSong(PartySong song) {
 		int loc = songSet.get(song);
-		song.downvote();
+		songList.get(loc).downvote();
 		//look at the indices after in the array and keep swapping while the
 		//number of votes of loc + 1 is greater than the number of votes of song
 		while (loc < songList.size() && songList.get(loc + 1).getVotes() > songList.get(loc).getVotes()) {
 			PartySong tempSong = songList.get(loc+1);
-			songSet.put(tempSong, loc);
-			songSet.put(song, loc + 1);
+			songSet.put(tempSong.getName(), loc);
+			songSet.put(song.getName(), loc + 1);
 			songList.set(loc, tempSong);
 			songList.set(loc + 1, song);
 			loc ++;
@@ -118,7 +120,7 @@ public abstract class Party implements Serializable{
 	public void playNextSong() {
 		songList.remove(0);
 		//decrement indices of songs since the 0th song has been removed from the array
-		for (Entry<PartySong, Integer>  e: songSet.entrySet()) {
+		for (Entry<String, Integer>  e: songSet.entrySet()) {
 			e.setValue(e.getValue()-1);
 		}
 	}

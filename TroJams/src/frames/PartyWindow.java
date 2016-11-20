@@ -40,6 +40,7 @@ import frames.PartyWindow.SingleSongPanel;
 import logic.Party;
 import logic.PartySong;
 import logic.User;
+import networking.SongVoteMessage;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
@@ -100,10 +101,10 @@ public class PartyWindow extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					PartyWindow.this.party.upvoteSong(ps);
-					votesLabel.setText(Integer.toString(ps.getVotes()));
+//					PartyWindow.this.party.upvoteSong(ps);
+//					votesLabel.setText(Integer.toString(ps.getVotes()));
 					sw.client.sendVotesChange(party, partySong, "upvote");
-					//setSongs();
+					//
 				}
 				
 			});
@@ -113,8 +114,8 @@ public class PartyWindow extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					PartyWindow.this.party.downvoteSong(ps);
-					votesLabel.setText(Integer.toString(ps.getVotes()));
+//					PartyWindow.this.party.downvoteSong(ps);
+//					votesLabel.setText(Integer.toString(ps.getVotes()));
 					sw.client.sendVotesChange(party, partySong, "downvote");
 					//setSongs();
 				}
@@ -291,7 +292,7 @@ public class PartyWindow extends JPanel {
 //		songList = new JList<SingleSongPanel>(df);
 		songList= new JList<SingleSongPanel>();
 		songList.setLayout(new FlowLayout());
-		setSongs();
+		setSongs(this.party);
 		
 		// Initializing components for add song panel 
 		addNewSongButton = new JButton();
@@ -335,16 +336,18 @@ public class PartyWindow extends JPanel {
 	
 	//create the panel that shows songs in order of votes, called when partywindow is created
 	//and whenever someone upvotes or downvotes a song
-	public void setSongs() {
+	public void setSongs(Party receivedParty) {
+		System.out.println("in setsongs");
 		if (songList != null) {
 			songList.removeAll();
 		} else {
 			songList = new JList <SingleSongPanel>();
 		}
 		//add songs in party to songs arraylist
-		for (PartySong ps : party.getSongs()) {
+		for (PartySong ps : receivedParty.getSongs()) {
 			SingleSongPanel ssp = new SingleSongPanel(ps);
 			//songs.add(ssp);
+			System.out.println("adding song " + ps.getName() + " with " + ps.getVotes() + " votes");
 			songList.add(ssp);
 		}
 		
@@ -512,6 +515,13 @@ public class PartyWindow extends JPanel {
 		Image image = new ImageIcon("images/backgroundImage.png").getImage();
 		//backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
 		g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+	}
+
+	public void sendSongVoteUpdate(SongVoteMessage svm) {
+		System.out.println("received update");
+		Party receivedParty = svm.getParty();
+		//PartyWindow.this.party.upvoteSong(receivedSong);
+		setSongs(receivedParty);
 	};
 	
 //	public static void main(String [] args) {
