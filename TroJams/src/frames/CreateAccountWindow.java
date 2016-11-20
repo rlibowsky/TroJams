@@ -41,7 +41,7 @@ public class CreateAccountWindow extends JPanel {
 	
 	private JTextField usernameTextField, passwordTextField, firstNameTextField, lastNameTextField;
 	private JLabel infoLabel, instructionsLabel, imageLabel, imageText;
-	private JButton submitButton;
+	private JButton submitButton, backButton;
 	private ImageIcon userImage;
 	private ImageIcon backgroundImage;
 	
@@ -97,6 +97,12 @@ public class CreateAccountWindow extends JPanel {
              }
 		});
 		
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				
+			}
+		});
+		
 		
 		submitButton.addActionListener(new ActionListener(){
 			public void actionPerformed (ActionEvent ae){
@@ -142,6 +148,12 @@ public class CreateAccountWindow extends JPanel {
 		submitButton.setOpaque(false);
 		submitButton.setBorderPainted(false);
 		submitButton.setContentAreaFilled(false);
+		backButton = new JButton();
+		ImageIcon backButtonImage = new ImageIcon("images/button_go-back.png");
+		backButton.setIcon(backButtonImage);
+		backButton.setOpaque(false);
+		backButton.setBorderPainted(false);
+		backButton.setContentAreaFilled(false);
 		imageText = new JLabel("Click to upload a profile picture");
 	}
 	
@@ -200,7 +212,7 @@ public class CreateAccountWindow extends JPanel {
 		bottomPanel.setPreferredSize(new Dimension(800, 260));
 		imageLabel.setPreferredSize(new Dimension(200,200));
 		setUserImage("images/silhouette.png");
-		AppearanceSettings.addGlue(bottomPanel, BoxLayout.LINE_AXIS, true, imageLabel, submitButton);
+		AppearanceSettings.addGlue(bottomPanel, BoxLayout.LINE_AXIS, true, imageLabel, submitButton, backButton);
 		submitButton.setEnabled(false);
 		
 		infoPanel.setOpaque(false);
@@ -266,11 +278,11 @@ public class CreateAccountWindow extends JPanel {
 		}
 	}
 	
-	public static void main(String [] args) {
+	//public static void main(String [] args) {
 		//System.out.println("test!");
 		//CreateAccountWindow caw = new CreateAccountWindow(new User("test", "test"), new LoginScreenWindow());
 		//caw.setVisible(true);
-	}
+	//}
 	
 	
 }
