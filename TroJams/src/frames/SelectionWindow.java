@@ -383,7 +383,7 @@ public class SelectionWindow extends JFrame {
 				//ADD TO PARTIES LIST
 				currentParties.add(p);
 				setParties();
-				//user.st.createParty(p);
+				user.st.createParty(p);
 				PartyWindow pw = new PartyWindow(p, sw);
 				cards.add(pw, "party window");
 				CardLayout cl = (CardLayout) cards.getLayout();
