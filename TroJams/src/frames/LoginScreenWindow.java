@@ -387,8 +387,8 @@ public class LoginScreenWindow extends JFrame {
 			System.out.println("authenticated user");
 			User newUser = new User(usernameString);
 			existingUsers.put(usernameString, newUser);
-			User user = existingUsers.get(usernameString);
-			new SelectionWindow(user, null, client).setVisible(true);
+			//User user = existingUsers.get(usernameString);
+			new SelectionWindow(newUser, null, client).setVisible(true);
 			dispose();
 		}else{
 			System.out.println("non-authenticated user");

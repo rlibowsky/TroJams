@@ -100,6 +100,7 @@ public class CreateAccountWindow extends JPanel {
 		
 		submitButton.addActionListener(new ActionListener(){
 			public void actionPerformed (ActionEvent ae){
+				//TODO pass a message to the server with the user and password and if the user can be created, make it else return false
 				newUser = new User(usernameTextField.getText(), passwordTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(), imageFilePath);
 				//loginScreenWindow.insertUserIntoDB(newUser);
 				SelectionWindow sw = new SelectionWindow(newUser, null, client);
