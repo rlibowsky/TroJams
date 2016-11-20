@@ -1,3 +1,4 @@
+
 package frames;
 
 import java.awt.BorderLayout;
@@ -363,7 +364,8 @@ public class SelectionWindow extends JFrame {
 					cpwCreateButton.setEnabled(true);
 				} else {
 					cpwCreateButton.setEnabled(false);
-				}					
+				}		
+				revalidate();
 			}
 		});
 				
@@ -378,6 +380,7 @@ public class SelectionWindow extends JFrame {
 				} else {
 					cpwCreateButton.setEnabled(false);
 				}
+				revalidate();
 			}
 		});
 				
@@ -480,6 +483,7 @@ public class SelectionWindow extends JFrame {
 		// Creates the bottom panel with password text field and create party button
 		JPanel tempPanel1 = new JPanel();
 		tempPanel1.add(cpwPasswordTextField);
+		cpwPasswordTextField.setVisible(false);
 		//cpwBottomPanel.add(cpwPasswordTextField);
 		cpwBottomPanel.add(tempPanel1);
 		JPanel tempPanel2 = new JPanel();
