@@ -2,13 +2,13 @@ package frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -30,9 +30,9 @@ import javax.swing.event.DocumentListener;
 
 import listeners.TextFieldFocusListener;
 import logic.User;
-import networking.TrojamClient;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
+import resources.Util;
 
 public class LoginScreenWindow extends JFrame {
 
@@ -232,34 +232,35 @@ public class LoginScreenWindow extends JFrame {
 		password.getDocument().addDocumentListener(new MyDocumentListener());
 		
 		//action listeners
-		loginButton.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String usernameString = username.getText();
-				String passwordString = password.getText();
-				
-				//if the username does not exist
-				if (!existingUsers.containsKey(usernameString)){
-					alertLabel.setForeground(Color.white);
-					alertLabel.setText("Wait a second! This username does not exist.");
-				}
-				//else if the username exists
-				else{
-					User user = existingUsers.get(usernameString);
-					//if the user gave the wrong password
-					if (!user.verifyPassword(passwordString)) {
-						alertLabel.setText("The password you provided does not match our records");
-					}
-					//login successful - GO TO MAIN TROJAMS WINDOW
-					else{
-						new SelectionWindow(user, null).setVisible(true);
-						dispose();
-					}
-				}
-			}
-			
-		});
+		loginButton.addActionListener(new loginEvent());
+//		new ActionListener(){
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				String usernameString = username.getText();
+//				String passwordString = password.getText();
+//				
+//				//if the username does not exist
+//				if (!existingUsers.containsKey(usernameString)){
+//					alertLabel.setForeground(Color.white);
+//					alertLabel.setText("Wait a second! This username does not exist.");
+//				}
+//				//else if the username exists
+//				else{
+//					User user = existingUsers.get(usernameString);
+//					//if the user gave the wrong password
+//					if (!user.verifyPassword(passwordString)) {
+//						alertLabel.setText("The password you provided does not match our records");
+//					}
+//					//login successful - GO TO MAIN TROJAMS WINDOW
+//					else{
+//						new SelectionWindow(user, null).setVisible(true);
+//						dispose();
+//					}
+//				}
+//			}
+//			
+//		});
 		
 		createAccount.addActionListener(new ActionListener(){
 
@@ -323,7 +324,62 @@ public class LoginScreenWindow extends JFrame {
 				
 			}
 		}
+	}
+	
+	//sets Actionlistener that gets triggered when a user tries to log in
+	private class loginEvent implements ActionListener{
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			String usernameString = username.getText();
+			String passwordString;
+			Connection conn = null;
+			Statement st = null;
+			ResultSet rs = null;
+			try {
+				passwordString = Util.hashPassword(password.getText());
+			
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+					conn = DriverManager.getConnection("jdbc:mysql://localhost/StudentGrades?user=root&password=root&userSSL=false");
+					st = conn.createStatement();
+					String firstName = "Sheldon";
+					rs = st.executeQuery("SELECT username, password  FROM Users.User WHERE username = '"+usernameString+ 
+							"' AND password = '"+passwordString+"'");
+	
+					if(rs.next()){
+						//TODO instantiate new window
+						dispose();
+					}else{
+						//TODO if the it is the wrong info then what?
+						///warningLabel.setText("this password and username combination does not exist");
+					}
+				} catch (SQLException sqle){
+					System.out.println("sqle: " + sqle.getMessage());
+				} catch (ClassNotFoundException cnfe) {
+					System.out.println("cnfe: " + cnfe.getMessage());
+				}
+			} catch (NoSuchAlgorithmException e1) {
+				passwordString = password.getText();
+				//TODO have some sort of message to the gui about picking a different password or something
+				e1.printStackTrace();
+			}finally {
+				try {
+					if(rs != null){
+						rs.close();
+					}
+					if(st != null){
+						st.close();
+					}
+					if(conn != null){
+						conn.close();
+					}
+				} catch(SQLException sqle){
+					System.out.println(sqle.getMessage());
+				}
+			}	
+		}	
 	}
 	
 	//sets the buttons enabled or disabled
