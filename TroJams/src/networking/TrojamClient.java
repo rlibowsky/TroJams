@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import frames.LoginScreenWindow;
 import frames.SelectionWindow;
 import logic.Account;
 
@@ -14,6 +15,7 @@ public class TrojamClient extends Thread{
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	private SelectionWindow sw;
+	private LoginScreenWindow lsw;
 
 	public TrojamClient(String IPAddress, int port) {
 		System.out.println("creating a new client!!!");
@@ -25,11 +27,15 @@ public class TrojamClient extends Thread{
 			//oos.flush();
 			ois = new ObjectInputStream(s.getInputStream());
 			//before we enter the run method, we want to send our account
-			
+			this.start();
 			
 		} catch (NumberFormatException | IOException e) {
 			System.out.println("yo");
 		}
+	}
+	
+	public void receiveLoginScreen(LoginScreenWindow lsw){
+		this.lsw = lsw;
 	}
 	
 	public void setSelectionWindow(SelectionWindow sw) {
@@ -69,9 +75,13 @@ public class TrojamClient extends Thread{
 				} else if (obj instanceof PartyMessage) {
 					PartyMessage pm = (PartyMessage) obj;
 					//if (pm.getName().equals("newParty")) {
-						System.out.println("new party sent to client");
-						sw.addNewParty(pm.getParty());
+					System.out.println("new party sent to client");
+					sw.addNewParty(pm.getParty());
 						//}
+				} else if(obj instanceof AuthenticatedLoginMessage){
+					System.out.println("client received loginmessage");
+					AuthenticatedLoginMessage alm = (AuthenticatedLoginMessage) obj;
+					lsw.attemptLogIn(alm.isAuthenticated());
 				}
 			} catch (ClassNotFoundException | IOException e) {}
 		}

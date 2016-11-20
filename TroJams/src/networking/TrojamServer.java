@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import logic.Account;
 import logic.Party;
@@ -23,11 +24,13 @@ public class TrojamServer extends Thread{
 	private ArrayList <TrojamServerThread> trojamServerThreads;
 	private int port;
 	private ArrayList <Party> parties;
+	private HashMap<Account, TrojamServerThread> accountToThreadMap;
 	
 	public TrojamServer(int port) {
 		this.port = port;
 		this.parties = new ArrayList <Party> ();
 		trojamServerThreads = new ArrayList <TrojamServerThread>();
+		accountToThreadMap = new HashMap<>();
 		this.start();
 	}
 	
@@ -41,6 +44,7 @@ public class TrojamServer extends Thread{
 				System.out.println("new connection from " + socket.getInetAddress());
 				TrojamServerThread newThread = new TrojamServerThread(socket, this);
 				trojamServerThreads.add(newThread);
+				accountToThreadMap.put(newThread.getAccount(), newThread);
 			}
 		} catch (NumberFormatException | IOException e) {
 			System.out.println("io in server "+e.getMessage());
@@ -57,7 +61,7 @@ public class TrojamServer extends Thread{
 //		}
 //	}
 	
-	public void sendMessage(Message message){
+	public void sendMessageToAll(Message message){
 		for (TrojamServerThread currentThread : trojamServerThreads){
 			if (currentThread != null) currentThread.sendMessage(message);
 		}
@@ -72,13 +76,13 @@ public class TrojamServer extends Thread{
 			System.out.println("sending public party");
 			p = new PublicParty(pm.getPartyName(), user, null);
 			parties.add(p);
-			sendMessage(new PartyMessage("newParty", p));
+			sendMessageToAll(new PartyMessage("newParty", p));
 		}
 		else {
 			System.out.println("sending private party");
 			p = new PrivateParty(pm.getPartyName(), pm.getPartyPassword(), user, null);
 			parties.add(p);
-			sendMessage(new PartyMessage("newParty", p));
+			sendMessageToAll(new PartyMessage("newParty", p));
 		}
 	}
 	
@@ -100,15 +104,20 @@ public class TrojamServer extends Thread{
 				conn = DriverManager.getConnection("jdbc:mysql://localhost/Trojams?user=root&password=root&userSSL=false");
 				st = conn.createStatement();
 				//String firstName = "Sheldon";
-				rs = st.executeQuery("SELECT username, password  FROM Users.User WHERE username = '"+usernameString+ 
-						"' AND password = '"+passwordString+"'");
+//				rs = st.executeQuery("SELECT username, password  FROM Trojams.Users WHERE username = '"+usernameString+ 
+//						"' AND password = '"+passwordString+"'");
+				rs = st.executeQuery("SELECT username, password  FROM Trojams.Users WHERE username = '"+usernameString+ 
+						"' AND password = 'H'");
+
 
 				if(rs.next()){
+					return true;
 					//TODO instantiate new window
 					//set client's user to user
 					//make new selectionwindow, make client's selectionwindow to this
 					//dispose();
 				}else{
+					return false;
 					//TODO if the it is the wrong info then what?
 					///warningLabel.setText("this password and username combination does not exist");
 				}
@@ -118,9 +127,10 @@ public class TrojamServer extends Thread{
 				System.out.println("cnfe: " + cnfe.getMessage());
 			}
 		} catch (NoSuchAlgorithmException e1) {
-			passwordString = password.getText();
+			//passwordString = password.getText();
 			//TODO have some sort of message to the gui about picking a different password or something
 			e1.printStackTrace();
+			return false;
 		}finally {
 			try {
 				if(rs != null){
@@ -137,5 +147,9 @@ public class TrojamServer extends Thread{
 			}
 		}
 		return false;
+	}
+
+	public void sendMessageToOne(Account account, AuthenticatedLoginMessage authenticatedLoginMessage) {
+		accountToThreadMap.get(account).sendMessage(authenticatedLoginMessage);
 	}
 }

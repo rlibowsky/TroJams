@@ -48,13 +48,15 @@ public class TrojamServerThread extends Thread{
 					NewPartyMessage pm = (NewPartyMessage) obj;
 					User user = (User) account;
 					trojamServer.addParty(user, pm);
-				} else if (obj instanceof Message) {
-					Message message = (Message) obj;
-					trojamServer.sendMessage(message);
 				} else if (obj instanceof LoginMessage) {
 					System.out.println("login message received by serverthread");
+					//returns a boolean saying whether or not the password matched
 					boolean goodLogin = trojamServer.authenticateLogin((LoginMessage)obj );
-				}
+					trojamServer.sendMessageToOne(account, new AuthenticatedLoginMessage(goodLogin));
+				} else if (obj instanceof Message) {
+					Message message = (Message) obj;
+					trojamServer.sendMessageToAll(message);
+				} 
 			}
 		} 
 		catch (ClassNotFoundException e) {}
@@ -72,6 +74,10 @@ public class TrojamServerThread extends Thread{
 			//e.printStackTrace();
 			System.out.println("exception in sendMessage in server: " + e.getMessage() + " " + e.getLocalizedMessage());
 		}
+	}
+
+	public Account getAccount() {
+		return account;
 	}
 
 }

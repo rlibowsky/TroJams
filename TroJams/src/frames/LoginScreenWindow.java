@@ -62,8 +62,9 @@ public class LoginScreenWindow extends JFrame {
 		this.client = client;
 		file = new File("users.txt");
 		existingUsers = new HashMap<>();
+		client.receiveLoginScreen(this);
 		//reads in stored users from file and populates existingUsers
-		readFromFile();
+		//readFromFile();
 		initializeComponents();
 		createGUI();
 		addListeners();
@@ -200,44 +201,44 @@ public class LoginScreenWindow extends JFrame {
 				!password.getText().equals("password") && !password.getText().isEmpty());
 	}
 	//reads in users map from the file
-	private void readFromFile(){
-		Connection conn = null;
-		Statement st = null;
-		ResultSet rs = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TroJamUsers?user=root&password=adam0601&useSSL=false");			
-			st = conn.createStatement();
-			rs = st.executeQuery("SELECT * FROM Users");
-			while(rs.next()){
-				String username = rs.getString("username");
-				String password = rs.getString("password");
-				System.out.println(username + " " + password);
-				User tempUser = new User(username, password);
-				existingUsers.put(username, tempUser);
-			}
-			
-		} catch (SQLException sqle) {
-			System.out.println("sqle: " + sqle.getMessage());
-		} catch (ClassNotFoundException cnfe) {
-			System.out.println("cnfe: " + cnfe.getMessage());
-		} finally{
-			try{
-				if(rs != null) {
-					rs.close();
-				}
-				if (st!=null){
-					st.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch( SQLException sqle) {
-				
-			}
-		}
-
-	}
+//	private void readFromFile(){
+//		Connection conn = null;
+//		Statement st = null;
+//		ResultSet rs = null;
+//		try {
+//			Class.forName("com.mysql.jdbc.Driver");
+//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TroJamUsers?user=root&password=adam0601&useSSL=false");			
+//			st = conn.createStatement();
+//			rs = st.executeQuery("SELECT * FROM Users");
+//			while(rs.next()){
+//				String username = rs.getString("username");
+//				String password = rs.getString("password");
+//				System.out.println(username + " " + password);
+//				User tempUser = new User(username, password);
+//				existingUsers.put(username, tempUser);
+//			}
+//			
+//		} catch (SQLException sqle) {
+//			System.out.println("sqle: " + sqle.getMessage());
+//		} catch (ClassNotFoundException cnfe) {
+//			System.out.println("cnfe: " + cnfe.getMessage());
+//		} finally{
+//			try{
+//				if(rs != null) {
+//					rs.close();
+//				}
+//				if (st!=null){
+//					st.close();
+//				}
+//				if(conn != null) {
+//					conn.close();
+//				}
+//			} catch( SQLException sqle) {
+//				
+//			}
+//		}
+//
+//	}
 
 	private void addListeners(){
 		
@@ -365,64 +366,6 @@ public class LoginScreenWindow extends JFrame {
 		}
 	}
 	
-	//sets Actionlistener that gets triggered when a user tries to log in
-	private class loginEvent implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			String usernameString = username.getText();
-			String passwordString;
-			Connection conn = null;
-			Statement st = null;
-			ResultSet rs = null;
-			try {
-				passwordString = Util.hashPassword(password.getText());
-			
-				try {
-					Class.forName("com.mysql.jdbc.Driver");
-					conn = DriverManager.getConnection("jdbc:mysql://localhost/StudentGrades?user=root&password=root&userSSL=false");
-					st = conn.createStatement();
-					//String firstName = "Sheldon";
-					rs = st.executeQuery("SELECT username, password  FROM Users.User WHERE username = '"+usernameString+ 
-							"' AND password = '"+passwordString+"'");
-	
-					if(rs.next()){
-						//TODO instantiate new window
-						//set client's user to user
-						//make new selectionwindow, make client's selectionwindow to this
-						dispose();
-					}else{
-						//TODO if the it is the wrong info then what?
-						///warningLabel.setText("this password and username combination does not exist");
-					}
-				} catch (SQLException sqle){
-					System.out.println("sqle: " + sqle.getMessage());
-				} catch (ClassNotFoundException cnfe) {
-					System.out.println("cnfe: " + cnfe.getMessage());
-				}
-			} catch (NoSuchAlgorithmException e1) {
-				passwordString = password.getText();
-				//TODO have some sort of message to the gui about picking a different password or something
-				e1.printStackTrace();
-			}finally {
-				try {
-					if(rs != null){
-						rs.close();
-					}
-					if(st != null){
-						st.close();
-					}
-					if(conn != null){
-						conn.close();
-					}
-				} catch(SQLException sqle){
-					System.out.println(sqle.getMessage());
-				}
-			}	
-		}	
-	}
-	
 	//sets the buttons enabled or disabled
 	private class MyDocumentListener implements DocumentListener{
 		
@@ -444,4 +387,36 @@ public class LoginScreenWindow extends JFrame {
 			loginButton.setEnabled(canPressButtons());
 		}
 	}
+
+	public void attemptLogIn(boolean authenticated) {
+		if(authenticated){
+			System.out.println("authenticated user");
+		}else{
+			System.out.println("non-authenticated user");
+			alertLabel.setForeground(Color.white);
+			alertLabel.setText("Wait a second! This username does not exist.");
+		}
+	}
+	//String usernameString = username.getText();
+//	String passwordString = password.getText();
+//	
+//	//if the username does not exist
+//	if (!existingUsers.containsKey(usernameString)){
+//		alertLabel.setForeground(Color.white);
+//		alertLabel.setText("Wait a second! This username does not exist.");
+//	}
+//	//else if the username exists
+//	else{
+//		User user = existingUsers.get(usernameString);
+//		//if the user gave the wrong password
+//		if (!user.verifyPassword(passwordString)) {
+//			alertLabel.setText("The password you provided does not match our records");
+//		}
+//		//login successful - GO TO MAIN TROJAMS WINDOW
+//		else{
+//			new SelectionWindow(user, null).setVisible(true);
+//			dispose();
+//		}
+//	}
+//}
 }
