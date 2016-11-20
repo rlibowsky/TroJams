@@ -393,6 +393,7 @@ public class SelectionWindow extends JFrame {
 				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
 				
 				
+				
 			}		
 		});
 		
