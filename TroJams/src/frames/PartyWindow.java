@@ -47,15 +47,13 @@ public class PartyWindow extends JPanel {
 	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel, hostImage, searchedSong;
 	private JTextField searchBar;
 	private CardLayout cl;
-	private User user;
-	private ArrayList<Party> parties;
+	private SelectionWindow sw;
 	
 	//argument will be taken out once we turn this into a JPanel
-	public PartyWindow(Party partayTime, User user, ArrayList<Party> parties) {
+	public PartyWindow(Party partayTime, SelectionWindow sw) {
 		super();
 		this.party = partayTime;
-		this.user = user;
-		this.parties = parties;
+		this.sw = sw;
 		initializeComponents();
 		createGUI();
 		addListeners();
@@ -262,7 +260,6 @@ public class PartyWindow extends JPanel {
 		//songPanel.add(songScrollPane);
 		
 		addSongPanel = createAddSongPanel();
-		JPanel endPartyWindow = new EndPartyWindow(new SelectionWindow(user, parties));
 		cards.add(buttonsPanel, "button panel");
 		cards.add(addSongPanel, "add song panel");
 //		add(swMainPanel, BorderLayout.CENTER);
@@ -312,17 +309,18 @@ public class PartyWindow extends JPanel {
 			}
 			
 		});
-		
+ 
 		leaveButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
-				
+				sw.showEndWindow();
 				
 			}
 			
+			
 		});
+
 		
 	}
 	
@@ -391,10 +389,7 @@ public class PartyWindow extends JPanel {
 //		partayTime.addSong(new PartySong("Song12", 3.0));
 //		new PartyWindow(partayTime, user, parties).setVisible(true);
 //	}
-	
-	public void dispose() {
-		this.dispose();
-	}
+
 	
 	
 }

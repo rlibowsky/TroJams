@@ -77,10 +77,12 @@ public class SelectionWindow extends JFrame {
 	private JLabel pwUsernameLabel, pwNameLabel, profileLabel, profileIconLabel;
 	private ImageIcon profileIcon;
 	private ArrayList <Party> currentParties;
+	private SelectionWindow sw;
 		
 	public SelectionWindow(User user, ArrayList<Party> parties){
 		super("TroJams");
 		this.user = user;
+		sw = this;
 		this.currentParties = parties;
 		if (currentParties == null) {
 			System.out.println("No parties :(");
@@ -166,10 +168,15 @@ public class SelectionWindow extends JFrame {
 		createSWPanel();
 		AppearanceSettings.setNotOpaque(swMainPanel, cards);
 		//createPWPanel();
-		
-		
+//		addSongPanel = createAddSongPanel();
+		JPanel endPartyPanel = new EndPartyWindow(this);
 		cards.add(swMainPanel, "selection window");
 		cards.add(cpwMainPanel, "create party window");
+		cards.add(endPartyPanel, "end party panel");
+		
+//		EndPartyWindow epw = new EndPartyWindow(new SelectionWindow(user, currentParties));
+//		cards.add(epw, "end party window");
+
 //		add(swMainPanel, BorderLayout.CENTER);
 		
 		add(cards, BorderLayout.CENTER);
@@ -376,11 +383,16 @@ public class SelectionWindow extends JFrame {
 				//ADD TO PARTIES LIST
 				currentParties.add(p);
 				setParties();
-				user.st.createParty(p);
-				PartyWindow pw = new PartyWindow(p, user, currentParties);
+				//user.st.createParty(p);
+				PartyWindow pw = new PartyWindow(p, sw);
 				cards.add(pw, "party window");
 				CardLayout cl = (CardLayout) cards.getLayout();
-				cl.show(cards, "party window");					
+				cl.show(cards, "party window");		
+				
+				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
+				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
+				
+				
 			}		
 		});
 		
@@ -581,5 +593,16 @@ public class SelectionWindow extends JFrame {
 		}
 		
 	}
+	
+	public void showEndWindow() {
+		CardLayout cl = (CardLayout) cards.getLayout();
+		cl.show(cards, "end party panel");
+	}
+	
+	public void showSelectionWindow() {
+		CardLayout cl = (CardLayout) cards.getLayout();
+		cl.show(cards, "selection window");
+	}
+	
 
 }

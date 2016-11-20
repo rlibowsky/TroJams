@@ -1,5 +1,6 @@
 package frames;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -26,11 +27,11 @@ public class EndPartyWindow extends JPanel {
 	private JLabel thanksLabel;
 	private JButton quitButton, joinAnotherPartyButton;
 	private JPanel thanksPanel, endPartyButtonPanel;
-	private SelectionWindow selectionWindow;
+	private SelectionWindow sw;
 	
 	
 	public EndPartyWindow (SelectionWindow selectionWindow){
-		this.selectionWindow = selectionWindow;
+		this.sw = selectionWindow;
 		this.user = selectionWindow.getUser();
 		initializeComponents();
 		createGUI();
@@ -82,14 +83,13 @@ public class EndPartyWindow extends JPanel {
 	private void addListeners(){
 		quitButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ae){
-				selectionWindow.dispose();
+				sw.dispose();
 			}
 		});
 		
 		joinAnotherPartyButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ae){
-				selectionWindow.dispose();
-				new SelectionWindow(user, null).setVisible(true);
+				sw.showSelectionWindow();
 			}
 		});
 		
