@@ -113,7 +113,7 @@ public class PartyWindow extends JPanel {
 			//AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, currentSongName, currentSongTime, currentlyPlayingLabel);
 			//AppearanceSettings.setOpaque(songNameLabel, votesLabel, currentSongName, currentSongTime, currentlyPlayingLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontSmall, songNameLabel, votesLabel);
-			AppearanceSettings.setFont(AppearanceConstants.fontMedium, currentSongName, currentSongTime, currentlyPlayingLabel);
+			AppearanceSettings.setFont(AppearanceConstants.fontLarge, currentSongName, currentSongTime, currentlyPlayingLabel);
 			
 			this.setOpaque(false);
 			AppearanceSettings.setNotOpaque(songNameLabel, upvoteButton, downvoteButton, votesLabel);
