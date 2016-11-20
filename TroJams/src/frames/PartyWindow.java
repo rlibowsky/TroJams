@@ -390,6 +390,7 @@ public class PartyWindow extends JPanel {
 		searchBarPanel.add(searchButton);
 		
 		searchedSong.setText("Closer");
+		searchedSong.setFont(AppearanceConstants.fontSmall);
 		centerPanel.add(searchBarPanel, BorderLayout.NORTH);
 		centerPanel.add(searchedSong, BorderLayout.CENTER);
 		centerPanel.add(addNewSongButton, BorderLayout.SOUTH);

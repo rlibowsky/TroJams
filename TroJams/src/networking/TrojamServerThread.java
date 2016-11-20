@@ -38,18 +38,18 @@ public class TrojamServerThread extends Thread{
 		try {
 			while (true){
 				Object obj = ois.readObject();
-				if (obj instanceof Message) {
-					Message message = (Message) obj;
-				} else if (obj instanceof Account) {
+				 if (obj instanceof Account) {
 					this.account = (Account) obj;
 					this.account.st = this;
 				} else if (obj instanceof NewPartyMessage) {
+					System.out.println("new party received by serverthread");
 					NewPartyMessage pm = (NewPartyMessage) obj;
 					User user = (User) account;
 					trojamServer.addParty(user, pm);
+				} else if (obj instanceof Message) {
+					Message message = (Message) obj;
+					trojamServer.sendMessage(message);
 				}
-				
-				
 			}
 		} 
 		catch (ClassNotFoundException e) {}
@@ -58,10 +58,14 @@ public class TrojamServerThread extends Thread{
 	
 	public void sendMessage(Message message){
 		try {
+			System.out.println("sending a message with name : " + message.getName());
 			oos.reset();
 			oos.writeObject(message);
 			oos.flush();
-		} catch (IOException e) {}
+			System.out.println("message was sent to client");
+		} catch (IOException e) {
+			System.out.println("exception in sendMessage in server: " + e.getMessage());
+		}
 	}
 
 }

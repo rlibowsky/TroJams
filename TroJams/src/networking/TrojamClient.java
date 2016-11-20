@@ -24,13 +24,14 @@ public class TrojamClient extends Thread{
 			oos = new ObjectOutputStream(s.getOutputStream());
 			oos.flush();
 			ois = new ObjectInputStream(s.getInputStream());
-			System.out.println("About to send account info to server");
 			//before we enter the run method, we want to send our account
 			oos.writeObject(account);
 			oos.flush();
-			System.out.println("Just sound account info");
+			System.out.println("sent stuff");
 			this.start();
-		} catch (NumberFormatException | IOException e) {}
+		} catch (NumberFormatException | IOException e) {
+			System.out.println("yo");
+		}
 	}
 	
 	public Account getAccount() {
@@ -39,20 +40,24 @@ public class TrojamClient extends Thread{
 	
 	@Override
 	public void run() {
-		try {
-			Object obj = ois.readObject();
-			//handle different types of messages
-			if (obj instanceof StringMessage) {
-				StringMessage message = (StringMessage) obj;
-				parseStringMessage(message);
-			} else if (obj instanceof PartyMessage) {
-				PartyMessage pm = (PartyMessage) obj;
-				if (pm.getName().equals("newParty")) {
-					System.out.println("new party sent to client");
-					sw.addNewParty(pm.getParty());
+		System.out.println("run was invoked");
+		while (true){
+			try {
+				Object obj = ois.readObject();
+				System.out.println("got message");
+				//handle different types of messages
+				if (obj instanceof StringMessage) {
+					StringMessage message = (StringMessage) obj;
+					parseStringMessage(message);
+				} else if (obj instanceof PartyMessage) {
+					PartyMessage pm = (PartyMessage) obj;
+					//if (pm.getName().equals("newParty")) {
+						System.out.println("new party sent to client");
+						sw.addNewParty(pm.getParty());
+						//}
 				}
-			}
-		} catch (ClassNotFoundException | IOException e) {}
+			} catch (ClassNotFoundException | IOException e) {}
+		}
 	}
 	
 	public void sendNewPartyMessage(NewPartyMessage npm) {
