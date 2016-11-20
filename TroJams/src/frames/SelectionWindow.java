@@ -80,12 +80,12 @@ public class SelectionWindow extends JFrame {
 	private SelectionWindow sw;
 	private TrojamClient client;
 		
-	public SelectionWindow(User user, ArrayList<Party> parties, TrojamClient client){
+	public SelectionWindow(User user, ArrayList<Party> parties){
 		super("TroJams");
 		this.user = user;
 		sw = this;
+		this.client = new TrojamClient(user, "localhost", 1111, this);
 		this.currentParties = parties;
-		this.client = client;
 		if (currentParties == null) {
 			System.out.println("No parties :(");
 			currentParties = new ArrayList<Party> ();

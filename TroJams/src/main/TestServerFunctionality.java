@@ -18,7 +18,7 @@ public class TestServerFunctionality {
 		User u2 = new User("Hunter", "mwahahaha");
 		User u3 = new User("Clairisse", "fightON");
 		User u4 = new User("Adam", "ooooo");
-		TrojamClient tj = new TrojamClient(u, "localhost", 1111);
+		
 		Image image = new ImageIcon("images/party-purple.jpg").getImage();
 		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 		PrivateParty p1 = new PrivateParty("party1", "password1", u2, tempImage);
@@ -28,6 +28,6 @@ public class TestServerFunctionality {
 		parties.add(p1);
 		parties.add(p2);
 		parties.add(p3);
-		new SelectionWindow(u, parties, tj).setVisible(true);
+		new SelectionWindow(u, parties).setVisible(true);
 	}
 }

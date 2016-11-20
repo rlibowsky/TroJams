@@ -56,9 +56,7 @@ public class TrojamServer extends Thread{
 		}
 	}
 	
-	public static void main (String [] args) {
-		TrojamServer tjs = new TrojamServer(1111);
-	}
+	
 
 	public void addParty(User user, NewPartyMessage pm) {
 		System.out.println("adding a party");
@@ -73,5 +71,9 @@ public class TrojamServer extends Thread{
 			parties.add(p);
 			sendMessage(new PartyMessage("newParty", p));
 		}
+	}
+	
+	public static void main (String [] args) {
+		TrojamServer tjs = new TrojamServer(1111);
 	}
 }
