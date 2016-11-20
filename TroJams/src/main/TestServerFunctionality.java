@@ -30,4 +30,5 @@ public class TestServerFunctionality {
 		parties.add(p3);
 		new SelectionWindow(u, parties).setVisible(true);
 	}
+	
 }
