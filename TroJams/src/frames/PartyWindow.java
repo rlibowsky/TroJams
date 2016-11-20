@@ -45,7 +45,7 @@ import resources.AppearanceSettings;
 
 public class PartyWindow extends JPanel {
 	
-	private JButton refreshButton, addNewSongButton, searchButton, leaveButton;
+	private JButton refreshButton, addNewSongButton, searchButton, leaveButton, viewProfileButton;
 	private JList <SingleSongPanel>songList;
 	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, bottomButtonPanel;
 	private JScrollPane songScrollPane, partyPeopleScrollPane;
@@ -189,15 +189,32 @@ public class PartyWindow extends JPanel {
 		bottomButtonPanel.add(refreshButton);
 		
 //		buttonsPanel.add(addSongButton, BorderLayout.SOUTH);
-		
+		//JPanel topHostPanel = new JPanel();
+		//topHostPanel.setLayout(new FlowLayout());
+		//topHostPanel.setOpaque(false);
 		partyLabel = new JLabel("Party: " + party.getPartyName());
+		AppearanceSettings.setForeground(Color.white, partyLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontMedium, partyLabel);
+		partyLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,50));
+		partyLabel.setOpaque(false);
 		partyImage = party.getPartyImage();
 		hostLabel = new JLabel("Host: " + party.getHostName());
-		hostImage = party.getHost().getUserImage();
-		hostImageLabel = new JLabel();
+		hostLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,50));
+		
+		hostImage = party.getPartyImage();
+		JLabel hostImageLabel = new JLabel(hostImage);
+		hostImageLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,100));
 		
 		//Image image = new ImageIcon(this.party.getHost().getImageFilePath()).getImage();
 		//hostImage.setIcon(new ImageIcon(image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
+		viewProfileButton = new JButton("View Profile");
+		// TODO: CHANGE THIS URL
+		//ImageIcon viewProfileImage = new ImageIcon("images/button_leave-party.png");
+		//viewProfileButton.setIcon(viewProfileImage);
+		viewProfileButton.setOpaque(false);
+		viewProfileButton.setBorderPainted(false);
+		viewProfileButton.setContentAreaFilled(false);
+		
 		leaveButton = new JButton();
 		ImageIcon leaveButtonImage = new ImageIcon("images/button_leave-party.png");
 		leaveButton.setIcon(leaveButtonImage);
@@ -205,29 +222,44 @@ public class PartyWindow extends JPanel {
 		leaveButton.setBorderPainted(false);
 		leaveButton.setContentAreaFilled(false);
 		
+		JPanel leftButtonPanel = new JPanel();
+		leftButtonPanel.add(viewProfileButton);
+		leftButtonPanel.add(leaveButton);
+		leftButtonPanel.setOpaque(false);
+		leftButtonPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 125));
+		
 		hostPanel = new JPanel();
-		hostPanel.setLayout(new BorderLayout());
+		hostPanel.setLayout(new FlowLayout());
 		hostLabel.setOpaque(false);
-		hostPanel.add(hostLabel, BorderLayout.NORTH);
-		hostPanel.add(hostImageLabel, BorderLayout.CENTER);
+		//hostPanel.add(partyLabel);
+		hostPanel.add(partyLabel);
+		hostPanel.add(hostLabel);
+		hostPanel.add(hostImageLabel);
+		//hostPanel.add(topHostPanel, BorderLayout.NORTH);
+		
 		
 		hostPanel.setOpaque(false);
 		
 		//User [] temp = (User[]) party.getPartyMembers().toArray();
 		//partyPeopleList = new JList(temp);
-//		partyPeopleList = new JList();
-//		partyPeopleScrollPane = new JScrollPane(partyPeopleList);
-//		partyPeopleScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
-//		partyPeopleScrollPane.setOpaque(false);
-//		partyPeopleScrollPane.getViewport().setOpaque(false);
-//		partyPeopleScrollPane.setBorder(BorderFactory.createEmptyBorder());
+		JPanel scrollPanel = new JPanel();
+		scrollPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 400));
+		scrollPanel.setOpaque(false);
+		partyPeopleList = new JList();
+		partyPeopleScrollPane = new JScrollPane(partyPeopleList);
+		partyPeopleScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
+		partyPeopleScrollPane.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 400));
+		partyPeopleScrollPane.setOpaque(false);
+		partyPeopleScrollPane.getViewport().setOpaque(false);
+		partyPeopleScrollPane.setBorder(BorderFactory.createEmptyBorder());
+		scrollPanel.add(partyPeopleScrollPane);
 //		
 //		//custom scroll bar
 //		partyPeopleScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 //		UIManager.put("ScrollBarUI", "my.package.MyScrollBarUI");
 //				
-//		hostPanel.add(partyPeopleScrollPane);
-		hostPanel.add(leaveButton, BorderLayout.SOUTH);
+		hostPanel.add(scrollPanel, BorderLayout.CENTER);
+		hostPanel.add(leftButtonPanel, BorderLayout.SOUTH);
 		
 		currentlyPlayingPanel = new JPanel();
 		currentlyPlayingImage = new ImageIcon("images/purplePlay.png");
@@ -330,13 +362,13 @@ public class PartyWindow extends JPanel {
 		
 		// Set appearance settings
 		AppearanceSettings.setForeground(Color.white, refreshButton, hostLabel);
-		AppearanceSettings.setSize(150, 80, refreshButton, hostLabel);
-		AppearanceSettings.setSize(150, 150, hostLabel);
+		AppearanceSettings.setSize(150, 80, refreshButton);
+		//AppearanceSettings.setSize(150, 150, hostLabel);
 		//AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton, refreshButton, hostLabel);
 		//AppearanceSettings.setOpaque(addSongButton, refreshButton);
 		//AppearanceSettings.setNotOpaque(hostLabel);
 		AppearanceSettings.unSetBorderOnButtons(refreshButton);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, refreshButton, hostLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontMedium, refreshButton, hostLabel);
 		
 		
 		//AppearanceSettings.setSize(x, y, components);
@@ -355,7 +387,7 @@ public class PartyWindow extends JPanel {
 		centerPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/2,AppearanceConstants.GUI_HEIGHT));
 		hostPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
 		//addSongPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
-		buttonsPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
+		addSongPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
 		
 		add(hostPanel, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
@@ -385,7 +417,7 @@ public class PartyWindow extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchBar.getText(), 0.0));
+				SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchedSong.getText(), 0.0));
 //				df.addElement(ssp);
 //				//listModel.addElement(ssp);
 //				System.out.println(songList.getModel().getSize());
