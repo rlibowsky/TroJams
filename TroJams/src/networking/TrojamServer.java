@@ -144,7 +144,7 @@ public class TrojamServer extends Thread{
 	}
 	
 	public static void main (String [] args) {
-		TrojamServer tjs = new TrojamServer(6789);
+		TrojamServer tjs = new TrojamServer(1111);
 	}
 
 	public boolean createAccount(CreateAccountMessage cam) {

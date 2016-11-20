@@ -284,8 +284,8 @@ public class SelectionWindow extends JFrame {
 		partyScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		
 		//custom scroll bar
-		partyScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
-		UIManager.put("ScrollBarUI", "my.package.MyScrollBarUI");
+//		partyScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
+//		UIManager.put("ScrollBarUI", "my.package.MyScrollBarUI");
 		
 		//partyScrollPane.getVerticalScrollBar().setPreferredSize (new Dimension(0,0));
 		swRightPanel.add(partyScrollPane);
@@ -306,9 +306,9 @@ public class SelectionWindow extends JFrame {
 		swRightPanel.add(topPanel);
 		swMainPanel.add(swRightPanel, BorderLayout.CENTER);
 		
-		ProfilePanel profilePanel = new ProfilePanel(user);
-		profilePanel.setOpaque(false);
-		swMainPanel.add(profilePanel, BorderLayout.WEST);
+//		ProfilePanel profilePanel = new ProfilePanel(user);
+//		profilePanel.setOpaque(false);
+//		swMainPanel.add(profilePanel, BorderLayout.WEST);
 		
 	}
 	
@@ -477,7 +477,7 @@ public class SelectionWindow extends JFrame {
 					password = cpwPasswordTextField.getText();
 				}
 				System.out.println("about to send new party info to server");
-	//				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
+					client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
 				
 				//user.st.createParty(p);
 				
@@ -768,64 +768,64 @@ public class SelectionWindow extends JFrame {
 	
 	
 	//CITE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JScrollPane/Create_custom_JScrollBar_for_JScrollPane.htm
-	public class MyScrollBarUI extends BasicScrollBarUI {
-
-		private final Dimension d = new Dimension();
-		
-		  @Override
-		  protected JButton createDecreaseButton(int orientation) {
-		    return new JButton() {
-		      @Override
-		      public Dimension getPreferredSize() {
-		        return d;
-		      }
-		    };
-		  }
-
-		  @Override
-		  protected JButton createIncreaseButton(int orientation) {
-		    return new JButton() {
-		      @Override
-		      public Dimension getPreferredSize() {
-		        return d;
-		      }
-		    };
-		  }
-
-		  
-	    @Override
-	    protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-	        // your code
-	    }
-
-	    @Override
-	    protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
-	    	  Graphics2D g2 = (Graphics2D) g.create();
-	    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-	    	        RenderingHints.VALUE_ANTIALIAS_ON);
-	    	    Color color = null;
-	    	    JScrollBar sb = (JScrollBar) c;
-	    	    if (!sb.isEnabled() || r.width > r.height) {
-	    	      return;
-	    	    } else if (isDragging) {
-	    	      color = Color.DARK_GRAY;
-	    	    } else if (isThumbRollover()) {
-	    	      color = Color.LIGHT_GRAY;
-	    	    } else {
-	    	      color = Color.GRAY;
-	    	    }
-	    	    g2.setPaint(color);
-	    	    g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
-	    	    g2.setPaint(Color.WHITE);
-	    	    g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
-	    	    g2.dispose();
-	    }
-	    
-	    @Override
-	    protected void setThumbBounds(int x, int y, int width, int height) {
-	      super.setThumbBounds(x, y, width, height);
-	      scrollbar.repaint();
-	    }
-	}
+//	public class MyScrollBarUI extends BasicScrollBarUI {
+//
+//		private final Dimension d = new Dimension();
+//		
+//		  @Override
+//		  protected JButton createDecreaseButton(int orientation) {
+//		    return new JButton() {
+//		      @Override
+//		      public Dimension getPreferredSize() {
+//		        return d;
+//		      }
+//		    };
+//		  }
+//
+//		  @Override
+//		  protected JButton createIncreaseButton(int orientation) {
+//		    return new JButton() {
+//		      @Override
+//		      public Dimension getPreferredSize() {
+//		        return d;
+//		      }
+//		    };
+//		  }
+//
+//		  
+//	    @Override
+//	    protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+//	        // your code
+//	    }
+//
+//	    @Override
+//	    protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+//	    	  Graphics2D g2 = (Graphics2D) g.create();
+//	    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+//	    	        RenderingHints.VALUE_ANTIALIAS_ON);
+//	    	    Color color = null;
+//	    	    JScrollBar sb = (JScrollBar) c;
+//	    	    if (!sb.isEnabled() || r.width > r.height) {
+//	    	      return;
+//	    	    } else if (isDragging) {
+//	    	      color = Color.DARK_GRAY;
+//	    	    } else if (isThumbRollover()) {
+//	    	      color = Color.LIGHT_GRAY;
+//	    	    } else {
+//	    	      color = Color.GRAY;
+//	    	    }
+//	    	    g2.setPaint(color);
+//	    	    g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+//	    	    g2.setPaint(Color.WHITE);
+//	    	    g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+//	    	    g2.dispose();
+//	    }
+//	    
+//	    @Override
+//	    protected void setThumbBounds(int x, int y, int width, int height) {
+//	      super.setThumbBounds(x, y, width, height);
+//	      scrollbar.repaint();
+//	    }
+//	}
 
 }

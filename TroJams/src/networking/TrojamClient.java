@@ -59,7 +59,7 @@ public class TrojamClient extends Thread{
 			e.printStackTrace();
 		}
 		System.out.println("sent stuff");
-		this.start();
+		//this.start();
 	}
 	
 	@Override

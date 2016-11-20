@@ -36,7 +36,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import frames.PartyWindow.SingleSongPanel;
-import frames.SelectionWindow.MyScrollBarUI;
+//import frames.SelectionWindow.MyScrollBarUI;
 import logic.Party;
 import logic.PartySong;
 import logic.User;
