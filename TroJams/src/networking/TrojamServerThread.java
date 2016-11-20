@@ -51,6 +51,9 @@ public class TrojamServerThread extends Thread{
 				} else if (obj instanceof Message) {
 					Message message = (Message) obj;
 					trojamServer.sendMessage(message);
+				} else if (obj instanceof LoginMessage) {
+					System.out.println("login message received by serverthread");
+					boolean goodLogin = trojamServer.authenticateLogin((LoginMessage)obj );
 				}
 			}
 		} 
