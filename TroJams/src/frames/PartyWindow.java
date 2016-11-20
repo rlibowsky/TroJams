@@ -39,6 +39,7 @@ public class PartyWindow extends JPanel {
 	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, bottomButtonPanel;
 	private JScrollPane songScrollPane;
 	private ImageIcon backgroundImage;
+	DefaultListModel <SingleSongPanel> df;
 	private JTextArea hostLabel;
 	//private ArrayList <SingleSongPanel> songs;
 	private Party party;
@@ -214,7 +215,8 @@ public class PartyWindow extends JPanel {
 		centerPanel.add(currentlyPlayingPanel, BorderLayout.NORTH);
 		listModel = new DefaultListModel<SingleSongPanel>();
 
-		songList = new JList<SingleSongPanel>(listModel);
+		df = new DefaultListModel<>();
+		songList = new JList<SingleSongPanel>(df);
 		songList.setLayout(new FlowLayout());
 		//setSongs();
 		
@@ -345,7 +347,7 @@ public class PartyWindow extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchBar.getText(), 0.0));
-				((DefaultListModel<SingleSongPanel>)songList.getModel()).addElement(ssp);
+				df.addElement(ssp);
 				//listModel.addElement(ssp);
 				System.out.println(songList.getModel().getSize());
 				revalidate();
