@@ -65,7 +65,7 @@ public class SelectionWindow extends JFrame {
 	private JTextField cpwPasswordTextField;
 	private JRadioButton cpwPublicRadioButton;
 	private JRadioButton cpwPrivateRadioButton;
-	private JButton cpwCreateButton;
+	private JButton cpwCreateButton, cpwBackButton;
 	private JLabel imageLabel, imageText;
 	private ImageIcon partyImage;
 	private String imageFilePath;
@@ -149,6 +149,12 @@ public class SelectionWindow extends JFrame {
 		cpwCreateButton.setContentAreaFilled(false);
 		cpwCreateButton.setBorderPainted(false);
 		cpwCreateButton.setOpaque(false);
+		cpwBackButton = new JButton();
+		ImageIcon bButtonImage = new ImageIcon("images/button_create-a-party.png");
+		cpwBackButton.setIcon(bButtonImage);
+		cpwBackButton.setContentAreaFilled(false);
+		cpwBackButton.setBorderPainted(false);
+		cpwBackButton.setOpaque(false);
 		
 		fileChooser = new JFileChooser();
 		imageText = new JLabel("Click to upload a party picture");
@@ -453,7 +459,7 @@ public class SelectionWindow extends JFrame {
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(cpwPublicRadioButton);
 		bg.add(cpwPrivateRadioButton);
-		cpwPrivateRadioButton.setSelected(true);
+		cpwPublicRadioButton.setSelected(true);
 		
 		// Adds radio buttons horizontally
 		cpwRadioButtonPanel.setLayout(new BoxLayout(cpwRadioButtonPanel, BoxLayout.X_AXIS));
@@ -467,6 +473,7 @@ public class SelectionWindow extends JFrame {
 		//cpwBottomPanel.add(cpwPasswordTextField);
 		cpwBottomPanel.add(tempPanel1);
 		JPanel tempPanel2 = new JPanel();
+		tempPanel2.add(cpwBackButton);
 		tempPanel2.add(cpwCreateButton);
 		//cpwBottomPanel.add(cpwCreateButton);
 		cpwBottomPanel.add(tempPanel2);
