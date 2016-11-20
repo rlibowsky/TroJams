@@ -1,6 +1,7 @@
 package frames;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -104,12 +105,16 @@ public class CreateAccountWindow extends JFrame {
 			}
 		});
 		
+		
+		
 		usernameTextField= new JTextField();
 		passwordTextField= new JTextField();
 		firstNameTextField= new JTextField();
 		lastNameTextField= new JTextField();
 		infoLabel = new JLabel("Welcome to TroJams!");
+		infoLabel.setForeground(Color.white);
 		instructionsLabel = new JLabel("Please enter your information");
+		instructionsLabel.setForeground(Color.white);
 		imageLabel = new JLabel();
 		fileChooser = new JFileChooser();
 		submitButton = new JButton();
@@ -119,8 +124,6 @@ public class CreateAccountWindow extends JFrame {
 		submitButton.setBorderPainted(false);
 		submitButton.setContentAreaFilled(false);
 		imageText = new JLabel("Click to upload a profile picture");
-		
-		
 	}
 	
 	private void createGUI(){
@@ -157,10 +160,13 @@ public class CreateAccountWindow extends JFrame {
 		credentialsPanel.setLayout(new BorderLayout());
 		credentialsPanel.add(firstNameTextField, BorderLayout.NORTH);
 		credentialsPanel.add(lastNameTextField, BorderLayout.SOUTH);
+		credentialsPanel.setOpaque(false);
+		
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new BorderLayout());
 		namePanel.add(usernameTextField, BorderLayout.NORTH);
 		namePanel.add(passwordTextField, BorderLayout.SOUTH);
+		namePanel.setOpaque(false);
 		
 		textFieldPanel.setLayout(new BorderLayout());
 		textFieldPanel.add(credentialsPanel, BorderLayout.NORTH);
@@ -171,6 +177,10 @@ public class CreateAccountWindow extends JFrame {
 		setUserImage("images/silhouette.png");
 		AppearanceSettings.addGlue(bottomPanel, BoxLayout.LINE_AXIS, true, imageLabel, submitButton);
 		submitButton.setEnabled(false);
+		
+		infoPanel.setOpaque(false);
+		textFieldPanel.setOpaque(false);
+		bottomPanel.setOpaque(false);
 		
 		add(infoPanel, BorderLayout.NORTH);
 		add(textFieldPanel, BorderLayout.CENTER);
