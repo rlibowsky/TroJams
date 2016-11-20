@@ -47,7 +47,7 @@ public class CreateAccountWindow extends JFrame {
 	private JFileChooser fileChooser;
 	
 	public CreateAccountWindow(User newUser, LoginScreenWindow loginScreenWindow){
-		super("Create Account");
+		super("TroJams");
 		this.newUser = newUser;
 		this.loginScreenWindow = loginScreenWindow;
 		initializeComponents();
@@ -125,7 +125,8 @@ public class CreateAccountWindow extends JFrame {
 	}
 	
 	private void createGUI(){
-		setSize(700, 600);
+		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
+		setLocation(100,100);
 		setLayout(new BorderLayout());
 		JPanel infoPanel = new JPanel();
 		JPanel textFieldPanel = new JPanel();
@@ -204,7 +205,6 @@ public class CreateAccountWindow extends JFrame {
 			 File outputfile = new File("profilePictures/silhouette - " + newUser.getUsername() + ".png");
 			ImageIO.write(image1, "png", outputfile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 	}
