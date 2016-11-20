@@ -88,7 +88,7 @@ public class PartyWindow extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 //					PartyWindow.this.party.upvoteSong(ps);
 					votesLabel.setText(Integer.toString(ps.getVotes()));
-					setSongs();
+					//setSongs();
 				}
 				
 			});
@@ -100,7 +100,7 @@ public class PartyWindow extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 //					PartyWindow.this.party.downvoteSong(ps);
 					votesLabel.setText(Integer.toString(ps.getVotes()));
-					setSongs();
+					//setSongs();
 				}
 				
 			});
@@ -217,7 +217,7 @@ public class PartyWindow extends JPanel {
 		
 		songList = new JList<SingleSongPanel>();
 		songList.setLayout(new FlowLayout());
-		setSongs();
+		//setSongs();
 		
 		// Initializing components for add song panel 
 		addNewSongButton = new JButton();
@@ -261,28 +261,28 @@ public class PartyWindow extends JPanel {
 	
 	//create the panel that shows songs in order of votes, called when partywindow is created
 	//and whenever someone upvotes or downvotes a song
-	public void setSongs() {
-		if (songList != null) {
-			songList.removeAll();
-		} else {
-			songList = new JList <SingleSongPanel>();
-		}
-		//add songs in party to songs arraylist
-//		for (PartySong ps : party.getSongs()) {
-//			SingleSongPanel ssp = new SingleSongPanel(ps);
-//			//songs.add(ssp);
-//			songList.add(ssp);
+//	public void setSongs() {
+//		if (songList != null) {
+//			songList.removeAll();
+//		} else {
+//			songList = new JList <SingleSongPanel>();
 //		}
-		
-		//set at least 10
-		if (songList.getVisibleRowCount()< 10) {
-			for (int i = 0; i < 10-songList.getVisibleRowCount(); i ++) {
-				SingleSongPanel ssp = new SingleSongPanel(new PartySong("", 0.0));
-				songList.add(ssp);
-			}
-		}
-		revalidate();
-	}
+//		//add songs in party to songs arraylist
+////		for (PartySong ps : party.getSongs()) {
+////			SingleSongPanel ssp = new SingleSongPanel(ps);
+////			//songs.add(ssp);
+////			songList.add(ssp);
+////		}
+//		
+//		//set at least 10
+//		if (songList.getVisibleRowCount()< 10) {
+//			for (int i = 0; i < 10-songList.getVisibleRowCount(); i ++) {
+//				SingleSongPanel ssp = new SingleSongPanel(new PartySong("", 0.0));
+//				songList.add(ssp);
+//			}
+//		}
+//		revalidate();
+//	}
 	
 	public void createGUI() {
 		setSize(1280, 800);
@@ -332,7 +332,7 @@ public class PartyWindow extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setSongs();
+				//setSongs();
 			}
 			
 		});
@@ -341,7 +341,9 @@ public class PartyWindow extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					
+				SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchBar.getText(), 0.0));
+				songList.add(ssp);
+				revalidate();
 			}
 			
 		});
