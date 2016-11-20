@@ -379,7 +379,7 @@ public class SelectionWindow extends JFrame {
 				// CHANGE TO PARTY WINDOW
 				String pName = cpwPartyNameTextField.getText();
 				ImageIcon pImage = (ImageIcon) imageLabel.getIcon();
-				//Party p = null;
+//				Party p = null;
 //				if(cpwPublicRadioButton.isSelected()){
 //					p = new PublicParty(pName, user, pImage);
 //				}
@@ -387,7 +387,7 @@ public class SelectionWindow extends JFrame {
 //					String password = cpwPasswordTextField.getText();
 //					p = new PrivateParty(pName, password, user, pImage);
 //				}
-//				
+				
 				//ADD TO PARTIES LIST
 				
 				String password = "";
@@ -398,7 +398,7 @@ public class SelectionWindow extends JFrame {
 				
 				//user.st.createParty(p);
 				
-				PartyWindow pw = new PartyWindow(p, sw);
+				PartyWindow pw = new PartyWindow(null, sw);
 				cards.add(pw, "party window");
 				CardLayout cl = (CardLayout) cards.getLayout();
 				cl.show(cards, "party window");		
