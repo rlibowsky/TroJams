@@ -1,8 +1,14 @@
 package logic;
 
+import java.io.Serializable;
+
 //regular song, gets uploaded to playlists but not parties!
-public class Song {
+public class Song implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private double length;
 	

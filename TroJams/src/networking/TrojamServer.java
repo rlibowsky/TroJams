@@ -40,19 +40,19 @@ public class TrojamServer extends Thread{
 		}
 	}
 	
-	public void sendToHost(Party p, Message message) {
-		p.getHost().st.sendMessage(message);
-	}
-	
-	public void sendToGuests(Party p, Message message) {
-		for (Account act : p.getPartyMembers()) {
-			act.st.sendMessage(message);
-		}
-	}
+//	public void sendToHost(Party p, Message message) {
+//		p.getHost().st.sendMessage(message);
+//	}
+//	
+//	public void sendToGuests(Party p, Message message) {
+//		for (Account act : p.getPartyMembers()) {
+//			act.st.sendMessage(message);
+//		}
+//	}
 	
 	public void sendMessage(Message message){
 		for (TrojamServerThread currentThread : trojamServerThreads){
-			if (currentThread != null) currentThread.sendMessage((Message)message);
+			if (currentThread != null) currentThread.sendMessage(message);
 		}
 	}
 	
@@ -62,11 +62,13 @@ public class TrojamServer extends Thread{
 		System.out.println("adding a party");
 		Party p;
 		if (pm.getPartyPassword().length() == 0) {
+			System.out.println("sending public party");
 			p = new PublicParty(pm.getPartyName(), user, null);
 			parties.add(p);
 			sendMessage(new PartyMessage("newParty", p));
 		}
 		else {
+			System.out.println("sending private party");
 			p = new PrivateParty(pm.getPartyName(), pm.getPartyPassword(), user, null);
 			parties.add(p);
 			sendMessage(new PartyMessage("newParty", p));

@@ -3,6 +3,10 @@ package logic;
 //to be added to song queues for parties
 public class PartySong extends Song{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int votes;
 
 	public PartySong(String name, double length) {

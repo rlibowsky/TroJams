@@ -22,7 +22,7 @@ public class TrojamClient extends Thread{
 		try {
 			s = new Socket(IPAddress, port);
 			oos = new ObjectOutputStream(s.getOutputStream());
-			oos.flush();
+			//oos.flush();
 			ois = new ObjectInputStream(s.getInputStream());
 			//before we enter the run method, we want to send our account
 			oos.writeObject(account);

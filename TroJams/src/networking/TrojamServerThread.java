@@ -41,7 +41,7 @@ public class TrojamServerThread extends Thread{
 				 if (obj instanceof Account) {
 					 System.out.println("received account");
 					this.account = (Account) obj;
-					this.account.st = this;
+					//this.account.st = this;
 				} else if (obj instanceof NewPartyMessage) {
 					System.out.println("new party received by serverthread");
 					NewPartyMessage pm = (NewPartyMessage) obj;
@@ -61,11 +61,14 @@ public class TrojamServerThread extends Thread{
 		try {
 			System.out.println("sending a message with name : " + message.getName());
 			oos.reset();
+			System.out.println("1");
 			oos.writeObject(message);
+			System.out.println("2");
 			oos.flush();
 			System.out.println("message was sent to client");
 		} catch (IOException e) {
-			System.out.println("exception in sendMessage in server: " + e.getMessage());
+			//e.printStackTrace();
+			System.out.println("exception in sendMessage in server: " + e.getMessage() + " " + e.getLocalizedMessage());
 		}
 	}
 

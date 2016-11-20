@@ -352,7 +352,7 @@ public class LoginScreenWindow extends JFrame {
 					Class.forName("com.mysql.jdbc.Driver");
 					conn = DriverManager.getConnection("jdbc:mysql://localhost/StudentGrades?user=root&password=root&userSSL=false");
 					st = conn.createStatement();
-					String firstName = "Sheldon";
+					//String firstName = "Sheldon";
 					rs = st.executeQuery("SELECT username, password  FROM Users.User WHERE username = '"+usernameString+ 
 							"' AND password = '"+passwordString+"'");
 	
