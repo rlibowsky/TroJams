@@ -26,13 +26,11 @@ public abstract class Party implements Serializable{
 		this.partyName = partyName;
 		this.host = host;
 		partyMembers = new HashSet<Account>();
+		partyImage = new ImageIcon("images/party-purple.jpg");
 	}
 	
 	public Party (String partyName, User host, ImageIcon i) {
 		this(partyName, host);
-		if (i == null) {
-			i = new ImageIcon("images/party-purple.jpg");
-		}
 		this.partyImage = i;
 		
 	}
