@@ -387,7 +387,7 @@ public class SelectionWindow extends JFrame {
 		cpwBackButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cl.show(cards, "party window");		
+				cl.show(cards, "selection window");		
 			}
 		});
 		
