@@ -297,7 +297,7 @@ public class LoginScreenWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {			
 				//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES to pass into new selection window
 
-				new SelectionWindow(new User("Guest", "Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), ).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+				new SelectionWindow(new User("Guest", "Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), null).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 					//create account window can call insertUserIntoDB 
 				dispose();
 			}
