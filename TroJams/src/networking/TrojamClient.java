@@ -5,18 +5,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import frames.SelectionWindow;
 import logic.Account;
-import logic.Party;
 
 public class TrojamClient extends Thread{
 	private Account account;
 	private Socket s;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
-	private Party party;
+	private SelectionWindow sw;
 
-	public TrojamClient(Account account, String IPAddress, int port) {
+	public TrojamClient(Account account, String IPAddress, int port, SelectionWindow sw) {
 		this.account = account;
+		this.sw = sw;
 		try {
 			s = new Socket(IPAddress, port);
 			oos = new ObjectOutputStream(s.getOutputStream());
@@ -41,8 +42,22 @@ public class TrojamClient extends Thread{
 			if (obj instanceof StringMessage) {
 				StringMessage message = (StringMessage) obj;
 				parseStringMessage(message);
+			} else if (obj instanceof PartyMessage) {
+				PartyMessage pm = (PartyMessage) obj;
+				if (pm.getName().equals("newParty")) {
+					sw.addNewParty(pm.getParty());
+				}
 			}
 		} catch (ClassNotFoundException | IOException e) {}
+	}
+	
+	public void sendNewPartyMessage(NewPartyMessage npm) {
+		try {
+			oos.writeObject(npm);
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	//handle string messages sent to the client

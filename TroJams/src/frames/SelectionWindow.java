@@ -41,9 +41,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import listeners.TextFieldFocusListener;
 import logic.Party;
-import logic.PrivateParty;
-import logic.PublicParty;
 import logic.User;
+import networking.NewPartyMessage;
+import networking.TrojamClient;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
@@ -78,12 +78,14 @@ public class SelectionWindow extends JFrame {
 	private ImageIcon profileIcon;
 	private ArrayList <Party> currentParties;
 	private SelectionWindow sw;
+	private TrojamClient client;
 		
-	public SelectionWindow(User user, ArrayList<Party> parties){
+	public SelectionWindow(User user, ArrayList<Party> parties, TrojamClient client){
 		super("TroJams");
 		this.user = user;
 		sw = this;
 		this.currentParties = parties;
+		this.client = client;
 		if (currentParties == null) {
 			System.out.println("No parties :(");
 			currentParties = new ArrayList<Party> ();
@@ -91,6 +93,11 @@ public class SelectionWindow extends JFrame {
 		initializeComponents();
 		createGUI();
 		addActionListeners();
+	}
+	
+	public void addNewParty(Party p) {
+		currentParties.add(p);
+		setParties();
 	}
 
 	private void initializeComponents(){
@@ -371,23 +378,29 @@ public class SelectionWindow extends JFrame {
 				// CHANGE TO PARTY WINDOW
 				String pName = cpwPartyNameTextField.getText();
 				ImageIcon pImage = (ImageIcon) imageLabel.getIcon();
-				Party p = null;
-				if(cpwPublicRadioButton.isSelected()){
-					p = new PublicParty(pName, user, pImage);
-				}
-				else if(cpwPrivateRadioButton.isSelected()){
-					String password = cpwPasswordTextField.getText();
-					p = new PrivateParty(pName, password, user, pImage);
-				}
-				
+				//Party p = null;
+//				if(cpwPublicRadioButton.isSelected()){
+//					p = new PublicParty(pName, user, pImage);
+//				}
+//				else if(cpwPrivateRadioButton.isSelected()){
+//					String password = cpwPasswordTextField.getText();
+//					p = new PrivateParty(pName, password, user, pImage);
+//				}
+//				
 				//ADD TO PARTIES LIST
-				currentParties.add(p);
-				setParties();
-				user.st.createParty(p);
-				PartyWindow pw = new PartyWindow(p, sw);
-				cards.add(pw, "party window");
-				CardLayout cl = (CardLayout) cards.getLayout();
-				cl.show(cards, "party window");		
+				
+				String password = "";
+				if (cpwPrivateRadioButton.isSelected()) {
+					password = cpwPasswordTextField.getText();
+				}
+				client.sendNewPartyMessage(new NewPartyMessage(pName, pName, password));
+				
+				//user.st.createParty(p);
+				
+//				PartyWindow pw = new PartyWindow(p, sw);
+//				cards.add(pw, "party window");
+//				CardLayout cl = (CardLayout) cards.getLayout();
+//				cl.show(cards, "party window");		
 				
 				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
 				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
@@ -540,17 +553,17 @@ public class SelectionWindow extends JFrame {
 	}
 
 	public static void main(String [] args) {
-		User user = new User("username", "password");
-		Image image = new ImageIcon("images/party-purple.jpg").getImage();
-		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-		PrivateParty p1 = new PrivateParty("party1", "password1", user, tempImage);
-		PrivateParty p2 = new PrivateParty("party2", "password2", user, tempImage);
-		PublicParty p3 = new PublicParty("party3", user, tempImage);
-		ArrayList <Party> parties = new ArrayList <Party>();
-		parties.add(p1);
-		parties.add(p2);
-		parties.add(p3);
-		new SelectionWindow(user, parties).setVisible(true);
+//		User user = new User("username", "password");
+//		Image image = new ImageIcon("images/party-purple.jpg").getImage();
+//		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+//		PrivateParty p1 = new PrivateParty("party1", "password1", user, tempImage);
+//		PrivateParty p2 = new PrivateParty("party2", "password2", user, tempImage);
+//		PublicParty p3 = new PublicParty("party3", user, tempImage);
+//		ArrayList <Party> parties = new ArrayList <Party>();
+//		parties.add(p1);
+//		parties.add(p2);
+//		parties.add(p3);
+//		new SelectionWindow(user, parties).setVisible(true);
 	}
 	
 	

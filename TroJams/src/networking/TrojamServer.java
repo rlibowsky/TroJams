@@ -60,18 +60,18 @@ public class TrojamServer extends Thread{
 		TrojamServer tjs = new TrojamServer(1111);
 	}
 
-	public void addParty(User user, String partyName, String partyPassword) {
+	public void addParty(User user, NewPartyMessage pm) {
 		System.out.println("adding a party");
 		Party p;
-		if (partyPassword.length() == 0) {
-			p = new PublicParty(partyName, user, null);
+		if (pm.getPartyPassword().length() == 0) {
+			p = new PublicParty(pm.getPartyName(), user, null);
 			parties.add(p);
-			sendMessage(new PartyMessage("newParty", partyName, partyPassword));
+			sendMessage(new PartyMessage("newParty", p));
 		}
 		else {
-			p = new PrivateParty(partyName, partyPassword, user, null);
+			p = new PrivateParty(pm.getPartyName(), pm.getPartyPassword(), user, null);
 			parties.add(p);
-			sendMessage(new PartyMessage("newParty", partyName, partyPassword));
+			sendMessage(new PartyMessage("newParty", p));
 		}
 	}
 }
