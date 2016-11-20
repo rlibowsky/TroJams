@@ -33,7 +33,7 @@ import networking.TrojamClient;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
-public class CreateAccountWindow extends JFrame {
+public class CreateAccountWindow extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private User newUser;
@@ -50,7 +50,7 @@ public class CreateAccountWindow extends JFrame {
 	private TrojamClient client;
 	
 	public CreateAccountWindow(User newUser, LoginScreenWindow loginScreenWindow, TrojamClient client){
-		super("TroJams");
+		super();
 		this.newUser = newUser;
 		this.client = client;
 		this.loginScreenWindow = loginScreenWindow;
@@ -105,21 +105,23 @@ public class CreateAccountWindow extends JFrame {
 				SelectionWindow sw = new SelectionWindow(newUser, null, client);
 				client.setSelectionWindow(sw);
 				sw.setVisible(true);
+				loginScreenWindow.dispose();
 			}
 		});
 	}
 
 
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Image image = new ImageIcon("images/backgroundImage.png").getImage();
+		backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
+		g.drawImage(image, 0, 0, 1280, 800, this);
+	};
+	
+	
 	private void initializeComponents(){
-		
-		this.setContentPane(new JPanel() {
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Image image = new ImageIcon("images/backgroundImage.png").getImage();
-				backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
-				g.drawImage(image, 0, 0, 1280, 800, this);
-			}
-		});
+	
 		
 		usernameTextField= new JTextField();
 		passwordTextField= new JTextField();

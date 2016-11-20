@@ -1,6 +1,7 @@
 package frames;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -38,6 +39,8 @@ import resources.Util;
 
 public class LoginScreenWindow extends JFrame {
 
+	private JPanel mainPanel, cards;
+	private CardLayout cl;
 	private JButton loginButton;
 	private JButton guestButton;
 	private JButton createAccount;
@@ -104,11 +107,14 @@ public class LoginScreenWindow extends JFrame {
 		Image image = new ImageIcon("images/TroJamsLogo4.png").getImage();
 		ImageIcon logoImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 		logoLabel = new JLabel(logoImage);
+		
+		cards = new JPanel(new CardLayout());
+
 	}
 	
 	private void createGUI(){
 		
-		JPanel mainPanel = new JPanel();
+		mainPanel = new JPanel();
 		JPanel textFieldOnePanel = new JPanel();
 		JPanel textFieldTwoPanel = new JPanel();
 		JLabel welcome = new JLabel("", JLabel.CENTER);
@@ -135,7 +141,7 @@ public class LoginScreenWindow extends JFrame {
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, password, alertLabel, username, loginButton, createAccount, guestButton);
 		
 		AppearanceSettings.setNotOpaque(mainPanel, welcome, alertLabel, TroJamsLabel, alertPanel, textFieldsPanel,
-				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel);
+				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel, cards);
 
 
 		//other appearance settings
@@ -174,9 +180,16 @@ public class LoginScreenWindow extends JFrame {
 		logoPanel.setOpaque(false);
 		
 		mainPanel.add(logoPanel);
-		add(mainPanel, BorderLayout.CENTER);
+		cards.add(mainPanel, "main window");
+		//CreateAccountWindow caw = new CreateAccountWindow(this, client);
+		//cards.add(caw, "create account window");
+		add(cards, BorderLayout.CENTER);
 		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
 		setLocation(100,100);
+	}
+
+	public void dispose() {
+		this.dispose();
 	}
 	
 	//returns whether the buttons should be enabled
@@ -286,9 +299,12 @@ public class LoginScreenWindow extends JFrame {
 				//fill in the rest of the info about the user.
 				else{
 					User newUser = new User(usernameString, passwordString);
-					new CreateAccountWindow(newUser, LoginScreenWindow.this, client).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
-						//create account window can call insertUserIntoDB 
-					dispose();
+					CreateAccountWindow caw = new CreateAccountWindow(newUser, LoginScreenWindow.this, client); //Pass in user and this GUI so that when the user is created, the 
+						//create account window can call insertUserIntoDB
+					cl = (CardLayout) cards.getLayout();
+					cards.add(caw, "create account window");
+					cl.show(cards, "create account window");
+					//dispose();
 				}
 				
 			}
