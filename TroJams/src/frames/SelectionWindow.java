@@ -410,7 +410,7 @@ public class SelectionWindow extends JFrame {
 					password = cpwPasswordTextField.getText();
 				}
 				System.out.println("about to send new party info to server");
-				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
+				//client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
 				
 				//user.st.createParty(p);
 				
@@ -469,7 +469,6 @@ public class SelectionWindow extends JFrame {
 		bg.add(cpwPublicRadioButton);
 		bg.add(cpwPrivateRadioButton);
 		cpwPublicRadioButton.setSelected(true);
-		cpwPasswordTextField.setVisible(false);
 
 		
 		// Adds radio buttons horizontally
