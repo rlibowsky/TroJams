@@ -259,6 +259,7 @@ public class SelectionWindow extends JFrame {
 		partyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
 		partyScrollPane.setOpaque(false);
 		partyScrollPane.getViewport().setOpaque(false);
+		partyScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		//partyScrollPane.getVerticalScrollBar().setPreferredSize (new Dimension(0,0));
 		swMainPanel.add(partyScrollPane, BorderLayout.CENTER);
 
@@ -278,7 +279,7 @@ public class SelectionWindow extends JFrame {
 		
 		ProfilePanel profilePanel = new ProfilePanel(user);
 		profilePanel.setOpaque(false);
-		swMainPanel.add(profilePanel, BorderLayout.EAST);
+		swMainPanel.add(profilePanel, BorderLayout.WEST);
 		
 	}
 	
@@ -389,6 +390,12 @@ public class SelectionWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cl.show(cards, "selection window");		
+				
+				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
+				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
+				
+				cpwPublicRadioButton.setSelected(true);
+				cpwPasswordTextField.setVisible(false);
 			}
 		});
 		
@@ -426,7 +433,8 @@ public class SelectionWindow extends JFrame {
 				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
 				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
 				
-				
+				cpwPublicRadioButton.setSelected(true);
+				cpwPasswordTextField.setVisible(false);
 				
 			}		
 		});
@@ -473,7 +481,8 @@ public class SelectionWindow extends JFrame {
 		bg.add(cpwPublicRadioButton);
 		bg.add(cpwPrivateRadioButton);
 		cpwPublicRadioButton.setSelected(true);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, cpwPublicRadioButton, cpwPrivateRadioButton, imageLabel, cpwPartyNameTextField);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, cpwPublicRadioButton, 
+				cpwPrivateRadioButton, imageLabel, cpwPartyNameTextField, cpwPasswordTextField, imageText);
 		
 		// Adds radio buttons horizontally
 		cpwRadioButtonPanel.setLayout(new BoxLayout(cpwRadioButtonPanel, BoxLayout.X_AXIS));
