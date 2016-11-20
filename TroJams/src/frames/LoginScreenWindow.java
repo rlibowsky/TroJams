@@ -253,7 +253,6 @@ public class LoginScreenWindow extends JFrame {
 					}
 					//login successful - GO TO MAIN TROJAMS WINDOW
 					else{
-						new TrojamClient(new User("testUser", "testPassword"), "localhost", 1111);
 						new SelectionWindow(user, null).setVisible(true);
 						dispose();
 					}
