@@ -7,8 +7,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,6 +23,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
@@ -33,13 +36,17 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import listeners.TextFieldFocusListener;
 import logic.Party;
@@ -74,6 +81,7 @@ public class SelectionWindow extends JFrame {
 	private ImageIcon partyImage;
 	private String imageFilePath;
 	private JFileChooser fileChooser;
+	private JPanel swRightPanel;
 	
 	private CardLayout cl;
 	
@@ -116,6 +124,10 @@ public class SelectionWindow extends JFrame {
 				g.drawImage(image, 0, 0, 1280, 800, this);
 			}
 		});  	
+		
+		swRightPanel = new JPanel();
+		swRightPanel.setLayout(new BoxLayout(swRightPanel, BoxLayout.PAGE_AXIS));
+		swRightPanel.setOpaque(false);
 		
 		swMainPanel = new JPanel();
 		swMainPanel.setLayout(new BorderLayout());
@@ -257,6 +269,8 @@ public class SelectionWindow extends JFrame {
 	
 	// creates the main panel
 	private void createSWPanel() {
+		
+		
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH*(4/5), AppearanceConstants.GUI_HEIGHT, swMainPanel);
 		
 		
@@ -269,9 +283,14 @@ public class SelectionWindow extends JFrame {
 		partyScrollPane.setOpaque(false);
 		partyScrollPane.getViewport().setOpaque(false);
 		partyScrollPane.setBorder(BorderFactory.createEmptyBorder());
+		
+		//custom scroll bar
+		partyScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
+		UIManager.put("ScrollBarUI", "my.package.MyScrollBarUI");
+		
 		//partyScrollPane.getVerticalScrollBar().setPreferredSize (new Dimension(0,0));
-		swMainPanel.add(partyScrollPane, BorderLayout.CENTER);
-
+		swRightPanel.add(partyScrollPane);
+		
 		// getting the panel that holds the "create a party" button
 		JPanel topPanel = new JPanel();
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, createAPartyButton);
@@ -284,7 +303,9 @@ public class SelectionWindow extends JFrame {
 		topPanel.setOpaque(false);
 		AppearanceSettings.setBackground(Color.WHITE, topPanel);
 		topPanel.setOpaque(false);
-		swMainPanel.add(topPanel, BorderLayout.SOUTH);
+		
+		swRightPanel.add(topPanel);
+		swMainPanel.add(swRightPanel, BorderLayout.CENTER);
 		
 		ProfilePanel profilePanel = new ProfilePanel(user);
 		profilePanel.setOpaque(false);
@@ -303,11 +324,13 @@ public class SelectionWindow extends JFrame {
 		private boolean isPublic;
 		
 		public SinglePartyPanel (Party p) {
-			AppearanceSettings.setSize(600, 100, this);
+			//AppearanceSettings.setSize(600, 100, this);
 			this.party = p;
 			isPublic = (p instanceof PublicParty);
-			setLayout(new GridLayout(1,4));
-			hostLabel = new JLabel(party.getHostName());
+			//setLayout(new GridLayout(1,4));
+			this.setOpaque(false);
+			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			hostLabel = new JLabel("Host: " + party.getHostName());
 			AppearanceSettings.setFont(AppearanceConstants.fontMedium, hostLabel);
 			partyImageIcon = party.getPartyImage();
 			partyIconLabel = new JLabel(partyImageIcon);
@@ -315,7 +338,9 @@ public class SelectionWindow extends JFrame {
 			Image image = new ImageIcon(party.getHost().getImageFilePath()).getImage();
 			ImageIcon img = new ImageIcon(image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
 			hostImageLabel.setIcon(img);
-			partyButton = new JButton(party.getPartyName());
+			hostImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			hostImageLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			partyButton = new JButton("Join: " + party.getPartyName());
 			
 			partyButton.addActionListener(new ActionListener() {
 				@Override
@@ -348,9 +373,9 @@ public class SelectionWindow extends JFrame {
 			});
 			AppearanceSettings.setForeground(Color.white, hostLabel);
 			AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, partyButton);
-			AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, partyButton, hostLabel);
+			//AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, partyButton, hostLabel);
 			AppearanceSettings.setSize(100, 40, partyButton, hostLabel);
-			AppearanceSettings.setOpaque(partyButton, hostLabel);
+			AppearanceSettings.setNotOpaque(partyButton, hostLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontSmall, partyButton, hostLabel);
 
 			add(partyIconLabel);
@@ -648,23 +673,58 @@ public class SelectionWindow extends JFrame {
 	private class ProfilePanel extends JPanel{
 		
 		ImageIcon profilePic;
-		JLabel profileName;
+		JLabel profileName, dummyLabel;
 		JLabel profileUserName;
 		User user;
-		JScrollPane suggestedSongs;
+		JScrollPane userHistorySP;
 		JTextArea partiesTextArea;
-		JScrollPane joinedParties;
 		JButton logout;
+		JLabel profilePanelTitle;
 		
 		public ProfilePanel(User user){
 			this.user = user;
 			profilePic = user.getUserImage();
-			profileName = new JLabel(user.getFirstName() + " " + user.getLastName());
-			profileUserName = new JLabel(user.getUsername());
+			
+			profilePanelTitle = new JLabel("Profile Info:");
+			profilePanelTitle.setForeground(Color.white);
+			AppearanceSettings.setFont(AppearanceConstants.fontLarge, profilePanelTitle);
+			
+			dummyLabel = new JLabel(" ");
+			
+			profileName = new JLabel("Name: " + user.getFirstName() + " " + user.getLastName(), SwingConstants.CENTER);
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileName);
+			profileName.setForeground(Color.white);
+			//profileName.setHorizontalAlignment(SwingConstants.CENTER);
+			//profileName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			
+			profileUserName = new JLabel("Username: " + user.getUsername(), SwingConstants.CENTER);
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileUserName);
+			profileUserName.setForeground(Color.white);
+			//profileUserName.setHorizontalAlignment(SwingConstants.CENTER);
+			//profileUserName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			
 			partiesTextArea = new JTextArea(5,20);
-			joinedParties = new JScrollPane(partiesTextArea);
-			for(Party p : user.getParties()){
-				partiesTextArea.append(p.getPartyName() + "\n");
+			partiesTextArea.setOpaque(false);
+			partiesTextArea.setFont(AppearanceConstants.fontMedium);
+			partiesTextArea.setForeground(Color.white);
+			partiesTextArea.append("Party History: ");
+			partiesTextArea.setLineWrap(true);
+			
+			userHistorySP = new JScrollPane(partiesTextArea);
+			userHistorySP.setOpaque(false);
+			userHistorySP.getViewport().setOpaque(false);
+			Border border = BorderFactory.createEmptyBorder( 0, 0, 0, 0 );
+			userHistorySP.setViewportBorder( border );
+			userHistorySP.setBorder( border );
+			
+			if(user.getParties().isEmpty()){
+				partiesTextArea.append("Looks like you haven't joined a party yet. Are you a CS student? You really should talk to Jeffrey Miller about giving you some easier assignments");
+			}
+			
+			else{
+				for(Party p : user.getParties()){
+					partiesTextArea.append(p.getPartyName() + "\n\n");
+				}
 			}
 			
 			logout = new JButton();
@@ -683,10 +743,13 @@ public class SelectionWindow extends JFrame {
 			});
 			
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			//this.add(Box.createVerticalGlue());
+			this.add(profilePanelTitle);
 			this.add(new JLabel(profilePic));
 			this.add(profileName);
 			this.add(profileUserName);
-			this.add(joinedParties);
+			this.add(dummyLabel);
+			this.add(userHistorySP);
 			this.add(logout);
 		}
 		
@@ -703,5 +766,66 @@ public class SelectionWindow extends JFrame {
 	}
 	
 	
+	//CITE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JScrollPane/Create_custom_JScrollBar_for_JScrollPane.htm
+	public class MyScrollBarUI extends BasicScrollBarUI {
+
+		private final Dimension d = new Dimension();
+		
+		  @Override
+		  protected JButton createDecreaseButton(int orientation) {
+		    return new JButton() {
+		      @Override
+		      public Dimension getPreferredSize() {
+		        return d;
+		      }
+		    };
+		  }
+
+		  @Override
+		  protected JButton createIncreaseButton(int orientation) {
+		    return new JButton() {
+		      @Override
+		      public Dimension getPreferredSize() {
+		        return d;
+		      }
+		    };
+		  }
+
+		  
+	    @Override
+	    protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+	        // your code
+	    }
+
+	    @Override
+	    protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+	    	  Graphics2D g2 = (Graphics2D) g.create();
+	    	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+	    	        RenderingHints.VALUE_ANTIALIAS_ON);
+	    	    Color color = null;
+	    	    JScrollBar sb = (JScrollBar) c;
+	    	    if (!sb.isEnabled() || r.width > r.height) {
+	    	      return;
+	    	    } else if (isDragging) {
+	    	      color = Color.DARK_GRAY;
+	    	    } else if (isThumbRollover()) {
+	    	      color = Color.LIGHT_GRAY;
+	    	    } else {
+	    	      color = Color.GRAY;
+	    	    }
+	    	    g2.setPaint(color);
+	    	    g2.fillRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+	    	    g2.setPaint(Color.WHITE);
+	    	    g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
+	    	    g2.dispose();
+	    }
+	    
+	    @Override
+	    protected void setThumbBounds(int x, int y, int width, int height) {
+	      super.setThumbBounds(x, y, width, height);
+	      scrollbar.repaint();
+	    }
+	}
 
 }
+

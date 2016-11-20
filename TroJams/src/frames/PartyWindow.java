@@ -197,7 +197,7 @@ public class PartyWindow extends JPanel {
 		hostPanel.setOpaque(false);
 		currentlyPlayingPanel = new JPanel();
 		currentlyPlayingPanel.setLayout(new GridLayout(1,3));
-		currentlyPlayingLabel = new JLabel("Current Song");
+		currentlyPlayingLabel = new JLabel("Now Playing: ");
 	
 		currentSongName = new JLabel("closer");
 		currentSongTime = new JLabel("3");
