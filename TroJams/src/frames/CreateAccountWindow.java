@@ -69,10 +69,21 @@ public class CreateAccountWindow extends JFrame {
 		usernameTextField.getDocument().addDocumentListener(new MyDocumentListener());
 		passwordTextField.getDocument().addDocumentListener(new MyDocumentListener());
 		
+		this.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		    	CreateAccountWindow caw = (CreateAccountWindow)e.getSource();
+		    	caw.requestFocus();
+		        System.out.println("panel clicked");
+		    }
+		});
+		
 		//image upload
 		imageLabel.addMouseListener(new MouseAdapter() {
 			 @Override
              public void mouseClicked(MouseEvent e) {
+				 JLabel caw = (JLabel)e.getSource();
+			    	caw.requestFocus();
 				fileChooser.showOpenDialog(CreateAccountWindow.this);
 				File f = fileChooser.getSelectedFile();
 				if (f != null) {
