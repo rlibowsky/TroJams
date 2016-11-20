@@ -100,9 +100,8 @@ public class SelectionWindow extends JFrame {
 	}
 	
 	public void addNewParty(Party p) {
-		System.out.println("adding new party");
 		currentParties.add(p);
-		setParties();
+		addParty(p);
 	}
 
 	private void initializeComponents(){
@@ -233,17 +232,17 @@ public class SelectionWindow extends JFrame {
 		pwMainPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
 	}
 	
-	
+	private void addParty(Party p) {
+		SinglePartyPanel spp = new SinglePartyPanel(p);
+		swcurrentParties.add(spp);
+		revalidate();
+	}
 	
 	private void setParties() {
 		System.out.println("setting parties ... " + currentParties.size());
-		if (swcurrentParties == null) {
-			swcurrentParties = new JList<SinglePartyPanel>();
-			swcurrentParties.setLayout(new FlowLayout());
-			swcurrentParties.setVisibleRowCount(10);
-		} else {
-			swcurrentParties.clearSelection();
-		}
+		swcurrentParties = new JList<SinglePartyPanel>();
+		swcurrentParties.setLayout(new FlowLayout());
+		swcurrentParties.setVisibleRowCount(10);
 		//add parties to list
 		
 		for (int i = 0; i < currentParties.size(); i++) {
