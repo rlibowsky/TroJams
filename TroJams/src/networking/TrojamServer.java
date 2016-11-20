@@ -166,19 +166,14 @@ public class TrojamServer extends Thread{
 				if(rs.next()){
 					return false;
 				}else{
-					st.executeUpdate("INSERT INTO Users (Username, Password, First_Name, Last_Name, email) "
+					//inserts values into the db
+					st.executeUpdate("INSERT INTO Users (Username, Password, First_Name, Last_Name, email, filepath_to_pic) "
 							+ "VALUES ('"+usernameString+"', '"+passwordString+"', '"+ cam.getFirstName()+"', '"
 							+ cam.getLastName()+"', '"+ cam.getEmail()+"', '"+ cam.getFilepath() +"')");
+					
+					//saves the file on the machine on the server
 					return true;
 				}
-
-//				if(rs.next()){
-//					return true;
-//
-//				}else{
-//					return false;
-//					///warningLabel.setText("this password and username combination does not exist");
-//				}
 			} catch (SQLException sqle){
 				System.out.println("sqle: " + sqle.getMessage());
 			} catch (ClassNotFoundException cnfe) {

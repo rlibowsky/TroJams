@@ -57,7 +57,7 @@ public class TrojamServerThread extends Thread{
 					CreateAccountMessage cam = (CreateAccountMessage) obj;
 					//returns a boolean of whether or not the account was created
 					boolean accountCreated = trojamServer.createAccount(cam);
-					trojamServer.sendMessageToOne(account, new AccountCreatedMessage(accountCreated));
+					trojamServer.sendMessageToOne(account, new AccountCreatedMessage(accountCreated, cam.getUser()));
 				} else if (obj instanceof Message) {
 					Message message = (Message) obj;
 					trojamServer.sendMessageToAll(message);

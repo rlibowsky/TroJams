@@ -105,9 +105,9 @@ public class CreateAccountWindow extends JPanel {
 				newUser = new User(usernameTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(), imageFilePath);
 				client.createAccount(newUser, passwordTextField.getText());
 				//loginScreenWindow.insertUserIntoDB(newUser);
-				SelectionWindow sw = new SelectionWindow(newUser, null, client);
-				client.setSelectionWindow(sw);
-				sw.setVisible(true);
+//				SelectionWindow sw = new SelectionWindow(newUser, null, client);
+//				client.setSelectionWindow(sw);
+//				sw.setVisible(true);
 				//loginScreenWindow.dispose();
 			}
 		});

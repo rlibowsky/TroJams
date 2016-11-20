@@ -86,7 +86,7 @@ public class TrojamClient extends Thread{
 				} else if(obj instanceof AccountCreatedMessage){
 					System.out.println("client received account created message");
 					AccountCreatedMessage acm = (AccountCreatedMessage) obj;
-					lsw.createAccount(acm.accountCreated());
+					lsw.createAccount(acm.accountCreated(), acm.getUser());
 				}
 			} catch (ClassNotFoundException | IOException e) {}
 		}

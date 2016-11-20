@@ -397,30 +397,19 @@ public class LoginScreenWindow extends JFrame {
 			alertLabel.setText("Wait a second! This username/password combo does not exist.");
 		}
 	}
-	//String usernameString = username.getText();
-//	String passwordString = password.getText();
-//	
-//	//if the username does not exist
-//	if (!existingUsers.containsKey(usernameString)){
-//		alertLabel.setForeground(Color.white);
-//		alertLabel.setText("Wait a second! This username does not exist.");
-//	}
-//	//else if the username exists
-//	else{
-//		User user = existingUsers.get(usernameString);
-//		//if the user gave the wrong password
-//		if (!user.verifyPassword(passwordString)) {
-//			alertLabel.setText("The password you provided does not match our records");
-//		}
-//		//login successful - GO TO MAIN TROJAMS WINDOW
-//		else{
-//			new SelectionWindow(user, null).setVisible(true);
-//			dispose();
-//		}
-//	}
-//}
 
-	public void createAccount(boolean accountCreated) {
+
+	public void createAccount(boolean accountCreated, User newUser) {
+		//TODO do the createAccountStuff
 		System.out.println("made it back: " + accountCreated);
+		if(accountCreated){
+			SelectionWindow sw = new SelectionWindow(newUser, null, client);
+			client.setSelectionWindow(sw);
+			sw.setVisible(true);
+			dispose();
+		} else {
+			//TODO some sort of warning here
+			System.out.println("account was not created");
+		}
 	}
 }
