@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import logic.Account;
-import logic.Party;
+import logic.User;
 
 public class TrojamServerThread extends Thread{
 	private Socket socket;
@@ -41,9 +41,12 @@ public class TrojamServerThread extends Thread{
 				if (obj instanceof Message) {
 					Message message = (Message) obj;
 				} else if (obj instanceof Account) {
-					System.out.println("setting account");
 					this.account = (Account) obj;
 					this.account.st = this;
+				} else if (obj instanceof PartyMessage) {
+					PartyMessage pm = (PartyMessage) obj;
+					User user = (User) account;
+					trojamServer.addParty(user, pm.getPartyName(), pm.getPartyPassword());
 				}
 				
 				
@@ -59,11 +62,6 @@ public class TrojamServerThread extends Thread{
 			oos.writeObject(message);
 			oos.flush();
 		} catch (IOException e) {}
-	}
-
-	public void createParty(Party p) {
-		server.addParty(p);
-		
 	}
 
 }

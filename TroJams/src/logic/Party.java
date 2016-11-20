@@ -1,5 +1,6 @@
 package logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,8 +8,12 @@ import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
 
-public abstract class Party {
+public abstract class Party implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String partyName;
 	private User host;
 	private ArrayList <PartySong> songList = new ArrayList<PartySong>();
