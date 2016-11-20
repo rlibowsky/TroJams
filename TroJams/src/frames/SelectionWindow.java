@@ -259,6 +259,7 @@ public class SelectionWindow extends JFrame {
 		partyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
 		partyScrollPane.setOpaque(false);
 		partyScrollPane.getViewport().setOpaque(false);
+		//partyScrollPane.getVerticalScrollBar().setPreferredSize (new Dimension(0,0));
 		swMainPanel.add(partyScrollPane, BorderLayout.CENTER);
 
 		// getting the panel that holds the "create a party" button
@@ -472,7 +473,7 @@ public class SelectionWindow extends JFrame {
 		bg.add(cpwPublicRadioButton);
 		bg.add(cpwPrivateRadioButton);
 		cpwPublicRadioButton.setSelected(true);
-
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, cpwPublicRadioButton, cpwPrivateRadioButton, imageLabel, cpwPartyNameTextField);
 		
 		// Adds radio buttons horizontally
 		cpwRadioButtonPanel.setLayout(new BoxLayout(cpwRadioButtonPanel, BoxLayout.X_AXIS));
@@ -582,10 +583,22 @@ public class SelectionWindow extends JFrame {
 		PrivateParty p1 = new PrivateParty("party1", "password1", user, tempImage);
 		PrivateParty p2 = new PrivateParty("party2", "password2", user, tempImage);
 		PublicParty p3 = new PublicParty("party3", user, tempImage);
+		PrivateParty p4 = new PrivateParty("party1", "password1", user, tempImage);
+		PrivateParty p5 = new PrivateParty("party2", "password2", user, tempImage);
+		PublicParty p6 = new PublicParty("party3", user, tempImage);
+		PrivateParty p7 = new PrivateParty("party1", "password1", user, tempImage);
+		PrivateParty p8 = new PrivateParty("party2", "password2", user, tempImage);
+		PublicParty p9 = new PublicParty("party3", user, tempImage);
 		ArrayList <Party> parties = new ArrayList <Party>();
 		parties.add(p1);
 		parties.add(p2);
 		parties.add(p3);
+		parties.add(p4);
+		parties.add(p5);
+		parties.add(p6);
+		parties.add(p7);
+		parties.add(p8);
+		parties.add(p9);
 		new SelectionWindow(user, parties).setVisible(true);
 	}
 	
