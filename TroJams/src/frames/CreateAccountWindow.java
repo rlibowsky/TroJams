@@ -201,7 +201,7 @@ public class CreateAccountWindow extends JFrame {
 		 File inputFile = new File(filepath);	    
 		 try {
 			 image1 = ImageIO.read(inputFile);
-			 File outputfile = new File("silhouette - " + newUser.getUsername() + ".png");
+			 File outputfile = new File("profilePictures/silhouette - " + newUser.getUsername() + ".png");
 			ImageIO.write(image1, "png", outputfile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
