@@ -85,10 +85,6 @@ public class TrojamServer extends Thread{
 			sendMessageToAll(new PartyMessage("newParty", p));
 		}
 	}
-	
-	public static void main (String [] args) {
-		TrojamServer tjs = new TrojamServer(1111);
-	}
 
 	public boolean authenticateLogin(LoginMessage lm) {
 		String usernameString = lm.getUsername();
@@ -151,5 +147,9 @@ public class TrojamServer extends Thread{
 
 	public void sendMessageToOne(Account account, AuthenticatedLoginMessage authenticatedLoginMessage) {
 		accountToThreadMap.get(account).sendMessage(authenticatedLoginMessage);
+	}
+	
+	public static void main (String [] args) {
+		TrojamServer tjs = new TrojamServer(6789);
 	}
 }
