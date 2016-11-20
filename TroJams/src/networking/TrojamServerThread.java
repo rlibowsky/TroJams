@@ -30,6 +30,7 @@ public class TrojamServerThread extends Thread{
 	}
 	
 	public void setAccount(Account a) {
+		System.out.println("setting account");
 		this.account = a;
 	}
 	

@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -99,6 +100,7 @@ public class SelectionWindow extends JFrame {
 	}
 	
 	public void addNewParty(Party p) {
+		System.out.println("adding new party");
 		currentParties.add(p);
 		setParties();
 	}
@@ -231,16 +233,23 @@ public class SelectionWindow extends JFrame {
 		pwMainPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
 	}
 	
+	
+	
 	private void setParties() {
 		System.out.println("setting parties ... " + currentParties.size());
-		swcurrentParties = new JList<SinglePartyPanel>();
-		swcurrentParties.setLayout(new FlowLayout());
-		swcurrentParties.setVisibleRowCount(10);
+		if (swcurrentParties == null) {
+			swcurrentParties = new JList<SinglePartyPanel>();
+			swcurrentParties.setLayout(new FlowLayout());
+			swcurrentParties.setVisibleRowCount(10);
+		} else {
+			swcurrentParties.clearSelection();
+		}
 		//add parties to list
 		
-		for (Party p : currentParties) {
+		for (int i = 0; i < currentParties.size(); i++) {
+			Party p = currentParties.get(i);
 			SinglePartyPanel spp = new SinglePartyPanel(p);
-			System.out.println("adding a party");
+			System.out.println("adding a party ... " + p.getPartyName());
 			swcurrentParties.add(spp);
 		}
 		revalidate();
@@ -421,7 +430,7 @@ public class SelectionWindow extends JFrame {
 					password = cpwPasswordTextField.getText();
 				}
 				System.out.println("about to send new party info to server");
-				//client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
+				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
 				
 				//user.st.createParty(p);
 				

@@ -25,10 +25,8 @@ public class TrojamClient extends Thread{
 			//oos.flush();
 			ois = new ObjectInputStream(s.getInputStream());
 			//before we enter the run method, we want to send our account
-			oos.writeObject(account);
-			oos.flush();
-			System.out.println("sent stuff");
-			this.start();
+			
+			
 		} catch (NumberFormatException | IOException e) {
 			System.out.println("yo");
 		}
@@ -43,7 +41,18 @@ public class TrojamClient extends Thread{
 	}
 	
 	public void setAccount(Account a) {
+		System.out.println("setting account");
 		this.account = a;
+		
+		try {
+			oos.writeObject(a);
+			oos.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("sent stuff");
+		this.start();
 	}
 	
 	@Override
