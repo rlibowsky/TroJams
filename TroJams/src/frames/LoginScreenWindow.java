@@ -29,6 +29,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import listeners.TextFieldFocusListener;
+import logic.Guest;
 import logic.User;
 import networking.TrojamClient;
 import resources.AppearanceConstants;
@@ -299,7 +300,8 @@ public class LoginScreenWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {			
 				//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES to pass into new selection window
-
+				Guest g = new Guest();
+				client.setAccount(g);
 				new SelectionWindow(new User("Guest", "Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), null, client).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 					//create account window can call insertUserIntoDB 
 				dispose();
@@ -361,6 +363,8 @@ public class LoginScreenWindow extends JFrame {
 	
 					if(rs.next()){
 						//TODO instantiate new window
+						//set client's user to user
+						//make new selectionwindow, make client's selectionwindow to this
 						dispose();
 					}else{
 						//TODO if the it is the wrong info then what?
