@@ -477,11 +477,13 @@ public class SelectionWindow extends JFrame {
 					password = cpwPasswordTextField.getText();
 				}
 				System.out.println("about to send new party info to server");
-				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
+	//				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
 				
 				//user.st.createParty(p);
 				
-				PartyWindow pw = new PartyWindow(null, sw);
+				PublicParty testParty = new PublicParty("Test Party", user, pImage);
+				
+				PartyWindow pw = new PartyWindow(testParty, sw);
 				cards.add(pw, "party window");
 				CardLayout cl = (CardLayout) cards.getLayout();
 				cl.show(cards, "party window");		
