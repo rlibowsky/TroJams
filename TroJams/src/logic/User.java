@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 public class User extends Account{
 	
 	private static final long serialVersionUID = 1L;
-	private String username, firstName, lastName, imageFilePath;
+	private String username, firstName, lastName, imageFilePath, email;
 	public ImageIcon userImage;
 	private HashSet <Party> parties;
 	private boolean isHost;
@@ -26,10 +26,11 @@ public class User extends Account{
 		this.parties = new HashSet<Party>();
 	}
 	
-	public User(String username, String password, String firstName, String lastName, String imageFilePath) {
+	public User(String username, String firstName, String lastName, String imageFilePath) {
 		this(username);
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.email = "defaultEmail@default.com";
 		this.imageFilePath = imageFilePath;
 		if (imageFilePath == null) {
 			imageFilePath = "images/silhouette.png";
@@ -120,6 +121,14 @@ public class User extends Account{
 
 	public void setHost(boolean isHost) {
 		this.isHost = isHost;
+	}
+	
+	public void setEmail(String newEmail){
+		email = newEmail;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 	
 	

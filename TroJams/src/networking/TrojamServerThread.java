@@ -53,6 +53,11 @@ public class TrojamServerThread extends Thread{
 					//returns a boolean saying whether or not the password matched
 					boolean goodLogin = trojamServer.authenticateLogin((LoginMessage)obj );
 					trojamServer.sendMessageToOne(account, new AuthenticatedLoginMessage(goodLogin));
+				} else if(obj instanceof CreateAccountMessage){ 
+					CreateAccountMessage cam = (CreateAccountMessage) obj;
+					//returns a boolean of whether or not the account was created
+					boolean accountCreated = trojamServer.createAccount(cam);
+					trojamServer.sendMessageToOne(account, new AccountCreatedMessage(accountCreated));
 				} else if (obj instanceof Message) {
 					Message message = (Message) obj;
 					trojamServer.sendMessageToAll(message);

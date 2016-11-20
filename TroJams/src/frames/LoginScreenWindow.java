@@ -323,7 +323,8 @@ public class LoginScreenWindow extends JFrame {
 				//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES to pass into new selection window
 				Guest g = new Guest();
 				client.setAccount(g);
-				new SelectionWindow(new User("Guest", "Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), null, client).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+				//have selectionWindow take in an instance of account
+				new SelectionWindow(new User("Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), null, client).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 					//create account window can call insertUserIntoDB 
 				dispose();
 			}
@@ -418,4 +419,8 @@ public class LoginScreenWindow extends JFrame {
 //		}
 //	}
 //}
+
+	public void createAccount(boolean accountCreated) {
+		System.out.println("made it back: " + accountCreated);
+	}
 }

@@ -99,24 +99,18 @@ public class TrojamServer extends Thread{
 				Class.forName("com.mysql.jdbc.Driver");
 				conn = DriverManager.getConnection("jdbc:mysql://localhost/Trojams?user=root&password=root&userSSL=false");
 				st = conn.createStatement();
-				//String firstName = "Sheldon";
-//				rs = st.executeQuery("SELECT username, password  FROM Trojams.Users WHERE username = '"+usernameString+ 
-//						"' AND password = '"+passwordString+"'");
 				rs = st.executeQuery("SELECT username, password  FROM Trojams.Users WHERE username = '"+usernameString+ 
 						"' AND password = 'H'");
 
 
-				if(rs.next()){
-					return true;
-					//TODO instantiate new window
-					//set client's user to user
-					//make new selectionwindow, make client's selectionwindow to this
-					//dispose();
-				}else{
-					return false;
-					//TODO if the it is the wrong info then what?
-					///warningLabel.setText("this password and username combination does not exist");
-				}
+				return(rs.next());
+//				if(rs.next()){
+//					return true;
+//
+//				}else{
+//					return false;
+//					///warningLabel.setText("this password and username combination does not exist");
+//				}
 			} catch (SQLException sqle){
 				System.out.println("sqle: " + sqle.getMessage());
 			} catch (ClassNotFoundException cnfe) {
@@ -145,11 +139,71 @@ public class TrojamServer extends Thread{
 		return false;
 	}
 
-	public void sendMessageToOne(Account account, AuthenticatedLoginMessage authenticatedLoginMessage) {
-		accountToThreadMap.get(account).sendMessage(authenticatedLoginMessage);
+	public void sendMessageToOne(Account account, Message message) {
+		accountToThreadMap.get(account).sendMessage(message);
 	}
 	
 	public static void main (String [] args) {
 		TrojamServer tjs = new TrojamServer(6789);
+	}
+
+	public boolean createAccount(CreateAccountMessage cam) {
+		String usernameString = cam.getUsername();
+		String passwordString = cam.getPassword();
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		try {
+			passwordString = Util.hashPassword(cam.getPassword());
+		
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/Trojams?user=root&password=root&userSSL=false");
+				st = conn.createStatement();
+				rs = st.executeQuery("SELECT username, password  FROM Trojams.Users WHERE username = '"+usernameString+"'");
+				System.out.println("trojamServer line 164, username: "+usernameString);
+
+				if(rs.next()){
+					return false;
+				}else{
+					st.executeUpdate("INSERT INTO Users (Username, Password, First_Name, Last_Name, email) "
+							+ "VALUES ('"+usernameString+"', '"+passwordString+"', '"+ cam.getFirstName()+"', '"
+							+ cam.getLastName()+"', '"+ cam.getEmail()+"', '"+ cam.getFilepath() +"')");
+					return true;
+				}
+
+//				if(rs.next()){
+//					return true;
+//
+//				}else{
+//					return false;
+//					///warningLabel.setText("this password and username combination does not exist");
+//				}
+			} catch (SQLException sqle){
+				System.out.println("sqle: " + sqle.getMessage());
+			} catch (ClassNotFoundException cnfe) {
+				System.out.println("cnfe: " + cnfe.getMessage());
+			}
+		} catch (NoSuchAlgorithmException e1) {
+			//passwordString = password.getText();
+			//TODO have some sort of message to the gui about picking a different password or something
+			e1.printStackTrace();
+			return false;
+		}finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(st != null){
+					st.close();
+				}
+				if(conn != null){
+					conn.close();
+				}
+			} catch(SQLException sqle){
+				System.out.println(sqle.getMessage());
+			}
+		}
+		return false;
 	}
 }

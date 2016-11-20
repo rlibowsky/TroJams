@@ -8,6 +8,7 @@ import java.net.Socket;
 import frames.LoginScreenWindow;
 import frames.SelectionWindow;
 import logic.Account;
+import logic.User;
 
 public class TrojamClient extends Thread{
 	private Account account;
@@ -82,6 +83,10 @@ public class TrojamClient extends Thread{
 					System.out.println("client received loginmessage");
 					AuthenticatedLoginMessage alm = (AuthenticatedLoginMessage) obj;
 					lsw.attemptLogIn(alm.isAuthenticated());
+				} else if(obj instanceof AccountCreatedMessage){
+					System.out.println("client received account created message");
+					AccountCreatedMessage acm = (AccountCreatedMessage) obj;
+					lsw.createAccount(acm.accountCreated());
 				}
 			} catch (ClassNotFoundException | IOException e) {}
 		}
@@ -120,6 +125,19 @@ public class TrojamClient extends Thread{
 			//perform action for when a song is upvoted
 		} else if (name.equals("songDownvoted")) {
 			//perform action for when a song is downvoted
+		}
+		
+	}
+
+	public void createAccount(User newUser, String password) {
+		System.out.println("sending create account message");
+		
+		try {
+			oos.writeObject(new CreateAccountMessage(newUser, password));
+			oos.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
