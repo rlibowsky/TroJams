@@ -28,6 +28,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import listeners.TextFieldFocusListener;
 import logic.User;
+import networking.TrojamClient;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
@@ -45,10 +46,12 @@ public class CreateAccountWindow extends JFrame {
 	
 	private String imageFilePath;
 	private JFileChooser fileChooser;
+	private TrojamClient client;
 	
-	public CreateAccountWindow(User newUser, LoginScreenWindow loginScreenWindow){
+	public CreateAccountWindow(User newUser, LoginScreenWindow loginScreenWindow, TrojamClient client){
 		super("TroJams");
 		this.newUser = newUser;
+		this.client = client;
 		this.loginScreenWindow = loginScreenWindow;
 		initializeComponents();
 		createGUI();
@@ -98,7 +101,7 @@ public class CreateAccountWindow extends JFrame {
 			public void actionPerformed (ActionEvent ae){
 				newUser = new User(usernameTextField.getText(), passwordTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(), imageFilePath);
 				loginScreenWindow.insertUserIntoDB(newUser);
-				SelectionWindow sw = new SelectionWindow(newUser, null);
+				SelectionWindow sw = new SelectionWindow(newUser, null, client);
 				sw.setVisible(true);
 			}
 		});
@@ -253,8 +256,8 @@ public class CreateAccountWindow extends JFrame {
 	
 	public static void main(String [] args) {
 		System.out.println("test!");
-		CreateAccountWindow caw = new CreateAccountWindow(new User("test", "test"), new LoginScreenWindow());
-		caw.setVisible(true);
+		//CreateAccountWindow caw = new CreateAccountWindow(new User("test", "test"), new LoginScreenWindow());
+		//caw.setVisible(true);
 	}
 	
 	

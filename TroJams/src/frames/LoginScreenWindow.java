@@ -30,6 +30,7 @@ import javax.swing.event.DocumentListener;
 
 import listeners.TextFieldFocusListener;
 import logic.User;
+import networking.TrojamClient;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 import resources.Util;
@@ -43,6 +44,7 @@ public class LoginScreenWindow extends JFrame {
 	private JTextField password;
 	private JLabel alertLabel;
 	private ImageIcon backgroundImage;
+	private TrojamClient client;
 	JLabel logoLabel;
 	
 	//users map
@@ -51,8 +53,9 @@ public class LoginScreenWindow extends JFrame {
 	//the file that contains user account info
 	private File file;
 
-	public LoginScreenWindow() {
+	public LoginScreenWindow(TrojamClient client) {
 		super("TroJams");
+		this.client = client;
 		file = new File("users.txt");
 		existingUsers = new HashMap<>();
 		//reads in stored users from file and populates existingUsers
@@ -282,7 +285,7 @@ public class LoginScreenWindow extends JFrame {
 				//fill in the rest of the info about the user.
 				else{
 					User newUser = new User(usernameString, passwordString);
-					new CreateAccountWindow(newUser, LoginScreenWindow.this).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+					new CreateAccountWindow(newUser, LoginScreenWindow.this, client).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 						//create account window can call insertUserIntoDB 
 					dispose();
 				}
@@ -297,7 +300,7 @@ public class LoginScreenWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {			
 				//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES to pass into new selection window
 
-				new SelectionWindow(new User("Guest", "Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), null).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+				new SelectionWindow(new User("Guest", "Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), null, client).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 					//create account window can call insertUserIntoDB 
 				dispose();
 			}

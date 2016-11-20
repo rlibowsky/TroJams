@@ -83,11 +83,11 @@ public class SelectionWindow extends JFrame {
 	private SelectionWindow sw;
 	private TrojamClient client;
 		
-	public SelectionWindow(User user, ArrayList<Party> parties){
+	public SelectionWindow(User user, ArrayList<Party> parties, TrojamClient client){
 		super("TroJams");
 		this.user = user;
 		sw = this;
-		this.client = new TrojamClient(user, "localhost", 1111, this);
+		this.client = client;
 		this.currentParties = parties;
 		if (currentParties == null) {
 			System.out.println("No parties :(");
@@ -608,7 +608,7 @@ public class SelectionWindow extends JFrame {
 		parties.add(p7);
 		parties.add(p8);
 		parties.add(p9);
-		new SelectionWindow(user, parties).setVisible(true);
+		//new SelectionWindow(user, parties, client).setVisible(true);
 	}
 	
 	
@@ -644,7 +644,7 @@ public class SelectionWindow extends JFrame {
 			logout.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new LoginScreenWindow().setVisible(true);
+					new LoginScreenWindow(client).setVisible(true);
 					dispose();
 				}
 			});

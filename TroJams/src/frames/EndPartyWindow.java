@@ -119,8 +119,8 @@ public class EndPartyWindow extends JPanel {
 
 		public static void main(String [] args) {
 			JFrame test = new JFrame();
-			EndPartyWindow epw = new EndPartyWindow(new SelectionWindow(new User("a", "b"), null));
-			test.add(epw);
+			//EndPartyWindow epw = new EndPartyWindow(new SelectionWindow(new User("a", "b"), null));
+			//test.add(epw);
 			test.setSize(1280, 800);
 			test.setVisible(true);
 		}

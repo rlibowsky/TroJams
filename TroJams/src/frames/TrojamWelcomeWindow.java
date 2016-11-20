@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import networking.TrojamClient;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
@@ -25,10 +26,11 @@ public class TrojamWelcomeWindow extends JFrame{
 	private ImageIcon trojamsImage;
 	private JLabel imageLabel;
 	private JButton startButton;
+	private TrojamClient client;
 	
-	public TrojamWelcomeWindow(){
+	public TrojamWelcomeWindow(TrojamClient trojamClient){
 		 super("TroJams");
-		 
+		 this.client = trojamClient;
 		 initializeComponents();
 	        createGUI();
 	        addListeners();
@@ -88,7 +90,7 @@ public class TrojamWelcomeWindow extends JFrame{
 		
 		startButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ae){
-				new LoginScreenWindow().setVisible(true);
+				new LoginScreenWindow(client).setVisible(true);
 				dispose();
 			}
 		});
