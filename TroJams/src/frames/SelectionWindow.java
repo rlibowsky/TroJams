@@ -258,7 +258,6 @@ public class SelectionWindow extends JFrame {
 		partyScrollPane.setPreferredSize(new Dimension(600, 700));
 		partyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
 		partyScrollPane.setOpaque(false);
-		partyScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		partyScrollPane.getViewport().setOpaque(false);
 		swMainPanel.add(partyScrollPane, BorderLayout.CENTER);
 
@@ -338,14 +337,6 @@ public class SelectionWindow extends JFrame {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		this.addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mouseClicked(MouseEvent e) {
-		    	SelectionWindow sw = (SelectionWindow)e.getSource();
-		    	sw.requestFocus();
-		        System.out.println("panel clicked");
-		    }
-		});
 		
 		createAPartyButton.addActionListener(new ActionListener() {
 			@Override
@@ -422,7 +413,7 @@ public class SelectionWindow extends JFrame {
 					password = cpwPasswordTextField.getText();
 				}
 				System.out.println("about to send new party info to server");
-				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
+				//client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
 				
 				//user.st.createParty(p);
 				
@@ -434,8 +425,7 @@ public class SelectionWindow extends JFrame {
 				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
 				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
 				
-				cpwPublicRadioButton.setSelected(true);
-				cpwPasswordTextField.setVisible(false);
+				
 				
 			}		
 		});
@@ -443,8 +433,6 @@ public class SelectionWindow extends JFrame {
 		imageLabel.addMouseListener(new MouseAdapter() {
 			 @Override
            public void mouseClicked(MouseEvent e) {
-				 JLabel sw = (JLabel)e.getSource();
-			    	sw.requestFocus();
 				fileChooser.showOpenDialog(SelectionWindow.this);
 				File f = fileChooser.getSelectedFile();
 				if (f != null) {
