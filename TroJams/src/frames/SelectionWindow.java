@@ -643,7 +643,7 @@ public class SelectionWindow extends JFrame {
 	}
 
 	public static void main(String [] args) {
-		User user = new User("username", "password");
+		User user = new User("username");
 		Image image = new ImageIcon("images/party-purple.jpg").getImage();
 		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 		PrivateParty p1 = new PrivateParty("party1", "password1", user, tempImage);

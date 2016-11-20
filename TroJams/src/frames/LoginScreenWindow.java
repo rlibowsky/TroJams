@@ -49,6 +49,7 @@ public class LoginScreenWindow extends JFrame {
 	private JLabel alertLabel;
 	private ImageIcon backgroundImage;
 	private TrojamClient client;
+	private String usernameString;
 	JLabel logoLabel;
 	
 	//users map
@@ -256,6 +257,7 @@ public class LoginScreenWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				usernameString = username.getText();
 				client.attemptToLogin(username.getText(), password.getText());
 			}
 			
@@ -309,7 +311,7 @@ public class LoginScreenWindow extends JFrame {
 				//username has not been chosen, send newly created user with username and password to Create Account Window to then 
 				//fill in the rest of the info about the user.
 				else{
-					User newUser = new User(usernameString, passwordString);
+					User newUser = new User(usernameString);
 					CreateAccountWindow caw = new CreateAccountWindow(newUser, LoginScreenWindow.this, client); //Pass in user and this GUI so that when the user is created, the 
 						//create account window can call insertUserIntoDB
 					cl = (CardLayout) cards.getLayout();
@@ -338,33 +340,33 @@ public class LoginScreenWindow extends JFrame {
 		
 	}
 
-	void insertUserIntoDB(User user){
-		System.out.println("Insert");
-		Connection conn = null;
-		PreparedStatement ps = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TroJamUsers?user=root&password=adam0601&useSSL=false");	
-			String query = "INSERT INTO Users (username, password, firstName, lastName, imageFilePath) VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getImageFilePath() + "')";
-			ps = conn.prepareStatement(query);
-			ps.execute();
-		} catch (SQLException sqle) {
-			System.out.println("sqle: " + sqle.getMessage());
-		} catch (ClassNotFoundException cnfe) {
-			System.out.println("cnfe: " + cnfe.getMessage());
-		} finally{
-			try{
-				if (ps!=null){
-					ps.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch( SQLException sqle) {
-				
-			}
-		}
-	}
+//	void insertUserIntoDB(User user){
+//		System.out.println("Insert");
+//		Connection conn = null;
+//		PreparedStatement ps = null;
+//		try {
+//			Class.forName("com.mysql.jdbc.Driver");
+//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TroJamUsers?user=root&password=adam0601&useSSL=false");	
+//			String query = "INSERT INTO Users (username, password, firstName, lastName, imageFilePath) VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getImageFilePath() + "')";
+//			ps = conn.prepareStatement(query);
+//			ps.execute();
+//		} catch (SQLException sqle) {
+//			System.out.println("sqle: " + sqle.getMessage());
+//		} catch (ClassNotFoundException cnfe) {
+//			System.out.println("cnfe: " + cnfe.getMessage());
+//		} finally{
+//			try{
+//				if (ps!=null){
+//					ps.close();
+//				}
+//				if(conn != null) {
+//					conn.close();
+//				}
+//			} catch( SQLException sqle) {
+//				
+//			}
+//		}
+//	}
 	
 	//sets the buttons enabled or disabled
 	private class MyDocumentListener implements DocumentListener{
@@ -391,10 +393,15 @@ public class LoginScreenWindow extends JFrame {
 	public void attemptLogIn(boolean authenticated) {
 		if(authenticated){
 			System.out.println("authenticated user");
+			User newUser = new User(usernameString);
+			existingUsers.put(usernameString, newUser);
+			User user = existingUsers.get(usernameString);
+			new SelectionWindow(user, null, client).setVisible(true);
+			dispose();
 		}else{
 			System.out.println("non-authenticated user");
 			alertLabel.setForeground(Color.white);
-			alertLabel.setText("Wait a second! This username does not exist.");
+			alertLabel.setText("Wait a second! This username/password combo does not exist.");
 		}
 	}
 	//String usernameString = username.getText();

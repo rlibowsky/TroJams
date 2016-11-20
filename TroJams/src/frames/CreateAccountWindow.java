@@ -65,7 +65,7 @@ public class CreateAccountWindow extends JPanel {
 		firstNameTextField.addFocusListener(new TextFieldFocusListener("First Name", firstNameTextField));
 		lastNameTextField.addFocusListener(new TextFieldFocusListener("Last Name", lastNameTextField));
 		usernameTextField.addFocusListener(new TextFieldFocusListener(newUser.getUsername(), usernameTextField));
-		passwordTextField.addFocusListener(new TextFieldFocusListener(newUser.getPassword(), passwordTextField));
+		//passwordTextField.addFocusListener(new TextFieldFocusListener(newUser.getPassword(), passwordTextField));
 		
 		//document listeners
 		firstNameTextField.getDocument().addDocumentListener(new MyDocumentListener());
@@ -101,7 +101,7 @@ public class CreateAccountWindow extends JPanel {
 		submitButton.addActionListener(new ActionListener(){
 			public void actionPerformed (ActionEvent ae){
 				newUser = new User(usernameTextField.getText(), passwordTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText(), imageFilePath);
-				loginScreenWindow.insertUserIntoDB(newUser);
+				//loginScreenWindow.insertUserIntoDB(newUser);
 				SelectionWindow sw = new SelectionWindow(newUser, null, client);
 				client.setSelectionWindow(sw);
 				sw.setVisible(true);

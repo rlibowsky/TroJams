@@ -14,10 +14,10 @@ import networking.TrojamClient;
 
 public class TestServerFunctionality {
 	public static void main (String [] args) {
-		User u = new User("testUser", "testPassword");
-		User u2 = new User("Hunter", "mwahahaha");
-		User u3 = new User("Clairisse", "fightON");
-		User u4 = new User("Adam", "ooooo");
+		User u = new User("testUser");
+		User u2 = new User("Hunter");
+		User u3 = new User("Clairisse");
+		User u4 = new User("Adam");
 		
 		Image image = new ImageIcon("images/party-purple.jpg").getImage();
 		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));

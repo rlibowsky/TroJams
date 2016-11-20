@@ -8,16 +8,16 @@ import javax.swing.ImageIcon;
 public class User extends Account{
 	
 	private static final long serialVersionUID = 1L;
-	private String username, firstName, lastName, password, imageFilePath;
+	private String username, firstName, lastName, imageFilePath;
 	public ImageIcon userImage;
 	private HashSet <Party> parties;
 	private boolean isHost;
 	public Party hostedParty; //null if user is hosting no parties
 	
-	public User(String username, String password) {
+	public User(String username) {
 		super();
 		this.username = username;
-		this.password = password;
+		//this.password = password;
 		if (imageFilePath == null) {
 			imageFilePath = "images/silhouette.png";
 		}
@@ -27,7 +27,7 @@ public class User extends Account{
 	}
 	
 	public User(String username, String password, String firstName, String lastName, String imageFilePath) {
-		this(username,password);
+		this(username);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.imageFilePath = imageFilePath;
@@ -43,13 +43,13 @@ public class User extends Account{
 	}
 	
 	//pass in a string to see if password matches the user's password
-	public boolean verifyPassword(String pass) {
-		return pass.equals(password);
-	}
+//	public boolean verifyPassword(String pass) {
+//		return pass.equals(password);
+//	}
 
-	public String getPassword() {
-		return password;
-	}
+//	public String getPassword() {
+//		return password;
+//	}
 	
 	//called when a user logs out
 	public void leaveAllParties() {
@@ -102,9 +102,9 @@ public class User extends Account{
 		this.username = username;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+//	public void setPassword(String password) {
+//		this.password = password;
+//	}
 
 	public String getImageFilePath() {
 		return imageFilePath;
