@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -36,9 +37,9 @@ import resources.AppearanceSettings;
 
 public class PartyWindow extends JPanel {
 	
-	private JButton addSongButton, refreshButton, addNewSongButton, searchButton, leaveButton;
+	private JButton refreshButton, addNewSongButton, searchButton, leaveButton;
 	private JList <SingleSongPanel>songList;
-	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, cards, bottomButtonPanel;
+	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, bottomButtonPanel;
 	private JScrollPane songScrollPane;
 	private ImageIcon backgroundImage;
 	private JTextArea hostLabel;
@@ -151,16 +152,17 @@ public class PartyWindow extends JPanel {
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new BorderLayout());
 		
-		addSongButton = new JButton();
-		ImageIcon addSongButtonImage = new ImageIcon("images/button_add-song.png");
-		addSongButton.setIcon(addSongButtonImage);
-		addSongButton.setOpaque(false);
-		addSongButton.setBorderPainted(false);
-		//addSongButton.setContentAreaFilled(false);
-		
+//		addSongButton = new JButton();
+//		ImageIcon addSongButtonImage = new ImageIcon("images/button_add-song.png");
+//		addSongButton.setIcon(addSongButtonImage);
+//		addSongButton.setOpaque(false);
+//		addSongButton.setBorderPainted(false);
+//		addSongButton.setContentAreaFilled(false);
+//		
 		bottomButtonPanel = new JPanel();
-		bottomButtonPanel.add(addSongButton);
+		
 		bottomButtonPanel.setOpaque(false);
+		
 		
 		refreshButton = new JButton();
 		ImageIcon refreshButtonImage = new ImageIcon("images/button_refresh.png");
@@ -170,9 +172,9 @@ public class PartyWindow extends JPanel {
 		//refreshButton.setContentAreaFilled(false);
 		
 		//buttonsPanel.add(addSongButton, BorderLayout.NORTH);
+		bottomButtonPanel.add(refreshButton);
 		
-		
-		buttonsPanel.add(refreshButton, BorderLayout.SOUTH);
+//		buttonsPanel.add(addSongButton, BorderLayout.SOUTH);
 		
 		hostLabel = new JTextArea("'s \nparty!");
 		hostLabel.setEditable(false);
@@ -235,7 +237,7 @@ public class PartyWindow extends JPanel {
 		searchedSong = new JLabel();
 		searchBar = new JTextField();
 
-		cards = new JPanel(new CardLayout());
+//		cards = new JPanel(new CardLayout());
 		
 		songList.setPreferredSize(new Dimension (600, 1000));
 		songList.setOpaque(false);
@@ -287,14 +289,14 @@ public class PartyWindow extends JPanel {
 		setLayout(new BorderLayout());
 		
 		// Set appearance settings
-		AppearanceSettings.setForeground(Color.white, addSongButton, refreshButton, hostLabel);
-		AppearanceSettings.setSize(150, 80, addSongButton, refreshButton, hostLabel);
+		AppearanceSettings.setForeground(Color.white, refreshButton, hostLabel);
+		AppearanceSettings.setSize(150, 80, refreshButton, hostLabel);
 		AppearanceSettings.setSize(150, 150, hostLabel);
 		//AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton, refreshButton, hostLabel);
-		AppearanceSettings.setOpaque(addSongButton, refreshButton);
+		//AppearanceSettings.setOpaque(addSongButton, refreshButton);
 		//AppearanceSettings.setNotOpaque(hostLabel);
-		AppearanceSettings.unSetBorderOnButtons(addSongButton, refreshButton);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addSongButton, refreshButton, hostLabel);
+		AppearanceSettings.unSetBorderOnButtons(refreshButton);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, refreshButton, hostLabel);
 		
 		
 		//AppearanceSettings.setSize(x, y, components);
@@ -303,8 +305,8 @@ public class PartyWindow extends JPanel {
 		//songPanel.add(songScrollPane);
 		
 		addSongPanel = createAddSongPanel();
-		cards.add(buttonsPanel, "button panel");
-		cards.add(addSongPanel, "add song panel");
+//		cards.add(buttonsPanel, "button panel");
+//		cards.add(addSongPanel, "add song panel");
 //		add(swMainPanel, BorderLayout.CENTER);
 		
 		//add(cards, BorderLayout.CENTER);
@@ -312,29 +314,19 @@ public class PartyWindow extends JPanel {
 		
 		centerPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/2,AppearanceConstants.GUI_HEIGHT));
 		hostPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
-		addSongPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
+		//addSongPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
 		buttonsPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
 		
 		add(hostPanel, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
-		add(cards, BorderLayout.EAST);
+		add(addSongPanel, BorderLayout.EAST);
 		
-		cl = (CardLayout) cards.getLayout();
-		cl.show(cards, "button panel");
+//		cl = (CardLayout) cards.getLayout();
+//		cl.show(cards, "button panel");
 		
 	}
 	
 	public void addListeners() {
-		
-		addSongButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cl2 = (CardLayout) cards.getLayout();
-				cl2.show(cards, "add song panel");	
-			}
-			
-		});
 		
 		refreshButton.addActionListener(new ActionListener() {
 
@@ -349,9 +341,7 @@ public class PartyWindow extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				CardLayout cl3 = (CardLayout) cards.getLayout();
-				cl3.show(cards, "button panel");	
+					
 			}
 			
 		});
@@ -366,6 +356,17 @@ public class PartyWindow extends JPanel {
 			
 			
 		});
+		
+		searchButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Search database to get song and set text
+				searchedSong.setText(searchBar.getText());
+				
+			}
+			
+		});
 
 		
 	}
@@ -373,38 +374,45 @@ public class PartyWindow extends JPanel {
 	public JPanel createAddSongPanel() {
 		JPanel tempPanel = new JPanel();
 		JPanel centerPanel = new JPanel();
-		JPanel searchBarPanel = new JPanel();
-		searchBarPanel.setLayout(new BoxLayout(searchBarPanel, BoxLayout.X_AXIS));
-		centerPanel.setLayout(new BorderLayout());
+		JPanel dummyPanel = new JPanel();
+		JPanel dummyPanel2 = new JPanel();
+		//JPanel searchBarPanel = new JPanel();
+		//searchBarPanel.setLayout(new FlowLayout());
+		centerPanel.setLayout(new FlowLayout());
+		//tempPanel.setLayout(new BoxLayout(tempPanel, BoxLayout.Y_AXIS));
 		
-		tempPanel.setLayout(new BorderLayout());
-		
-		tempPanel.setSize(new Dimension(450, 800));
-		AppearanceSettings.setNotOpaque(tempPanel, centerPanel, searchBarPanel, searchedSong, searchBar, cards, buttonsPanel);
+		tempPanel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT));
+		AppearanceSettings.setNotOpaque(tempPanel, centerPanel, searchedSong, searchBar, buttonsPanel, dummyPanel, dummyPanel2);
 		AppearanceSettings.setSize(150,50, searchButton, addNewSongButton);
-		AppearanceSettings.setSize(450,400, centerPanel);
-		AppearanceSettings.setSize(450,150, searchBar);
-		
+		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT, centerPanel);
+		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4,50, searchBar);
+		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 200, searchedSong);
+		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 175, dummyPanel);
+		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 200, dummyPanel2);
 		AppearanceSettings.setForeground(Color.white, addNewSongButton, searchButton, searchedSong);
 		//AppearanceSettings.setSize(150, 80, addSongButton, refreshButton, hostLabel);
 		//AppearanceSettings.setSize(150, 150, hostLabel);
-		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addNewSongButton, searchButton);
 		//AppearanceSettings.setOpaque(addSongButton, refreshButton, hostLabel);
 		AppearanceSettings.unSetBorderOnButtons(addNewSongButton, searchButton);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addNewSongButton, searchButton, hostLabel);
 		
-		AppearanceSettings.setSize(350, 50, searchBar);
 		
-		searchBarPanel.add(searchBar);
-		searchBarPanel.add(searchButton);
+		//searchBarPanel.add(searchBar);
+		//searchBarPanel.add(searchButton);
 		
 		searchedSong.setText("Closer");
 		searchedSong.setFont(AppearanceConstants.fontSmall);
-		centerPanel.add(searchBarPanel, BorderLayout.NORTH);
-		centerPanel.add(searchedSong, BorderLayout.CENTER);
-		centerPanel.add(addNewSongButton, BorderLayout.SOUTH);
+		//centerPanel.add(Box.createVerticalStrut(275));
+		centerPanel.add(dummyPanel);
+		centerPanel.add(searchBar);
+		centerPanel.add(searchButton);
+		centerPanel.add(searchedSong);
+		centerPanel.add(addNewSongButton);
+		centerPanel.add(dummyPanel2);
+		//centerPanel.add(Box.createVerticalStrut(275));
+		//centerPanel.setPreferredSize(new Dimension(450,400));
 		
-		tempPanel.add(centerPanel, BorderLayout.CENTER);
+		tempPanel.add(centerPanel);
 		
 		
 		return tempPanel;

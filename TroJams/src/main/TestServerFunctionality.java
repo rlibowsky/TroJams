@@ -28,7 +28,18 @@ public class TestServerFunctionality {
 		parties.add(p1);
 		parties.add(p2);
 		parties.add(p3);
-		new SelectionWindow(u, parties).setVisible(true);
+		TrojamClient tj = new TrojamClient("localhost", 1111);
+		tj.setAccount(u);
+		SelectionWindow sw = new SelectionWindow(u, parties, tj);
+		tj.setSelectionWindow(sw);
+		sw.setVisible(true);
+		
+		
+		TrojamClient tj2 = new TrojamClient("localhost", 1111);
+		tj2.setAccount(u2);
+		SelectionWindow sw2 = new SelectionWindow(u, parties, tj2);
+		tj2.setSelectionWindow(sw2);
+		sw2.setVisible(true);
 	}
 	
 }

@@ -30,6 +30,7 @@ public class TrojamServerThread extends Thread{
 	}
 	
 	public void setAccount(Account a) {
+		System.out.println("setting account");
 		this.account = a;
 	}
 	
@@ -61,9 +62,7 @@ public class TrojamServerThread extends Thread{
 		try {
 			System.out.println("sending a message with name : " + message.getName());
 			oos.reset();
-			System.out.println("1");
 			oos.writeObject(message);
-			System.out.println("2");
 			oos.flush();
 			System.out.println("message was sent to client");
 		} catch (IOException e) {
