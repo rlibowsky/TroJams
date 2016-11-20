@@ -60,8 +60,6 @@ public class LoginScreenWindow extends JFrame {
 		initializeComponents();
 		createGUI();
 		addListeners();
-		
-		setLocation(100,100);
 	}
 	
 	private void initializeComponents(){
@@ -173,7 +171,8 @@ public class LoginScreenWindow extends JFrame {
 		
 		mainPanel.add(logoPanel);
 		add(mainPanel, BorderLayout.CENTER);
-		setSize(700, 600);
+		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
+		setLocation(100,100);
 	}
 	
 	//returns whether the buttons should be enabled
@@ -233,6 +232,10 @@ public class LoginScreenWindow extends JFrame {
 		
 		//action listeners
 		loginButton.addActionListener(new loginEvent());
+		
+		//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES
+		
+		
 //		new ActionListener(){
 //
 //			@Override
@@ -266,6 +269,9 @@ public class LoginScreenWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {	
+				
+				//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES
+				
 				String usernameString = username.getText();
 				String passwordString = password.getText();
 				//if this username has already been chosen
@@ -289,7 +295,9 @@ public class LoginScreenWindow extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {			
-				new CreateAccountWindow(new User("Guest", "Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), LoginScreenWindow.this).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+				//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES to pass into new selection window
+
+				new SelectionWindow(new User("Guest", "Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), ).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 					//create account window can call insertUserIntoDB 
 				dispose();
 			}
