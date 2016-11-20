@@ -4,6 +4,10 @@ import javax.swing.ImageIcon;
 
 public class PrivateParty extends Party{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String password;
 	
 	public PrivateParty(String partyName, String password, User host, ImageIcon partyImage) {

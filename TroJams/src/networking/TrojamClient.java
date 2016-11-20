@@ -41,18 +41,8 @@ public class TrojamClient extends Thread{
 			if (obj instanceof StringMessage) {
 				StringMessage message = (StringMessage) obj;
 				parseStringMessage(message);
-			} else if (obj instanceof AccountMessage) {
-				AccountMessage message = (AccountMessage) obj;
-				parseAccountMessage(message);
 			}
 		} catch (ClassNotFoundException | IOException e) {}
-	}
-
-	//handle when a new account is added to the party
-	private void parseAccountMessage(AccountMessage message) {
-		String name = message.getName();
-		Account messageAccount = message.getAccount();
-		party.addAccount(messageAccount);
 	}
 
 	//handle string messages sent to the client

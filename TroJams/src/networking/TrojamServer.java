@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 import logic.Account;
 import logic.Party;
+import logic.PrivateParty;
+import logic.PublicParty;
+import logic.User;
 
 public class TrojamServer extends Thread{
 	private ServerSocket serverSocket;
@@ -55,5 +58,20 @@ public class TrojamServer extends Thread{
 	
 	public static void main (String [] args) {
 		TrojamServer tjs = new TrojamServer(1111);
+	}
+
+	public void addParty(User user, String partyName, String partyPassword) {
+		System.out.println("adding a party");
+		Party p;
+		if (partyPassword.length() == 0) {
+			p = new PublicParty(partyName, user, null);
+			parties.add(p);
+			sendMessage(new PartyMessage("newParty", partyName, partyPassword));
+		}
+		else {
+			p = new PrivateParty(partyName, partyPassword, user, null);
+			parties.add(p);
+			sendMessage(new PartyMessage("newParty", partyName, partyPassword));
+		}
 	}
 }
