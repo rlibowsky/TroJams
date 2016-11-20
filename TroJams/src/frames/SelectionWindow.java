@@ -338,6 +338,14 @@ public class SelectionWindow extends JFrame {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		this.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		    	SelectionWindow sw = (SelectionWindow)e.getSource();
+		    	sw.requestFocus();
+		        System.out.println("panel clicked");
+		    }
+		});
 		
 		createAPartyButton.addActionListener(new ActionListener() {
 			@Override
@@ -435,6 +443,8 @@ public class SelectionWindow extends JFrame {
 		imageLabel.addMouseListener(new MouseAdapter() {
 			 @Override
            public void mouseClicked(MouseEvent e) {
+				 JLabel sw = (JLabel)e.getSource();
+			    	sw.requestFocus();
 				fileChooser.showOpenDialog(SelectionWindow.this);
 				File f = fileChooser.getSelectedFile();
 				if (f != null) {
