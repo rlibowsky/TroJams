@@ -212,13 +212,15 @@ public class PartyWindow extends JPanel {
 		
 		hostPanel.setOpaque(false);
 		
-		User [] temp = (User[]) party.getPartyMembers().toArray();
-		partyPeopleList = new JList(temp);
+		//User [] temp = (User[]) party.getPartyMembers().toArray();
+		//partyPeopleList = new JList(temp);
+		partyPeopleList = new JList();
+		partyPeopleScrollPane = new JScrollPane(partyPeopleList);
 		partyPeopleScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
 		partyPeopleScrollPane.setOpaque(false);
 		partyPeopleScrollPane.getViewport().setOpaque(false);
 		partyPeopleScrollPane.setBorder(BorderFactory.createEmptyBorder());
-		partyPeopleScrollPane = new JScrollPane(partyPeopleList);
+		
 		//custom scroll bar
 		partyPeopleScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 		UIManager.put("ScrollBarUI", "my.package.MyScrollBarUI");
@@ -250,8 +252,9 @@ public class PartyWindow extends JPanel {
 		centerPanel.add(currentlyPlayingPanel, BorderLayout.NORTH);
 		listModel = new DefaultListModel<SingleSongPanel>();
 
-		df = new DefaultListModel<>();
-		songList = new JList<SingleSongPanel>(df);
+//		df = new DefaultListModel<>();
+//		songList = new JList<SingleSongPanel>(df);
+		songList= new JList<SingleSongPanel>();
 		songList.setLayout(new FlowLayout());
 		//setSongs();
 		
@@ -382,10 +385,11 @@ public class PartyWindow extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchBar.getText(), 0.0));
-				df.addElement(ssp);
-				//listModel.addElement(ssp);
-				System.out.println(songList.getModel().getSize());
-				revalidate();
+//				df.addElement(ssp);
+//				//listModel.addElement(ssp);
+//				System.out.println(songList.getModel().getSize());
+				songList.add(ssp);
+				//revalidate();
 			}
 			
 		});
@@ -407,6 +411,7 @@ public class PartyWindow extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// Search database to get song and set text
 				searchedSong.setText(searchBar.getText());
+				searchBar.setText("");
 				
 			}
 			
@@ -444,7 +449,7 @@ public class PartyWindow extends JPanel {
 		//searchBarPanel.add(searchBar);
 		//searchBarPanel.add(searchButton);
 		
-		searchedSong.setText("Closer");
+		searchedSong.setText("");
 		searchedSong.setFont(AppearanceConstants.fontSmall);
 		//centerPanel.add(Box.createVerticalStrut(275));
 		centerPanel.add(dummyPanel);

@@ -1,4 +1,3 @@
-
 package frames;
 
 import java.awt.BorderLayout;
@@ -828,4 +827,3 @@ public class SelectionWindow extends JFrame {
 	}
 
 }
-
