@@ -75,9 +75,27 @@ public class LoginScreenWindow extends JFrame {
 			}
 		});
 
-		loginButton = new JButton("Login");
-		guestButton = new JButton("Play as Guest");
-		createAccount = new JButton("Create Account");
+		loginButton = new JButton();
+		ImageIcon image1 = new ImageIcon("images/button_log-in.png");
+		loginButton.setIcon(image1);
+		loginButton.setOpaque(false);
+		loginButton.setContentAreaFilled(false);
+		loginButton.setBorderPainted(false);
+		
+		guestButton = new JButton();
+		ImageIcon image2 = new ImageIcon("images/button_join-as-guest.png");
+		guestButton.setIcon(image2);
+		guestButton.setOpaque(false);
+		guestButton.setContentAreaFilled(false);
+		guestButton.setBorderPainted(false);
+		
+		createAccount = new JButton();
+		ImageIcon image3 = new ImageIcon("images/button_create-account.png");
+		createAccount.setIcon(image3);
+		createAccount.setOpaque(false);
+		createAccount.setContentAreaFilled(false);
+		createAccount.setBorderPainted(false);
+		
 		username = new JTextField("username");
 		password = new JTextField("password");
 		alertLabel = new JLabel();
@@ -104,10 +122,9 @@ public class LoginScreenWindow extends JFrame {
 		AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, createAccount, loginButton, guestButton, password, username);
 		AppearanceSettings.setSize(400, 60, password, username);
 		
-		AppearanceSettings.setSize(200, 100, loginButton, guestButton, createAccount);
+		//AppearanceSettings.setSize(200, 100, loginButton, guestButton, createAccount);
 		AppearanceSettings.setNotOpaque(loginButton, createAccount, guestButton);
 		
-		AppearanceSettings.setOpaque(loginButton, createAccount, guestButton);
 		AppearanceSettings.unSetBorderOnButtons(loginButton, createAccount, guestButton);
 		
 		AppearanceSettings.setTextAlignment(welcome, alertLabel, TroJamsLabel);
@@ -124,8 +141,8 @@ public class LoginScreenWindow extends JFrame {
 		TroJamsLabel.setFont(AppearanceConstants.fontHuge);
 
 		loginButton.setEnabled(false);
-		guestButton.setEnabled(false);
-		createAccount.setEnabled(false);
+		guestButton.setEnabled(true);
+		createAccount.setEnabled(true);
 		
 		//add components to containers
 		welcomePanel.add(welcome);
@@ -315,19 +332,19 @@ public class LoginScreenWindow extends JFrame {
 		
 		@Override
 		public void insertUpdate(DocumentEvent e) {
-			createAccount.setEnabled(canPressButtons());
+			//createAccount.setEnabled(canPressButtons());
 			loginButton.setEnabled(canPressButtons());
 		}
 		
 		@Override
 		public void removeUpdate(DocumentEvent e) {
-			createAccount.setEnabled(canPressButtons());
+			//createAccount.setEnabled(canPressButtons());
 			loginButton.setEnabled(canPressButtons());
 		}
 		
 		@Override
 		public void changedUpdate(DocumentEvent e) {
-			createAccount.setEnabled(canPressButtons());
+			//createAccount.setEnabled(canPressButtons());
 			loginButton.setEnabled(canPressButtons());
 		}
 	}
