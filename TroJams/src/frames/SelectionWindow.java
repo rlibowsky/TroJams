@@ -41,6 +41,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import listeners.TextFieldFocusListener;
 import logic.Party;
+import logic.PrivateParty;
+import logic.PublicParty;
 import logic.User;
 import networking.NewPartyMessage;
 import networking.TrojamClient;
@@ -150,7 +152,7 @@ public class SelectionWindow extends JFrame {
 		cpwCreateButton.setBorderPainted(false);
 		cpwCreateButton.setOpaque(false);
 		cpwBackButton = new JButton();
-		ImageIcon bButtonImage = new ImageIcon("images/button_create-a-party.png");
+		ImageIcon bButtonImage = new ImageIcon("images/button_nah-never-mind.png");
 		cpwBackButton.setIcon(bButtonImage);
 		cpwBackButton.setContentAreaFilled(false);
 		cpwBackButton.setBorderPainted(false);
@@ -379,6 +381,13 @@ public class SelectionWindow extends JFrame {
 			}
 		});
 				
+		cpwBackButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cl.show(cards, "party window");		
+			}
+		});
+		
 		cpwCreateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {	
@@ -473,8 +482,8 @@ public class SelectionWindow extends JFrame {
 		//cpwBottomPanel.add(cpwPasswordTextField);
 		cpwBottomPanel.add(tempPanel1);
 		JPanel tempPanel2 = new JPanel();
-		tempPanel2.add(cpwBackButton);
 		tempPanel2.add(cpwCreateButton);
+		tempPanel2.add(cpwBackButton);
 		//cpwBottomPanel.add(cpwCreateButton);
 		cpwBottomPanel.add(tempPanel2);
 		AppearanceSettings.setNotOpaque(tempPanel1, tempPanel2);
@@ -562,17 +571,17 @@ public class SelectionWindow extends JFrame {
 	}
 
 	public static void main(String [] args) {
-//		User user = new User("username", "password");
-//		Image image = new ImageIcon("images/party-purple.jpg").getImage();
-//		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-//		PrivateParty p1 = new PrivateParty("party1", "password1", user, tempImage);
-//		PrivateParty p2 = new PrivateParty("party2", "password2", user, tempImage);
-//		PublicParty p3 = new PublicParty("party3", user, tempImage);
-//		ArrayList <Party> parties = new ArrayList <Party>();
-//		parties.add(p1);
-//		parties.add(p2);
-//		parties.add(p3);
-//		new SelectionWindow(user, parties).setVisible(true);
+		User user = new User("username", "password");
+		Image image = new ImageIcon("images/party-purple.jpg").getImage();
+		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+		PrivateParty p1 = new PrivateParty("party1", "password1", user, tempImage);
+		PrivateParty p2 = new PrivateParty("party2", "password2", user, tempImage);
+		PublicParty p3 = new PublicParty("party3", user, tempImage);
+		ArrayList <Party> parties = new ArrayList <Party>();
+		parties.add(p1);
+		parties.add(p2);
+		parties.add(p3);
+		new SelectionWindow(user, parties).setVisible(true);
 	}
 	
 	
@@ -632,6 +641,7 @@ public class SelectionWindow extends JFrame {
 		CardLayout cl = (CardLayout) cards.getLayout();
 		cl.show(cards, "selection window");
 	}
+	
 	
 
 }
