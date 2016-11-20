@@ -258,6 +258,7 @@ public class SelectionWindow extends JFrame {
 		partyScrollPane.setPreferredSize(new Dimension(600, 700));
 		partyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
 		partyScrollPane.setOpaque(false);
+		partyScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		partyScrollPane.getViewport().setOpaque(false);
 		swMainPanel.add(partyScrollPane, BorderLayout.CENTER);
 
