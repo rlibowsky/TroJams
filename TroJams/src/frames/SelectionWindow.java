@@ -469,6 +469,8 @@ public class SelectionWindow extends JFrame {
 		bg.add(cpwPublicRadioButton);
 		bg.add(cpwPrivateRadioButton);
 		cpwPublicRadioButton.setSelected(true);
+		cpwPasswordTextField.setVisible(false);
+
 		
 		// Adds radio buttons horizontally
 		cpwRadioButtonPanel.setLayout(new BoxLayout(cpwRadioButtonPanel, BoxLayout.X_AXIS));
