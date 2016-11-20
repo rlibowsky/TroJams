@@ -186,7 +186,7 @@ public class PartyWindow extends JPanel {
 		refreshButton.setIcon(refreshButtonImage);
 		refreshButton.setOpaque(false);
 		refreshButton.setBorderPainted(false);
-		//refreshButton.setContentAreaFilled(false);
+		refreshButton.setContentAreaFilled(false);
 		
 		//buttonsPanel.add(addSongButton, BorderLayout.NORTH);
 		bottomButtonPanel.add(refreshButton);

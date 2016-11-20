@@ -309,9 +309,9 @@ public class SelectionWindow extends JFrame {
 		swRightPanel.add(topPanel);
 		swMainPanel.add(swRightPanel, BorderLayout.CENTER);
 		
-//		ProfilePanel profilePanel = new ProfilePanel(user);
-//		profilePanel.setOpaque(false);
-//		swMainPanel.add(profilePanel, BorderLayout.WEST);
+		ProfilePanel profilePanel = new ProfilePanel(user);
+		profilePanel.setOpaque(false);
+		swMainPanel.add(profilePanel, BorderLayout.WEST);
 		
 	}
 	
