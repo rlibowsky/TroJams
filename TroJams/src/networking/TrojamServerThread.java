@@ -43,10 +43,10 @@ public class TrojamServerThread extends Thread{
 				} else if (obj instanceof Account) {
 					this.account = (Account) obj;
 					this.account.st = this;
-				} else if (obj instanceof PartyMessage) {
-					PartyMessage pm = (PartyMessage) obj;
+				} else if (obj instanceof NewPartyMessage) {
+					NewPartyMessage pm = (NewPartyMessage) obj;
 					User user = (User) account;
-					trojamServer.addParty(user, pm.getPartyName(), pm.getPartyPassword());
+					trojamServer.addParty(user, pm);
 				}
 				
 				

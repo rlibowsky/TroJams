@@ -1,23 +1,17 @@
 package networking;
 
-import logic.Account;
 import logic.Party;
 
-public class PartyMessage extends Message{
-	private String partyName, partyPassword;
+public class PartyMessage extends Message {
+	private Party party;
 
-	public PartyMessage(String name, String partyName, String partyPassword) {
+	public PartyMessage(String name, Party party) {
 		super(name);
-		this.partyName = partyName;
-		this.partyPassword = partyPassword;
+		this.party = party;
 	}
 	
-	public String getPartyName() {
-		return partyName;
-	}
-	
-	public String getPartyPassword() {
-		return partyPassword;
+	public Party getParty() {
+		return party;
 	}
 
 }
