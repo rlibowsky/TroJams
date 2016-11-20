@@ -38,7 +38,7 @@ public class PartyWindow extends JPanel {
 	
 	private JButton addSongButton, refreshButton, addNewSongButton, searchButton, leaveButton;
 	private JList <SingleSongPanel>songList;
-	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, cards;
+	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, cards, bottomButtonPanel;
 	private JScrollPane songScrollPane;
 	private ImageIcon backgroundImage;
 	private JTextArea hostLabel;
@@ -158,6 +158,10 @@ public class PartyWindow extends JPanel {
 		addSongButton.setBorderPainted(false);
 		//addSongButton.setContentAreaFilled(false);
 		
+		bottomButtonPanel = new JPanel();
+		bottomButtonPanel.add(addSongButton);
+		bottomButtonPanel.setOpaque(false);
+		
 		refreshButton = new JButton();
 		ImageIcon refreshButtonImage = new ImageIcon("images/button_refresh.png");
 		refreshButton.setIcon(refreshButtonImage);
@@ -165,7 +169,9 @@ public class PartyWindow extends JPanel {
 		refreshButton.setBorderPainted(false);
 		//refreshButton.setContentAreaFilled(false);
 		
-		buttonsPanel.add(addSongButton, BorderLayout.NORTH);
+		//buttonsPanel.add(addSongButton, BorderLayout.NORTH);
+		
+		
 		buttonsPanel.add(refreshButton, BorderLayout.SOUTH);
 		
 		hostLabel = new JTextArea("'s \nparty!");
@@ -203,6 +209,8 @@ public class PartyWindow extends JPanel {
 //		if (this.party.getSongs().size() != 0) {
 //			this.updateCurrentlyPlaying();
 //		}
+		
+		
 		centerPanel.add(currentlyPlayingPanel, BorderLayout.NORTH);
 		
 		songList = new JList<SingleSongPanel>();
@@ -240,7 +248,8 @@ public class PartyWindow extends JPanel {
 		songScrollPane.getViewport().setOpaque(false);
 		centerPanel.setOpaque(false);
 		
-		centerPanel.add(songScrollPane, BorderLayout.SOUTH);
+		centerPanel.add(songScrollPane, BorderLayout.CENTER);
+		centerPanel.add(bottomButtonPanel, BorderLayout.SOUTH);
 		revalidate();
 		
 		
@@ -281,7 +290,7 @@ public class PartyWindow extends JPanel {
 		AppearanceSettings.setForeground(Color.white, addSongButton, refreshButton, hostLabel);
 		AppearanceSettings.setSize(150, 80, addSongButton, refreshButton, hostLabel);
 		AppearanceSettings.setSize(150, 150, hostLabel);
-		AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton, refreshButton, hostLabel);
+		//AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton, refreshButton, hostLabel);
 		AppearanceSettings.setOpaque(addSongButton, refreshButton);
 		//AppearanceSettings.setNotOpaque(hostLabel);
 		AppearanceSettings.unSetBorderOnButtons(addSongButton, refreshButton);
