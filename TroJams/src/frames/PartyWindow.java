@@ -150,8 +150,20 @@ public class PartyWindow extends JPanel {
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new BorderLayout());
 		
-		addSongButton = new JButton("Add Song");
-		refreshButton = new JButton("Refresh");
+		addSongButton = new JButton();
+		ImageIcon addSongButtonImage = new ImageIcon("images/button_add-song.png");
+		addSongButton.setIcon(addSongButtonImage);
+		addSongButton.setOpaque(false);
+		addSongButton.setBorderPainted(false);
+		addSongButton.setContentAreaFilled(false);
+		
+		refreshButton = new JButton();
+		ImageIcon refreshButtonImage = new ImageIcon("images/button_refresh.png");
+		refreshButton.setIcon(refreshButtonImage);
+		refreshButton.setOpaque(false);
+		refreshButton.setBorderPainted(false);
+		refreshButton.setContentAreaFilled(false);
+		
 		buttonsPanel.add(addSongButton, BorderLayout.NORTH);
 		buttonsPanel.add(refreshButton, BorderLayout.SOUTH);
 		
@@ -161,7 +173,13 @@ public class PartyWindow extends JPanel {
 		hostImage = new JLabel();
 		Image image = new ImageIcon(this.party.getHost().getImageFilePath()).getImage();
 		hostImage.setIcon(new ImageIcon(image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
-		leaveButton = new JButton("Leave this party");
+		leaveButton = new JButton();
+		ImageIcon leaveButtonImage = new ImageIcon("images/button_leave-party.png");
+		leaveButton.setIcon(leaveButtonImage);
+		leaveButton.setOpaque(false);
+		leaveButton.setBorderPainted(false);
+		leaveButton.setContentAreaFilled(false);
+		
 		hostPanel = new JPanel();
 		hostPanel.setLayout(new BorderLayout());
 		hostLabel.setOpaque(false);
@@ -191,8 +209,20 @@ public class PartyWindow extends JPanel {
 		setSongs();
 		
 		// Initializing components for add song panel 
-		addNewSongButton = new JButton("Add song");
-		searchButton = new JButton("Search");
+		addNewSongButton = new JButton();
+		ImageIcon addNewSongButtonImage = new ImageIcon("images/button_add-song.png");
+		addNewSongButton.setIcon(addNewSongButtonImage);
+		addNewSongButton.setOpaque(false);
+		addNewSongButton.setBorderPainted(false);
+		addNewSongButton.setContentAreaFilled(false);
+		
+		searchButton = new JButton();
+		ImageIcon searchButtonImage = new ImageIcon("images/button_search.png");
+		searchButton.setIcon(searchButtonImage);
+		searchButton.setOpaque(false);
+		searchButton.setBorderPainted(false);
+		searchButton.setContentAreaFilled(false);
+		
 		searchedSong = new JLabel();
 		searchBar = new JTextField();
 

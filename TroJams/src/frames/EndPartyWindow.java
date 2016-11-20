@@ -68,6 +68,7 @@ public class EndPartyWindow extends JPanel {
 		joinAnotherPartyButton.setOpaque(false);
 		joinAnotherPartyButton.setBorderPainted(false);
 		joinAnotherPartyButton.setContentAreaFilled(false);
+		
 		AppearanceSettings.setSize(600, 400, quitButton, joinAnotherPartyButton);
 		AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, quitButton, joinAnotherPartyButton);
 		

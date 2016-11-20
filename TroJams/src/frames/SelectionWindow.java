@@ -144,11 +144,12 @@ public class SelectionWindow extends JFrame {
 		cpwPublicRadioButton = new JRadioButton("Public");
 		cpwPrivateRadioButton = new JRadioButton("Private");
 		cpwCreateButton = new JButton();
-		ImageIcon cButtonImage = new ImageIcon("images/button_create-party.png");
+		ImageIcon cButtonImage = new ImageIcon("images/button_create-a-party.png");
 		cpwCreateButton.setIcon(cButtonImage);
 		cpwCreateButton.setContentAreaFilled(false);
 		cpwCreateButton.setBorderPainted(false);
 		cpwCreateButton.setOpaque(false);
+		
 		fileChooser = new JFileChooser();
 		imageText = new JLabel("Click to upload a party picture");
 		imageText.setForeground(Color.white);
@@ -589,7 +590,13 @@ public class SelectionWindow extends JFrame {
 				partiesTextArea.append(p.getPartyName() + "\n");
 			}
 			
-			logout = new JButton("Logout");
+			logout = new JButton();
+			ImageIcon logoutButtonImage = new ImageIcon("images/button_log-out.png");
+			logout.setIcon(logoutButtonImage);
+			logout.setOpaque(false);
+			logout.setBorderPainted(false);
+			logout.setContentAreaFilled(false);
+			
 			logout.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
