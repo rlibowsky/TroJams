@@ -16,6 +16,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,6 +30,7 @@ import javax.swing.JTextField;
 import frames.PartyWindow.SingleSongPanel;
 import logic.Party;
 import logic.PartySong;
+import logic.User;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
 
@@ -37,13 +39,16 @@ public class PartyWindow extends JPanel {
 	private JButton refreshButton, addNewSongButton, searchButton, leaveButton;
 	private JList <SingleSongPanel>songList;
 	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, bottomButtonPanel;
-	private JScrollPane songScrollPane;
-	private ImageIcon backgroundImage;
+	private JScrollPane songScrollPane, partyPeopleScrollPane;
+	private ImageIcon backgroundImage, currentlyPlayingImage, partyImage, hostImage;
 	DefaultListModel <SingleSongPanel> df;
-	private JTextArea hostLabel;
+	private JLabel hostLabel;
+	private JLabel partyLabel;
+	private JList partyPeopleList;
+	
 	//private ArrayList <SingleSongPanel> songs;
 	private Party party;
-	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel, hostImage, searchedSong;
+	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel, hostImageLabel, searchedSong;
 	private JTextField searchBar;
 	private CardLayout cl;
 	private SelectionWindow sw;
@@ -175,10 +180,12 @@ public class PartyWindow extends JPanel {
 		
 //		buttonsPanel.add(addSongButton, BorderLayout.SOUTH);
 		
-		hostLabel = new JTextArea("'s \nparty!");
-		hostLabel.setEditable(false);
-		hostLabel.setLineWrap(true);
-		hostImage = new JLabel();
+		partyLabel = new JLabel("Party: " + party.getPartyName());
+		partyImage = party.getPartyImage();
+		hostLabel = new JLabel("Host: " + party.getHostName());
+		hostImage = party.getHost().getUserImage();
+		hostImageLabel = new JLabel();
+		
 		//Image image = new ImageIcon(this.party.getHost().getImageFilePath()).getImage();
 		//hostImage.setIcon(new ImageIcon(image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
 		leaveButton = new JButton();
@@ -192,18 +199,26 @@ public class PartyWindow extends JPanel {
 		hostPanel.setLayout(new BorderLayout());
 		hostLabel.setOpaque(false);
 		hostPanel.add(hostLabel, BorderLayout.NORTH);
-		hostPanel.add(hostImage, BorderLayout.CENTER);
+		hostPanel.add(hostImageLabel, BorderLayout.CENTER);
 		hostPanel.add(leaveButton, BorderLayout.SOUTH);
 		hostPanel.setOpaque(false);
+		
+		User [] temp = (User[]) party.getPartyMembers().toArray();
+		partyPeopleList = new JList(temp);
+		
 		currentlyPlayingPanel = new JPanel();
-		currentlyPlayingPanel.setLayout(new GridLayout(1,3));
+		currentlyPlayingImage = new ImageIcon("images/purplePlay.png");
+		JLabel currentlyPlayingImageLabel = new JLabel(currentlyPlayingImage);
+		currentlyPlayingPanel.setLayout(new BoxLayout(currentlyPlayingPanel, BoxLayout.LINE_AXIS));
 		currentlyPlayingLabel = new JLabel("Now Playing: ");
-	
-		currentSongName = new JLabel("closer");
-		currentSongTime = new JLabel("3");
+		currentSongName = new JLabel("");
+		currentSongTime = new JLabel("");
 		AppearanceSettings.setNotOpaque(currentSongName, currentSongTime, currentlyPlayingPanel, currentlyPlayingLabel);
 		AppearanceSettings.setForeground(Color.WHITE, currentSongName, currentSongTime, currentlyPlayingPanel, currentlyPlayingLabel);
-		currentlyPlayingLabel.setForeground(Color.white);
+		AppearanceSettings.setFont(AppearanceConstants.fontLarge, currentSongName);
+		AppearanceSettings.setFont(AppearanceConstants.fontMedium, currentlyPlayingLabel, currentSongTime);
+		
+		currentlyPlayingPanel.add(currentlyPlayingImageLabel);
 		currentlyPlayingPanel.add(currentlyPlayingLabel);
 		currentlyPlayingPanel.add(currentSongName);
 		currentlyPlayingPanel.add(currentSongTime);
