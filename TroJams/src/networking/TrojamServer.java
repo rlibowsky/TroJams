@@ -25,6 +25,7 @@ public class TrojamServer extends Thread{
 	private ArrayList <TrojamServerThread> trojamServerThreads;
 	private int port;
 	private ArrayList <Party> parties;
+	private HashMap <String, Party> partyNamesToObjects;
 	private HashMap<Account, TrojamServerThread> accountToThreadMap;
 	
 	public TrojamServer(int port) {
@@ -32,6 +33,7 @@ public class TrojamServer extends Thread{
 		this.parties = new ArrayList <Party> ();
 		trojamServerThreads = new ArrayList <TrojamServerThread>();
 		accountToThreadMap = new HashMap<>();
+		partyNamesToObjects = new HashMap<>();
 		this.start();
 	}
 	
@@ -77,6 +79,7 @@ public class TrojamServer extends Thread{
 			System.out.println("sending public party");
 			p = new PublicParty(pm.getPartyName(), user, null);
 			parties.add(p);
+			partyNamesToObjects.put(p.getPartyName(), p);
 			sendMessageToAll(new PartyMessage("newParty", p));
 		}
 		else {
@@ -145,7 +148,7 @@ public class TrojamServer extends Thread{
 	}
 	
 	public static void main (String [] args) {
-		TrojamServer tjs = new TrojamServer(1111);
+		TrojamServer tjs = new TrojamServer(6789);
 	}
 
 	public boolean createAccount(CreateAccountMessage cam) {
@@ -214,5 +217,10 @@ public class TrojamServer extends Thread{
 			receivedParty.downvoteSong(receivedSong);
 		}
 		sendMessageToAll(svm);
+	}
+
+	public void addPartyGuest(NewPartierMessage npm) {
+		partyNamesToObjects.get(npm.getPartyName()).addAccount(npm.getAccount());
+		System.out.println("added guest to party");
 	}
 }

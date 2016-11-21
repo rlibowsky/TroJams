@@ -66,7 +66,6 @@ public class TrojamClient extends Thread{
 	
 	@Override
 	public void run() {
-		System.out.println("run was invoked");
 		while (true){
 			try {
 				Object obj = ois.readObject();
@@ -80,8 +79,6 @@ public class TrojamClient extends Thread{
 					this.sw.sendSongVoteUpdate((SongVoteMessage) obj);
 				}else if (obj instanceof PartyMessage) {
 					PartyMessage pm = (PartyMessage) obj;
-					//if (pm.getName().equals("newParty")) {
-					System.out.println("new party sent to client");
 					sw.addNewParty(pm.getParty());
 						//}
 				} else if(obj instanceof AuthenticatedLoginMessage){
@@ -109,10 +106,8 @@ public class TrojamClient extends Thread{
 	
 	public void sendNewPartyMessage(NewPartyMessage npm) {
 		try {
-			System.out.println("trying to send a new party");
 			oos.writeObject(npm);
 			oos.flush();
-			System.out.println("sent a new party");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -154,7 +149,16 @@ public class TrojamClient extends Thread{
 			oos.flush();
 			System.out.println("send party song info to serverthread");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void addNewPartier(String partyName) {
+		System.out.println("adding new guest to party " + partyName);
+		try {
+			oos.writeObject(new NewPartierMessage("newParties", account, partyName));
+			oos.flush();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

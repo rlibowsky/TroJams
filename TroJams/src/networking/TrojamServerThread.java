@@ -48,6 +48,8 @@ public class TrojamServerThread extends Thread{
 					NewPartyMessage pm = (NewPartyMessage) obj;
 					User user = (User) account;
 					trojamServer.addParty(user, pm);
+				} else if (obj instanceof NewPartierMessage) {
+					trojamServer.addPartyGuest((NewPartierMessage) obj);
 				} else if (obj instanceof LoginMessage) {
 					System.out.println("login message received by serverthread");
 					//returns a boolean saying whether or not the password matched
