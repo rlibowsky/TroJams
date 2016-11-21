@@ -29,7 +29,7 @@ public class SongSearch {
 		// if so, grab the string songInfo and string songArtist and jpg songAlbumArtwork 
 		// and assign it to the local variables here?
 		// else send an error message
-		client.searchForSong(new SearchSongMessage(songName));
+		client.searchForSong(new SearchSongMessage(songName)); 
 	}
 	
 	public String getSongInfo() {

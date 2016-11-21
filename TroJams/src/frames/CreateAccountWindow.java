@@ -211,7 +211,7 @@ public class CreateAccountWindow extends JPanel {
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
 		bottomPanel.setPreferredSize(new Dimension(800, 260));
 		imageLabel.setPreferredSize(new Dimension(200,200));
-		setUserImage("images/silhouette.png");
+		setUserImage("images/JeffreyMiller-cropped.png");
 		AppearanceSettings.addGlue(bottomPanel, BoxLayout.LINE_AXIS, true, imageLabel, submitButton, backButton);
 		submitButton.setEnabled(false);
 		
