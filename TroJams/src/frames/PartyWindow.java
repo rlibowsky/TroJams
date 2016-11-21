@@ -311,6 +311,8 @@ public class PartyWindow extends JPanel {
 		
 		searchedSong = new JLabel();
 		searchBar = new JTextField();
+		AppearanceSettings.setForeground(Color.WHITE, searchBar);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, searchBar, searchedSong);
 
 //		cards = new JPanel(new CardLayout());
 		
