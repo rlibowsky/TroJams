@@ -164,4 +164,14 @@ public class TrojamClient extends Thread{
 			e.printStackTrace();
 		}
 	}
+
+	public void searchForSong(SearchSongMessage ssm) {
+		System.out.println("sending song message from client");
+		try{
+			oos.writeObject(ssm);
+			oos.flush();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}
 }

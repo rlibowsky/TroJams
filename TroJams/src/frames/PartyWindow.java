@@ -479,7 +479,7 @@ public class PartyWindow extends JPanel {
 //				//listModel.addElement(ssp);
 //				System.out.println(songList.getModel().getSize());
 				songList.add(ssp);
-				new SongSearch(searchedSong.getText());
+				new SongSearch(searchedSong.getText(), sw.getClient());
 				currentSongName.setText(searchedSong.getText());
 				searchedSong.setText("");
 				revalidate();
