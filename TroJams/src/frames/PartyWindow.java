@@ -8,6 +8,7 @@ import java.awt.CardLayout;
  */
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -193,14 +194,14 @@ public class PartyWindow extends JPanel {
 		//JPanel topHostPanel = new JPanel();
 		//topHostPanel.setLayout(new FlowLayout());
 		//topHostPanel.setOpaque(false);
-		partyLabel = new JLabel("Party: " + party.getPartyName());
+		partyLabel = new JLabel(party.getPartyName() + " by " + party.getHostName());
 		AppearanceSettings.setForeground(Color.white, partyLabel);
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, partyLabel);
 		partyLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,50));
 		partyLabel.setOpaque(false);
 		partyImage = party.getPartyImage();
-		hostLabel = new JLabel("Host: " + party.getHostName());
-		hostLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,50));
+		//hostLabel = new JLabel("Host: " + party.getHostName());
+		//hostLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,50));
 		
 		hostImage = party.getPartyImage();
 		JLabel hostImageLabel = new JLabel(hostImage);
@@ -233,10 +234,10 @@ public class PartyWindow extends JPanel {
 		
 		hostPanel = new JPanel();
 		hostPanel.setLayout(new FlowLayout());
-		hostLabel.setOpaque(false);
+		//hostLabel.setOpaque(false);
 		//hostPanel.add(partyLabel);
 		hostPanel.add(partyLabel);
-		hostPanel.add(hostLabel);
+		//hostPanel.add(hostLabel);
 		hostPanel.add(hostImageLabel);
 		//hostPanel.add(topHostPanel, BorderLayout.NORTH);
 		
@@ -256,6 +257,7 @@ public class PartyWindow extends JPanel {
 		scrollPanel.setOpaque(false);
 
 		partyPeopleList = new JList();
+		partyPeopleList.setOpaque(false);
 		partyPeopleScrollPane = new JScrollPane(partyPeopleList);
 		partyPeopleScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
 		partyPeopleScrollPane.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 400));
@@ -375,14 +377,14 @@ public class PartyWindow extends JPanel {
 		setLayout(new BorderLayout());
 		
 		// Set appearance settings
-		AppearanceSettings.setForeground(Color.white, refreshButton, hostLabel);
+		AppearanceSettings.setForeground(Color.white, refreshButton);
 		AppearanceSettings.setSize(150, 80, refreshButton);
 		//AppearanceSettings.setSize(150, 150, hostLabel);
 		//AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, addSongButton, refreshButton, hostLabel);
 		//AppearanceSettings.setOpaque(addSongButton, refreshButton);
 		//AppearanceSettings.setNotOpaque(hostLabel);
 		AppearanceSettings.unSetBorderOnButtons(refreshButton);
-		AppearanceSettings.setFont(AppearanceConstants.fontMedium, refreshButton, hostLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontMedium, refreshButton);
 		
 		
 		//AppearanceSettings.setSize(x, y, components);
@@ -511,7 +513,7 @@ public class PartyWindow extends JPanel {
 		//AppearanceSettings.setSize(150, 150, hostLabel);
 		//AppearanceSettings.setOpaque(addSongButton, refreshButton, hostLabel);
 		AppearanceSettings.unSetBorderOnButtons(addNewSongButton, searchButton);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addNewSongButton, searchButton, hostLabel);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, addNewSongButton, searchButton);
 		
 		
 		//searchBarPanel.add(searchBar);
@@ -520,6 +522,8 @@ public class PartyWindow extends JPanel {
 		searchedSong.setText("");
 		searchedSong.setFont(AppearanceConstants.fontSmall);
 		//centerPanel.add(Box.createVerticalStrut(275));
+		JLabel addSongLabel = new JLabel("Add a jam!");
+		dummyPanel.add(addSongLabel);
 		centerPanel.add(dummyPanel);
 		centerPanel.add(searchBar);
 		centerPanel.add(searchButton);
@@ -698,6 +702,7 @@ public class PartyWindow extends JPanel {
 			logout.setBorderPainted(false);
 			logout.setContentAreaFilled(false);
 			logout.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 50));
+			logout.setAlignmentX(Component.CENTER_ALIGNMENT);
 			
 			logout.addActionListener(new ActionListener() {
 				@Override
@@ -714,6 +719,7 @@ public class PartyWindow extends JPanel {
 			viewParty.setBorderPainted(false);
 			viewParty.setContentAreaFilled(false);
 			viewParty.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 50));
+			viewParty.setAlignmentX(Component.CENTER_ALIGNMENT);
 			
 			viewParty.addActionListener(new ActionListener() {
 				@Override
