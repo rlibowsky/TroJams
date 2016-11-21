@@ -45,6 +45,7 @@ import logic.User;
 import networking.SongVoteMessage;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
+import searches.SongSearch;
 
 public class PartyWindow extends JPanel {
 	
@@ -326,7 +327,7 @@ public class PartyWindow extends JPanel {
 //		}
 		
 		
-		centerPanel.add(currentlyPlayingPanel, BorderLayout.NORTH);
+		centerPanel.add(currentlyPlayingPanelWithImage, BorderLayout.NORTH);
 		listModel = new DefaultListModel<SingleSongPanel>();
 
 //		df = new DefaultListModel<>();
@@ -478,6 +479,7 @@ public class PartyWindow extends JPanel {
 //				//listModel.addElement(ssp);
 //				System.out.println(songList.getModel().getSize());
 				songList.add(ssp);
+				new SongSearch(searchedSong.getText());
 				currentSongName.setText(searchedSong.getText());
 				searchedSong.setText("");
 				revalidate();
