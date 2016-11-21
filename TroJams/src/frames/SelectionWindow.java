@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -100,6 +101,7 @@ public class SelectionWindow extends JFrame {
 //		}
 		model = new DefaultListModel<>();
 		swcurrentParties = new JList<>(model);
+		swcurrentParties.setLayout(new FlowLayout());
 		initializeComponents();
 		createGUI();
 		addActionListeners();
@@ -250,8 +252,9 @@ public class SelectionWindow extends JFrame {
 	
 	private void addParty(Party p) {
 		SinglePartyPanel spp = new SinglePartyPanel(p);
-		model.addElement(spp);
-		revalidate();
+		//model.addElement(spp);
+		swcurrentParties.add(spp);
+		//revalidate();
 	}
 	
 	public void setParties(Vector <Party> parties) {
@@ -259,18 +262,23 @@ public class SelectionWindow extends JFrame {
 		//swcurrentParties.setListData(parties);
 		//swcurrentParties.removeAll();
 		//Vector <SinglePartyPanel> temp = new Vector <SinglePartyPanel>();
-		model.removeAllElements();
+		swcurrentParties.removeAll();
+		
+		//model.removeAllElements();
+		//model = new DefaultListModel<>();
+		
 		//swcurrentParties.setLayout(new FlowLayout());
 		//swcurrentParties.setVisibleRowCount(10);
 		//add parties to list
 		
 		for (int i = 0; i < parties.size(); i++) {
 			Party p = parties.get(i);
-			SinglePartyPanel spp = new SinglePartyPanel(p);
 			System.out.println("adding a party ... " + p.getPartyName());
-			model.addElement(spp);
+			//model.addElement(spp);
+			addParty(p);
 		}
-		//swcurrentParties.setListData(temp);
+		//swcurrentParties.setModel(model);
+		//repaint();
 		revalidate();
 	}
 	
