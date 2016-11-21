@@ -406,6 +406,7 @@ public class PartyWindow extends JPanel {
 		cards = new JPanel(new CardLayout());
 		JPanel profilePanel = new ProfilePanel(user);
 		profilePanel.setOpaque(false);
+		profilePanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT));
 		cards.setOpaque(false);
 		cards.add(hostPanel, "host panel");
 		cards.add(profilePanel, "profile panel");
@@ -736,14 +737,11 @@ public class PartyWindow extends JPanel {
 			this.add(profileUserName);
 			this.add(dummyLabel);
 			this.add(userHistorySP);
-<<<<<<< Updated upstream
 			this.add(viewParty);
 			this.add(logout);
-=======
 //			this.add(viewParty);
 //			this.add(logout);
 			this.add(buttonPanel, BorderLayout.SOUTH);
->>>>>>> Stashed changes
 		}
 	}
 }
