@@ -8,16 +8,21 @@ import java.awt.CardLayout;
  */
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -124,7 +129,8 @@ public class PartyWindow extends JPanel {
 			
 			AppearanceSettings.setForeground(Color.white, songNameLabel, votesLabel);
 			AppearanceSettings.setForeground(Color.white, currentSongName, currentSongTime, currentlyPlayingLabel);
-			AppearanceSettings.setSize(100, 40, songNameLabel, votesLabel, currentSongName, currentSongTime, currentlyPlayingLabel);
+			AppearanceSettings.setSize(100, 40, songNameLabel, votesLabel);
+			//, currentSongName, currentSongTime, currentlyPlayingLabel);
 			//AppearanceSettings.setBackground(AppearanceConstants.mediumGray, songNameLabel, votesLabel, songList, upvoteButton, downvoteButton, this);
 			//AppearanceSettings.setBackground(AppearanceConstants.trojamPurple, currentSongName, currentSongTime, currentlyPlayingLabel);
 			//AppearanceSettings.setOpaque(songNameLabel, votesLabel, currentSongName, currentSongTime, currentlyPlayingLabel);
@@ -194,10 +200,10 @@ public class PartyWindow extends JPanel {
 		//JPanel topHostPanel = new JPanel();
 		//topHostPanel.setLayout(new FlowLayout());
 		//topHostPanel.setOpaque(false);
-		partyLabel = new JLabel(party.getPartyName() + " by " + party.getHostName());
+		partyLabel = new JLabel("<html>" + party.getPartyName() + " by " + party.getHostName() + "</html>");
 		AppearanceSettings.setForeground(Color.white, partyLabel);
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, partyLabel);
-		partyLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,50));
+		partyLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,150));
 		partyLabel.setOpaque(false);
 		partyImage = party.getPartyImage();
 		//hostLabel = new JLabel("Host: " + party.getHostName());
@@ -212,7 +218,6 @@ public class PartyWindow extends JPanel {
 		viewProfileButton = new JButton();
 		ImageIcon viewProfileButtonImage = new ImageIcon("images/button_view-profile.png");
 		viewProfileButton.setIcon(viewProfileButtonImage);
-		// TODO: CHANGE THIS URL
 		//ImageIcon viewProfileImage = new ImageIcon("images/button_leave-party.png");
 		//viewProfileButton.setIcon(viewProfileImage);
 		viewProfileButton.setOpaque(false);
@@ -274,21 +279,48 @@ public class PartyWindow extends JPanel {
 		hostPanel.add(leftButtonPanel, BorderLayout.SOUTH);
 		
 		currentlyPlayingPanel = new JPanel();
-		currentlyPlayingImage = new ImageIcon("images/purplePlay.png");
+		
+		
+		Image i = null;
+		try {
+			i = ImageIO.read(new File("images/purplePlay.png"));
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		i = getScaledImage(i,100,100);
+		currentlyPlayingImage = new ImageIcon(i);
+		
+		JPanel currentlyPlayingPanelWithImage = new JPanel();
+		currentlyPlayingPanelWithImage.setLayout(new BoxLayout(currentlyPlayingPanelWithImage, BoxLayout.X_AXIS));
+		currentlyPlayingPanelWithImage.setOpaque(false);
+		
+		//currentlyPlayingImage = new ImageIcon("images/purplePlay.png");
 		JLabel currentlyPlayingImageLabel = new JLabel(currentlyPlayingImage);
-		currentlyPlayingPanel.setLayout(new BoxLayout(currentlyPlayingPanel, BoxLayout.LINE_AXIS));
+		currentlyPlayingPanel.setLayout(new BoxLayout(currentlyPlayingPanel, BoxLayout.Y_AXIS));
+		JPanel currentlyPlayingInfo = new JPanel();
+		currentlyPlayingInfo.setLayout(new BoxLayout(currentlyPlayingInfo, BoxLayout.X_AXIS));
+		
 		currentlyPlayingLabel = new JLabel("Now Playing: ");
 		currentSongName = new JLabel("");
 		currentSongTime = new JLabel("");
 		AppearanceSettings.setNotOpaque(currentSongName, currentSongTime, currentlyPlayingPanel, currentlyPlayingLabel);
 		AppearanceSettings.setForeground(Color.WHITE, currentSongName, currentSongTime, currentlyPlayingPanel, currentlyPlayingLabel);
 		AppearanceSettings.setFont(AppearanceConstants.fontLarge, currentSongName);
-		AppearanceSettings.setFont(AppearanceConstants.fontMedium, currentlyPlayingLabel, currentSongTime);
+		AppearanceSettings.setFont(AppearanceConstants.fontLarge, currentlyPlayingLabel, currentSongTime);
 		
-		currentlyPlayingPanel.add(currentlyPlayingImageLabel);
+		currentlyPlayingInfo.setOpaque(false);
+		currentlyPlayingLabel.setOpaque(false);
+		
+		
+		currentlyPlayingInfo.add(currentSongName);
+		currentlyPlayingInfo.add(currentSongTime);
 		currentlyPlayingPanel.add(currentlyPlayingLabel);
-		currentlyPlayingPanel.add(currentSongName);
-		currentlyPlayingPanel.add(currentSongTime);
+		currentlyPlayingPanel.add(currentlyPlayingInfo);
+		currentlyPlayingPanelWithImage.add(currentlyPlayingImageLabel);
+		currentlyPlayingPanelWithImage.add(currentlyPlayingPanel);
+		//currentlyPlayingPanel.add(currentlyPlayingInfo);
+		
+		//currentlyPlayingPanel.add(currentSongTime);
 //		if (this.party.getSongs().size() != 0) {
 //			this.updateCurrentlyPlaying();
 //		}
@@ -446,6 +478,7 @@ public class PartyWindow extends JPanel {
 //				//listModel.addElement(ssp);
 //				System.out.println(songList.getModel().getSize());
 				songList.add(ssp);
+				currentSongName.setText(searchedSong.getText());
 				searchedSong.setText("");
 				revalidate();
 			}
@@ -522,7 +555,10 @@ public class PartyWindow extends JPanel {
 		searchedSong.setText("");
 		searchedSong.setFont(AppearanceConstants.fontSmall);
 		//centerPanel.add(Box.createVerticalStrut(275));
-		JLabel addSongLabel = new JLabel("Add a jam!");
+		JLabel addSongLabel = new JLabel("Add a Jam!");
+		addSongLabel.setAlignmentY(this.BOTTOM_ALIGNMENT);
+		addSongLabel.setForeground(Color.white);
+		AppearanceSettings.setFont(AppearanceConstants.fontHuge, addSongLabel);
 		dummyPanel.add(addSongLabel);
 		centerPanel.add(dummyPanel);
 		centerPanel.add(searchBar);
@@ -750,4 +786,16 @@ public class PartyWindow extends JPanel {
 			this.add(buttonPanel, BorderLayout.SOUTH);
 		}
 	}
+	
+	private Image getScaledImage(Image srcImg, int w, int h) {
+	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g2 = resizedImg.createGraphics();
+
+	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g2.drawImage(srcImg, 0, 0, w, h, null);
+	    g2.dispose();
+
+	    return resizedImg;
+	}
+	
 }
