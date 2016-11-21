@@ -45,26 +45,32 @@ public class TrojamServerThread extends Thread{
 					 System.out.println("received account");
 					this.account = (Account) obj;
 					//this.account.st = this;
-				} else if (obj instanceof NewPartyMessage) {
+				} 
+				else if (obj instanceof NewPartyMessage) {
 					System.out.println("new party received by serverthread");
 					NewPartyMessage pm = (NewPartyMessage) obj;
 					User user = (User) account;
 					trojamServer.addParty(user, pm);
-				} else if (obj instanceof NewPartierMessage) {
+				} 
+				else if (obj instanceof NewPartierMessage) {
 					trojamServer.addPartyGuest((NewPartierMessage) obj);
-				} else if (obj instanceof LoginMessage) {
+				} 
+				else if (obj instanceof LoginMessage) {
 					System.out.println("login message received by serverthread");
 					//returns a boolean saying whether or not the password matched
 					boolean goodLogin = trojamServer.authenticateLogin((LoginMessage)obj );
 					trojamServer.sendMessageToOne(threadNum, new AuthenticatedLoginMessage(goodLogin));
-				} else if(obj instanceof CreateAccountMessage){ 
+				} 
+				else if(obj instanceof CreateAccountMessage){ 
 					CreateAccountMessage cam = (CreateAccountMessage) obj;
 					//returns a boolean of whether or not the account was created
 					boolean accountCreated = trojamServer.createAccount(cam);
 					trojamServer.sendMessageToOne(threadNum, new AccountCreatedMessage(accountCreated, cam.getUser()));
-				} else if (obj instanceof SongVoteMessage) {
+				} 
+				else if (obj instanceof SongVoteMessage) {
 					trojamServer.voteOnSong((SongVoteMessage) obj);
-				} else if (obj instanceof Message) {
+				} 
+				else if (obj instanceof Message) {
 					System.out.println("got a generic message");
 					Message message = (Message) obj;
 					trojamServer.sendMessageToAll(message);

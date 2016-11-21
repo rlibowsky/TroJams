@@ -28,15 +28,14 @@ public class TrojamServer extends Thread{
 	private ServerSocket serverSocket;
 	private Vector <TrojamServerThread> trojamServerThreads;
 	private int port;
-	private ArrayList <Party> parties;
+	private Vector <Party> parties;
 	private HashMap <String, Party> partyNamesToObjects;
 	//private HashMap<Account, TrojamServerThread> accountToThreadMap;
 	private int numThreads;
 	
 	public TrojamServer(int port) {
 		this.port = port;
-		numThreads = 0;
-		this.parties = new ArrayList <Party> ();
+		this.parties = new Vector <Party> ();
 		trojamServerThreads = new Vector <TrojamServerThread>();
 		//accountToThreadMap = new HashMap<>();
 		partyNamesToObjects = new HashMap<>();
@@ -51,9 +50,8 @@ public class TrojamServer extends Thread{
 			while (true){
 				Socket socket = serverSocket.accept();
 				System.out.println("new connection from " + socket.getInetAddress());
-				TrojamServerThread newThread = new TrojamServerThread(socket, this, numThreads);
+				TrojamServerThread newThread = new TrojamServerThread(socket, this, trojamServerThreads.size());
 				trojamServerThreads.add(newThread);
-				numThreads++;
 				//accountToThreadMap.put(newThread.getAccount(), newThread);
 			}
 		} catch (NumberFormatException | IOException e) {
@@ -72,6 +70,7 @@ public class TrojamServer extends Thread{
 //	}
 	
 	public void sendMessageToAll(Message message){
+		//TODO update this to use a vector
 		for (TrojamServerThread currentThread : trojamServerThreads){
 			if (currentThread != null) currentThread.sendMessage(message);
 		}

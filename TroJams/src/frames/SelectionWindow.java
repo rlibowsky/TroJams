@@ -462,15 +462,16 @@ public class SelectionWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {	
 				// CHANGE TO PARTY WINDOW
 				String pName = cpwPartyNameTextField.getText();
-				ImageIcon pImage = (ImageIcon) imageLabel.getIcon();
-				Party p = null;
-				if(cpwPublicRadioButton.isSelected()){
-					p = new PublicParty(pName, user, imageFilePath);
-				}
-				else if(cpwPrivateRadioButton.isSelected()){
-					String password = cpwPasswordTextField.getText();
-					p = new PrivateParty(pName, password, user, imageFilePath);
-				}
+//				ImageIcon pImage = (ImageIcon) imageLabel.getIcon();
+//				Party p = null;
+//				if(cpwPublicRadioButton.isSelected()){
+//					p = new PublicParty(pName, user, imageFilePath);
+//					
+//				}
+//				else if(cpwPrivateRadioButton.isSelected()){
+//					String password = cpwPasswordTextField.getText();
+//					p = new PrivateParty(pName, password, user, imageFilePath);
+//				}
 				
 				//ADD TO PARTIES LIST
 				
@@ -479,16 +480,16 @@ public class SelectionWindow extends JFrame {
 					password = cpwPasswordTextField.getText();
 				}
 				System.out.println("about to send new party info to server");
-				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
+				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password, imageFilePath));
 				
 				//user.st.createParty(p);
 				
 //				PublicParty testParty = new PublicParty("Test Party", user, pImage);
 //				
-				PartyWindow pw = new PartyWindow(p, sw);
-				cards.add(pw, "party window");
-				CardLayout cl = (CardLayout) cards.getLayout();
-				cl.show(cards, "party window");		
+//				PartyWindow pw = new PartyWindow(, sw);
+//				cards.add(pw, "party window");
+//				CardLayout cl = (CardLayout) cards.getLayout();
+//				cl.show(cards, "party window");		
 				
 				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
 				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
@@ -510,6 +511,13 @@ public class SelectionWindow extends JFrame {
 				}
            }
 		});
+	}
+	
+	public void createPartyWindow(){
+		//PartyWindow pw = new PartyWindow(, sw);
+		cards.add(pw, "party window");
+		CardLayout cl = (CardLayout) cards.getLayout();
+		cl.show(cards, "party window");
 	}
 	
 	public void createCPWMenu() {

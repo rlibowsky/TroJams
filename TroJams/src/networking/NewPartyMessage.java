@@ -8,12 +8,13 @@ public class NewPartyMessage extends Message{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String partyName, partyPassword;
+	private String partyName, partyPassword, filepath;
 
-	public NewPartyMessage(String name, String partyName, String partyPassword) {
+	public NewPartyMessage(String name, String partyName, String partyPassword, String filepath) {
 		super(name);
 		this.partyName = partyName;
 		this.partyPassword = partyPassword;
+		this.filepath = filepath;
 	}
 	
 	public String getPartyName() {
@@ -22,6 +23,10 @@ public class NewPartyMessage extends Message{
 	
 	public String getPartyPassword() {
 		return partyPassword;
+	}
+	
+	public String getFilePath(){
+		return filepath;
 	}
 
 }
