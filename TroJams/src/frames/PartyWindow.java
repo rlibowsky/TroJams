@@ -69,6 +69,13 @@ public class PartyWindow extends JPanel {
 	private DefaultListModel<SingleSongPanel> listModel;
 	private User user;
 	
+	private String song_name;
+	private String song_artist;
+	private String song_album;
+	private String song_artwork_filepath;
+	private String song_mp3_filepath;
+	private ImageIcon song_artwork;
+	
 	//argument will be taken out once we turn this into a JPanel
 	public PartyWindow(Party partayTime, SelectionWindow sw) {
 		super();
@@ -532,7 +539,6 @@ public class PartyWindow extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) cards.getLayout();
 				cl.show(cards, "profile panel");
-				
 			}
 			
 		});
@@ -817,7 +823,15 @@ public class PartyWindow extends JPanel {
 
 	public void receiveSongInfo(FoundSongMessage fsm) {
 		// TODO for catherine
+		song_name = fsm.getSongName();
+		song_artist = fsm.getArtist();
+		song_album = fsm.getAlbum();
+		song_artwork_filepath = fsm.getArtworkFilepath();
+		song_mp3_filepath = fsm.getmp3FilePath();
+		song_artwork = fsm.getActualImage();
+		// call method to construct song panel
 		
 	}
+	
 	
 }
