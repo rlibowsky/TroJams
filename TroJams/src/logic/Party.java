@@ -15,7 +15,7 @@ public abstract class Party implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String partyName;
-	private User host;
+	public User host;
 	private ArrayList <PartySong> songList = new ArrayList<PartySong>();
 	private HashMap <String, Integer> songSet = new HashMap<String, Integer>();
 	private HashSet <Account> partyMembers;
@@ -52,6 +52,9 @@ public abstract class Party implements Serializable{
 	}
 	
 	public String getHostName() {
+		if (host == null) {
+			host = new User("u", "u", "u", "u");
+		}
 		return host.getUsername();
 	}
 	
