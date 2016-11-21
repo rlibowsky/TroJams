@@ -318,7 +318,7 @@ public class SelectionWindow extends JFrame {
 		private JButton partyButton;
 		private JLabel hostLabel, hostImageLabel;
 		private JLabel partyIconLabel;
-		private ImageIcon partyImageIcon;
+		//private Image partyImageIcon;
 		private boolean isPublic;
 		
 		public SinglePartyPanel (Party p) {
@@ -330,8 +330,10 @@ public class SelectionWindow extends JFrame {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			hostLabel = new JLabel("Host: " + party.getHostName());
 			AppearanceSettings.setFont(AppearanceConstants.fontMedium, hostLabel);
-			partyImageIcon = party.getPartyImage();
-			partyIconLabel = new JLabel(partyImageIcon);
+			Image img1 = new ImageIcon(party.getImageFilePath()).getImage();
+			ImageIcon pimg = new ImageIcon(img1.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+			partyIconLabel = new JLabel();
+			partyIconLabel.setIcon(pimg);
 			hostImageLabel = new JLabel();
 			Image image = new ImageIcon(party.getHost().getImageFilePath()).getImage();
 			ImageIcon img = new ImageIcon(image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
@@ -463,18 +465,14 @@ public class SelectionWindow extends JFrame {
 				// CHANGE TO PARTY WINDOW
 				String pName = cpwPartyNameTextField.getText();
 //				ImageIcon pImage = (ImageIcon) imageLabel.getIcon();
-//				Party p = null;
-//				if(cpwPublicRadioButton.isSelected()){
-//					p = new PublicParty(pName, user, imageFilePath);
-//					
-//				}
-//				else if(cpwPrivateRadioButton.isSelected()){
-//					String password = cpwPasswordTextField.getText();
-//					p = new PrivateParty(pName, password, user, imageFilePath);
-//				}
-				
-				//ADD TO PARTIES LIST
-				
+				Party p = null;
+				if(cpwPublicRadioButton.isSelected()){
+					p = new PublicParty(pName, user, imageFilePath);
+				}
+				else if(cpwPrivateRadioButton.isSelected()){
+					String password = cpwPasswordTextField.getText();
+					p = new PrivateParty(pName, password, user, imageFilePath);
+				}
 				String password = "";
 				if (cpwPrivateRadioButton.isSelected()) {
 					password = cpwPasswordTextField.getText();
@@ -486,10 +484,10 @@ public class SelectionWindow extends JFrame {
 				
 //				PublicParty testParty = new PublicParty("Test Party", user, pImage);
 //				
-//				PartyWindow pw = new PartyWindow(, sw);
-//				cards.add(pw, "party window");
-//				CardLayout cl = (CardLayout) cards.getLayout();
-//				cl.show(cards, "party window");		
+				SelectionWindow.this.pw = new PartyWindow(p, sw);
+				cards.add(pw, "party window");
+				CardLayout cl = (CardLayout) cards.getLayout();
+				cl.show(cards, "party window");		
 				
 				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
 				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
@@ -513,12 +511,7 @@ public class SelectionWindow extends JFrame {
 		});
 	}
 	
-	public void createPartyWindow(){
-		//PartyWindow pw = new PartyWindow(, sw);
-		cards.add(pw, "party window");
-		CardLayout cl = (CardLayout) cards.getLayout();
-		cl.show(cards, "party window");
-	}
+
 	
 	public void createCPWMenu() {
 		cpwMainPanel.setLayout(new BoxLayout(cpwMainPanel, BoxLayout.Y_AXIS));
