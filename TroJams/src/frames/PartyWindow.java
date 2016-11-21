@@ -702,7 +702,7 @@ public class PartyWindow extends JPanel {
 			logout.setBorderPainted(false);
 			logout.setContentAreaFilled(false);
 			logout.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 50));
-			logout.setAlignmentX(Component.CENTER_ALIGNMENT);
+			logout.setAlignmentX(this.CENTER_ALIGNMENT);
 			
 			logout.addActionListener(new ActionListener() {
 				@Override
@@ -719,7 +719,7 @@ public class PartyWindow extends JPanel {
 			viewParty.setBorderPainted(false);
 			viewParty.setContentAreaFilled(false);
 			viewParty.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 50));
-			viewParty.setAlignmentX(Component.CENTER_ALIGNMENT);
+			viewParty.setAlignmentX(this.CENTER_ALIGNMENT);
 			
 			viewParty.addActionListener(new ActionListener() {
 				@Override
