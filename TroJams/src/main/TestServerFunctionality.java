@@ -26,8 +26,8 @@ public class TestServerFunctionality {
 		//PrivateParty p1 = new PrivateParty("party1", "password1", u2, tempImage);
 		//p1.addSong(new PartySong("song1", 10.0));
 		//p1.addSong(new PartySong("song2", 10.0));
-		PrivateParty p2 = new PrivateParty("party2", "password2", u3, tempImage);
-		PublicParty p3 = new PublicParty("party3", u4, tempImage);
+		PrivateParty p2 = new PrivateParty("party2", "password2", u3, "images/party-purple.jpg");
+		PublicParty p3 = new PublicParty("party3", u4, "images/party-purple.jpg");
 		ArrayList <Party> parties = new ArrayList <Party>();
 		
 		//parties.add(p1);

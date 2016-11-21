@@ -465,11 +465,11 @@ public class SelectionWindow extends JFrame {
 				ImageIcon pImage = (ImageIcon) imageLabel.getIcon();
 				Party p = null;
 				if(cpwPublicRadioButton.isSelected()){
-					p = new PublicParty(pName, user, pImage);
+					p = new PublicParty(pName, user, imageFilePath);
 				}
 				else if(cpwPrivateRadioButton.isSelected()){
 					String password = cpwPasswordTextField.getText();
-					p = new PrivateParty(pName, password, user, pImage);
+					p = new PrivateParty(pName, password, user, imageFilePath);
 				}
 				
 				//ADD TO PARTIES LIST
@@ -649,15 +649,15 @@ public class SelectionWindow extends JFrame {
 		User user = new User("username");
 		Image image = new ImageIcon("images/party-purple.jpg").getImage();
 		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-		PrivateParty p1 = new PrivateParty("party1", "password1", user, tempImage);
-		PrivateParty p2 = new PrivateParty("party2", "password2", user, tempImage);
-		PublicParty p3 = new PublicParty("party3", user, tempImage);
-		PrivateParty p4 = new PrivateParty("party1", "password1", user, tempImage);
-		PrivateParty p5 = new PrivateParty("party2", "password2", user, tempImage);
-		PublicParty p6 = new PublicParty("party3", user, tempImage);
-		PrivateParty p7 = new PrivateParty("party1", "password1", user, tempImage);
-		PrivateParty p8 = new PrivateParty("party2", "password2", user, tempImage);
-		PublicParty p9 = new PublicParty("party3", user, tempImage);
+		PrivateParty p1 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
+		PrivateParty p2 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
+		PublicParty p3 = new PublicParty("party3", user, "images/party-purple.jpg");
+		PrivateParty p4 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
+		PrivateParty p5 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
+		PublicParty p6 = new PublicParty("party3", user, "images/party-purple.jpg");
+		PrivateParty p7 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
+		PrivateParty p8 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
+		PublicParty p9 = new PublicParty("party3", user, "images/party-purple.jpg");
 		ArrayList <Party> parties = new ArrayList <Party>();
 		parties.add(p1);
 		parties.add(p2);

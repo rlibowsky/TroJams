@@ -30,10 +30,14 @@ public abstract class Party implements Serializable{
 		partyImage = new ImageIcon("images/party-purple.jpg");
 	}
 	
-	public Party (String partyName, User host, ImageIcon i) {
+	public Party (String partyName, User host, String fp) {
 		this(partyName, host);
-		this.partyImage = i;
+		this.imageFilePath = fp;
 		
+	}
+	
+	public String getImageFilePath(){
+		return imageFilePath;
 	}
 	
 	public ArrayList<PartySong> getSongs() {

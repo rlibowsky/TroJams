@@ -10,8 +10,8 @@ public class PrivateParty extends Party{
 	private static final long serialVersionUID = 1L;
 	private String password;
 	
-	public PrivateParty(String partyName, String password, User host, ImageIcon partyImage) {
-		super(partyName, host, partyImage);
+	public PrivateParty(String partyName, String password, User host, String filepath) {
+		super(partyName, host, filepath);
 		this.password = password;
 	}
 	
