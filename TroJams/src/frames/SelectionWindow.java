@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -192,7 +193,7 @@ public class SelectionWindow extends JFrame {
 		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
 		setLocation(100, 100);
 		setLayout(new BorderLayout());
-		setParties();
+		//setParties();
 		createCPWMenu();
 		createSWPanel();
 		AppearanceSettings.setNotOpaque(swMainPanel, cards);
@@ -249,7 +250,7 @@ public class SelectionWindow extends JFrame {
 		revalidate();
 	}
 	
-	private void setParties() {
+	private void setParties(Vector <Party> parties) {
 		System.out.println("setting parties ... " + currentParties.size());
 		swcurrentParties = new JList<SinglePartyPanel>();
 		swcurrentParties.setLayout(new FlowLayout());

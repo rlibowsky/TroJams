@@ -30,8 +30,8 @@ public class TrojamClient extends Thread{
 			//oos.flush();
 			ois = new ObjectInputStream(s.getInputStream());
 			//before we enter the run method, we want to request parties
-//			oos.writeObject("partyRequest");
-//			oos.flush();
+			oos.writeObject("partyRequest");
+			oos.flush();
 			this.start();
 			
 		} catch (NumberFormatException | IOException e) {
