@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 
 public class SongSearch {
 	
-	String songName, songArtist;
+	String songName, songArtist, imageFilePath, mp3FilePathOnServer;
 	ImageIcon songAlbumArtwork;
 	
 	public SongSearch(String song) {

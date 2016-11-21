@@ -43,7 +43,7 @@ public class TestServerFunctionality {
 		
 		TrojamClient tj2 = new TrojamClient("10.120.17.26", 6789);
 		tj2.setAccount(u2);
-		tj2.sendNewPartyMessage(new  NewPartyMessage("party", "party1", "password1"));
+		//tj2.sendNewPartyMessage(new  NewPartyMessage("party", "party1", "password1"));
 		SelectionWindow sw2 = new SelectionWindow(u, parties, tj2);
 		tj2.setSelectionWindow(sw2);
 		sw2.setVisible(true);
