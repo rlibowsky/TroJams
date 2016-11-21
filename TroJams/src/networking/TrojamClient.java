@@ -87,24 +87,31 @@ public class TrojamClient extends Thread{
 				if (obj instanceof StringMessage) {
 					StringMessage message = (StringMessage) obj;
 					parseStringMessage(message);
-				} else if (obj instanceof AllPartiesMessage) {
+				} 
+				else if (obj instanceof AllPartiesMessage) {
 					sw.setParties(((AllPartiesMessage) obj).getParties());
 				}
 				else if (obj instanceof SongVoteMessage) {
 					System.out.println("client has received song upvoted message!");
 					this.sw.sendSongVoteUpdate((SongVoteMessage) obj);
-				}else if (obj instanceof PartyMessage) {
+				} 
+				else if (obj instanceof PartyMessage) {
 					PartyMessage pm = (PartyMessage) obj;
 					sw.addNewParty(pm.getParty());
-						//}
-				} else if(obj instanceof AuthenticatedLoginMessage){
+				} 
+				else if(obj instanceof AuthenticatedLoginMessage){
 					System.out.println("client received loginmessage");
 					AuthenticatedLoginMessage alm = (AuthenticatedLoginMessage) obj;
 					lsw.attemptLogIn(alm.isAuthenticated());
-				} else if(obj instanceof AccountCreatedMessage){
+				} 
+				else if(obj instanceof AccountCreatedMessage){
 					System.out.println("client received account created message");
 					AccountCreatedMessage acm = (AccountCreatedMessage) obj;
 					lsw.createAccount(acm.accountCreated(), acm.getUser());
+				}
+				else if(obj instanceof FoundSongMessage){
+					System.out.println("client received found song message");
+					sw.getPartyWindow().receiveSongInfo((FoundSongMessage)obj);
 				}
 			} catch (ClassNotFoundException | IOException e) {}
 		}

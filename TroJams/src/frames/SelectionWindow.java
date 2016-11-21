@@ -795,6 +795,9 @@ public class SelectionWindow extends JFrame {
 		
 	}
 	
+	public PartyWindow getPartyWindow(){
+		return pw;
+	}
 	
 	//CITE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JScrollPane/Create_custom_JScrollBar_for_JScrollPane.htm
 //	public class MyScrollBarUI extends BasicScrollBarUI {

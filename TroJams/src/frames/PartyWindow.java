@@ -42,6 +42,7 @@ import logic.Account;
 import logic.Party;
 import logic.PartySong;
 import logic.User;
+import networking.FoundSongMessage;
 import networking.SongVoteMessage;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
@@ -812,6 +813,11 @@ public class PartyWindow extends JPanel {
 	    g2.dispose();
 
 	    return resizedImg;
+	}
+
+	public void receiveSongInfo(FoundSongMessage fsm) {
+		// TODO for catherine
+		
 	}
 	
 }
