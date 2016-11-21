@@ -62,7 +62,9 @@ public class PartyWindow extends JPanel {
 	
 	//private ArrayList <SingleSongPanel> songs;
 	private Party party;
-	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel, hostImageLabel, searchedSong;
+	private JLabel currentSongName, currentSongTime, currentlyPlayingLabel, hostImageLabel, 
+					searchedSong, searchedSongArtist, searchedSongAlbum, searchedSongArtwork;
+	private JPanel searchedSongPanel;
 	private JTextField searchBar;
 	private CardLayout cl;
 	private SelectionWindow sw;
@@ -367,6 +369,10 @@ public class PartyWindow extends JPanel {
 		searchButton.setContentAreaFilled(false);
 		
 		searchedSong = new JLabel();
+		searchedSongArtist = new JLabel();
+		searchedSongAlbum = new JLabel();
+		searchedSongArtwork = new JLabel();
+		searchedSongPanel = new JPanel();
 		searchBar = new JTextField();
 		//AppearanceSettings.setForeground(Color.WHITE, searchBar);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, searchBar, searchedSong);
@@ -551,17 +557,20 @@ public class PartyWindow extends JPanel {
 		JPanel centerPanel = new JPanel();
 		JPanel dummyPanel = new JPanel();
 		JPanel dummyPanel2 = new JPanel();
+		JPanel searchedSongCenterPanel = new JPanel();
 		//JPanel searchBarPanel = new JPanel();
 		//searchBarPanel.setLayout(new FlowLayout());
 		centerPanel.setLayout(new FlowLayout());
 		//tempPanel.setLayout(new BoxLayout(tempPanel, BoxLayout.Y_AXIS));
 		
 		tempPanel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT));
-		AppearanceSettings.setNotOpaque(tempPanel, centerPanel, searchedSong, searchBar, buttonsPanel, dummyPanel, dummyPanel2);
+		AppearanceSettings.setNotOpaque(tempPanel, centerPanel, searchedSong, searchBar, buttonsPanel, dummyPanel, 
+				dummyPanel2, searchedSongPanel, searchedSongCenterPanel);
 		AppearanceSettings.setSize(150,50, searchButton, addNewSongButton);
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT, centerPanel);
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4,50, searchBar);
-		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 200, searchedSong);
+		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 50, searchedSong, searchedSongArtist, searchedSongAlbum);
+		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT/4, searchedSongCenterPanel, searchedSongPanel);
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 175, dummyPanel);
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 200, dummyPanel2);
 		AppearanceSettings.setForeground(Color.white, addNewSongButton, searchButton, searchedSong);
@@ -576,7 +585,15 @@ public class PartyWindow extends JPanel {
 		//searchBarPanel.add(searchButton);
 		
 		searchedSong.setText("");
-		searchedSong.setFont(AppearanceConstants.fontSmall);
+		searchedSongArtist.setText("");
+		searchedSongAlbum.setText("");
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, searchedSong, searchedSongArtist, searchedSongAlbum);
+		searchedSongCenterPanel.add(searchedSong);
+		searchedSongCenterPanel.add(searchedSongArtist);
+		searchedSongCenterPanel.add(searchedSongAlbum);
+		searchedSongPanel.setLayout(new BorderLayout());
+		searchedSongPanel.add(searchedSongCenterPanel, BorderLayout.CENTER);
+		searchedSongPanel.add(searchedSongArtwork, BorderLayout.WEST);
 		//centerPanel.add(Box.createVerticalStrut(275));
 		JLabel addSongLabel = new JLabel("Add a Jam!");
 		addSongLabel.setAlignmentY(this.BOTTOM_ALIGNMENT);
@@ -586,7 +603,8 @@ public class PartyWindow extends JPanel {
 		centerPanel.add(dummyPanel);
 		centerPanel.add(searchBar);
 		centerPanel.add(searchButton);
-		centerPanel.add(searchedSong);
+		//centerPanel.add(searchedSong);
+		centerPanel.add(searchedSongPanel);
 		centerPanel.add(addNewSongButton);
 		centerPanel.add(dummyPanel2);
 		//centerPanel.add(Box.createVerticalStrut(275));
