@@ -727,7 +727,7 @@ public class PartyWindow extends JPanel {
 			this.add(profileUserName);
 			this.add(dummyLabel);
 			this.add(userHistorySP);
-			this.add(viewParty)
+			this.add(viewParty);
 			this.add(logout);
 		}
 	}
