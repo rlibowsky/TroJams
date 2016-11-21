@@ -69,7 +69,10 @@ public class TrojamServerThread extends Thread{
 				} 
 				else if (obj instanceof SongVoteMessage) {
 					trojamServer.voteOnSong((SongVoteMessage) obj);
-				} 
+				}
+				else if(obj instanceof SearchSongMessage){
+					
+				}
 				else if (obj instanceof Message) {
 					System.out.println("got a generic message");
 					Message message = (Message) obj;
