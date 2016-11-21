@@ -96,6 +96,7 @@ public class SelectionWindow extends JFrame {
 //			System.out.println("No parties :(");
 //			currentParties = new ArrayList<Party> ();
 //		}
+		swcurrentParties = new JList<SinglePartyPanel>();
 		initializeComponents();
 		createGUI();
 		addActionListeners();
@@ -192,6 +193,7 @@ public class SelectionWindow extends JFrame {
 		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
 		setLocation(100, 100);
 		setLayout(new BorderLayout());
+		System.out.println("sending party request");
 		client.partyRequest();
 		createCPWMenu();
 		createSWPanel();

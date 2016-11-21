@@ -52,8 +52,10 @@ public class TrojamClient extends Thread{
 	
 	public void partyRequest() {
 		try {
+			System.out.println("got party request");
 			oos.writeObject("partyRequest");
 			oos.flush();
+			System.out.println("party request sent");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
