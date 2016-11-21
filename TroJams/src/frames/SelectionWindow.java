@@ -175,7 +175,7 @@ public class SelectionWindow extends JFrame {
 		cpwBackButton.setOpaque(false);
 		
 		fileChooser = new JFileChooser();
-		imageText = new JLabel("Click to upload a party picture");
+		imageText = new JLabel("<html>Click to upload a party picture</html>");
 		imageText.setForeground(Color.white);
 		imageLabel = new JLabel();
 		

@@ -11,31 +11,24 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import frames.PartyWindow.SingleSongPanel;
+import logic.Account;
 //import frames.SelectionWindow.MyScrollBarUI;
 import logic.Party;
 import logic.PartySong;
@@ -243,8 +236,14 @@ public class PartyWindow extends JPanel {
 		
 		hostPanel.setOpaque(false);
 		
-		//User [] temp = (User[]) party.getPartyMembers().toArray();
-		//partyPeopleList = new JList(temp);
+		Account [] temp = (Account[]) party.getPartyMembers().toArray(new Account[party.getPartyMembers().size()]);
+		Vector<User> tempUsers = new Vector<User>();
+		for(Account a : temp){
+			if(a instanceof User){
+				tempUsers.add((User)a);
+			}
+		}
+		partyPeopleList = new JList(tempUsers);
 		JPanel scrollPanel = new JPanel();
 		scrollPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 400));
 		scrollPanel.setOpaque(false);
@@ -311,7 +310,7 @@ public class PartyWindow extends JPanel {
 		
 		searchedSong = new JLabel();
 		searchBar = new JTextField();
-		AppearanceSettings.setForeground(Color.WHITE, searchBar);
+		//AppearanceSettings.setForeground(Color.WHITE, searchBar);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, searchBar, searchedSong);
 
 //		cards = new JPanel(new CardLayout());
@@ -527,7 +526,8 @@ public class PartyWindow extends JPanel {
 	};
 	
 //	public static void main(String [] args) {
-//		PublicParty partayTime = new PublicParty("theBestParty", new User("testUsername", "testPassword"), new ImageIcon("party-purple.jpg"));
+//		User user = new User("testUsername", "Adam", "Moffitt", "images/JeffreyMiller-cropped.png");
+//		PublicParty partayTime = new PublicParty("theBestParty", user, new ImageIcon("party-purple.jpg"));
 //		partayTime.addSong(new PartySong("Song1", 3.0));
 //		partayTime.addSong(new PartySong("Song2", 3.0));
 //		partayTime.addSong(new PartySong("Song3", 3.0));
@@ -540,7 +540,7 @@ public class PartyWindow extends JPanel {
 //		partayTime.addSong(new PartySong("Song10", 3.0));
 //		partayTime.addSong(new PartySong("Song11", 3.0));
 //		partayTime.addSong(new PartySong("Song12", 3.0));
-//		new PartyWindow(partayTime, user, parties).setVisible(true);
+//		new PartyWindow(partayTime, new SelectionWindow(user, null, null)).setVisible(true);
 //	}
 
 
