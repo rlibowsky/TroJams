@@ -14,11 +14,13 @@ public class TrojamServerThread extends Thread{
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	private Account account;
+	private int threadNum;
 	
-	public TrojamServerThread(Socket socket, TrojamServer trojamServer) {
+	public TrojamServerThread(Socket socket, TrojamServer trojamServer, int numThreads) {
 		this.socket = socket;
 		this.trojamServer = trojamServer;
 		this.account = null;
+		this.threadNum = numThreads;
 		try {
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.flush();
@@ -54,12 +56,12 @@ public class TrojamServerThread extends Thread{
 					System.out.println("login message received by serverthread");
 					//returns a boolean saying whether or not the password matched
 					boolean goodLogin = trojamServer.authenticateLogin((LoginMessage)obj );
-					trojamServer.sendMessageToOne(account, new AuthenticatedLoginMessage(goodLogin));
+					trojamServer.sendMessageToOne(threadNum, new AuthenticatedLoginMessage(goodLogin));
 				} else if(obj instanceof CreateAccountMessage){ 
 					CreateAccountMessage cam = (CreateAccountMessage) obj;
 					//returns a boolean of whether or not the account was created
 					boolean accountCreated = trojamServer.createAccount(cam);
-					trojamServer.sendMessageToOne(account, new AccountCreatedMessage(accountCreated, cam.getUser()));
+					trojamServer.sendMessageToOne(threadNum, new AccountCreatedMessage(accountCreated, cam.getUser()));
 				} else if (obj instanceof SongVoteMessage) {
 					trojamServer.voteOnSong((SongVoteMessage) obj);
 				} else if (obj instanceof Message) {
@@ -88,6 +90,10 @@ public class TrojamServerThread extends Thread{
 
 	public Account getAccount() {
 		return account;
+	}
+	
+	public int getThreadNum(){
+		return threadNum;
 	}
 
 }

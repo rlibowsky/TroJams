@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 import logic.Account;
 import logic.Party;
@@ -24,17 +26,19 @@ import resources.Util;
 
 public class TrojamServer extends Thread{
 	private ServerSocket serverSocket;
-	private ArrayList <TrojamServerThread> trojamServerThreads;
+	private Vector <TrojamServerThread> trojamServerThreads;
 	private int port;
 	private ArrayList <Party> parties;
 	private HashMap <String, Party> partyNamesToObjects;
-	private HashMap<Account, TrojamServerThread> accountToThreadMap;
+	//private HashMap<Account, TrojamServerThread> accountToThreadMap;
+	private int numThreads;
 	
 	public TrojamServer(int port) {
 		this.port = port;
+		numThreads = 0;
 		this.parties = new ArrayList <Party> ();
-		trojamServerThreads = new ArrayList <TrojamServerThread>();
-		accountToThreadMap = new HashMap<>();
+		trojamServerThreads = new Vector <TrojamServerThread>();
+		//accountToThreadMap = new HashMap<>();
 		partyNamesToObjects = new HashMap<>();
 		this.start();
 	}
@@ -47,9 +51,10 @@ public class TrojamServer extends Thread{
 			while (true){
 				Socket socket = serverSocket.accept();
 				System.out.println("new connection from " + socket.getInetAddress());
-				TrojamServerThread newThread = new TrojamServerThread(socket, this);
+				TrojamServerThread newThread = new TrojamServerThread(socket, this, numThreads);
 				trojamServerThreads.add(newThread);
-				accountToThreadMap.put(newThread.getAccount(), newThread);
+				numThreads++;
+				//accountToThreadMap.put(newThread.getAccount(), newThread);
 			}
 		} catch (NumberFormatException | IOException e) {
 			System.out.println("io in server "+e.getMessage());
@@ -106,17 +111,10 @@ public class TrojamServer extends Thread{
 				conn = DriverManager.getConnection("jdbc:mysql://localhost/Trojams?user=root&password=root&userSSL=false");
 				st = conn.createStatement();
 				rs = st.executeQuery("SELECT username, password  FROM Trojams.Users WHERE username = '"+usernameString+ 
-						"' AND password = 'H'");
+						"' AND password = '"+passwordString+"'");
 
 
 				return(rs.next());
-//				if(rs.next()){
-//					return true;
-//
-//				}else{
-//					return false;
-//					///warningLabel.setText("this password and username combination does not exist");
-//				}
 			} catch (SQLException sqle){
 				System.out.println("sqle: " + sqle.getMessage());
 			} catch (ClassNotFoundException cnfe) {
@@ -145,8 +143,13 @@ public class TrojamServer extends Thread{
 		return false;
 	}
 
-	public void sendMessageToOne(Account account, Message message) {
-		accountToThreadMap.get(account).sendMessage(message);
+	public void sendMessageToOne(int threadNum, Message message) {
+//		for (Map.Entry<Account, TrojamServerThread> entry : accountToThreadMap.entrySet())
+//		{
+//			System.out.println("we have a user");
+//		  //  System.out.println(entry.getKey() + "/" + entry.getValue());
+//		}
+		trojamServerThreads.get(threadNum).sendMessage(message);
 	}
 	
 	public static void main (String [] args) {
