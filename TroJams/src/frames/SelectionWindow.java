@@ -114,6 +114,10 @@ public class SelectionWindow extends JFrame {
 		addParty(p);
 	}
 
+	public TrojamClient getClient() {
+		return this.client;
+	}
+	
 	private void initializeComponents(){
 		
 		this.setContentPane(new JPanel() {
@@ -483,7 +487,7 @@ public class SelectionWindow extends JFrame {
 					password = cpwPasswordTextField.getText();
 				}
 				System.out.println("about to send new party info to server");
-					client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
+				//	client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
 				
 				//user.st.createParty(p);
 				

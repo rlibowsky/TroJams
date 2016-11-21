@@ -26,7 +26,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 import logic.Account;
 //import frames.SelectionWindow.MyScrollBarUI;
@@ -41,7 +44,7 @@ public class PartyWindow extends JPanel {
 	
 	private JButton refreshButton, addNewSongButton, searchButton, leaveButton, viewProfileButton;
 	private JList <SingleSongPanel>songList;
-	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, bottomButtonPanel;
+	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, bottomButtonPanel, cards;
 	private JScrollPane songScrollPane, partyPeopleScrollPane;
 	private ImageIcon backgroundImage, currentlyPlayingImage, partyImage, hostImage;
 	DefaultListModel <SingleSongPanel> df;
@@ -56,6 +59,7 @@ public class PartyWindow extends JPanel {
 	private CardLayout cl;
 	private SelectionWindow sw;
 	private DefaultListModel<SingleSongPanel> listModel;
+	private User user;
 	
 	//argument will be taken out once we turn this into a JPanel
 	public PartyWindow(Party partayTime, SelectionWindow sw) {
@@ -63,6 +67,7 @@ public class PartyWindow extends JPanel {
 		this.party = partayTime;
 		System.out.println(party.getPartyName());
 		this.sw = sw;
+		user = sw.getUser();
 		initializeComponents();
 		createGUI();
 		addListeners();
@@ -203,7 +208,9 @@ public class PartyWindow extends JPanel {
 		
 		//Image image = new ImageIcon(this.party.getHost().getImageFilePath()).getImage();
 		//hostImage.setIcon(new ImageIcon(image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH)));
-		viewProfileButton = new JButton("View Profile");
+		viewProfileButton = new JButton();
+		ImageIcon viewProfileButtonImage = new ImageIcon("images/button_view-profile.png");
+		viewProfileButton.setIcon(viewProfileButtonImage);
 		// TODO: CHANGE THIS URL
 		//ImageIcon viewProfileImage = new ImageIcon("images/button_leave-party.png");
 		//viewProfileButton.setIcon(viewProfileImage);
@@ -247,6 +254,7 @@ public class PartyWindow extends JPanel {
 		JPanel scrollPanel = new JPanel();
 		scrollPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 400));
 		scrollPanel.setOpaque(false);
+
 		partyPeopleList = new JList();
 		partyPeopleScrollPane = new JScrollPane(partyPeopleList);
 		partyPeopleScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
@@ -338,28 +346,28 @@ public class PartyWindow extends JPanel {
 	//create the panel that shows songs in order of votes, called when partywindow is created
 	//and whenever someone upvotes or downvotes a song
 	public void setSongs(Party receivedParty) {
-		System.out.println("in setsongs");
-		if (songList != null) {
-			songList.removeAll();
-		} else {
-			songList = new JList <SingleSongPanel>();
-		}
-		//add songs in party to songs arraylist
-		for (PartySong ps : receivedParty.getSongs()) {
-			SingleSongPanel ssp = new SingleSongPanel(ps);
-			//songs.add(ssp);
-			System.out.println("adding song " + ps.getName() + " with " + ps.getVotes() + " votes");
-			songList.add(ssp);
-		}
-		
-		//set at least 10
-		if (songList.getVisibleRowCount()< 10) {
-			for (int i = 0; i < 10-songList.getVisibleRowCount(); i ++) {
-				SingleSongPanel ssp = new SingleSongPanel(new PartySong("", 0.0));
-				songList.add(ssp);
-			}
-		}
-		revalidate();
+//		System.out.println("in setsongs");
+//		if (songList != null) {
+//			songList.removeAll();
+//		} else {
+//			songList = new JList <SingleSongPanel>();
+//		}
+//		//add songs in party to songs arraylist
+//		for (PartySong ps : receivedParty.getSongs()) {
+//			SingleSongPanel ssp = new SingleSongPanel(ps);
+//			//songs.add(ssp);
+//			System.out.println("adding song " + ps.getName() + " with " + ps.getVotes() + " votes");
+//			songList.add(ssp);
+//		}
+//		
+//		//set at least 10
+//		if (songList.getVisibleRowCount()< 10) {
+//			for (int i = 0; i < 10-songList.getVisibleRowCount(); i ++) {
+//				SingleSongPanel ssp = new SingleSongPanel(new PartySong("", 0.0));
+//				songList.add(ssp);
+//			}
+//		}
+//		revalidate();
 	}
 	
 	public void createGUI() {
@@ -395,12 +403,19 @@ public class PartyWindow extends JPanel {
 		//addSongPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
 		addSongPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
 		
-		add(hostPanel, BorderLayout.WEST);
+		cards = new JPanel(new CardLayout());
+		JPanel profilePanel = new ProfilePanel(user);
+		profilePanel.setOpaque(false);
+		cards.setOpaque(false);
+		cards.add(hostPanel, "host panel");
+		cards.add(profilePanel, "profile panel");
+		
+		add(cards, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
 		add(addSongPanel, BorderLayout.EAST);
 		
-//		cl = (CardLayout) cards.getLayout();
-//		cl.show(cards, "button panel");
+		cl = (CardLayout) cards.getLayout();
+		cl.show(cards, "host panel");
 		
 	}
 	
@@ -428,7 +443,7 @@ public class PartyWindow extends JPanel {
 //				//listModel.addElement(ssp);
 //				System.out.println(songList.getModel().getSize());
 				songList.add(ssp);
-				
+				searchedSong.setText("");
 				revalidate();
 			}
 			
@@ -453,6 +468,17 @@ public class PartyWindow extends JPanel {
 				searchedSong.setText(searchBar.getText());
 				searchBar.setText("");
 				//revalidate();
+				
+			}
+			
+		});
+		
+		viewProfileButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout) cards.getLayout();
+				cl.show(cards, "profile panel");
 				
 			}
 			
@@ -605,4 +631,104 @@ public class PartyWindow extends JPanel {
 //	    }
 //	}
 	
+	private class ProfilePanel extends JPanel{
+		
+		ImageIcon profilePic;
+		JLabel profileName, dummyLabel;
+		JLabel profileUserName;
+		User user;
+		JScrollPane userHistorySP;
+		JTextArea partiesTextArea;
+		JButton logout, viewParty;
+		JLabel profilePanelTitle;
+		
+		public ProfilePanel(User user) {
+			this.user = user;
+			profilePic = user.getUserImage();
+			
+			profilePanelTitle = new JLabel("Profile Info:");
+			profilePanelTitle.setForeground(Color.white);
+			AppearanceSettings.setFont(AppearanceConstants.fontLarge, profilePanelTitle);
+			
+			dummyLabel = new JLabel(" ");
+			
+			profileName = new JLabel("Name: " + user.getFirstName() + " " + user.getLastName(), SwingConstants.CENTER);
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileName);
+			profileName.setForeground(Color.white);
+			//profileName.setHorizontalAlignment(SwingConstants.CENTER);
+			//profileName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			
+			profileUserName = new JLabel("Username: " + user.getUsername(), SwingConstants.CENTER);
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileUserName);
+			profileUserName.setForeground(Color.white);
+			//profileUserName.setHorizontalAlignment(SwingConstants.CENTER);
+			//profileUserName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			
+			partiesTextArea = new JTextArea(5,20);
+			partiesTextArea.setOpaque(false);
+			partiesTextArea.setFont(AppearanceConstants.fontMedium);
+			partiesTextArea.setForeground(Color.white);
+			partiesTextArea.append("Party History: ");
+			partiesTextArea.setLineWrap(true);
+			
+			userHistorySP = new JScrollPane(partiesTextArea);
+			userHistorySP.setOpaque(false);
+			userHistorySP.getViewport().setOpaque(false);
+			userHistorySP.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/5, 300));
+			Border border = BorderFactory.createEmptyBorder( 0, 0, 0, 0 );
+			userHistorySP.setViewportBorder( border );
+			userHistorySP.setBorder( border );
+			
+			if(user.getParties().isEmpty()){
+				partiesTextArea.append("Looks like you haven't joined a party yet. Are you a CS student? You really should talk to Jeffrey Miller about giving you some easier assignments");
+			}
+			
+			else{
+				for(Party p : user.getParties()){
+					partiesTextArea.append(p.getPartyName() + "\n\n");
+				}
+			}
+			
+			logout = new JButton();
+			ImageIcon logoutButtonImage = new ImageIcon("images/button_log-out.png");
+			logout.setIcon(logoutButtonImage);
+			logout.setOpaque(false);
+			logout.setBorderPainted(false);
+			logout.setContentAreaFilled(false);
+			
+			logout.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new LoginScreenWindow(sw.getClient()).setVisible(true);
+					//PartyWindow.this.dispose();
+				}
+			});
+			
+			viewParty = new JButton();
+			ImageIcon viewPartyImage = new ImageIcon("images/button_view-party-info.png");
+			viewParty.setIcon(logoutButtonImage);
+			viewParty.setOpaque(false);
+			viewParty.setBorderPainted(false);
+			viewParty.setContentAreaFilled(false);
+			
+			viewParty.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new LoginScreenWindow(sw.getClient()).setVisible(true);
+					//PartyWindow.this.dispose();
+				}
+			});
+			
+			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			//this.add(Box.createVerticalGlue());
+			this.add(profilePanelTitle);
+			this.add(new JLabel(profilePic));
+			this.add(profileName);
+			this.add(profileUserName);
+			this.add(dummyLabel);
+			this.add(userHistorySP);
+			this.add(viewParty)
+			this.add(logout);
+		}
+	}
 }
