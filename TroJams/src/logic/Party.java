@@ -20,6 +20,7 @@ public abstract class Party implements Serializable{
 	private HashMap <String, Integer> songSet = new HashMap<String, Integer>();
 	private HashSet <Account> partyMembers;
 	private ImageIcon partyImage;
+	private String imageFilePath;
 	
 	//abstract class for a party
 	public Party (String partyName, User host) {
