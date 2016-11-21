@@ -1,8 +1,10 @@
 package networking;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -154,6 +156,7 @@ public class TrojamServer extends Thread{
 	public boolean createAccount(CreateAccountMessage cam) {
 		String usernameString = cam.getUsername();
 		String passwordString = cam.getPassword();
+		String filepath = cam.getFilepath();
 		Connection conn = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -170,12 +173,34 @@ public class TrojamServer extends Thread{
 				if(rs.next()){
 					return false;
 				}else{
+					//checks to see if it is a default picture
+					if(filepath.equals("images/silhouette.png")){
+						filepath = "profile_pics/silhouette.png";
+					}else{
+						
+						try {
+							if(filepath.endsWith(".jpeg")){
+								filepath = "profile_pics/"+usernameString+".jpeg";
+							} else if(filepath.endsWith(".png")){
+								filepath = "profile_pics/"+usernameString+".png";
+							}
+							
+
+							File f = new File(filepath);
+							byte[] content = cam.getFileAsByteArray();
+							if(content == null){ System.out.println("asdlfkjas;ldkjf;alskdfj;laskjdf;lkasjfd;lk"); }
+							Files.write(f.toPath(), content);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 					//inserts values into the db
 					st.executeUpdate("INSERT INTO Users (Username, Password, First_Name, Last_Name, email, filepath_to_pic) "
 							+ "VALUES ('"+usernameString+"', '"+passwordString+"', '"+ cam.getFirstName()+"', '"
-							+ cam.getLastName()+"', '"+ cam.getEmail()+"', '"+ cam.getFilepath() +"')");
+							+ cam.getLastName()+"', '"+ cam.getEmail()+"', '"+ filepath +"')");
 					
-					//saves the file on the machine on the server
+					//saves the file on the machine that is hosting the server
 					return true;
 				}
 			} catch (SQLException sqle){
