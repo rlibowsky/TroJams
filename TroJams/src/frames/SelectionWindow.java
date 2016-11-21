@@ -83,7 +83,7 @@ public class SelectionWindow extends JFrame {
 	private JPanel pwMainPanel;
 	private JLabel pwUsernameLabel, pwNameLabel, profileLabel, profileIconLabel;
 	private ImageIcon profileIcon;
-	private ArrayList <Party> currentParties;
+	//private ArrayList <Party> currentParties;
 	private SelectionWindow sw;
 	public TrojamClient client;
 		
@@ -92,18 +92,17 @@ public class SelectionWindow extends JFrame {
 		this.user = user;
 		sw = this;
 		this.client = client;
-		this.currentParties = parties;
-		if (currentParties == null) {
-			System.out.println("No parties :(");
-			currentParties = new ArrayList<Party> ();
-		}
+//		if (currentParties == null) {
+//			System.out.println("No parties :(");
+//			currentParties = new ArrayList<Party> ();
+//		}
 		initializeComponents();
 		createGUI();
 		addActionListeners();
 	}
 	
 	public void addNewParty(Party p) {
-		currentParties.add(p);
+		//currentParties.add(p);
 		addParty(p);
 	}
 
@@ -193,7 +192,7 @@ public class SelectionWindow extends JFrame {
 		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
 		setLocation(100, 100);
 		setLayout(new BorderLayout());
-		//setParties();
+		client.partyRequest();
 		createCPWMenu();
 		createSWPanel();
 		AppearanceSettings.setNotOpaque(swMainPanel, cards);
@@ -250,15 +249,15 @@ public class SelectionWindow extends JFrame {
 		revalidate();
 	}
 	
-	private void setParties(Vector <Party> parties) {
-		System.out.println("setting parties ... " + currentParties.size());
+	public void setParties(Vector <Party> parties) {
+		System.out.println("setting parties ... " + parties.size());
 		swcurrentParties = new JList<SinglePartyPanel>();
 		swcurrentParties.setLayout(new FlowLayout());
 		swcurrentParties.setVisibleRowCount(10);
 		//add parties to list
 		
-		for (int i = 0; i < currentParties.size(); i++) {
-			Party p = currentParties.get(i);
+		for (int i = 0; i < parties.size(); i++) {
+			Party p = parties.get(i);
 			SinglePartyPanel spp = new SinglePartyPanel(p);
 			System.out.println("adding a party ... " + p.getPartyName());
 			swcurrentParties.add(spp);

@@ -250,4 +250,9 @@ public class TrojamServer extends Thread{
 		partyNamesToObjects.get(npm.getPartyName()).addAccount(npm.getAccount());
 		System.out.println("added guest to party");
 	}
+
+	public void getParties() {
+		System.out.println("sending parties");
+		sendMessageToAll(new AllPartiesMessage("allParties", parties));
+	}
 }

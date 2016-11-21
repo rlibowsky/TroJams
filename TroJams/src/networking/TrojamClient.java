@@ -30,8 +30,7 @@ public class TrojamClient extends Thread{
 			//oos.flush();
 			ois = new ObjectInputStream(s.getInputStream());
 			//before we enter the run method, we want to request parties
-			oos.writeObject("partyRequest");
-			oos.flush();
+			
 			this.start();
 			
 		} catch (NumberFormatException | IOException e) {
@@ -49,6 +48,16 @@ public class TrojamClient extends Thread{
 	
 	public Account getAccount() {
 		return account;
+	}
+	
+	public void partyRequest() {
+		try {
+			oos.writeObject("partyRequest");
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void setAccount(Account a) {
@@ -76,7 +85,10 @@ public class TrojamClient extends Thread{
 				if (obj instanceof StringMessage) {
 					StringMessage message = (StringMessage) obj;
 					parseStringMessage(message);
-				} else if (obj instanceof SongVoteMessage) {
+				} else if (obj instanceof AllPartiesMessage) {
+					sw.setParties(((AllPartiesMessage) obj).getParties());
+				}
+				else if (obj instanceof SongVoteMessage) {
 					System.out.println("client has received song upvoted message!");
 					this.sw.sendSongVoteUpdate((SongVoteMessage) obj);
 				}else if (obj instanceof PartyMessage) {
