@@ -44,16 +44,17 @@ public class CreateAccountWindow extends JPanel {
 	private JButton submitButton, backButton;
 	private ImageIcon userImage;
 	private ImageIcon backgroundImage;
-	
+	private String passwordString;
 	private String imageFilePath;
 	private JFileChooser fileChooser;
 	private TrojamClient client;
 	
-	public CreateAccountWindow(User newUser, LoginScreenWindow loginScreenWindow, TrojamClient client){
+	public CreateAccountWindow(User newUser, String password, LoginScreenWindow loginScreenWindow, TrojamClient client){
 		super();
 		this.newUser = newUser;
 		this.client = client;
 		this.loginScreenWindow = loginScreenWindow;
+		this.passwordString = password;
 		initializeComponents();
 		createGUI();
 		addListeners();
@@ -65,7 +66,7 @@ public class CreateAccountWindow extends JPanel {
 		firstNameTextField.addFocusListener(new TextFieldFocusListener("First Name", firstNameTextField));
 		lastNameTextField.addFocusListener(new TextFieldFocusListener("Last Name", lastNameTextField));
 		usernameTextField.addFocusListener(new TextFieldFocusListener(newUser.getUsername(), usernameTextField));
-		//passwordTextField.addFocusListener(new TextFieldFocusListener(newUser.getPassword(), passwordTextField));
+		passwordTextField.addFocusListener(new TextFieldFocusListener(passwordString, passwordTextField));
 		
 		//document listeners
 		firstNameTextField.getDocument().addDocumentListener(new MyDocumentListener());

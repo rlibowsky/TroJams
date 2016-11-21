@@ -304,7 +304,7 @@ public class LoginScreenWindow extends JFrame {
 				//fill in the rest of the info about the user.
 				else{
 					User newUser = new User(usernameString);
-					CreateAccountWindow caw = new CreateAccountWindow(newUser, LoginScreenWindow.this, client); //Pass in user and this GUI so that when the user is created, the 
+					CreateAccountWindow caw = new CreateAccountWindow(newUser, passwordString, LoginScreenWindow.this, client); //Pass in user and this GUI so that when the user is created, the 
 						//create account window can call insertUserIntoDB
 					cl = (CardLayout) cards.getLayout();
 					cards.add(caw, "create account window");
