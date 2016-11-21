@@ -291,7 +291,6 @@ public class TrojamServer extends Thread{
 				System.out.println(sqle.getMessage());
 			}
 		}
-			return false;
 		return null;
 	}
 }
