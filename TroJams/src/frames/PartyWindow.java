@@ -226,7 +226,14 @@ public class PartyWindow extends JPanel {
 		viewProfileButton.setContentAreaFilled(false);
 		
 		leaveButton = new JButton();
-		ImageIcon leaveButtonImage = new ImageIcon("images/button_leave-party.png");
+		ImageIcon leaveButtonImage;
+		if(sw.getUser().isHost()){
+			 leaveButtonImage = new ImageIcon("images/button_end-party.png");
+		}
+		else{
+
+			 leaveButtonImage = new ImageIcon("images/button_leave-party.png");
+		}
 		leaveButton.setIcon(leaveButtonImage);
 		leaveButton.setOpaque(false);
 		leaveButton.setBorderPainted(false);
@@ -490,9 +497,16 @@ public class PartyWindow extends JPanel {
 		leaveButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
+				if( sw.getUser().isHost()){
+					//TODO Send message to all user in that party that the party is over and send them them to the end window
+					// RUTH
+				}
+				else{ //user is not a host
+					//TODO Send message to server that user left the party and remove user from and update the party's user set
+					//Ruth
+				}
 				sw.showEndWindow();
-				
 			}
 			
 			
