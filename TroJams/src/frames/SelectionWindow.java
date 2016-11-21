@@ -463,14 +463,14 @@ public class SelectionWindow extends JFrame {
 				// CHANGE TO PARTY WINDOW
 				String pName = cpwPartyNameTextField.getText();
 				ImageIcon pImage = (ImageIcon) imageLabel.getIcon();
-//				Party p = null;
-//				if(cpwPublicRadioButton.isSelected()){
-//					p = new PublicParty(pName, user, pImage);
-//				}
-//				else if(cpwPrivateRadioButton.isSelected()){
-//					String password = cpwPasswordTextField.getText();
-//					p = new PrivateParty(pName, password, user, pImage);
-//				}
+				Party p = null;
+				if(cpwPublicRadioButton.isSelected()){
+					p = new PublicParty(pName, user, pImage);
+				}
+				else if(cpwPrivateRadioButton.isSelected()){
+					String password = cpwPasswordTextField.getText();
+					p = new PrivateParty(pName, password, user, pImage);
+				}
 				
 				//ADD TO PARTIES LIST
 				
@@ -479,13 +479,13 @@ public class SelectionWindow extends JFrame {
 					password = cpwPasswordTextField.getText();
 				}
 				System.out.println("about to send new party info to server");
-				//	client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
+				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password));
 				
 				//user.st.createParty(p);
 				
-				PublicParty testParty = new PublicParty("Test Party", user, pImage);
-				
-				PartyWindow pw = new PartyWindow(testParty, sw);
+//				PublicParty testParty = new PublicParty("Test Party", user, pImage);
+//				
+				PartyWindow pw = new PartyWindow(p, sw);
 				cards.add(pw, "party window");
 				CardLayout cl = (CardLayout) cards.getLayout();
 				cl.show(cards, "party window");		
