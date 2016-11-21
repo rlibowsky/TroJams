@@ -645,7 +645,7 @@ public class PartyWindow extends JPanel {
 		public ProfilePanel(User user) {
 			this.user = user;
 			profilePic = user.getUserImage();
-			
+			this.setLayout(new FlowLayout());
 			profilePanelTitle = new JLabel("Profile Info:");
 			profilePanelTitle.setForeground(Color.white);
 			AppearanceSettings.setFont(AppearanceConstants.fontLarge, profilePanelTitle);
@@ -664,17 +664,18 @@ public class PartyWindow extends JPanel {
 			//profileUserName.setHorizontalAlignment(SwingConstants.CENTER);
 			//profileUserName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 			
-			partiesTextArea = new JTextArea(5,20);
+			partiesTextArea = new JTextArea();
 			partiesTextArea.setOpaque(false);
 			partiesTextArea.setFont(AppearanceConstants.fontMedium);
 			partiesTextArea.setForeground(Color.white);
 			partiesTextArea.append("Party History: ");
 			partiesTextArea.setLineWrap(true);
+			partiesTextArea.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/5, 300));
 			
 			userHistorySP = new JScrollPane(partiesTextArea);
 			userHistorySP.setOpaque(false);
 			userHistorySP.getViewport().setOpaque(false);
-			userHistorySP.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/5, 300));
+			//userHistorySP.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/, 300));
 			Border border = BorderFactory.createEmptyBorder( 0, 0, 0, 0 );
 			userHistorySP.setViewportBorder( border );
 			userHistorySP.setBorder( border );
@@ -695,6 +696,7 @@ public class PartyWindow extends JPanel {
 			logout.setOpaque(false);
 			logout.setBorderPainted(false);
 			logout.setContentAreaFilled(false);
+			logout.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 50));
 			
 			logout.addActionListener(new ActionListener() {
 				@Override
@@ -706,20 +708,27 @@ public class PartyWindow extends JPanel {
 			
 			viewParty = new JButton();
 			ImageIcon viewPartyImage = new ImageIcon("images/button_view-party-info.png");
-			viewParty.setIcon(logoutButtonImage);
+			viewParty.setIcon(viewPartyImage);
 			viewParty.setOpaque(false);
 			viewParty.setBorderPainted(false);
 			viewParty.setContentAreaFilled(false);
+			viewParty.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 50));
 			
 			viewParty.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new LoginScreenWindow(sw.getClient()).setVisible(true);
-					//PartyWindow.this.dispose();
+					CardLayout cl = (CardLayout) cards.getLayout();
+					cl.show(cards, "host panel");
 				}
 			});
 			
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.add(viewParty);
+			buttonPanel.add(logout);
+			buttonPanel.setOpaque(false);
+			buttonPanel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, 125));
+			buttonPanel.setLayout(new FlowLayout());
 			//this.add(Box.createVerticalGlue());
 			this.add(profilePanelTitle);
 			this.add(new JLabel(profilePic));
@@ -727,8 +736,14 @@ public class PartyWindow extends JPanel {
 			this.add(profileUserName);
 			this.add(dummyLabel);
 			this.add(userHistorySP);
+<<<<<<< Updated upstream
 			this.add(viewParty);
 			this.add(logout);
+=======
+//			this.add(viewParty);
+//			this.add(logout);
+			this.add(buttonPanel, BorderLayout.SOUTH);
+>>>>>>> Stashed changes
 		}
 	}
 }
