@@ -27,7 +27,8 @@ public abstract class Party implements Serializable{
 		this.partyName = partyName;
 		this.host = host;
 		partyMembers = new HashSet<Account>();
-		partyImage = new ImageIcon("images/party-purple.jpg");
+		//partyImage = new ImageIcon("images/party-purple.jpg");
+		imageFilePath = "images/party-purple.jpg";
 	}
 	
 	public Party (String partyName, User host, String fp) {
