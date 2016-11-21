@@ -255,4 +255,43 @@ public class TrojamServer extends Thread{
 		System.out.println("sending parties");
 		sendMessageToAll(new AllPartiesMessage("allParties", parties));
 	}
+
+	public FoundSongMessage searchForSong(String songName) {
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/Trojams?user=root&password=root&userSSL=false");
+			st = conn.createStatement();
+			rs = st.executeQuery("SELECTsong_name, artist, album, artwork_filepath, mp3_filepath "
+					+ " FROM Trojams.Songs WHERE song_name = '"+songName+"'");
+
+			if(rs.next()){
+				
+			}else{
+				
+			}
+		} catch (SQLException sqle){
+			System.out.println("sqle: " + sqle.getMessage());
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		}finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(st != null){
+					st.close();
+				}
+				if(conn != null){
+					conn.close();
+				}
+			} catch(SQLException sqle){
+				System.out.println(sqle.getMessage());
+			}
+		}
+			return false;
+		return null;
+	}
 }

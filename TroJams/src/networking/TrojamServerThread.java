@@ -65,19 +65,20 @@ public class TrojamServerThread extends Thread{
 					System.out.println("login message received by serverthread");
 					//returns a boolean saying whether or not the password matched
 					boolean goodLogin = trojamServer.authenticateLogin((LoginMessage)obj );
-					trojamServer.sendMessageToOne(threadNum, new AuthenticatedLoginMessage(goodLogin));
+					sendMessage(new AuthenticatedLoginMessage(goodLogin));
 				} 
 				else if(obj instanceof CreateAccountMessage){ 
 					CreateAccountMessage cam = (CreateAccountMessage) obj;
 					//returns a boolean of whether or not the account was created
 					boolean accountCreated = trojamServer.createAccount(cam);
-					trojamServer.sendMessageToOne(threadNum, new AccountCreatedMessage(accountCreated, cam.getUser()));
+					sendMessage(new AccountCreatedMessage(accountCreated, cam.getUser()));
 				} 
 				else if (obj instanceof SongVoteMessage) {
 					trojamServer.voteOnSong((SongVoteMessage) obj);
 				}
 				else if(obj instanceof SearchSongMessage){
-					
+					FoundSongMessage fsm = trojamServer.searchForSong(((SearchSongMessage) obj).getSongName());
+					sendMessage(fsm);
 				}
 				else if (obj instanceof Message) {
 					System.out.println("got a generic message");
