@@ -347,8 +347,10 @@ public class SelectionWindow extends JFrame {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			hostLabel = new JLabel("Host: " + party.getHostName());
 			AppearanceSettings.setFont(AppearanceConstants.fontMedium, hostLabel);
+			System.out.println(party.getImageFilePath() + "*************");
 			Image img1 = new ImageIcon(party.getImageFilePath()).getImage();
-			ImageIcon pimg = new ImageIcon(img1.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+			//Image img1 = new ImageIcon("images/party-purple.jpg").getImage();
+			ImageIcon pimg = new ImageIcon(img1.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 			partyIconLabel = new JLabel();
 			partyIconLabel.setIcon(pimg);
 			hostImageLabel = new JLabel();
@@ -483,6 +485,7 @@ public class SelectionWindow extends JFrame {
 				String pName = cpwPartyNameTextField.getText();
 //				ImageIcon pImage = (ImageIcon) imageLabel.getIcon();
 				Party p = null;
+				System.out.println("storing image path: " + imageFilePath + " in party");
 				if(cpwPublicRadioButton.isSelected()){
 					p = new PublicParty(pName, user, imageFilePath);
 				}
@@ -522,6 +525,7 @@ public class SelectionWindow extends JFrame {
 				File f = fileChooser.getSelectedFile();
 				if (f != null) {
 					setPartyImage(f.getPath());
+					imageFilePath = f.getPath();
 					imageText.setVisible(false);
 				}
            }

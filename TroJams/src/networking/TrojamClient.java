@@ -154,8 +154,7 @@ public class TrojamClient extends Thread{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}	
 	}
 
 	public void sendVotesChange(Party party, PartySong partySong, String voteType) {

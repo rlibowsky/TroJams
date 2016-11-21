@@ -133,6 +133,10 @@ public abstract class Party implements Serializable{
 			e.setValue(e.getValue()-1);
 		}
 	}
+
+	public void setImageFilePath(String imageFilePath) {
+		this.imageFilePath = imageFilePath;
+	}
 	
 	
 }
