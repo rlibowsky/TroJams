@@ -93,6 +93,7 @@ public class SelectionWindow extends JFrame {
 		
 	public SelectionWindow(Account account, ArrayList<Party> parties, TrojamClient client){
 		super("TroJams");
+		this.account = account;
 		sw = this;
 		this.client = client;
 //		if (currentParties == null) {
@@ -711,6 +712,9 @@ public class SelectionWindow extends JFrame {
 		new SelectionWindow(user, parties, null).setVisible(true);
 	}
 	
+	private class GuestPanel extends JPanel{ 
+		
+	}
 	
 	private class ProfilePanel extends JPanel{
 		
