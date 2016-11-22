@@ -543,6 +543,7 @@ public class SelectionWindow extends JFrame {
 				if (f != null) {
 					setPartyImage(f.getPath());
 					imageFilePath = f.getPath();
+					System.out.println("IMAGEFILEPATH IN IMAGE LABEL AL: " + imageFilePath);
 					imageText.setVisible(false);
 				}
            }
