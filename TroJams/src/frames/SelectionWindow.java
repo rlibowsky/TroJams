@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -341,6 +342,10 @@ public class SelectionWindow extends JFrame {
 		}
 		else{
 			System.out.println("ACCCOUNT IS NOT A USER!!!!!!!!!!");
+			GuestPanel guestPanel = new GuestPanel();
+			guestPanel.setOpaque(false);
+			guestPanel.setMaximumSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT));
+			swMainPanel.add(guestPanel, BorderLayout.WEST);	
 		}
 		
 	}
@@ -686,34 +691,97 @@ public class SelectionWindow extends JFrame {
 		return this.account;
 	}
 
-	public static void main(String [] args) {
-		User user = new User("username");
-		Image image = new ImageIcon("images/party-purple.jpg").getImage();
-		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-		PrivateParty p1 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
-		PrivateParty p2 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
-		PublicParty p3 = new PublicParty("party3", user, "images/party-purple.jpg");
-		PrivateParty p4 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
-		PrivateParty p5 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
-		PublicParty p6 = new PublicParty("party3", user, "images/party-purple.jpg");
-		PrivateParty p7 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
-		PrivateParty p8 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
-		PublicParty p9 = new PublicParty("party3", user, "images/party-purple.jpg");
-		ArrayList <Party> parties = new ArrayList <Party>();
-		parties.add(p1);
-		parties.add(p2);
-		parties.add(p3);
-		parties.add(p4);
-		parties.add(p5);
-		parties.add(p6);
-		parties.add(p7);
-		parties.add(p8);
-		parties.add(p9);
-		//new SelectionWindow(user, parties, clien).setVisible(true);
-		new SelectionWindow(user, parties, null).setVisible(true);
-	}
+//	public static void main(String [] args) {
+//		User user = new User("username");
+//		Image image = new ImageIcon("images/party-purple.jpg").getImage();
+//		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+//		PrivateParty p1 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
+//		PrivateParty p2 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
+//		PublicParty p3 = new PublicParty("party3", user, "images/party-purple.jpg");
+//		PrivateParty p4 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
+//		PrivateParty p5 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
+//		PublicParty p6 = new PublicParty("party3", user, "images/party-purple.jpg");
+//		PrivateParty p7 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
+//		PrivateParty p8 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
+//		PublicParty p9 = new PublicParty("party3", user, "images/party-purple.jpg");
+//		ArrayList <Party> parties = new ArrayList <Party>();
+//		parties.add(p1);
+//		parties.add(p2);
+//		parties.add(p3);
+//		parties.add(p4);
+//		parties.add(p5);
+//		parties.add(p6);
+//		parties.add(p7);
+//		parties.add(p8);
+//		parties.add(p9);
+//		//new SelectionWindow(user, parties, clien).setVisible(true);
+//		new SelectionWindow(user, parties, null).setVisible(true);
+//	}
 	
 	private class GuestPanel extends JPanel{ 
+		ImageIcon profilePic;
+		JLabel profileName, dummyLabel;
+		JButton logout;
+		JTextArea infoTextArea;
+		JScrollPane guestSP;
+		JLabel profilePanelTitle;
+		
+		public GuestPanel(){
+			Image image = new ImageIcon("Images/JeffreyMiller-cropped.png").getImage();
+			profilePic = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+			
+			profilePanelTitle = new JLabel("Profile Info:");
+			profilePanelTitle.setHorizontalAlignment((int) this.LEFT_ALIGNMENT);
+			profilePanelTitle.setForeground(Color.white);
+			AppearanceSettings.setFont(AppearanceConstants.fontLarge, profilePanelTitle);
+			
+			dummyLabel = new JLabel(" ");
+			
+			profileName = new JLabel("Guest", SwingConstants.CENTER);
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileName);
+			profileName.setForeground(Color.white);
+
+			infoTextArea = new JTextArea(5,20);
+			infoTextArea.setOpaque(false);
+			infoTextArea.setFont(AppearanceConstants.fontMedium);
+			infoTextArea.setForeground(Color.white);
+			infoTextArea.append("Sorry, you are not logged in. Log in or create an account to unleash your full party potential!");
+			infoTextArea.setLineWrap(true);
+			infoTextArea.setWrapStyleWord(true);
+			infoTextArea.setEditable(false);
+			
+			guestSP = new JScrollPane(infoTextArea);
+			guestSP.setOpaque(false);
+			guestSP.getViewport().setOpaque(false);
+			Border border = BorderFactory.createEmptyBorder( 10, 10, 10, 10 );
+			guestSP.setViewportBorder( border );
+			guestSP.setBorder( border );
+			
+			logout = new JButton();
+			ImageIcon logoutButtonImage = new ImageIcon("images/button_log-out.png");
+			logout.setIcon(logoutButtonImage);
+			logout.setOpaque(false);
+			logout.setBorderPainted(false);
+			logout.setContentAreaFilled(false);
+			
+			logout.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new LoginScreenWindow(client).setVisible(true);
+					dispose();
+				}
+			});
+			
+			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			//this.add(Box.createVerticalGlue());
+			this.add(profilePanelTitle);
+			this.add(new JLabel(profilePic));
+			this.add(profileName);
+			this.add(guestSP);
+			this.add(dummyLabel);
+			this.add(logout);
+			this.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT);
+		}
 		
 	}
 	
