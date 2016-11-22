@@ -247,7 +247,7 @@ public class TrojamServer extends Thread{
 		if (svm.getName().equals("upvote")) {
 			System.out.println("upvoting a song");
 			receivedParty.upvoteSong(receivedSong);
-		} else if (svm.getName().equals("upvote")){
+		} else if (svm.getName().equals("downvote")){
 			System.out.println("downvoting a song");
 			receivedParty.downvoteSong(receivedSong);
 		}
