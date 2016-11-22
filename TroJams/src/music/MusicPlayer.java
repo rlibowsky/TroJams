@@ -2,6 +2,7 @@ package music;
 
 import java.io.FileInputStream;
 
+import frames.PartyWindow;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
@@ -11,17 +12,22 @@ public class MusicPlayer extends Thread{
 	// retrieve text from search, check if vector contains that song
 	// call method with that song name
 	Player playMP3;
-	public MusicPlayer(String filepath){
+	PartyWindow pw;
+	public MusicPlayer(String filePath, PartyWindow pw){
 	    try{
 		    //FileInputStream fis = new FileInputStream("music/sunset_lover.mp3");
-	    	FileInputStream fis = new FileInputStream(filepath);
+	    	FileInputStream fis = new FileInputStream(filePath);
+	    	System.out.println("Filepath: " + filePath);
+	    	this.pw = pw;
 		    playMP3 = new Player(fis);
+		    
 		    this.start();
 		    //playMP3.play();
 		    //playMP3.
-		    Thread.sleep(5000);
+		    //Thread.sleep(5000);
 		    System.out.println("done sleeping");
 		    
+
 		    //playMP3.close();
 //		    while (!playMP3.isComplete()) {
 //		    	
@@ -39,6 +45,12 @@ public class MusicPlayer extends Thread{
 	public void run(){
 		try {
 			playMP3.play();
+			
+			while (true) {
+				if (playMP3.isComplete()) {
+					pw.advanceSong();
+				}
+			}
 			//playMP3.
 		} catch (JavaLayerException e) {
 			// TODO Auto-generated catch block

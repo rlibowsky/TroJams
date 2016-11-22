@@ -498,16 +498,18 @@ public class PartyWindow extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!searchedSong.getText().equals("")) {
+				searchButton.setEnabled(true);
+				//if (!searchedSong.getText().equals("")) {
 					SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchedSong.getText(), 0.0));
 //					df.addElement(ssp);
 //					//listModel.addElement(ssp);
 //					System.out.println(songList.getModel().getSize());
 					songList.add(ssp);
-					currentSongName.setText(searchedSong.getText());
+					//currentSongName.setText(searchedSong.getText());
 					searchedSong.setText("");
+					addSongToQueue();
 					revalidate();
-				}
+				//}
 			}
 			
 		});
@@ -547,9 +549,9 @@ public class PartyWindow extends JPanel {
 				// set image icon
 				
 				String searchedText = searchBar.getText();
-				getSong(searchedText);
-				
+				addSongToPanel(searchedText);
 				searchBar.setText("");
+				searchButton.setEnabled(false);
 				//revalidate();
 				
 			}
@@ -883,11 +885,24 @@ public class PartyWindow extends JPanel {
 		
 	}
 	
-	public void getSong(String songName) {
-		songFilePaths.add(songName);
-		String filePath = "music/" + songName;
-		MusicPlayer mp = new MusicPlayer("music/" + songName);
-		searchedSong.setText(filePath);
+	public void addSongToPanel(String songName) {
 		
+		String filePath = "music/" + songName.toLowerCase() + ".mp3";
+		songFilePaths.add(filePath);		
+		searchedSong.setText(songName);
+		for (String s : songFilePaths) {
+			System.out.println(s);
+		}
+		
+	}
+	
+	public void addSongToQueue() {
+		MusicPlayer mp = new MusicPlayer("music/closer.mp3", this);
+		
+
+	}
+	
+	public void advanceSong() {
+		System.out.println("next song");
 	}
 }
