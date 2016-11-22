@@ -9,7 +9,7 @@ public class AuthenticatedLoginMessage extends Message {
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean authenticated;
-	private String firstName, lastName, imageFilePath;
+	private String firstName, lastName, imageFilePath, username;
 	
 	
 	public AuthenticatedLoginMessage(boolean loggedIn) {
@@ -22,6 +22,7 @@ public class AuthenticatedLoginMessage extends Message {
 		//username, password, first_name, last_name, filepath_to_pic
 		try {
 			//System.out.println("in try bloack alm");
+			username = rs.getString("username");
 			firstName = rs.getString("first_name");
 			lastName = rs.getString("last_name");
 			imageFilePath = rs.getString("filepath_to_pic");
@@ -30,6 +31,10 @@ public class AuthenticatedLoginMessage extends Message {
 			//System.out.println("caught exception");
 			authenticated = false;
 		}
+	}
+	
+	public String getUsername() {
+		return username;
 	}
 
 	public boolean isAuthenticated(){

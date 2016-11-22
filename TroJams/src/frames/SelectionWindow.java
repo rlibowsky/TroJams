@@ -400,14 +400,15 @@ public class SelectionWindow extends JFrame {
 						PrivateParty pp = (PrivateParty) party;
 						if (pp.verifyPassword(givenPassword)) {
 							//join party
-							pw = new PartyWindow(party, sw);
+							System.out.println("setting party window!!!");
+							SelectionWindow.this.pw = new PartyWindow(party, sw);
 							cards.add(pw, "party window");
 							CardLayout cl = (CardLayout) cards.getLayout();
 							cl.show(cards,  "party window");
 							revalidate();
 						}
 					} else {
-						PartyWindow pw = new PartyWindow(party, sw);
+						SelectionWindow.this.pw = new PartyWindow(party, sw);
 						cards.add(pw, "party window");
 						CardLayout cl = (CardLayout) cards.getLayout();
 						cl.show(cards,  "party window");
@@ -887,6 +888,7 @@ public class SelectionWindow extends JFrame {
 	}
 
 	public void sendSongVoteUpdate(SongVoteMessage svm) {
+		System.out.println(this.pw);
 		this.pw.sendSongVoteUpdate(svm);
 		
 	}
