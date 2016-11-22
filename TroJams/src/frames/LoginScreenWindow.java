@@ -177,6 +177,7 @@ public class LoginScreenWindow extends JFrame {
 		logoPanel.setOpaque(false);
 		
 		mainPanel.add(logoPanel);
+		mainPanel.add(Box.createVerticalGlue());
 		cards.add(mainPanel, "main window");
 		//CreateAccountWindow caw = new CreateAccountWindow(this, client);
 		//cards.add(caw, "create account window");

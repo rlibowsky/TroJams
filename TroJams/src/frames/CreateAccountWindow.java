@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -162,7 +163,7 @@ public class CreateAccountWindow extends JPanel {
 	private void createGUI(){
 		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
 		setLocation(100,100);
-		setLayout(new BorderLayout());
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel infoPanel = new JPanel();
 		JPanel textFieldPanel = new JPanel();
 		JPanel bottomPanel = new JPanel();
@@ -190,25 +191,25 @@ public class CreateAccountWindow extends JPanel {
 		lastNameTextField.setPreferredSize(new Dimension(800, 60));
 		usernameTextField.setPreferredSize(new Dimension(800, 60));
 		passwordTextField.setPreferredSize(new Dimension(800, 60));
-		JPanel credentialsPanel = new JPanel();
-		credentialsPanel.setPreferredSize(new Dimension(800, 260));
-		credentialsPanel.setLayout(new FlowLayout());
-		credentialsPanel.add(firstNameTextField);
-		credentialsPanel.add(lastNameTextField);
 		
+		JPanel credentialsPanel = new JPanel();
+		credentialsPanel.setLayout(new FlowLayout());
+		credentialsPanel.setPreferredSize(new Dimension(800, 150));
+		credentialsPanel.add(firstNameTextField);
+		credentialsPanel.add(lastNameTextField);		
 		credentialsPanel.setOpaque(false);
 		
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new FlowLayout());
-		namePanel.setPreferredSize(new Dimension(800, 260));
+		namePanel.setPreferredSize(new Dimension(800, 150));		
 		namePanel.add(usernameTextField);
 		namePanel.add(passwordTextField);
 		namePanel.setOpaque(false);
 		
-		textFieldPanel.setLayout(new BorderLayout());
-		textFieldPanel.setPreferredSize(new Dimension(800, 400));
-		textFieldPanel.add(credentialsPanel, BorderLayout.NORTH);
-		textFieldPanel.add(namePanel, BorderLayout.SOUTH);
+		textFieldPanel.setPreferredSize(new Dimension(800, 300));
+		textFieldPanel.setLayout(new FlowLayout());
+		textFieldPanel.add(credentialsPanel);
+		textFieldPanel.add(namePanel);
 		
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
 		bottomPanel.setPreferredSize(new Dimension(800, 260));
@@ -221,9 +222,12 @@ public class CreateAccountWindow extends JPanel {
 		textFieldPanel.setOpaque(false);
 		bottomPanel.setOpaque(false);
 		
-		add(infoPanel, BorderLayout.NORTH);
-		add(textFieldPanel, BorderLayout.CENTER);
-		add(bottomPanel, BorderLayout.SOUTH);
+		AppearanceSettings.addGlue(this, BoxLayout.PAGE_AXIS, true, infoPanel, textFieldPanel, bottomPanel);
+		add(Box.createVerticalGlue());
+		add(Box.createVerticalGlue());
+		add(Box.createVerticalGlue());
+		add(Box.createGlue());
+		add(new JLabel(" "));
 		
 	}
 	
