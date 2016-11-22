@@ -338,6 +338,7 @@ public class SelectionWindow extends JFrame {
 			System.out.println("ACCCOUNT IS A USER!!!!!!!!!!");
 			ProfilePanel profilePanel = new ProfilePanel((User)account);
 			profilePanel.setOpaque(false);
+			AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT, profilePanel);
 			swMainPanel.add(profilePanel, BorderLayout.WEST);
 		}
 		else{
