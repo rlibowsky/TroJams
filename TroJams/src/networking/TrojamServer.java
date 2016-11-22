@@ -112,7 +112,6 @@ public class TrojamServer extends Thread{
 				rs = st.executeQuery("SELECT username, first_name, last_name, filepath_to_pic  FROM Trojams.Users "
 						+ "WHERE username = '"+usernameString+ "' AND password = '"+passwordString+"'");
 
-
 				if(rs.next()){
 					return new AuthenticatedLoginMessage(rs);
 				}else{
