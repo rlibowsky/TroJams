@@ -850,12 +850,21 @@ public class PartyWindow extends JPanel {
 
 	public void receiveSongInfo(FoundSongMessage fsm) {
 		// TODO for catherine
-		song_name = fsm.getSongName();
-		song_artist = fsm.getArtist();
-		song_album = fsm.getAlbum();
-		song_artwork_filepath = fsm.getArtworkFilepath();
-		song_mp3_filepath = fsm.getmp3FilePath();
-		song_artwork = fsm.getActualImage();
+		if (fsm.getFoundSong()) {
+			song_name = fsm.getSongName();
+			System.out.println(song_name);
+			song_artist = fsm.getArtist();
+			System.out.println(song_artist);
+			song_album = fsm.getAlbum();
+			System.out.println(song_album);
+			song_artwork_filepath = fsm.getArtworkFilepath();
+			System.out.println(song_artwork_filepath);
+			song_mp3_filepath = fsm.getmp3FilePath();
+			System.out.println(song_artwork);
+			song_artwork = fsm.getActualImage();
+		} else {
+			//TODO some error message
+		}
 		// call method to construct song panel
 		
 	}
