@@ -185,11 +185,21 @@ public class SelectionWindow extends JFrame {
 		pwUsernameLabel = new JLabel();
 		//pwUsernameLabel.setText(user.getUsername());
 		pwUsernameLabel.setText("Username");
+		if (client.getAccount() instanceof User) {
+			pwUsernameLabel.setText(((User)client.getAccount()).getUsername());
+		}
 		pwNameLabel = new JLabel();
 		//pwNameLabel.setText(user.getFirstName() + user.getLastName());
-		pwNameLabel.setText("First_Name Last_Name");
+		if (client.getAccount() instanceof User) {
+			pwNameLabel.setText(((User)client.getAccount()).getFirstName() + " " + ((User)client.getAccount()).getLastName());
+		} else {
+			pwNameLabel.setText("Guest");
+		}
 		profileLabel = new JLabel("Profile");
 		profileIcon = new ImageIcon("images/silhouette.png");
+		if (client.getAccount() instanceof User) {
+			profileIcon = new ImageIcon(((User)client.getAccount()).getImageFilePath());
+		}
 		profileIconLabel = new JLabel();
 		profileIconLabel.setIcon(profileIcon);
 	}

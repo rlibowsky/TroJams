@@ -25,6 +25,7 @@ import javax.swing.event.DocumentListener;
 import listeners.TextFieldFocusListener;
 import logic.Guest;
 import logic.User;
+import networking.AuthenticatedLoginMessage;
 import networking.TrojamClient;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
@@ -389,10 +390,10 @@ public class LoginScreenWindow extends JFrame {
 		}
 	}
 
-	public void attemptLogIn(boolean authenticated) {
-		if(authenticated){
+	public void attemptLogIn(AuthenticatedLoginMessage alm) {
+		if(alm.isAuthenticated()){
 			System.out.println("authenticated user");
-			User newUser = new User(usernameString);
+			User newUser = new User(usernameString, alm.getfirstName(), alm.getLastName(), alm.getFilepath());
 			client.setAccount(newUser);
 			//existingUsers.put(usernameString, newUser);
 			//User user = existingUsers.get(usernameString);

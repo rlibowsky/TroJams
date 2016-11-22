@@ -102,7 +102,7 @@ public class TrojamClient extends Thread{
 				else if(obj instanceof AuthenticatedLoginMessage){
 					System.out.println("client received loginmessage");
 					AuthenticatedLoginMessage alm = (AuthenticatedLoginMessage) obj;
-					lsw.attemptLogIn(alm.isAuthenticated());
+					lsw.attemptLogIn(alm);
 				} 
 				else if(obj instanceof AccountCreatedMessage){
 					System.out.println("client received account created message");
