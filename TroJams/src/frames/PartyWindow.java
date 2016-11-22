@@ -898,7 +898,7 @@ public class PartyWindow extends JPanel {
 	
 	public void addSongToPanel(String songName) {
 		
-		String filePath = "music/" + songName.toLowerCase() + ".mp3";
+		String filePath = "music/" + songName.trim().toLowerCase() + ".mp3";
 		songFilePaths.add(filePath);		
 		searchedSong.setText(songName);
 		for (String s : songFilePaths) {
@@ -908,7 +908,7 @@ public class PartyWindow extends JPanel {
 	}
 	
 	public void addSongToQueue() {
-		MusicPlayer mp = new MusicPlayer("music/closer.mp3", this);
+		MusicPlayer mp = new MusicPlayer("music/puppy.mp3", this);
 		
 
 	}

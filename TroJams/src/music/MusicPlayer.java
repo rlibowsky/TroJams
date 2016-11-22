@@ -49,6 +49,7 @@ public class MusicPlayer extends Thread{
 			while (true) {
 				if (playMP3.isComplete()) {
 					pw.advanceSong();
+					
 				}
 			}
 			//playMP3.
