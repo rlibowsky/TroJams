@@ -349,6 +349,7 @@ public class TrojamServer extends Thread{
 	public void nextSong(String partyName) {
 		Party p = partyNamesToObjects.get(partyName);
 		p.playNextSong();
+		MusicPlayer mp = new MusicPlayer("music/" + p.getSongs().get(0).getName() + ".mp3", p, this);
 		sendMessageToParty(p, new AddSongMessage("string", "string", "string"));
 	}
 }
