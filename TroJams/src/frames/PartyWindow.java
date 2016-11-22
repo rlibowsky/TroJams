@@ -42,16 +42,17 @@ import logic.Account;
 import logic.Party;
 import logic.PartySong;
 import logic.User;
+import music.MusicPlayer;
 import networking.FoundSongMessage;
 import networking.SongVoteMessage;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
-import searches.SongSearch;
 
 public class PartyWindow extends JPanel {
 	
 	private JButton refreshButton, addNewSongButton, searchButton, leaveButton, viewProfileButton;
 	private JList <SingleSongPanel>songList;
+	private Vector<String> songFilePaths;
 	private JPanel buttonsPanel, centerPanel, currentlyPlayingPanel, hostPanel, addSongPanel, bottomButtonPanel, cards;
 	private JScrollPane songScrollPane, partyPeopleScrollPane;
 	private ImageIcon backgroundImage, currentlyPlayingImage, partyImage, hostImage;
@@ -179,6 +180,8 @@ public class PartyWindow extends JPanel {
 //				g.drawImage(image, 0, 0, 1280, 800, this);
 //			}
 //		});
+		
+		songFilePaths = new Vector<String>();
 //		
 		buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BorderLayout());
@@ -495,17 +498,21 @@ public class PartyWindow extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchedSong.getText(), 0.0));
-//				df.addElement(ssp);
-//				//listModel.addElement(ssp);
-//				System.out.println(songList.getModel().getSize());
-				songList.add(ssp);
-				currentSongName.setText(searchedSong.getText());
-				searchedSong.setText("");
-				revalidate();
+				if (!searchedSong.getText().equals("")) {
+					SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchedSong.getText(), 0.0));
+//					df.addElement(ssp);
+//					//listModel.addElement(ssp);
+//					System.out.println(songList.getModel().getSize());
+					songList.add(ssp);
+					currentSongName.setText(searchedSong.getText());
+					searchedSong.setText("");
+					revalidate();
+				}
 			}
 			
 		});
+		
+		//searchedSong.
  
 		leaveButton.addActionListener(new ActionListener() {
 
@@ -530,12 +537,18 @@ public class PartyWindow extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Search database to get song and set text
-				new SongSearch(searchBar.getText(), sw.getClient());
+				
+				//TODO: Commented out lines below to make song search local
+				//new SongSearch(searchBar.getText(), sw.getClient());
 				//searchedSong.setText(searchBar.getText());
-				searchedSong.setText(song_name);
-				searchedSongArtist.setText(song_artist);
-				searchedSongAlbum.setText(song_album);
+//				searchedSong.setText(song_name);
+//				searchedSongArtist.setText(song_artist);
+//				searchedSongAlbum.setText(song_album);
 				// set image icon
+				
+				String searchedText = searchBar.getText();
+				getSong(searchedText);
+				
 				searchBar.setText("");
 				//revalidate();
 				
@@ -614,6 +627,7 @@ public class PartyWindow extends JPanel {
 		centerPanel.add(searchButton);
 		//centerPanel.add(searchedSong);
 		centerPanel.add(searchedSongPanel);
+		//addNewSongButton.setEnabled(false);
 		centerPanel.add(addNewSongButton);
 		centerPanel.add(dummyPanel2);
 		//centerPanel.add(Box.createVerticalStrut(275));
@@ -869,5 +883,11 @@ public class PartyWindow extends JPanel {
 		
 	}
 	
-	
+	public void getSong(String songName) {
+		songFilePaths.add(songName);
+		String filePath = "music/" + songName;
+		MusicPlayer mp = new MusicPlayer("music/" + songName);
+		searchedSong.setText(filePath);
+		
+	}
 }

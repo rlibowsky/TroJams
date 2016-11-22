@@ -1,17 +1,17 @@
-package Test;
+package music;
 
 import java.io.FileInputStream;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
-public class MusicPlayerTest extends Thread{
+public class MusicPlayer extends Thread{
 
 	
 	// retrieve text from search, check if vector contains that song
 	// call method with that song name
 	Player playMP3;
-	public MusicPlayerTest(String filepath){
+	public MusicPlayer(String filepath){
 	    try{
 		    //FileInputStream fis = new FileInputStream("music/sunset_lover.mp3");
 	    	FileInputStream fis = new FileInputStream(filepath);
