@@ -813,6 +813,7 @@ public class PartyWindow extends JPanel {
 			partiesTextArea.append("Party History: ");
 			partiesTextArea.setLineWrap(true);
 			partiesTextArea.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/5, 300));
+			partiesTextArea.setEditable(false);
 			
 			userHistorySP = new JScrollPane(partiesTextArea);
 			userHistorySP.setOpaque(false);

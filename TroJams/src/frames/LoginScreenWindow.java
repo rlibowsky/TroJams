@@ -323,19 +323,19 @@ public class LoginScreenWindow extends JFrame {
 			
 		});
 		
-		guestButton.addActionListener(new ActionListener(){
-			
+		guestButton.addActionListener(new ActionListener(){			
 			@Override
 			public void actionPerformed(ActionEvent e) {			
 				//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES to pass into new selection window
 				Guest g = new Guest();
 				client.setAccount(g);
 				//have selectionWindow take in an instance of account
-				new SelectionWindow(new Guest(), null, client).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+				SelectionWindow sw = new SelectionWindow(g, null, client);
+				client.setSelectionWindow(sw);
+				sw.setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 					//create account window can call insertUserIntoDB 
 				dispose();
 			}
-		
 		});
 		
 	}

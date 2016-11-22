@@ -825,6 +825,7 @@ public class SelectionWindow extends JFrame {
 			partiesTextArea.setForeground(Color.white);
 			partiesTextArea.append("Party History: \n");
 			partiesTextArea.setLineWrap(true);
+			partiesTextArea.setEditable(false);
 			
 			userHistorySP = new JScrollPane(partiesTextArea);
 			userHistorySP.setOpaque(false);
@@ -867,6 +868,7 @@ public class SelectionWindow extends JFrame {
 			this.add(dummyLabel);
 			this.add(userHistorySP);
 			this.add(logout);
+			this.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT);
 		}
 		
 	}
