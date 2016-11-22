@@ -64,8 +64,8 @@ public class TrojamServerThread extends Thread{
 				else if (obj instanceof LoginMessage) {
 					System.out.println("login message received by serverthread");
 					//returns a boolean saying whether or not the password matched
-					boolean goodLogin = trojamServer.authenticateLogin((LoginMessage)obj );
-					sendMessage(new AuthenticatedLoginMessage(goodLogin));
+					AuthenticatedLoginMessage login = trojamServer.authenticateLogin((LoginMessage)obj );
+					sendMessage(login);
 				} 
 				else if(obj instanceof CreateAccountMessage){ 
 					CreateAccountMessage cam = (CreateAccountMessage) obj;

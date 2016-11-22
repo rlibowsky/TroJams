@@ -27,25 +27,28 @@ public class ServerThread extends Thread {
 	
 	public void sendMessage(File mp3File) {
 		try {
+			System.out.println("in sendmessage");
 			File f = mp3File;
 			byte[] content = Files.readAllBytes(f.toPath());
 			oos.writeObject(content);
+			System.out.println("pre-flush");
 			oos.flush();
+			System.out.println("flushed");
 		} catch (IOException ioe) {
 			System.out.println("ioe: " + ioe.getMessage());
 		}
 	}
 
-//	public void run() {
-//		try {
-//			while(true) {
-//				ChatMessage message = (ChatMessage)ois.readObject();
-//				cs.sendMessageToAllClients(message);
-//			}
+	public void run() {
+		
+		while(true) {
+				//ChatMessage message = (ChatMessage)ois.readObject();
+				//cs.sendMessageToAllClients(message);
+			}
 //		} catch (ClassNotFoundException cnfe) {
 //			System.out.println("cnfe in run: " + cnfe.getMessage());
 //		} catch (IOException ioe) {
 //			System.out.println("ioe in run: " + ioe.getMessage());
 //		}
-//	}
+	}
 }

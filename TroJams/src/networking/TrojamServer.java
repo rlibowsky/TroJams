@@ -96,7 +96,7 @@ public class TrojamServer extends Thread{
 		}
 	}
 
-	public boolean authenticateLogin(LoginMessage lm) {
+	public AuthenticatedLoginMessage authenticateLogin(LoginMessage lm) {
 		String usernameString = lm.getUsername();
 		String passwordString = lm.getPassword();
 		Connection conn = null;
@@ -109,11 +109,14 @@ public class TrojamServer extends Thread{
 				Class.forName("com.mysql.jdbc.Driver");
 				conn = DriverManager.getConnection("jdbc:mysql://localhost/Trojams?user=root&password=root&userSSL=false");
 				st = conn.createStatement();
-				rs = st.executeQuery("SELECT username, password  FROM Trojams.Users WHERE username = '"+usernameString+ 
-						"' AND password = '"+passwordString+"'");
+				rs = st.executeQuery("SELECT username, first_name, last_name, filepath_to_pic  FROM Trojams.Users "
+						+ "WHERE username = '"+usernameString+ "' AND password = '"+passwordString+"'");
 
-
-				return(rs.next());
+				if(rs.next()){
+					return new AuthenticatedLoginMessage(rs);
+				}else{
+					return new AuthenticatedLoginMessage(false);
+				}
 			} catch (SQLException sqle){
 				System.out.println("sqle: " + sqle.getMessage());
 			} catch (ClassNotFoundException cnfe) {
@@ -123,7 +126,7 @@ public class TrojamServer extends Thread{
 			//passwordString = password.getText();
 			//TODO have some sort of message to the gui about picking a different password or something
 			e1.printStackTrace();
-			return false;
+			return new AuthenticatedLoginMessage(false);
 		}finally {
 			try {
 				if(rs != null){
@@ -139,7 +142,7 @@ public class TrojamServer extends Thread{
 				System.out.println(sqle.getMessage());
 			}
 		}
-		return false;
+		return new AuthenticatedLoginMessage(false);
 	}
 
 	public void sendMessageToOne(int threadNum, Message message) {
