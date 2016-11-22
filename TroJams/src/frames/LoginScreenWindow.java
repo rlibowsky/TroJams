@@ -395,8 +395,6 @@ public class LoginScreenWindow extends JFrame {
 			System.out.println("authenticated user");
 			User newUser = new User(usernameString, alm.getfirstName(), alm.getLastName(), alm.getFilepath());
 			client.setAccount(newUser);
-			//existingUsers.put(usernameString, newUser);
-			//User user = existingUsers.get(usernameString);
 			SelectionWindow sw = new SelectionWindow(newUser, null, client);
 			client.setSelectionWindow(sw);
 			sw.setVisible(true);

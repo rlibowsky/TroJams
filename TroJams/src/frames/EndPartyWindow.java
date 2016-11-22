@@ -37,8 +37,7 @@ public class EndPartyWindow extends JPanel {
 		createGUI();
 		addListeners();
 	}
-	
-	
+		
 	private void initializeComponents(){
 		if(sw.getAccount() instanceof User){
 			if(((User)sw.getAccount()).isHost()){

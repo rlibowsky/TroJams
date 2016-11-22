@@ -333,9 +333,13 @@ public class SelectionWindow extends JFrame {
 		swMainPanel.add(swRightPanel, BorderLayout.CENTER);
 		
 		if(account instanceof User){
+			System.out.println("ACCCOUNT IS A USER!!!!!!!!!!");
 			ProfilePanel profilePanel = new ProfilePanel((User)account);
 			profilePanel.setOpaque(false);
 			swMainPanel.add(profilePanel, BorderLayout.WEST);
+		}
+		else{
+			System.out.println("ACCCOUNT IS NOT A USER!!!!!!!!!!");
 		}
 		
 	}
