@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
 
+import music.MusicPlayer;
+
 public abstract class Party implements Serializable{
 	
 	/**
@@ -127,6 +129,7 @@ public abstract class Party implements Serializable{
 	}
 	
 	public void playNextSong() {
+		String fp = "music/"+songList.get(0).getName()+".mp3";
 		songList.remove(0);
 		//decrement indices of songs since the 0th song has been removed from the array
 		for (Entry<String, Integer>  e: songSet.entrySet()) {

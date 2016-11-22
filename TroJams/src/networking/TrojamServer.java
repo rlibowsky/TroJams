@@ -11,9 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 import logic.Account;
@@ -22,6 +20,7 @@ import logic.PartySong;
 import logic.PrivateParty;
 import logic.PublicParty;
 import logic.User;
+import music.MusicPlayer;
 import resources.Util;
 
 public class TrojamServer extends Thread{
@@ -304,7 +303,15 @@ public class TrojamServer extends Thread{
 
 	public void addNewSong(AddSongMessage asm) {
 		System.out.println("server got song");
-		partyNamesToObjects.get(asm.partyName).addSong(new PartySong(asm.songName));
+		//check if song list is empty
+		Party p = partyNamesToObjects.get(asm.partyName);
+		p.addSong(new PartySong(asm.songName));
+		if (p.getSongs().size() == 1) {
+			System.out.println("STARTING THE MUSIC PLAYER");
+			//accountToThreadMap.get((p.getHost().getUsername())).
+			MusicPlayer mp = new MusicPlayer("music/" + p.getSongs().get(0).getName() + ".mp3", p, this);
+		}
+		
 		sendMessageToParty(partyNamesToObjects.get(asm.partyName), asm);
 	}
 
@@ -337,5 +344,11 @@ public class TrojamServer extends Thread{
 				}
 			}
 		}
+	}
+
+	public void nextSong(String partyName) {
+		Party p = partyNamesToObjects.get(partyName);
+		p.playNextSong();
+		sendMessageToParty(p, new AddSongMessage("string", "string", "string"));
 	}
 }

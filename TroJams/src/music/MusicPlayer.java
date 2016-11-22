@@ -2,9 +2,10 @@ package music;
 
 import java.io.FileInputStream;
 
-import frames.PartyWindow;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
+import logic.Party;
+import networking.TrojamServer;
 
 public class MusicPlayer extends Thread{
 
@@ -12,20 +13,22 @@ public class MusicPlayer extends Thread{
 	// retrieve text from search, check if vector contains that song
 	// call method with that song name
 	Player playMP3;
-	PartyWindow pw;
-	public MusicPlayer(String filePath, PartyWindow pw){
+	Party p;
+	private TrojamServer ts;
+	public MusicPlayer(String filePath, Party p, TrojamServer ts){
 	    try{
 		    //FileInputStream fis = new FileInputStream("music/sunset_lover.mp3");
 	    	FileInputStream fis = new FileInputStream(filePath);
 	    	System.out.println("Filepath: " + filePath);
-	    	this.pw = pw;
+	    	this.p = p;
+	    	this.ts = ts;
 		    playMP3 = new Player(fis);
 		    
 		    this.start();
 		    //playMP3.play();
 		    //playMP3.
 		    //Thread.sleep(5000);
-		    System.out.println("done sleeping");
+		    //System.out.println("done sleeping");
 		    
 
 		    //playMP3.close();
@@ -48,7 +51,7 @@ public class MusicPlayer extends Thread{
 			
 			while (true) {
 				if (playMP3.isComplete()) {
-					pw.advanceSong();
+					ts.nextSong(p.getPartyName());
 					break;
 				}
 			}

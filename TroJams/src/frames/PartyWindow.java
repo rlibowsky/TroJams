@@ -532,7 +532,7 @@ public class PartyWindow extends JPanel {
 					//songList.add(ssp);
 					//currentSongName.setText(searchedSong.getText());
 					//searchedSong.setText("");
-					addSongToQueue();
+					//addSongToQueue();
 //>>>>>>> Stashed changes
 					revalidate();
 				//}
@@ -931,13 +931,13 @@ public class PartyWindow extends JPanel {
 
 	}
 	
-	public void advanceSong() {
-		songFilePaths.remove(0);
-		songList.remove(0);
-		System.out.println("next song");
-		if (!songFilePaths.isEmpty()) {
-			MusicPlayer mp = new MusicPlayer(songFilePaths.get(0), this);
-		}
-		revalidate();
-	}
+//	public void advanceSong() {
+//		songFilePaths.remove(0);
+//		songList.remove(0);
+//		System.out.println("next song");
+//		if (!songFilePaths.isEmpty()) {
+//			MusicPlayer mp = new MusicPlayer(songFilePaths.get(0), this);
+//		}
+//		revalidate();
+//	}
 }
