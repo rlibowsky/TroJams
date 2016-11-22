@@ -500,7 +500,6 @@ public class PartyWindow extends JPanel {
 //				//listModel.addElement(ssp);
 //				System.out.println(songList.getModel().getSize());
 				songList.add(ssp);
-				new SongSearch(searchedSong.getText(), sw.getClient());
 				currentSongName.setText(searchedSong.getText());
 				searchedSong.setText("");
 				revalidate();
@@ -531,7 +530,12 @@ public class PartyWindow extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Search database to get song and set text
-				searchedSong.setText(searchBar.getText());
+				new SongSearch(searchBar.getText(), sw.getClient());
+				//searchedSong.setText(searchBar.getText());
+				searchedSong.setText(song_name);
+				searchedSongArtist.setText(song_artist);
+				searchedSongAlbum.setText(song_album);
+				// set image icon
 				searchBar.setText("");
 				//revalidate();
 				
@@ -570,6 +574,7 @@ public class PartyWindow extends JPanel {
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT, centerPanel);
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4,50, searchBar);
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 50, searchedSong, searchedSongArtist, searchedSongAlbum);
+		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 100, searchedSongArtwork);
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT/4, searchedSongCenterPanel, searchedSongPanel);
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 175, dummyPanel);
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, 200, dummyPanel2);
@@ -587,13 +592,17 @@ public class PartyWindow extends JPanel {
 		searchedSong.setText("");
 		searchedSongArtist.setText("");
 		searchedSongAlbum.setText("");
+		Image img = new ImageIcon("images/colorparty.jpg").getImage();
+		ImageIcon testIcon = new ImageIcon(img.getScaledInstance(AppearanceConstants.GUI_WIDTH/4, 100, java.awt.Image.SCALE_SMOOTH));
+		searchedSongArtwork.setIcon(testIcon);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, searchedSong, searchedSongArtist, searchedSongAlbum);
 		searchedSongCenterPanel.add(searchedSong);
 		searchedSongCenterPanel.add(searchedSongArtist);
 		searchedSongCenterPanel.add(searchedSongAlbum);
+		searchedSongCenterPanel.add(searchedSongArtwork);
 		searchedSongPanel.setLayout(new BorderLayout());
 		searchedSongPanel.add(searchedSongCenterPanel, BorderLayout.CENTER);
-		searchedSongPanel.add(searchedSongArtwork, BorderLayout.WEST);
+		//searchedSongPanel.add(searchedSongArtwork, BorderLayout.WEST);
 		//centerPanel.add(Box.createVerticalStrut(275));
 		JLabel addSongLabel = new JLabel("Add a Jam!");
 		addSongLabel.setAlignmentY(this.BOTTOM_ALIGNMENT);
