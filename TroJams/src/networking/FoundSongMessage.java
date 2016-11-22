@@ -73,6 +73,7 @@ public class FoundSongMessage extends Message{
 		//writes the image to a file
 		//TODO comment out the return null and find a way to read the image from file and return that
 		File f = new File("junk_bin/"+artwork_filepath);
+		System.out.println("Trying to write to file at path: junk_bin/"+ artwork_filepath);
 		try {
 			Files.write(f.toPath(), file);
 		} catch (IOException e) {
