@@ -367,23 +367,34 @@ public class SelectionWindow extends JFrame {
 			isPublic = (p instanceof PublicParty);
 			//setLayout(new GridLayout(1,4));
 			this.setOpaque(false);
-			AppearanceSettings.setSize(200, 200, this);
+			AppearanceSettings.setSize(400, 400, this);
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-			hostLabel = new JLabel("Host: " + party.getHostName());
-			AppearanceSettings.setFont(AppearanceConstants.fontMedium, hostLabel);
-			System.out.println(party.getImageFilePath() + "*************");
+			
+			partyButton = new JButton("Join: " + party.getPartyName());
+			AppearanceSettings.setSize(200, 50, partyButton);
+			
 			Image img1 = new ImageIcon(party.getImageFilePath()).getImage();
-			//Image img1 = new ImageIcon("images/party-purple.jpg").getImage();
 			ImageIcon pimg = new ImageIcon(img1.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 			partyIconLabel = new JLabel(pimg, JLabel.CENTER);
-			//partyIconLabel.setIcon(pimg);
+			
 			Image image = new ImageIcon(party.getHost().getImageFilePath()).getImage();
-			ImageIcon img = new ImageIcon(image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
+			ImageIcon img = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
 			hostImageLabel = new JLabel(img, JLabel.CENTER);
-			//hostImageLabel.setIcon(img);
-			hostImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			hostImageLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-			partyButton = new JButton("Join: " + party.getPartyName());
+			
+			hostLabel = new JLabel("Host: " + party.getHostName());
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, hostLabel);
+			AppearanceSettings.setSize(200, 50, hostLabel);
+			System.out.println(party.getImageFilePath() + "*************");
+			
+			JPanel panel1 = new JPanel();
+			panel1.setLayout(new BoxLayout(panel1, BoxLayout.LINE_AXIS));
+			JPanel panel2 = new JPanel();
+			panel2.setLayout(new BoxLayout(panel2, BoxLayout.LINE_AXIS));
+			JPanel panel3 = new JPanel();
+			panel3.setLayout(new BoxLayout(panel3, BoxLayout.LINE_AXIS));
+			JPanel panel4 = new JPanel();
+			panel4.setLayout(new BoxLayout(panel4, BoxLayout.LINE_AXIS));
+			AppearanceSettings.setNotOpaque(panel1,panel2,panel3,panel4);
 			
 			partyButton.addActionListener(new ActionListener() {
 				@Override
@@ -425,9 +436,18 @@ public class SelectionWindow extends JFrame {
 			AppearanceSettings.setNotOpaque(partyButton, hostLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontSmall, partyButton, hostLabel);
 
-			add(partyIconLabel);
-			add(partyButton);
-			add(hostLabel);
+			AppearanceSettings.addGlue(panel1, BoxLayout.X_AXIS, true, partyIconLabel);
+			//AppearanceSettings.addGlue(panel2, BoxLayout.X_AXIS, true, partyButton);
+			//AppearanceSettings.addGlue(panel3, BoxLayout.X_AXIS, true, hostLabel);
+			panel2.add(partyButton);
+			panel3.add(hostLabel);
+			AppearanceSettings.addGlue(panel4, BoxLayout.X_AXIS, true, hostImageLabel);
+			AppearanceSettings.addGlue(this, BoxLayout.Y_AXIS, true, panel1,panel2,panel3,panel4);
+			
+//			add(partyIconLabel,this.CENTER_ALIGNMENT );
+//			add(partyButton, this.CENTER_ALIGNMENT);
+//			add(hostLabel, this.CENTER_ALIGNMENT);
+//			add(hostImageLabel, this.CENTER_ALIGNMENT);
 			
 			Border raisedbevel, loweredbevel;
 			raisedbevel = BorderFactory.createRaisedBevelBorder();
@@ -435,7 +455,7 @@ public class SelectionWindow extends JFrame {
 			Border compound = BorderFactory.createCompoundBorder(
                     raisedbevel, loweredbevel);
 			this.setBorder(compound);
-			add(hostImageLabel);
+			
 		}
 	}
 	
