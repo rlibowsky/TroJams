@@ -299,6 +299,7 @@ public class TrojamServer extends Thread{
 	}
 
 	public void addNewSong(AddSongMessage asm) {
+		System.out.println("server got song");
 		partyNamesToObjects.get(asm.partyName).addSong(new PartySong(asm.songName));
 		sendMessageToParty(partyNamesToObjects.get(asm.partyName), asm);
 	}
@@ -306,6 +307,7 @@ public class TrojamServer extends Thread{
 	private void sendMessageToParty(Party party, AddSongMessage asm) {
 		for (Account a : party.getPartyMembers()) {
 			TrojamServerThread currentThread = accountToThreadMap.get(a);
+			System.out.println("sending add song message to a client");
 			if (currentThread != null) currentThread.sendMessage(new SongVoteMessage("svm", party, new PartySong(asm.songName)));
 		}
 		
