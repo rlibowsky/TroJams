@@ -107,7 +107,7 @@ public abstract class Party implements Serializable{
 	}
 	
 	public void downvoteSong(PartySong song) {
-		int loc = songSet.get(song);
+		int loc = songSet.get(song.getName());
 		songList.get(loc).downvote();
 		//look at the indices after in the array and keep swapping while the
 		//number of votes of loc + 1 is greater than the number of votes of song
