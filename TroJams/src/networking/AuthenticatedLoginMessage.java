@@ -21,10 +21,13 @@ public class AuthenticatedLoginMessage extends Message {
 		super("AuthenticatedLoginMessage");
 		//username, password, first_name, last_name, filepath_to_pic
 		try {
+			//System.out.println("in try bloack alm");
 			firstName = rs.getString("first_name");
 			lastName = rs.getString("last_name");
 			imageFilePath = rs.getString("filepath_to_pic");
+			authenticated = true;
 		} catch (SQLException e) {
+			//System.out.println("caught exception");
 			authenticated = false;
 		}
 	}

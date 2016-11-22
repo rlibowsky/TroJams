@@ -113,6 +113,7 @@ public class TrojamServer extends Thread{
 						+ "WHERE username = '"+usernameString+ "' AND password = '"+passwordString+"'");
 
 				if(rs.next()){
+					System.out.println("found in db");
 					return new AuthenticatedLoginMessage(rs);
 				}else{
 					return new AuthenticatedLoginMessage(false);
