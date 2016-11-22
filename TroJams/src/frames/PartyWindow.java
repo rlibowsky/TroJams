@@ -173,15 +173,6 @@ public class PartyWindow extends JPanel {
 	
 	public void initializeComponents() {
 		
-//		this.setContentPane(new JPanel() {
-//			public void paintComponent(Graphics g) {
-//				super.paintComponent(g);
-//				Image image = new ImageIcon("images/backgroundImage.png").getImage();
-//				backgroundImage = new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
-//				g.drawImage(image, 0, 0, 1280, 800, this);
-//			}
-//		});
-		
 		songFilePaths = new Vector<String>();
 //		
 		buttonsPanel = new JPanel();
@@ -221,12 +212,13 @@ public class PartyWindow extends JPanel {
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, partyLabel);
 		//partyLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,150));
 		partyLabel.setOpaque(false);
-		partyImage = party.getPartyImage();
+		Image image = new ImageIcon(party.getImageFilePath()).getImage();
+		partyImage= new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));		
 		//hostLabel = new JLabel("Host: " + party.getHostName());
 		//hostLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,50));
+		//hostImage = party.getPartyImage();
 		
-		hostImage = party.getPartyImage();
-		JLabel hostImageLabel = new JLabel(hostImage);
+		JLabel hostImageLabel = new JLabel(partyImage);
 		hostImageLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,100));
 		
 		//Image image = new ImageIcon(this.party.getHost().getImageFilePath()).getImage();
