@@ -70,7 +70,7 @@ public class PartyWindow extends JPanel {
 	private CardLayout cl;
 	private SelectionWindow sw;
 	private DefaultListModel<SingleSongPanel> listModel;
-	private User user;
+	private Account account;
 	
 	private String song_name;
 	private String song_artist;
@@ -85,7 +85,7 @@ public class PartyWindow extends JPanel {
 		this.party = partayTime;
 		System.out.println(party.getPartyName());
 		this.sw = sw;
-		user = sw.getUser();
+		account = sw.getAccount();
 		initializeComponents();
 		createGUI();
 		addListeners();
@@ -240,8 +240,14 @@ public class PartyWindow extends JPanel {
 		
 		leaveButton = new JButton();
 		ImageIcon leaveButtonImage;
-		if(sw.getUser().isHost()){
-			 leaveButtonImage = new ImageIcon("images/button_end-party.png");
+		if(sw.getAccount() instanceof User){
+			if(((User)sw.getAccount()).isHost()){
+				leaveButtonImage = new ImageIcon("images/button_end-party.png");
+			}
+			else{
+
+				 leaveButtonImage = new ImageIcon("images/button_leave-party.png");
+			}
 		}
 		else{
 
@@ -463,12 +469,15 @@ public class PartyWindow extends JPanel {
 		addSongPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,AppearanceConstants.GUI_HEIGHT));
 		
 		cards = new JPanel(new CardLayout());
-		JPanel profilePanel = new ProfilePanel(user);
-		profilePanel.setOpaque(false);
-		profilePanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT));
 		cards.setOpaque(false);
 		cards.add(hostPanel, "host panel");
-		cards.add(profilePanel, "profile panel");
+		
+		if(account instanceof User){
+			JPanel profilePanel = new ProfilePanel((User)account);
+			profilePanel.setOpaque(false);
+			profilePanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT));		
+			cards.add(profilePanel, "profile panel");
+		}
 		
 		add(cards, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
@@ -520,13 +529,15 @@ public class PartyWindow extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {				
-				if( sw.getUser().isHost()){
-					//TODO Send message to all user in that party that the party is over and send them them to the end window
-					// RUTH
+				if( sw.getAccount() instanceof User){	
+					if(((User)sw.getAccount()).isHost()){
+						//TODO Send message to all user in that party that the party is over and send them them to the end window
+						// RUTH
+					}
 				}
 				else{ //user is not a host
-					//TODO Send message to server that user left the party and remove user from and update the party's user set
-					//Ruth
+						//TODO Send message to server that user left the party and remove user from and update the party's user set
+						//Ruth
 				}
 				sw.showEndWindow();
 			}

@@ -1,6 +1,5 @@
 package frames;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -15,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import logic.Account;
 import logic.User;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
@@ -22,7 +22,7 @@ import resources.AppearanceSettings;
 public class EndPartyWindow extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private User user;
+	private Account account;
 	
 	private JLabel thanksLabel;
 	private JButton quitButton, joinAnotherPartyButton;
@@ -32,7 +32,7 @@ public class EndPartyWindow extends JPanel {
 	
 	public EndPartyWindow (SelectionWindow selectionWindow){
 		this.sw = selectionWindow;
-		this.user = selectionWindow.getUser();
+		this.account = selectionWindow.getAccount();
 		initializeComponents();
 		createGUI();
 		addListeners();
@@ -40,18 +40,17 @@ public class EndPartyWindow extends JPanel {
 	
 	
 	private void initializeComponents(){
-		
-		if(user.isHost()){
-			thanksLabel = new JLabel("Thanks for Hosting, " + user.getFirstName() + "!");
-		}
-		else{
-			if(user.getFirstName() == null){
-				thanksLabel = new JLabel("Thanks for Listening!");
+		if(sw.getAccount() instanceof User){
+			if(((User)sw.getAccount()).isHost()){
+				thanksLabel = new JLabel("Thanks for Hosting, " + ((User)sw.getAccount()).getFirstName() + "!");
 			}
 			else{
-				thanksLabel = new JLabel("Thanks for Listening, " + user.getFirstName() + "!");
-			}	
+				thanksLabel = new JLabel("Thanks for Listening, " + ((User)sw.getAccount()).getFirstName() + "!");
+			}		
 		}
+		else {
+				thanksLabel = new JLabel("Thanks for Listening!");
+		}	
 		
 		AppearanceSettings.setFont(AppearanceConstants.fontHuge, thanksLabel);
 		thanksLabel.setForeground(Color.white);

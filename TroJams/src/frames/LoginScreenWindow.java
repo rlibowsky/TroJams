@@ -331,7 +331,7 @@ public class LoginScreenWindow extends JFrame {
 				Guest g = new Guest();
 				client.setAccount(g);
 				//have selectionWindow take in an instance of account
-				new SelectionWindow(new User("Guest", "Guest", "Guest", "JeffreyMiller-cropped.png"), null, client).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
+				new SelectionWindow(new Guest(), null, client).setVisible(true); //Pass in user and this GUI so that when the user is created, the 
 					//create account window can call insertUserIntoDB 
 				dispose();
 			}

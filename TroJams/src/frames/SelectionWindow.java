@@ -43,6 +43,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import listeners.TextFieldFocusListener;
+import logic.Account;
 import logic.Party;
 import logic.PrivateParty;
 import logic.PublicParty;
@@ -62,8 +63,8 @@ public class SelectionWindow extends JFrame {
 	private JList<SinglePartyPanel> swcurrentParties;
 	private JButton createAPartyButton;
 	private JScrollPane partyScrollPane;
-	
-	private User user;
+
+	private Account account;
 	
 	private JPanel cpwMainPanel, cpwTopPanel, cpwBottomPanel, cpwRadioButtonPanel;
 	private JLabel dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6;
@@ -90,9 +91,8 @@ public class SelectionWindow extends JFrame {
 	private SelectionWindow sw;
 	public TrojamClient client;
 		
-	public SelectionWindow(User user, ArrayList<Party> parties, TrojamClient client){
+	public SelectionWindow(Account account, ArrayList<Party> parties, TrojamClient client){
 		super("TroJams");
-		this.user = user;
 		sw = this;
 		this.client = client;
 //		if (currentParties == null) {
@@ -332,9 +332,11 @@ public class SelectionWindow extends JFrame {
 		swRightPanel.add(topPanel);
 		swMainPanel.add(swRightPanel, BorderLayout.CENTER);
 		
-		ProfilePanel profilePanel = new ProfilePanel(user);
-		profilePanel.setOpaque(false);
-		swMainPanel.add(profilePanel, BorderLayout.WEST);
+		if(account instanceof User){
+			ProfilePanel profilePanel = new ProfilePanel((User)account);
+			profilePanel.setOpaque(false);
+			swMainPanel.add(profilePanel, BorderLayout.WEST);
+		}
 		
 	}
 	
@@ -497,11 +499,11 @@ public class SelectionWindow extends JFrame {
 				Party p = null;
 				System.out.println("storing image path: " + imageFilePath + " in party");
 				if(cpwPublicRadioButton.isSelected()){
-					p = new PublicParty(pName, user, imageFilePath);
+					p = new PublicParty(pName, (User)account, imageFilePath);
 				}
 				else if(cpwPrivateRadioButton.isSelected()){
 					String password = cpwPasswordTextField.getText();
-					p = new PrivateParty(pName, password, user, imageFilePath);
+					p = new PrivateParty(pName, password, (User)account, imageFilePath);
 				}
 				String password = "";
 				if (cpwPrivateRadioButton.isSelected()) {
@@ -674,8 +676,8 @@ public class SelectionWindow extends JFrame {
 		}
 	}
 	
-	public User getUser() {
-		return this.user;
+	public Account getAccount() {
+		return this.account;
 	}
 
 	public static void main(String [] args) {
