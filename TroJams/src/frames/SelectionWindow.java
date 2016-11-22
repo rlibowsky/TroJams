@@ -366,6 +366,7 @@ public class SelectionWindow extends JFrame {
 			isPublic = (p instanceof PublicParty);
 			//setLayout(new GridLayout(1,4));
 			this.setOpaque(false);
+			AppearanceSettings.setSize(200, 200, this);
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			hostLabel = new JLabel("Host: " + party.getHostName());
 			AppearanceSettings.setFont(AppearanceConstants.fontMedium, hostLabel);
@@ -373,12 +374,13 @@ public class SelectionWindow extends JFrame {
 			Image img1 = new ImageIcon(party.getImageFilePath()).getImage();
 			//Image img1 = new ImageIcon("images/party-purple.jpg").getImage();
 			ImageIcon pimg = new ImageIcon(img1.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-			partyIconLabel = new JLabel();
-			partyIconLabel.setIcon(pimg);
-			hostImageLabel = new JLabel();
+			partyIconLabel = new JLabel(pimg,JLabel.CENTER);
+			//partyIconLabel.setIcon(pimg);
+			
 			Image image = new ImageIcon(party.getHost().getImageFilePath()).getImage();
-			ImageIcon img = new ImageIcon(image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
-			hostImageLabel.setIcon(img);
+			ImageIcon img = new ImageIcon(image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
+			hostImageLabel = new JLabel(img);
+			//hostImageLabel.setIcon(img);
 			hostImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			hostImageLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 			partyButton = new JButton("Join: " + party.getPartyName());
