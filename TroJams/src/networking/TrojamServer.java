@@ -30,7 +30,7 @@ public class TrojamServer extends Thread{
 	private int port;
 	private Vector <Party> parties;
 	private HashMap <String, Party> partyNamesToObjects;
-	private HashMap<Account, TrojamServerThread> accountToThreadMap;
+	private HashMap<String, TrojamServerThread> accountToThreadMap;
 	private int numThreads;
 	
 	public TrojamServer(int port) {
@@ -114,7 +114,9 @@ public class TrojamServer extends Thread{
 
 				if(rs.next()){
 					System.out.println("found in db");
-					accountToThreadMap.put(tjs.getAccount(), tjs);
+					AuthenticatedLoginMessage alm = new AuthenticatedLoginMessage(rs);
+					tjs.setAccount(new User(alm.getUsername(), alm.getfirstName(), alm.getLastName(), alm.getFilepath()));
+					accountToThreadMap.put(alm.getUsername(), tjs);
 					System.out.println("added serverthread for " + tjs + " " + tjs.getAccount());
 					return new AuthenticatedLoginMessage(rs);
 				}else{
@@ -161,7 +163,7 @@ public class TrojamServer extends Thread{
 		TrojamServer tjs = new TrojamServer(6789);
 	}
 
-	public boolean createAccount(CreateAccountMessage cam) {
+	public boolean createAccount(CreateAccountMessage cam, TrojamServerThread tjs) {
 		String usernameString = cam.getUsername();
 		String passwordString = cam.getPassword();
 		String filepath = cam.getFilepath();
@@ -208,6 +210,7 @@ public class TrojamServer extends Thread{
 							+ cam.getLastName()+"', '"+ cam.getEmail()+"', '"+ filepath +"')");
 					
 					//saves the file on the machine that is hosting the server
+					accountToThreadMap.put(usernameString, tjs);
 					return true;
 				}
 			} catch (SQLException sqle){
@@ -307,7 +310,7 @@ public class TrojamServer extends Thread{
 
 	private void sendMessageToParty(Party party, AddSongMessage asm) {
 		for (Account a : party.getPartyMembers()) {
-			TrojamServerThread currentThread = accountToThreadMap.get(a);
+			TrojamServerThread currentThread = accountToThreadMap.get(((User)a).getUsername());
 			if (a instanceof User) {
 				System.out.println("sending message to " + ((User)a).getUsername());
 			}

@@ -73,7 +73,7 @@ public class TrojamServerThread extends Thread{
 				else if(obj instanceof CreateAccountMessage){ 
 					CreateAccountMessage cam = (CreateAccountMessage) obj;
 					//returns a boolean of whether or not the account was created
-					boolean accountCreated = trojamServer.createAccount(cam);
+					boolean accountCreated = trojamServer.createAccount(cam, this);
 					sendMessage(new AccountCreatedMessage(accountCreated, cam.getUser()));
 				} 
 				else if (obj instanceof SongVoteMessage) {
