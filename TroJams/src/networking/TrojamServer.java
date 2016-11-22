@@ -242,16 +242,16 @@ public class TrojamServer extends Thread{
 	}
 
 	public void voteOnSong(SongVoteMessage svm) {
-		Party receivedParty = svm.getParty();
-		PartySong receivedSong = svm.getSong();
+		Party receivedParty = partyNamesToObjects.get(svm.getParty().getPartyName());
+		PartySong receivedSong = receivedParty.songList.get(receivedParty.songSet.get(svm.getSong().getName()));
 		if (svm.getName().equals("upvote")) {
 			System.out.println("upvoting a song");
 			receivedParty.upvoteSong(receivedSong);
-		} else {
+		} else if (svm.getName().equals("upvote")){
 			System.out.println("downvoting a song");
 			receivedParty.downvoteSong(receivedSong);
 		}
-		sendMessageToAll(svm);
+		this.sendMessageToParty(receivedParty, svm);
 	}
 
 	public void addPartyGuest(NewPartierMessage npm) {
@@ -308,18 +308,34 @@ public class TrojamServer extends Thread{
 		sendMessageToParty(partyNamesToObjects.get(asm.partyName), asm);
 	}
 
-	private void sendMessageToParty(Party party, AddSongMessage asm) {
-		for (Account a : party.getPartyMembers()) {
-			TrojamServerThread currentThread = accountToThreadMap.get(((User)a).getUsername());
-			if (a instanceof User) {
-				System.out.println("sending message to " + ((User)a).getUsername());
-			}
-			if (currentThread != null) {
-				currentThread.sendMessage(new SongVoteMessage("svm", party, new PartySong(asm.songName)));
-			} else {
-				System.out.println("is null");
+	private void sendMessageToParty(Party party, Message msg) {
+		if (msg instanceof AddSongMessage) {
+			AddSongMessage asm = (AddSongMessage) msg;
+			for (Account a : party.getPartyMembers()) {
+				TrojamServerThread currentThread = accountToThreadMap.get(((User)a).getUsername());
+				if (a instanceof User) {
+					System.out.println("sending message to " + ((User)a).getUsername());
+				}
+				if (currentThread != null) {
+					currentThread.sendMessage(new SongVoteMessage("svm", party, new PartySong(asm.songName)));
+				} else {
+					System.out.println("is null");
+				}
 			}
 		}
-		
+		else if (msg instanceof SongVoteMessage) {
+			SongVoteMessage asm = (SongVoteMessage) msg;
+			for (Account a : party.getPartyMembers()) {
+				TrojamServerThread currentThread = accountToThreadMap.get(((User)a).getUsername());
+				if (a instanceof User) {
+					System.out.println("sending message to " + ((User)a).getUsername());
+				}
+				if (currentThread != null) {
+					currentThread.sendMessage(new SongVoteMessage("svm", party, new PartySong(asm.getSong().getName())));
+				} else {
+					System.out.println("is null");
+				}
+			}
+		}
 	}
 }

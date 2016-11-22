@@ -529,6 +529,7 @@ public class SelectionWindow extends JFrame {
 				
 //				PublicParty testParty = new PublicParty("Test Party", user, pImage);
 //				
+				client.addNewPartier(p.getPartyName());
 				SelectionWindow.this.pw = new PartyWindow(p, sw);
 				cards.add(pw, "party window");
 				CardLayout cl = (CardLayout) cards.getLayout();
