@@ -547,8 +547,9 @@ public class SelectionWindow extends JFrame {
 				File f = fileChooser.getSelectedFile();
 				System.out.println("FILE F IS " + f.toString());
 				if (f != null) {
+					System.out.println("f.getName() " + f.getName());
 					setPartyImage(f.getPath());
-					imageFilePath = f.getPath();
+					imageFilePath = f.getName();
 					System.out.println("IMAGEFILEPATH IN IMAGE LABEL AL: " + imageFilePath);
 					imageText.setVisible(false);
 				}
