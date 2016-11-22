@@ -374,12 +374,11 @@ public class SelectionWindow extends JFrame {
 			Image img1 = new ImageIcon(party.getImageFilePath()).getImage();
 			//Image img1 = new ImageIcon("images/party-purple.jpg").getImage();
 			ImageIcon pimg = new ImageIcon(img1.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-			partyIconLabel = new JLabel(pimg,JLabel.CENTER);
+			partyIconLabel = new JLabel(pimg, JLabel.CENTER);
 			//partyIconLabel.setIcon(pimg);
-			
 			Image image = new ImageIcon(party.getHost().getImageFilePath()).getImage();
 			ImageIcon img = new ImageIcon(image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
-			hostImageLabel = new JLabel(img);
+			hostImageLabel = new JLabel(img, JLabel.CENTER);
 			//hostImageLabel.setIcon(img);
 			hostImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			hostImageLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -828,6 +827,7 @@ public class SelectionWindow extends JFrame {
 			partiesTextArea.setForeground(Color.white);
 			partiesTextArea.append("Party History: \n");
 			partiesTextArea.setLineWrap(true);
+			partiesTextArea.setWrapStyleWord(true);
 			partiesTextArea.setEditable(false);
 			
 			userHistorySP = new JScrollPane(partiesTextArea);

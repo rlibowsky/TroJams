@@ -69,6 +69,8 @@ public class TrojamWelcomeWindow extends JFrame{
 		startButton.setContentAreaFilled(false);
 		startButton.setBorderPainted(false);
 		startButton.setLocation(buttonX, buttonY);
+		startButton.setAlignmentX(CENTER_ALIGNMENT);
+		startButton.setAlignmentY(buttonY);
 		startButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
 		
 		this.setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
@@ -76,8 +78,7 @@ public class TrojamWelcomeWindow extends JFrame{
 		this.add(startButton);
 		this.add(Box.createGlue());
 		this.add(Box.createGlue());
-		startButton.setAlignmentX(CENTER_ALIGNMENT);
-		startButton.setAlignmentY(buttonY);
+		
 		
 	}
 	

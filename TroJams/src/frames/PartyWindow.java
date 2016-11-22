@@ -216,9 +216,10 @@ public class PartyWindow extends JPanel {
 		//topHostPanel.setLayout(new FlowLayout());
 		//topHostPanel.setOpaque(false);
 		partyLabel = new JLabel("<html>" + party.getPartyName() + " by " + party.getHostName() + "</html>");
+		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4,150, partyLabel);
 		AppearanceSettings.setForeground(Color.white, partyLabel);
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, partyLabel);
-		partyLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,150));
+		//partyLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,150));
 		partyLabel.setOpaque(false);
 		partyImage = party.getPartyImage();
 		//hostLabel = new JLabel("Host: " + party.getHostName());
