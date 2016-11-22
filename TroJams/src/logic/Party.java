@@ -33,8 +33,8 @@ public abstract class Party implements Serializable{
 	
 	public Party (String partyName, User host, String fp) {
 		this(partyName, host);
+		System.out.println("filepath in constructor for party is: "+fp);
 		this.imageFilePath = fp;
-		
 	}
 	
 	public String getImageFilePath(){

@@ -83,14 +83,14 @@ public class TrojamServer extends Thread{
 		Party p;
 		if (pm.getPartyPassword().length() == 0) {
 			System.out.println("sending public party");
-			p = new PublicParty(pm.getPartyName(), user, null);
+			p = new PublicParty(pm.getPartyName(), user, pm.getFilePath());
 			parties.add(p);
 			partyNamesToObjects.put(p.getPartyName(), p);
 			sendMessageToAll(new AllPartiesMessage("allParties", parties));
 		}
 		else {
 			System.out.println("sending private party");
-			p = new PrivateParty(pm.getPartyName(), pm.getPartyPassword(), user, null);
+			p = new PrivateParty(pm.getPartyName(), pm.getPartyPassword(), user, pm.getFilePath());
 			parties.add(p);
 			sendMessageToAll(new AllPartiesMessage("allParties", parties));
 		}
