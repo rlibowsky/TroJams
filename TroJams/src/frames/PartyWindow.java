@@ -78,6 +78,7 @@ public class PartyWindow extends JPanel {
 	private String song_artwork_filepath;
 	private String song_mp3_filepath;
 	private ImageIcon song_artwork;
+	String filePath;
 	
 	//argument will be taken out once we turn this into a JPanel
 	public PartyWindow(Party partayTime, SelectionWindow sw) {
@@ -513,10 +514,18 @@ public class PartyWindow extends JPanel {
 //					df.addElement(ssp);
 //					//listModel.addElement(ssp);
 //					System.out.println(songList.getModel().getSize());
+					addSongToQueue();
 					songList.add(ssp);
+					if (songFilePaths.isEmpty()) {
+						songFilePaths.add(filePath);
+						MusicPlayer mp = new MusicPlayer(songFilePaths.get(0), PartyWindow.this);
+					}
+					else {
+						songFilePaths.add(filePath);
+					}
 					//currentSongName.setText(searchedSong.getText());
 					searchedSong.setText("");
-					addSongToQueue();
+					
 					revalidate();
 				//}
 			}
@@ -638,8 +647,8 @@ public class PartyWindow extends JPanel {
 		centerPanel.add(dummyPanel);
 		centerPanel.add(searchBar);
 		centerPanel.add(searchButton);
-		//centerPanel.add(searchedSong);
-		centerPanel.add(searchedSongPanel);
+		centerPanel.add(searchedSong);
+		//centerPanel.add(searchedSongPanel);
 		//addNewSongButton.setEnabled(false);
 		centerPanel.add(addNewSongButton);
 		centerPanel.add(dummyPanel2);
@@ -898,8 +907,8 @@ public class PartyWindow extends JPanel {
 	
 	public void addSongToPanel(String songName) {
 		
-		String filePath = "music/" + songName.trim().toLowerCase() + ".mp3";
-		songFilePaths.add(filePath);		
+		filePath = "music/" + songName.trim().toLowerCase() + ".mp3";
+				
 		searchedSong.setText(songName);
 		for (String s : songFilePaths) {
 			System.out.println(s);
@@ -908,12 +917,18 @@ public class PartyWindow extends JPanel {
 	}
 	
 	public void addSongToQueue() {
-		MusicPlayer mp = new MusicPlayer("music/puppy.mp3", this);
+		
 		
 
 	}
 	
 	public void advanceSong() {
+		songFilePaths.remove(0);
+		songList.remove(0);
 		System.out.println("next song");
+		if (!songFilePaths.isEmpty()) {
+			MusicPlayer mp = new MusicPlayer(songFilePaths.get(0), this);
+		}
+		revalidate();
 	}
 }

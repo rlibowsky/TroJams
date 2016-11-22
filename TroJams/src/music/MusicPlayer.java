@@ -49,9 +49,10 @@ public class MusicPlayer extends Thread{
 			while (true) {
 				if (playMP3.isComplete()) {
 					pw.advanceSong();
-					
+					break;
 				}
 			}
+			System.out.println("ended while loop");
 			//playMP3.
 		} catch (JavaLayerException e) {
 			// TODO Auto-generated catch block
