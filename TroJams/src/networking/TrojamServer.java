@@ -30,14 +30,14 @@ public class TrojamServer extends Thread{
 	private int port;
 	private Vector <Party> parties;
 	private HashMap <String, Party> partyNamesToObjects;
-	//private HashMap<Account, TrojamServerThread> accountToThreadMap;
+	private HashMap<Account, TrojamServerThread> accountToThreadMap;
 	private int numThreads;
 	
 	public TrojamServer(int port) {
 		this.port = port;
 		this.parties = new Vector <Party> ();
 		trojamServerThreads = new Vector <TrojamServerThread>();
-		//accountToThreadMap = new HashMap<>();
+		accountToThreadMap = new HashMap<>();
 		partyNamesToObjects = new HashMap<>();
 		this.start();
 	}
@@ -52,7 +52,7 @@ public class TrojamServer extends Thread{
 				System.out.println("new connection from " + socket.getInetAddress());
 				TrojamServerThread newThread = new TrojamServerThread(socket, this, trojamServerThreads.size());
 				trojamServerThreads.add(newThread);
-				//accountToThreadMap.put(newThread.getAccount(), newThread);
+				
 			}
 		} catch (NumberFormatException | IOException e) {
 			System.out.println("io in server "+e.getMessage());
@@ -96,7 +96,7 @@ public class TrojamServer extends Thread{
 		}
 	}
 
-	public AuthenticatedLoginMessage authenticateLogin(LoginMessage lm) {
+	public AuthenticatedLoginMessage authenticateLogin(LoginMessage lm, TrojamServerThread tjs) {
 		String usernameString = lm.getUsername();
 		String passwordString = lm.getPassword();
 		Connection conn = null;
@@ -114,6 +114,7 @@ public class TrojamServer extends Thread{
 
 				if(rs.next()){
 					System.out.println("found in db");
+					accountToThreadMap.put(tjs.getAccount(), tjs);
 					return new AuthenticatedLoginMessage(rs);
 				}else{
 					return new AuthenticatedLoginMessage(false);
@@ -295,5 +296,18 @@ public class TrojamServer extends Thread{
 			}
 		}
 		return new FoundSongMessage(false);
+	}
+
+	public void addNewSong(AddSongMessage asm) {
+		partyNamesToObjects.get(asm.partyName).addSong(new PartySong(asm.songName));
+		sendMessageToParty(partyNamesToObjects.get(asm.partyName), asm);
+	}
+
+	private void sendMessageToParty(Party party, AddSongMessage asm) {
+		for (Account a : party.getPartyMembers()) {
+			TrojamServerThread currentThread = accountToThreadMap.get(a);
+			if (currentThread != null) currentThread.sendMessage(new SongVoteMessage("svm", party, new PartySong(asm.songName)));
+		}
+		
 	}
 }

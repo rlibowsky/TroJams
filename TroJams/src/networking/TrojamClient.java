@@ -87,7 +87,7 @@ public class TrojamClient extends Thread{
 				if (obj instanceof StringMessage) {
 					StringMessage message = (StringMessage) obj;
 					parseStringMessage(message);
-				} 
+				}
 				else if (obj instanceof AllPartiesMessage) {
 					sw.setParties(((AllPartiesMessage) obj).getParties());
 				}
@@ -193,5 +193,16 @@ public class TrojamClient extends Thread{
 		} catch (IOException e){
 			e.printStackTrace();
 		}
+	}
+
+	public void addNewSong(String songName, String partyName) {
+		System.out.println("client just added a new song to the party");
+		try{
+			oos.writeObject(new AddSongMessage("newSong", songName, partyName));
+			oos.flush();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		
 	}
 }

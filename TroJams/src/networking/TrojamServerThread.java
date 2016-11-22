@@ -45,7 +45,10 @@ public class TrojamServerThread extends Thread{
 					 System.out.println("received account");
 					this.account = (Account) obj;
 					//this.account.st = this;
-				} 
+				} else if (obj instanceof AddSongMessage) {
+					System.out.println("received song!");
+					trojamServer.addNewSong((AddSongMessage)obj);
+				}
 				 else if (obj instanceof String) {
 					 String str = (String) obj;
 					 if (str.equals("partyRequest")) {
@@ -64,7 +67,7 @@ public class TrojamServerThread extends Thread{
 				else if (obj instanceof LoginMessage) {
 					System.out.println("login message received by serverthread");
 					//returns a boolean saying whether or not the password matched
-					AuthenticatedLoginMessage login = trojamServer.authenticateLogin((LoginMessage)obj );
+					AuthenticatedLoginMessage login = trojamServer.authenticateLogin((LoginMessage)obj, this);
 					sendMessage(login);
 				} 
 				else if(obj instanceof CreateAccountMessage){ 

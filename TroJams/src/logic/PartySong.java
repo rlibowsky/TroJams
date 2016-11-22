@@ -9,8 +9,8 @@ public class PartySong extends Song{
 	private static final long serialVersionUID = 1L;
 	private int votes;
 
-	public PartySong(String name, double length) {
-		super(name, length);
+	public PartySong(String name) {
+		super(name, 0.0);
 		votes = 0;
 	}
 	

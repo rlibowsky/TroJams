@@ -412,6 +412,13 @@ public class PartyWindow extends JPanel {
 	//create the panel that shows songs in order of votes, called when partywindow is created
 	//and whenever someone upvotes or downvotes a song
 	public void setSongs(Party receivedParty) {
+		System.out.println("setting songs ... ");
+		songList.removeAll();
+		for (int i = 0; i < receivedParty.getSongs().size(); i++) {
+			songList.add(new SingleSongPanel(receivedParty.getSongs().get(i)));
+			System.out.println("adding song " + receivedParty.getSongs().get(i).getName());
+		}
+		revalidate();
 //		System.out.println("in setsongs");
 //		if (songList != null) {
 //			songList.removeAll();
@@ -510,22 +517,30 @@ public class PartyWindow extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				searchButton.setEnabled(true);
 				//if (!searchedSong.getText().equals("")) {
-					SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchedSong.getText(), 0.0));
+					sw.client.addNewSong(searchedSong.getText(), PartyWindow.this.party.getPartyName());
+					//SingleSongPanel ssp = new SingleSongPanel(new PartySong(searchedSong.getText()));
 //					df.addElement(ssp);
 //					//listModel.addElement(ssp);
 //					System.out.println(songList.getModel().getSize());
-					addSongToQueue();
-					songList.add(ssp);
-					if (songFilePaths.isEmpty()) {
-						songFilePaths.add(filePath);
-						MusicPlayer mp = new MusicPlayer(songFilePaths.get(0), PartyWindow.this);
-					}
-					else {
-						songFilePaths.add(filePath);
-					}
+//<<<<<<< Updated upstream
+//					addSongToQueue();
+//					songList.add(ssp);
+//					if (songFilePaths.isEmpty()) {
+//						songFilePaths.add(filePath);
+//						MusicPlayer mp = new MusicPlayer(songFilePaths.get(0), PartyWindow.this);
+//					}
+//					else {
+//						songFilePaths.add(filePath);
+//					}
+//					//currentSongName.setText(searchedSong.getText());
+//					searchedSong.setText("");
+//					
+//=======
+					//songList.add(ssp);
 					//currentSongName.setText(searchedSong.getText());
-					searchedSong.setText("");
-					
+					//searchedSong.setText("");
+					addSongToQueue();
+//>>>>>>> Stashed changes
 					revalidate();
 				//}
 			}
