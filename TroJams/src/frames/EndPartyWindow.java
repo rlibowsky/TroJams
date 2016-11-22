@@ -92,10 +92,14 @@ public class EndPartyWindow extends JPanel {
 		
 	}
 	
-	private void addListeners(){
+	protected void addListeners(){
+		
 		quitButton.addActionListener(new ActionListener(){
+			@Override
 			public void actionPerformed(ActionEvent ae){
+
 				sw.dispose();
+				System.exit(0);
 			}
 		});
 		

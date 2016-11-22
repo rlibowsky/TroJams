@@ -193,6 +193,10 @@ public class LoginScreenWindow extends JFrame {
 		return (!username.getText().isEmpty() && !username.getText().equals("username") && 
 				!password.getText().equals("password") && !password.getText().isEmpty());
 	}
+	
+	public void enableCreateAccountButton(){
+		createAccount.setEnabled(true);
+	}
 	//reads in users map from the file
 //	private void readFromFile(){
 //		Connection conn = null;
@@ -249,6 +253,7 @@ public class LoginScreenWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				loginButton.setEnabled(false);
 				usernameString = username.getText();
 				client.attemptToLogin(username.getText(), password.getText());
 			}
@@ -293,7 +298,7 @@ public class LoginScreenWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {	
 				
 				//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES
-				
+				createAccount.setEnabled(false);
 				String usernameString = username.getText();
 				String passwordString = password.getText();
 				//if this username has already been chosen
@@ -398,6 +403,7 @@ public class LoginScreenWindow extends JFrame {
 			System.out.println("non-authenticated user");
 			alertLabel.setForeground(Color.white);
 			alertLabel.setText("Wait a second! This username/password combo does not exist.");
+			loginButton.setEnabled(true);
 		}
 	}
 
