@@ -182,24 +182,23 @@ public class TrojamServer extends Thread{
 					//checks to see if it is a default picture
 					if(filepath.equals("images/silhouette.png")){
 						filepath = "profile_pics/silhouette.png";
-					}else{
-						
-						try {
-							if(filepath.endsWith(".jpeg")){
-								filepath = "profile_pics/"+usernameString+".jpeg";
-							} else if(filepath.endsWith(".png")){
-								filepath = "profile_pics/"+usernameString+".png";
-							}
-							
-
-							File f = new File(filepath);
-							byte[] content = cam.getFileAsByteArray();
-							if(content == null){ System.out.println("asdlfkjas;ldkjf;alskdfj;laskjdf;lkasjfd;lk"); }
-							Files.write(f.toPath(), content);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					} else if(filepath.endsWith(".jpeg")){
+						filepath = "profile_pics/"+usernameString+".jpeg";
+					} else if(filepath.endsWith(".png")){
+						filepath = "profile_pics/"+usernameString+".png";
+					} else if(filepath.endsWith(".jpg")){
+						filepath = "profile_pics/"+usernameString+".jpg";
+					} else {
+						filepath = "profile_pics/corrupt.png";
+					}
+					try {
+						File f = new File(filepath);
+						byte[] content = cam.getFileAsByteArray();
+						if(content == null){ System.out.println("asdlfkjas;ldkjf;alskdfj;laskjdf;lkasjfd;lk"); }
+						Files.write(f.toPath(), content);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					//inserts values into the db
 					st.executeUpdate("INSERT INTO Users (Username, Password, First_Name, Last_Name, email, filepath_to_pic) "
