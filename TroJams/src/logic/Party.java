@@ -58,9 +58,9 @@ public abstract class Party implements Serializable{
 	}
 	
 	public String getHostName() {
-		if (host == null) {
-			host = new User("u", "u", "u", "u");
-		}
+//		if (host == null) {
+//			host = new User("u", "u", "u", "u");
+//		}
 		return host.getUsername();
 	}
 	
