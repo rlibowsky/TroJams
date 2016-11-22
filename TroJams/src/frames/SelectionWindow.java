@@ -540,6 +540,9 @@ public class SelectionWindow extends JFrame {
 				cpwPublicRadioButton.setSelected(true);
 				cpwPasswordTextField.setVisible(false);
 				
+				// TODO reset party image and image label
+				
+				
 			}		
 		});
 		
