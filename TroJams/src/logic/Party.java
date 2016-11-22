@@ -16,8 +16,8 @@ public abstract class Party implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String partyName;
 	public User host;
-	private ArrayList <PartySong> songList = new ArrayList<PartySong>();
-	private HashMap <String, Integer> songSet = new HashMap<String, Integer>();
+	public ArrayList <PartySong> songList = new ArrayList<PartySong>();
+	public HashMap <String, Integer> songSet = new HashMap<String, Integer>();
 	private HashSet <Account> partyMembers;
 	private ImageIcon partyImage;
 	private String imageFilePath;
@@ -107,7 +107,7 @@ public abstract class Party implements Serializable{
 	}
 	
 	public void downvoteSong(PartySong song) {
-		int loc = songSet.get(song);
+		int loc = songSet.get(song.getName());
 		songList.get(loc).downvote();
 		//look at the indices after in the array and keep swapping while the
 		//number of votes of loc + 1 is greater than the number of votes of song
