@@ -539,7 +539,7 @@ public class SelectionWindow extends JFrame {
 		
 		AppearanceSettings.setSize(1280, 50, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel5, dummyLabel6);
 		AppearanceSettings.setSize(1280, 20, dummyLabel4);
-		AppearanceSettings.setSize(300, 50, cpwPartyNameTextField, cpwPasswordTextField);
+		AppearanceSettings.setSize(300, 100, cpwPartyNameTextField, cpwPasswordTextField);
 		AppearanceSettings.setSize(1280, 50, cpwTopPanel);
 		
 		// Creates top panel with dummy labels so that the text field is at the bottom of the panel
