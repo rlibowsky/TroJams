@@ -46,10 +46,11 @@ public class Test_Client extends Thread {
 	public void run() {
 		try {
 			while(true) {
-				File f = new File("song_bin/curr_song.mp3");
+				
 //				ChatMessage message = (ChatMessage)ois.readObject();
 //				System.out.println(message.getName() + ": " + message.getMessage());
 				byte[] content = (byte[]) ois.readObject();
+				File f = new File("song_bin/curr_song.mp3");
 				Files.write(f.toPath(), content);
 				System.out.println("line 54 test_client");
 				
@@ -62,6 +63,6 @@ public class Test_Client extends Thread {
 	}
 	
 	public static void main(String [] args) {
-		new Test_Client("localhost", 6789);
+		new Test_Client("localhost", 1111);
 	}
 }
