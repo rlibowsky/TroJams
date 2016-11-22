@@ -307,8 +307,14 @@ public class TrojamServer extends Thread{
 	private void sendMessageToParty(Party party, AddSongMessage asm) {
 		for (Account a : party.getPartyMembers()) {
 			TrojamServerThread currentThread = accountToThreadMap.get(a);
-			System.out.println("sending add song message to a client");
-			if (currentThread != null) currentThread.sendMessage(new SongVoteMessage("svm", party, new PartySong(asm.songName)));
+			if (a instanceof User) {
+				System.out.println("sending message to " + ((User)a).getUsername());
+			}
+			if (currentThread != null) {
+				currentThread.sendMessage(new SongVoteMessage("svm", party, new PartySong(asm.songName)));
+			} else {
+				System.out.println("is null");
+			}
 		}
 		
 	}
