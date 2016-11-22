@@ -545,6 +545,7 @@ public class SelectionWindow extends JFrame {
            public void mouseClicked(MouseEvent e) {
 				fileChooser.showOpenDialog(SelectionWindow.this);
 				File f = fileChooser.getSelectedFile();
+				System.out.println("FILE F IS " + f.toString());
 				if (f != null) {
 					setPartyImage(f.getPath());
 					imageFilePath = f.getPath();
