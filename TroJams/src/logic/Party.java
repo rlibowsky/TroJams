@@ -28,13 +28,13 @@ public abstract class Party implements Serializable{
 		this.host = host;
 		partyMembers = new HashSet<Account>();
 		//partyImage = new ImageIcon("images/party-purple.jpg");
-		imageFilePath = "images/party-purple.jpg";
+		imageFilePath = "party_pics/party-purple.jpg";
 	}
 	
 	public Party (String partyName, User host, String fp) {
 		this(partyName, host);
 		System.out.println("filepath in constructor for party is: "+fp);
-		this.imageFilePath = fp;
+		this.imageFilePath = "party_pics/"+fp;
 	}
 	
 	public String getImageFilePath(){
