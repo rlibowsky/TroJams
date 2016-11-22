@@ -541,8 +541,9 @@ public class SelectionWindow extends JFrame {
 				cpwPasswordTextField.setVisible(false);
 				
 				// TODO reset party image and image label
-				
-				
+				imageLabel.setVisible(true);
+				ImageIcon createButtonImage = new ImageIcon("images/button_create-a-party.png");
+				createAPartyButton.setIcon(createButtonImage);
 			}		
 		});
 		

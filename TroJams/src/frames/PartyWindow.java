@@ -296,7 +296,7 @@ public class PartyWindow extends JPanel {
 //		partyPeopleScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 //		UIManager.put("ScrollBarUI", "my.package.MyScrollBarUI");
 //				
-		hostPanel.add(scrollPanel, BorderLayout.CENTER);
+		//hostPanel.add(scrollPanel, BorderLayout.CENTER);
 		hostPanel.add(leftButtonPanel, BorderLayout.SOUTH);
 		
 		currentlyPlayingPanel = new JPanel();
