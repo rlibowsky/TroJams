@@ -158,11 +158,6 @@ public class TrojamServer extends Thread{
 //		}
 		trojamServerThreads.get(threadNum).sendMessage(message);
 	}
-	
-	public static void main (String [] args) {
-		System.out.println("in main...");
-		TrojamServer tjs = new TrojamServer(1111);
-	}
 
 	public boolean createAccount(CreateAccountMessage cam, TrojamServerThread tjs) {
 		String usernameString = cam.getUsername();
@@ -375,5 +370,10 @@ public class TrojamServer extends Thread{
 		System.out.println("sending message to update currently playing");
 		sendMessageToParty(p, new PlayNextSongMessage(p, p.getSongs().get(0).getName()));
 		p.playNextSong();
+	}
+	
+	public static void main (String [] args) {
+		System.out.println("in main of server...");
+		TrojamServer tjs = new TrojamServer(6789);
 	}
 }
