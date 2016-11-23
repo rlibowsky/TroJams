@@ -33,6 +33,7 @@ public class TrojamServer extends Thread{
 	private int numThreads;
 	
 	public TrojamServer(int port) {
+		System.out.println("making new tjs");
 		this.port = port;
 		this.parties = new Vector <Party> ();
 		trojamServerThreads = new Vector <TrojamServerThread>();
@@ -159,7 +160,8 @@ public class TrojamServer extends Thread{
 	}
 	
 	public static void main (String [] args) {
-		TrojamServer tjs = new TrojamServer(6789);
+		System.out.println("in main");
+		TrojamServer tjs = new TrojamServer(1111);
 	}
 
 	public boolean createAccount(CreateAccountMessage cam, TrojamServerThread tjs) {
@@ -309,10 +311,12 @@ public class TrojamServer extends Thread{
 		if (p.getSongs().size() == 1) {
 			System.out.println("STARTING THE MUSIC PLAYER");
 			//accountToThreadMap.get((p.getHost().getUsername())).
-			MusicPlayer mp = new MusicPlayer("music/" + p.getSongs().get(0).getName() + ".mp3", p, this);
+			//MusicPlayer mp = new MusicPlayer("music/" + p.getSongs().get(0).getName() + ".mp3", p, this);
+			nextSong(p.getPartyName());
+			//send message to party to update currently playing
 		}
 		
-		sendMessageToParty(partyNamesToObjects.get(asm.partyName), asm);
+		//sendMessageToParty(partyNamesToObjects.get(asm.partyName), asm);
 	}
 
 	private void sendMessageToParty(Party party, Message msg) {
@@ -344,12 +348,30 @@ public class TrojamServer extends Thread{
 				}
 			}
 		}
+		else if (msg instanceof PlayNextSongMessage) {
+			PlayNextSongMessage psm = (PlayNextSongMessage) msg;
+			for (Account a : party.getPartyMembers()) {
+				TrojamServerThread currentThread = accountToThreadMap.get(((User)a).getUsername());
+				if (a instanceof User) {
+					System.out.println("sending message to " + ((User)a).getUsername());
+				}
+				if (currentThread != null) {
+					currentThread.sendMessage(psm);
+				} else {
+					System.out.println("is null");
+				}
+			}
+			
+		}
 	}
 
 	public void nextSong(String partyName) {
+		System.out.println("in nextSong");
 		Party p = partyNamesToObjects.get(partyName);
 		p.playNextSong();
 		MusicPlayer mp = new MusicPlayer("music/" + p.getSongs().get(0).getName() + ".mp3", p, this);
-		sendMessageToParty(p, new AddSongMessage("string", "string", "string"));
+		//sendMessageToParty(p, new AddSongMessage("string", "string", "string"));
+		System.out.println("sending message to update currently playing");
+		sendMessageToParty(p, new PlayNextSongMessage(p, p.getSongs().get(0).getName()));
 	}
 }

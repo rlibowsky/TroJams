@@ -61,6 +61,7 @@ import logic.User;
 import music.JsonReader;
 import music.SongData;
 import networking.FoundSongMessage;
+import networking.PlayNextSongMessage;
 import networking.SongVoteMessage;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
@@ -114,9 +115,11 @@ public class PartyWindow extends JPanel {
 
 	// plays next song in party and updates display to show current song name
 	// and time
-	public void updateCurrentlyPlaying() {
+	public void updateCurrentlyPlaying(PlayNextSongMessage psm) {
 		// Uncomment when party isn't null
-		// this.currentSongName.setText(this.party.getSongs().get(0).getName());
+		System.out.println("updating currently playing to be " + psm.getSongName());
+		this.currentSongName.setText(psm.getSongName());
+		setSongs(psm.getParty());
 		// this.currentSongTime.setText(Double.toString(this.party.getSongs().get(0).getLength())
 		// + "s");
 		// this.party.playNextSong();
