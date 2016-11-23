@@ -39,11 +39,17 @@ import javax.swing.SwingUtilities;
 
 import com.sun.javafx.application.PlatformImpl;
 import javafx.scene.Node;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -58,7 +64,6 @@ import networking.FoundSongMessage;
 import networking.SongVoteMessage;
 import resources.AppearanceConstants;
 import resources.AppearanceSettings;
-
 
 public class PartyWindow extends JPanel {
 
@@ -347,7 +352,13 @@ public class PartyWindow extends JPanel {
 
 		currentlyPlayingLabel = new JLabel("Now Playing: ");
 		swingFXWebView = new SwingFXWebView();
-		swingFXWebView.setOpaque(false);
+		// Platform.runLater(new Runnable() {
+		// @Override
+		// public void run() {
+		// swingFXWebView.initComponents("https://embed.spotify.com/?uri=spotify:track:7BKLCZ1jbUBVqRi2FVlTVw&theme=dark");
+		// }
+		// });
+		// swingFXWebView.setOpaque(false);
 		currentSongName = new JLabel("");
 		currentSongTime = new JLabel("");
 		AppearanceSettings.setNotOpaque(currentSongName, currentSongTime, currentlyPlayingPanel, currentlyPlayingLabel);
@@ -540,13 +551,22 @@ public class PartyWindow extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//FOR SPOTIFY
-				System.out.println("getting url........... " + returnedSongsList.getSelectedIndex());
-				String trackID = returnedSongs.get(returnedSongsList.getSelectedIndex()).getId();
-				String songUrl = "https://embed.spotify.com/?uri=spotify:track:" + trackID + "&theme=dark";
-				swingFXWebView.loadSong(songUrl);
-				swingFXWebView.revalidate();
-				swingFXWebView.repaint();
+				// FOR SPOTIFY
+				// Platform.runLater(new Runnable() {
+				// @Override
+				// public void run() {
+				// System.out.println("getting url........... " +
+				// returnedSongsList.getSelectedIndex());
+				// String trackID =
+				// returnedSongs.get(returnedSongsList.getSelectedIndex()).getId();
+				// String songUrl =
+				// "https://embed.spotify.com/?uri=spotify:track:" + trackID +
+				// "&theme=dark";
+				// swingFXWebView.loadSong(songUrl);
+				// swingFXWebView.revalidate();
+				// swingFXWebView.repaint();
+				// }
+				// });
 
 				searchButton.setEnabled(true);
 				// if (!searchedSong.getText().equals("")) {
@@ -631,16 +651,28 @@ public class PartyWindow extends JPanel {
 				// Testing out spotify search
 				// ********************************************************
 				returnedSongs = JsonReader.getSongData(searchedText);
-
-				String[] songList = new String[returnedSongs.size()];
-				for (int i = 0; i < returnedSongs.size(); i++) {
-					String song = returnedSongs.get(i).getName() + " by " + returnedSongs.get(i).getArtist();
-					songList[i] = song;
-					System.out.println(song);
+				String[] songList;
+				if (returnedSongs != null) {
+					if (!returnedSongs.isEmpty()) {
+						songList = new String[returnedSongs.size()];
+						for (int i = 0; i < returnedSongs.size(); i++) {
+							String song = returnedSongs.get(i).getName() + " by " + returnedSongs.get(i).getArtist();
+							songList[i] = song;
+							System.out.println(song);
+						}
+						returnedSongsList.setListData(songList);
+						revalidate();
+						repaint();
+					} else {
+						songList = new String[1];
+						songList[0] = "Song not found. Choose another song!";
+						returnedSongsList.setListData(songList);
+					}
+				} else {
+					songList = new String[1];
+					songList[0] = "Song not found. Choose another song!";
+					returnedSongsList.setListData(songList);
 				}
-				returnedSongsList.setListData(songList);
-				revalidate();
-				repaint();
 				// ********************************************************
 
 			}
@@ -924,55 +956,51 @@ public class PartyWindow extends JPanel {
 
 class SwingFXWebView extends JPanel {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1;
 	private Stage stage;
 	private WebView browser;
 	private JFXPanel jfxPanel;
 	private JButton swingButton;
 	private WebEngine webEngine;
-	public String url = "https://embed.spotify.com/?uri=spotify:track:7BKLCZ1jbUBVqRi2FVlTVw&theme=dark";
 
 	public SwingFXWebView() {
-		initComponents("https://embed.spotify.com/?uri=spotify:track:7BKLCZ1jbUBVqRi2FVlTVw&theme=dark");
+		initComponents();
 	}
 
-	private void initComponents(String url) {
+	public static void main(String... args) {
+		// Run this later:
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				final JFrame frame = new JFrame();
 
-		this.setOpaque(false);
+				frame.getContentPane().add(new SwingFXWebView());
+
+				frame.setMinimumSize(new Dimension(640, 480));
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.setVisible(true);
+			}
+		});
+	}
+
+	private void initComponents() {
+
 		jfxPanel = new JFXPanel();
-		jfxPanel.setOpaque(false);
 		createScene();
 
 		setLayout(new BorderLayout());
 		add(jfxPanel, BorderLayout.CENTER);
-
-		swingButton = new JButton();
-		swingButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Platform.runLater(new Runnable() {
-
-					@Override
-					public void run() {
-						webEngine.reload();
-					}
-				});
-			}
-		});
-		swingButton.setText("Reload");
-
-		//add(swingButton, BorderLayout.SOUTH);
 	}
 
-	public void loadSong(String songUrl){
-		System.out.println("Loading Song " + songUrl);
-		this.url = songUrl;
-		//webEngine.load(url);
-		initComponents(url);
+	public void reload() {
+
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				webEngine.reload();
+			}
+		});
+
 	}
 
 	/**
@@ -999,7 +1027,7 @@ class SwingFXWebView extends JPanel {
 				// Set up the embedded browser:
 				browser = new WebView();
 				webEngine = browser.getEngine();
-				webEngine.load("url");
+				webEngine.load("https://embed.spotify.com/?uri=spotify:track:7BKLCZ1jbUBVqRi2FVlTVw&theme=dark");
 
 				ObservableList<Node> children = root.getChildren();
 				children.add(browser);
