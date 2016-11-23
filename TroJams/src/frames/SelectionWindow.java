@@ -49,6 +49,7 @@ import logic.PrivateParty;
 import logic.PublicParty;
 import logic.User;
 import networking.NewPartyMessage;
+import networking.PlayNextSongMessage;
 import networking.SongVoteMessage;
 import networking.TrojamClient;
 import resources.AppearanceConstants;
@@ -267,6 +268,7 @@ public class SelectionWindow extends JFrame {
 		swcurrentParties.add(spp);
 		//revalidate();
 	}
+	
 	
 	public void setParties(Vector <Party> parties) {
 		System.out.println("setting parties ... " + parties.size());
@@ -823,11 +825,18 @@ public class SelectionWindow extends JFrame {
 		CardLayout cl = (CardLayout) cards.getLayout();
 		cl.show(cards, "selection window");
 	}
+	
+	public void sendCurrentlyPlayingUpdate(PlayNextSongMessage psm) {
+		if (pw != null) {
+			pw.updateCurrentlyPlaying(psm);
+		}
+	}
 
 	public void sendSongVoteUpdate(SongVoteMessage svm) {
 		System.out.println(this.pw);
-		this.pw.sendSongVoteUpdate(svm);
-		
+		if (pw != null) {
+			this.pw.sendSongVoteUpdate(svm);
+		}
 	}
 	
 	public PartyWindow getPartyWindow(){

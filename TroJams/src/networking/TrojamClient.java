@@ -88,6 +88,10 @@ public class TrojamClient extends Thread{
 					StringMessage message = (StringMessage) obj;
 					parseStringMessage(message);
 				}
+				else if (obj instanceof PlayNextSongMessage) {
+					System.out.println("got a playnextsongmessage");
+					sw.sendCurrentlyPlayingUpdate((PlayNextSongMessage) obj);
+				}
 				else if (obj instanceof AllPartiesMessage) {
 					sw.setParties(((AllPartiesMessage) obj).getParties());
 				}
