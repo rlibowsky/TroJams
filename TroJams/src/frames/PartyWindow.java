@@ -92,6 +92,7 @@ public class PartyWindow extends JPanel {
 	private DefaultListModel<SingleSongPanel> listModel;
 	private Account account;
 	private SwingFXWebView swingFXWebView;
+	private String spotify_Url;
 	ArrayList<SongData> returnedSongs;
 	private String song_name;
 	private String song_artist;
@@ -99,7 +100,7 @@ public class PartyWindow extends JPanel {
 	private String song_artwork_filepath;
 	private String song_mp3_filepath;
 	private ImageIcon song_artwork;
-	String filePath;
+	private String filePath;
 
 	// argument will be taken out once we turn this into a JPanel
 	public PartyWindow(Party partayTime, SelectionWindow sw) {
@@ -354,7 +355,8 @@ public class PartyWindow extends JPanel {
 		currentlyPlayingInfo.setLayout(new BoxLayout(currentlyPlayingInfo, BoxLayout.X_AXIS));
 
 		currentlyPlayingLabel = new JLabel("Now Playing: ");
-		swingFXWebView = new SwingFXWebView();
+		spotify_Url = "<iframe width=\"600\" height=\"50\" src=\"https://embed.spotify.com/?uri=spotify:track:7BKLCZ1jbUBVqRi2FVlTVw&theme=white\" frameborder=\"0\" allowtransparency></iframe>";;
+		swingFXWebView = new SwingFXWebView(spotify_Url);
 		// Platform.runLater(new Runnable() {
 		// @Override
 		// public void run() {
@@ -555,6 +557,8 @@ public class PartyWindow extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				// FOR SPOTIFY
+				spotify_Url = "https://embed.spotify.com/?uri=spotify:track:"+returnedSongs.get(returnedSongsList.getSelectedIndex()).getId()+"&theme=dark";
+				System.out.println(" weeeeeeeeeeee" + spotify_Url );
 				// Platform.runLater(new Runnable() {
 				// @Override
 				// public void run() {
@@ -964,8 +968,10 @@ class SwingFXWebView extends JPanel {
 	private JFXPanel jfxPanel;
 	private JButton swingButton;
 	private WebEngine webEngine;
+	public String content_Url;
 
-	public SwingFXWebView() {
+	public SwingFXWebView(String content_Url) {
+		this.content_Url = content_Url;
 		initComponents();
 	}
 
@@ -975,8 +981,10 @@ class SwingFXWebView extends JPanel {
 			@Override
 			public void run() {
 				final JFrame frame = new JFrame();
-
-				frame.getContentPane().add(new SwingFXWebView());
+				String url = "<iframe width=\"300\" height=\"80\" "
+						+ "src=\"https://embed.spotify.com/?uri=spotify:track:7BKLCZ1jbUBVqRi2FVlTVw&theme=white\" "
+						+ "frameborder=\"0\" scrolling=\"no\" style=\"border:0\" allowtransparency></iframe>";
+				frame.getContentPane().add(new SwingFXWebView(url));
 
 				frame.setMinimumSize(new Dimension(640, 480));
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -988,7 +996,7 @@ class SwingFXWebView extends JPanel {
 	private void initComponents() {
 
 		jfxPanel = new JFXPanel();
-		createScene();
+		createScene(content_Url);
 
 		setLayout(new BorderLayout());
 		add(jfxPanel, BorderLayout.CENTER);
@@ -1006,6 +1014,21 @@ class SwingFXWebView extends JPanel {
 
 	}
 
+
+	public void reload(int width, int height, String url) {
+
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				String content_Url = "<iframe width=\""+width+"\" height=\""+height+"\" src="+url+"frameborder=\"0\" allowtransparency></iframe>";
+				createScene(content_Url);
+			}
+		});
+
+	}
+
+
 	/**
 	 * createScene
 	 *
@@ -1013,7 +1036,7 @@ class SwingFXWebView extends JPanel {
 	 * NOT on the AWT-EventQueue Thread
 	 *
 	 */
-	private void createScene() {
+	private void createScene(String content_Url) {
 		PlatformImpl.startup(new Runnable() {
 			@Override
 			public void run() {
@@ -1030,7 +1053,9 @@ class SwingFXWebView extends JPanel {
 				// Set up the embedded browser:
 				browser = new WebView();
 				webEngine = browser.getEngine();
-				webEngine.load("https://embed.spotify.com/?uri=spotify:track:7BKLCZ1jbUBVqRi2FVlTVw&theme=dark");
+
+				System.out.println(content_Url);
+				webEngine.loadContent(content_Url);
 
 				ObservableList<Node> children = root.getChildren();
 				children.add(browser);
