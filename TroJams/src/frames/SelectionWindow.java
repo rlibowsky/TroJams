@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -336,7 +335,7 @@ public class SelectionWindow extends JFrame {
 		
 		if(account instanceof User){
 			System.out.println("ACCCOUNT IS A USER!!!!!!!!!!");
-			ProfilePanel profilePanel = new ProfilePanel((User)account);
+			ProfilePanel profilePanel = new ProfilePanel((User)account, this);
 			profilePanel.setOpaque(false);
 			AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT, profilePanel);
 			swMainPanel.add(profilePanel, BorderLayout.WEST);
@@ -809,94 +808,6 @@ public class SelectionWindow extends JFrame {
 			this.add(profileName);
 			this.add(guestSP);
 			this.add(dummyLabel);
-			this.add(logout);
-			this.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT);
-		}
-		
-	}
-	
-	private class ProfilePanel extends JPanel{
-		
-		ImageIcon profilePic;
-		JLabel profileName, dummyLabel;
-		JLabel profileUserName;
-		User user;
-		JScrollPane userHistorySP;
-		JTextArea partiesTextArea;
-		JButton logout;
-		JLabel profilePanelTitle;
-		
-		public ProfilePanel(User user){
-			this.user = user;
-			profilePic = user.getUserImage();
-			
-			profilePanelTitle = new JLabel("Profile Info:");
-			profilePanelTitle.setForeground(Color.white);
-			AppearanceSettings.setFont(AppearanceConstants.fontLarge, profilePanelTitle);
-			
-			dummyLabel = new JLabel(" ");
-			
-			profileName = new JLabel("Name: " + user.getFirstName() + " " + user.getLastName(), SwingConstants.CENTER);
-			AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileName);
-			profileName.setForeground(Color.white);
-			//profileName.setHorizontalAlignment(SwingConstants.CENTER);
-			//profileName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-			
-			profileUserName = new JLabel("Username: " + user.getUsername(), SwingConstants.CENTER);
-			AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileUserName);
-			profileUserName.setForeground(Color.white);
-			//profileUserName.setHorizontalAlignment(SwingConstants.CENTER);
-			//profileUserName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-			
-			partiesTextArea = new JTextArea(5,20);
-			partiesTextArea.setOpaque(false);
-			partiesTextArea.setFont(AppearanceConstants.fontMedium);
-			partiesTextArea.setForeground(Color.white);
-			partiesTextArea.append("Party History: \n");
-			partiesTextArea.setLineWrap(true);
-			partiesTextArea.setWrapStyleWord(true);
-			partiesTextArea.setEditable(false);
-			
-			userHistorySP = new JScrollPane(partiesTextArea);
-			userHistorySP.setOpaque(false);
-			userHistorySP.getViewport().setOpaque(false);
-			Border border = BorderFactory.createEmptyBorder( 0, 0, 0, 0 );
-			userHistorySP.setViewportBorder( border );
-			userHistorySP.setBorder( border );
-			
-			if(user.getParties().isEmpty()){
-				partiesTextArea.append("Looks like you haven't joined a party yet. Are you a CS student? You really should talk to Jeffrey Miller about giving you some easier assignments");
-			}
-			
-			else{
-				for(Party p : user.getParties()){
-					partiesTextArea.append(p.getPartyName() + "\n\n");
-				}
-			}
-			
-			logout = new JButton();
-			ImageIcon logoutButtonImage = new ImageIcon("images/button_log-out.png");
-			logout.setIcon(logoutButtonImage);
-			logout.setOpaque(false);
-			logout.setBorderPainted(false);
-			logout.setContentAreaFilled(false);
-			
-			logout.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					new LoginScreenWindow(client).setVisible(true);
-					dispose();
-				}
-			});
-			
-			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-			//this.add(Box.createVerticalGlue());
-			this.add(profilePanelTitle);
-			this.add(new JLabel(profilePic));
-			this.add(profileName);
-			this.add(profileUserName);
-			this.add(dummyLabel);
-			this.add(userHistorySP);
 			this.add(logout);
 			this.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT);
 		}
