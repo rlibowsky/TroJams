@@ -9,12 +9,10 @@ public class Song implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String name;
-	private double length;
+	protected String name;
 	
-	public Song(String name, double length) {
+	public Song(String name) {
 		this.name = name;
-		this.length = length;
 	}
 	
 	public Song() {
@@ -23,10 +21,6 @@ public class Song implements Serializable{
 	
 	public String getName() {
 		return name;
-	}
-	
-	public double getLength() {
-		return length;
 	}
 	
 }

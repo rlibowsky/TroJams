@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
 
-import music.MusicPlayer;
+import music.SongData;
 
 public abstract class Party implements Serializable{
 	
@@ -18,7 +18,7 @@ public abstract class Party implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String partyName;
 	public User host;
-	public ArrayList <PartySong> songList = new ArrayList<PartySong>();
+	public ArrayList <SongData> songList = new ArrayList<SongData>();
 	public HashMap <String, Integer> songSet = new HashMap<String, Integer>();
 	private HashSet <Account> partyMembers;
 	private ImageIcon partyImage;
@@ -43,7 +43,7 @@ public abstract class Party implements Serializable{
 		return imageFilePath;
 	}
 	
-	public ArrayList<PartySong> getSongs() {
+	public ArrayList<SongData> getSongs() {
 		return songList;
 	}
 	
@@ -83,7 +83,7 @@ public abstract class Party implements Serializable{
 		partyMembers.add(account);
 	}
 	
-	public void addSong(PartySong song) {
+	public void addSong(SongData song) {
 		if (songSet.containsKey(song)) {
 			return;
 		}
@@ -91,7 +91,7 @@ public abstract class Party implements Serializable{
 		songSet.put(song.getName(), songList.size()-1);
 	}
 	
-	public void upvoteSong(PartySong song) {
+	public void upvoteSong(SongData song) {
 		
 		int loc = songSet.get(song.getName());
 		System.out.println("loc is ..." + loc);
@@ -99,7 +99,7 @@ public abstract class Party implements Serializable{
 		//look at the indices before in the array and keep swapping while the
 		//number of votes of loc - 1 is less than the number of votes of song
 		while (loc > 0 && songList.get(loc - 1).getVotes() < songList.get(loc).getVotes()) {
-			PartySong tempSong = songList.get(loc-1);
+			SongData tempSong = songList.get(loc-1);
 			songSet.put(tempSong.getName(), loc);
 			songSet.put(song.getName(), loc - 1);
 			songList.set(loc, tempSong);
@@ -108,13 +108,13 @@ public abstract class Party implements Serializable{
 		}
 	}
 	
-	public void downvoteSong(PartySong song) {
+	public void downvoteSong(SongData song) {
 		int loc = songSet.get(song.getName());
 		songList.get(loc).downvote();
 		//look at the indices after in the array and keep swapping while the
 		//number of votes of loc + 1 is greater than the number of votes of song
 		while (loc < songList.size() && songList.get(loc + 1).getVotes() > songList.get(loc).getVotes()) {
-			PartySong tempSong = songList.get(loc+1);
+			SongData tempSong = songList.get(loc+1);
 			songSet.put(tempSong.getName(), loc);
 			songSet.put(song.getName(), loc + 1);
 			songList.set(loc, tempSong);

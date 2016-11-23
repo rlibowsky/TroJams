@@ -51,6 +51,7 @@ public class MusicPlayer extends Thread{
 			
 			while (true) {
 				if (playMP3.isComplete()) {
+					System.out.println("next song playing");
 					ts.nextSong(p.getPartyName());
 					break;
 				}

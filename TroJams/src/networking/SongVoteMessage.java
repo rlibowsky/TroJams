@@ -2,6 +2,7 @@ package networking;
 
 import logic.Party;
 import logic.PartySong;
+import music.SongData;
 
 public class SongVoteMessage extends Message{
 	/**
@@ -10,9 +11,9 @@ public class SongVoteMessage extends Message{
 	private static final long serialVersionUID = 1L;
 	
 	private Party party;
-	private PartySong song;
+	private SongData song;
 
-	public SongVoteMessage(String name, Party party, PartySong song) {
+	public SongVoteMessage(String name, Party party, SongData song) {
 		super(name);
 		this.party = party;
 		this.song = song;
@@ -22,7 +23,7 @@ public class SongVoteMessage extends Message{
 		return party;
 	}
 	
-	public PartySong getSong() {
+	public SongData getSong() {
 		return song;
 	}
 

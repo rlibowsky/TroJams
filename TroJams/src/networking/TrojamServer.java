@@ -21,6 +21,7 @@ import logic.PrivateParty;
 import logic.PublicParty;
 import logic.User;
 import music.MusicPlayer;
+import music.SongData;
 import resources.Util;
 
 public class TrojamServer extends Thread{
@@ -239,7 +240,7 @@ public class TrojamServer extends Thread{
 
 	public void voteOnSong(SongVoteMessage svm) {
 		Party receivedParty = partyNamesToObjects.get(svm.getParty().getPartyName());
-		PartySong receivedSong = receivedParty.songList.get(receivedParty.songSet.get(svm.getSong().getName()));
+		SongData receivedSong = receivedParty.songList.get(receivedParty.songSet.get(svm.getSong().getName()));
 		if (svm.getName().equals("upvote")) {
 			System.out.println("upvoting a song");
 			receivedParty.upvoteSong(receivedSong);
@@ -302,7 +303,8 @@ public class TrojamServer extends Thread{
 		System.out.println("server got song");
 		//check if song list is empty
 		Party p = partyNamesToObjects.get(asm.partyName);
-		p.addSong(new PartySong(asm.songName));
+		p.addSong(asm.songInfo);
+		System.out.println("size list is " + p.getSongs().size());
 		if (p.getSongs().size() == 1) {
 			System.out.println("STARTING THE MUSIC PLAYER");
 			//accountToThreadMap.get((p.getHost().getUsername())).
@@ -311,7 +313,7 @@ public class TrojamServer extends Thread{
 			//send message to party to update currently playing
 		}
 		
-		//sendMessageToParty(partyNamesToObjects.get(asm.partyName), asm);
+		sendMessageToParty(partyNamesToObjects.get(asm.partyName), asm);
 	}
 
 	private void sendMessageToParty(Party party, Message msg) {
@@ -323,7 +325,7 @@ public class TrojamServer extends Thread{
 					System.out.println("sending message to " + ((User)a).getUsername());
 				}
 				if (currentThread != null) {
-					currentThread.sendMessage(new SongVoteMessage("svm", party, new PartySong(asm.songName)));
+					currentThread.sendMessage(new SongVoteMessage("svm", party, asm.songInfo));
 				} else {
 					System.out.println("is null");
 				}
@@ -337,7 +339,7 @@ public class TrojamServer extends Thread{
 					System.out.println("sending message to " + ((User)a).getUsername());
 				}
 				if (currentThread != null) {
-					currentThread.sendMessage(new SongVoteMessage("svm", party, new PartySong(asm.getSong().getName())));
+					currentThread.sendMessage(new SongVoteMessage("svm", party, asm.getSong()));
 				} else {
 					System.out.println("is null");
 				}
@@ -365,11 +367,12 @@ public class TrojamServer extends Thread{
 		System.out.println("hi");
 		Party p = partyNamesToObjects.get(partyName);
 		MusicPlayer mp = new MusicPlayer("music/" + p.getSongs().get(0).getName() + ".mp3", p, this);
-
+		String s = p.getSongs().get(0).getName();
+		p.playNextSong();
 		//sendMessageToParty(p, new AddSongMessage("string", "string", "string"));
 		System.out.println("sending message to update currently playing");
-		sendMessageToParty(p, new PlayNextSongMessage(p, p.getSongs().get(0).getName()));
-		p.playNextSong();
+		sendMessageToParty(p, new PlayNextSongMessage(p, s));
+		
 	}
 	
 	public static void main (String [] args) {

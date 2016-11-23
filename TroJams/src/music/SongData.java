@@ -1,13 +1,21 @@
 package music;
-public class SongData {
-	String name;
+
+import java.io.Serializable;
+
+import logic.PartySong;
+
+public class SongData extends PartySong implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String artist;
 	String id;
 	String imageURL;
 	String playURL;
 
 	public SongData(String name, String artist, String id, String imageURL, String playURL) {
-		this.name = name;
+		super(name);
 		this.artist = artist;
 		this.id = id;
 		this.imageURL = imageURL;

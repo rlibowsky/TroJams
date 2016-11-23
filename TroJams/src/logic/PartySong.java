@@ -10,7 +10,7 @@ public class PartySong extends Song{
 	private int votes;
 
 	public PartySong(String name) {
-		super(name, 0.0);
+		super(name);
 		votes = 0;
 	}
 	

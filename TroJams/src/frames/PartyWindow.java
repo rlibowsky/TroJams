@@ -38,18 +38,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import com.sun.javafx.application.PlatformImpl;
-import javafx.scene.Node;
-import javafx.application.Application;
+
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -129,11 +124,11 @@ public class PartyWindow extends JPanel {
 	// shows song name, upvote and downvote buttons, and total votes for the
 	// song
 	public class SingleSongPanel extends JPanel {
-		PartySong partySong;
+		SongData partySong;
 		private JButton upvoteButton, downvoteButton;
 		private JLabel votesLabel, songNameLabel;
 
-		public SingleSongPanel(PartySong ps) {
+		public SingleSongPanel(SongData ps) {
 			AppearanceSettings.setSize(600, 100, this);
 			partySong = ps;
 			setLayout(new GridLayout(1, 4));
@@ -557,8 +552,9 @@ public class PartyWindow extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				// FOR SPOTIFY
-				spotify_Url = "https://embed.spotify.com/?uri=spotify:track:"+returnedSongs.get(returnedSongsList.getSelectedIndex()).getId()+"&theme=dark";
-				System.out.println(" weeeeeeeeeeee" + spotify_Url );
+				//spotify_Url = "https://embed.spotify.com/?uri=spotify:track:"+returnedSongs.get(returnedSongsList.getSelectedIndex()).getId()+"&theme=dark";
+				//System.out.println(" weeeeeeeeeeee" + spotify_Url );
+				SongData songInfo = returnedSongs.get(returnedSongsList.getSelectedIndex());
 				// Platform.runLater(new Runnable() {
 				// @Override
 				// public void run() {
@@ -577,7 +573,8 @@ public class PartyWindow extends JPanel {
 
 				searchButton.setEnabled(true);
 				// if (!searchedSong.getText().equals("")) {
-				sw.client.addNewSong(searchedSong.getText(), PartyWindow.this.party.getPartyName());
+				System.out.println(songInfo.getName());
+				sw.client.addNewSong(songInfo, PartyWindow.this.party.getPartyName());
 				// SingleSongPanel ssp = new SingleSongPanel(new
 				// PartySong(searchedSong.getText()));
 				// df.addElement(ssp);
@@ -657,28 +654,31 @@ public class PartyWindow extends JPanel {
 
 				// Testing out spotify search
 				// ********************************************************
+				//returnedSongs is an array of songData objects
+				//everytime you click search, it repopulates with that songs data
+				//go through one by one and add to songList
 				returnedSongs = JsonReader.getSongData(searchedText);
-				String[] songList;
+				String[] spotifySongArray;
 				if (returnedSongs != null) {
 					if (!returnedSongs.isEmpty()) {
-						songList = new String[returnedSongs.size()];
+						spotifySongArray = new String[returnedSongs.size()];
 						for (int i = 0; i < returnedSongs.size(); i++) {
 							String song = returnedSongs.get(i).getName() + " by " + returnedSongs.get(i).getArtist();
-							songList[i] = song;
+							spotifySongArray[i] = song;
 							System.out.println(song);
 						}
-						returnedSongsList.setListData(songList);
+						returnedSongsList.setListData(spotifySongArray);
 						revalidate();
 						repaint();
 					} else {
-						songList = new String[1];
-						songList[0] = "Song not found. Choose another song!";
-						returnedSongsList.setListData(songList);
+						spotifySongArray = new String[1];
+						spotifySongArray[0] = "Song not found. Choose another song!";
+						returnedSongsList.setListData(spotifySongArray);
 					}
 				} else {
-					songList = new String[1];
-					songList[0] = "Song not found. Choose another song!";
-					returnedSongsList.setListData(songList);
+					spotifySongArray = new String[1];
+					spotifySongArray[0] = "Song not found. Choose another song!";
+					returnedSongsList.setListData(spotifySongArray);
 				}
 				// ********************************************************
 

@@ -1,11 +1,14 @@
 package networking;
 
-public class AddSongMessage extends Message{
-	public String songName, partyName;
+import music.SongData;
 
-	public AddSongMessage(String name, String songName, String partyName) {
+public class AddSongMessage extends Message{
+	SongData songInfo;
+	public String partyName;
+
+	public AddSongMessage(String name, SongData songInfo, String partyName) {
 		super(name);
-		this.songName = songName;
+		this.songInfo = songInfo;
 		this.partyName = partyName;
 	}
 

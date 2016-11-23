@@ -11,6 +11,7 @@ import logic.Account;
 import logic.Party;
 import logic.PartySong;
 import logic.User;
+import music.SongData;
 
 public class TrojamClient extends Thread{
 	private Account account;
@@ -168,7 +169,7 @@ public class TrojamClient extends Thread{
 		}	
 	}
 
-	public void sendVotesChange(Party party, PartySong partySong, String voteType) {
+	public void sendVotesChange(Party party, SongData partySong, String voteType) {
 		System.out.println(partySong.getName() + " was voted");
 		try {
 			oos.writeObject(new SongVoteMessage(voteType, party, partySong));
@@ -199,10 +200,10 @@ public class TrojamClient extends Thread{
 		}
 	}
 
-	public void addNewSong(String songName, String partyName) {
+	public void addNewSong(SongData songInfo, String partyName) {
 		System.out.println("client just added a new song to the party");
 		try{
-			oos.writeObject(new AddSongMessage("newSong", songName, partyName));
+			oos.writeObject(new AddSongMessage("newSong", songInfo, partyName));
 			oos.flush();
 		} catch (IOException e){
 			e.printStackTrace();
