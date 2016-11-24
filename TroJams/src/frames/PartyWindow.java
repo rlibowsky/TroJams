@@ -445,7 +445,8 @@ public class PartyWindow extends JPanel {
 	public void setSongs(Party receivedParty) {
 		System.out.println("setting songs ... ");
 		songList.removeAll();
-		for (int i = 0; i < receivedParty.getSongs().size(); i++) {
+		revalidate();
+		for (int i = 1; i < receivedParty.getSongs().size(); i++) {
 			songList.add(new SingleSongPanel(receivedParty.getSongs().get(i)));
 			System.out.println("adding song " + receivedParty.getSongs().get(i).getName());
 		}

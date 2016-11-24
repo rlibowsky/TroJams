@@ -307,10 +307,11 @@ public class TrojamServer extends Thread{
 		System.out.println("size list is " + p.getSongs().size());
 		if (p.getSongs().size() == 1) {
 			System.out.println("STARTING THE MUSIC PLAYER");
-			//accountToThreadMap.get((p.getHost().getUsername())).
-			//MusicPlayer mp = new MusicPlayer("music/" + p.getSongs().get(0).getName() + ".mp3", p, this);
-			nextSong(p.getPartyName());
-			//send message to party to update currently playing
+			MusicPlayer mp = new MusicPlayer("music/" + p.getSongs().get(0).getName() + ".mp3", p, this);
+			String s = p.getSongs().get(0).getName();
+			//sendMessageToParty(p, new AddSongMessage("string", "string", "string"));
+			System.out.println("sending message to update currently playing");
+			sendMessageToParty(p, new PlayNextSongMessage(p, s));
 		}
 		
 		sendMessageToParty(partyNamesToObjects.get(asm.partyName), asm);
@@ -366,9 +367,9 @@ public class TrojamServer extends Thread{
 		System.out.println("in nextSong");
 		System.out.println("hi");
 		Party p = partyNamesToObjects.get(partyName);
+		p.playNextSong();
 		MusicPlayer mp = new MusicPlayer("music/" + p.getSongs().get(0).getName() + ".mp3", p, this);
 		String s = p.getSongs().get(0).getName();
-		p.playNextSong();
 		//sendMessageToParty(p, new AddSongMessage("string", "string", "string"));
 		System.out.println("sending message to update currently playing");
 		sendMessageToParty(p, new PlayNextSongMessage(p, s));
