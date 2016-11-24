@@ -20,5 +20,5 @@
   - **Email**: libowsky@usc.edu
 
 **Adam Moffit**
-  - **USC ID**: 226714324
+  - **USC ID**: 3446948374
   - **Email**: admoffit@usc.edu
