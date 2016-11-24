@@ -98,7 +98,7 @@ public abstract class Party implements Serializable{
 		songList.get(loc).upvote();
 		//look at the indices before in the array and keep swapping while the
 		//number of votes of loc - 1 is less than the number of votes of song
-		while (loc > 0 && songList.get(loc - 1).getVotes() < songList.get(loc).getVotes()) {
+		while (loc > 1 && songList.get(loc - 1).getVotes() < songList.get(loc).getVotes()) {
 			SongData tempSong = songList.get(loc-1);
 			songSet.put(tempSong.getName(), loc);
 			songSet.put(song.getName(), loc - 1);
@@ -122,10 +122,10 @@ public abstract class Party implements Serializable{
 			loc ++;
 		}
 		//if votes < 0, remove from list
-		if (song.getVotes() < 0) {
-			songSet.remove(song);
-			songList.remove(songList.size()-1);
-		}
+//		if (song.getVotes() < 0) {
+//			songSet.remove(song);
+//			songList.remove(songList.size()-1);
+//		}
 	}
 	
 	public void playNextSong() {

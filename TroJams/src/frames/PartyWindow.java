@@ -585,6 +585,7 @@ public class PartyWindow extends JPanel {
 				searchButton.setEnabled(true);
 				// if (!searchedSong.getText().equals("")) {
 				System.out.println(songInfo.getName());
+				PartyWindow.this.searchBar.setText("");
 				sw.client.addNewSong(songInfo, PartyWindow.this.party.getPartyName());
 				// SingleSongPanel ssp = new SingleSongPanel(new
 				// PartySong(searchedSong.getText()));
