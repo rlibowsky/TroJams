@@ -34,6 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -51,7 +52,6 @@ import javafx.stage.Stage;
 import logic.Account;
 //import frames.SelectionWindow.MyScrollBarUI;
 import logic.Party;
-import logic.PartySong;
 import logic.User;
 import music.JsonReader;
 import music.SongData;
@@ -126,15 +126,21 @@ public class PartyWindow extends JPanel {
 	public class SingleSongPanel extends JPanel {
 		SongData partySong;
 		private JButton upvoteButton, downvoteButton;
-		private JLabel votesLabel, songNameLabel;
+		private JLabel votesLabel;
+		private JTextArea songNameLabel;
 
 		public SingleSongPanel(SongData ps) {
 			AppearanceSettings.setSize(600, 100, this);
 			partySong = ps;
 			setLayout(new GridLayout(1, 4));
-			songNameLabel = new JLabel(ps.getName());
+			songNameLabel = new JTextArea(ps.getName());
+			songNameLabel.setLineWrap(true);
+			songNameLabel.setAlignmentY(BOTTOM_ALIGNMENT);
+			songNameLabel.setAlignmentX(CENTER_ALIGNMENT);
 
 			upvoteButton = new JButton();
+			upvoteButton.setAlignmentY(TOP_ALIGNMENT);
+			upvoteButton.setAlignmentY(CENTER_ALIGNMENT);
 
 			upvoteButton.addActionListener(new ActionListener() {
 
@@ -148,6 +154,8 @@ public class PartyWindow extends JPanel {
 
 			});
 			downvoteButton = new JButton();
+			downvoteButton.setAlignmentY(TOP_ALIGNMENT);
+			downvoteButton.setAlignmentX(CENTER_ALIGNMENT);
 
 			downvoteButton.addActionListener(new ActionListener() {
 
@@ -161,6 +169,8 @@ public class PartyWindow extends JPanel {
 
 			});
 			votesLabel = new JLabel(Integer.toString(ps.getVotes()));
+			votesLabel.setAlignmentY(TOP_ALIGNMENT);
+			votesLabel.setAlignmentX(CENTER_ALIGNMENT);
 
 			AppearanceSettings.setForeground(Color.white, songNameLabel, votesLabel);
 			AppearanceSettings.setForeground(Color.white, currentSongName, currentSongTime, currentlyPlayingLabel);
