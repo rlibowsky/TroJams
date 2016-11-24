@@ -20,6 +20,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -34,7 +36,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -126,21 +127,33 @@ public class PartyWindow extends JPanel {
 	public class SingleSongPanel extends JPanel {
 		SongData partySong;
 		private JButton upvoteButton, downvoteButton;
-		private JLabel votesLabel;
-		private JTextArea songNameLabel;
+		private JLabel votesLabel, songNameLabel, artistLabel, albumImageLabel;
+		private ImageIcon albumImage;
 
 		public SingleSongPanel(SongData ps) {
 			AppearanceSettings.setSize(600, 100, this);
 			partySong = ps;
-			setLayout(new GridLayout(1, 4));
-			songNameLabel = new JTextArea(ps.getName());
-			songNameLabel.setLineWrap(true);
-			songNameLabel.setAlignmentY(BOTTOM_ALIGNMENT);
-			songNameLabel.setAlignmentX(CENTER_ALIGNMENT);
+			setLayout(new GridLayout(1, 6));
+			 URL url;
+			try {
+				url = new URL(ps.getImageURL());
+				 BufferedImage image;
+				image = ImageIO.read(url);
+			      System.out.println("Load album image into single panel...");
+		            albumImage = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
+		            albumImageLabel = new JLabel(albumImage);
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			songNameLabel = new JLabel(ps.getName());
+			artistLabel = new JLabel(ps.getArtist());
 
 			upvoteButton = new JButton();
-			upvoteButton.setAlignmentY(TOP_ALIGNMENT);
-			upvoteButton.setAlignmentY(CENTER_ALIGNMENT);
 
 			upvoteButton.addActionListener(new ActionListener() {
 
@@ -154,8 +167,6 @@ public class PartyWindow extends JPanel {
 
 			});
 			downvoteButton = new JButton();
-			downvoteButton.setAlignmentY(TOP_ALIGNMENT);
-			downvoteButton.setAlignmentX(CENTER_ALIGNMENT);
 
 			downvoteButton.addActionListener(new ActionListener() {
 
@@ -169,8 +180,14 @@ public class PartyWindow extends JPanel {
 
 			});
 			votesLabel = new JLabel(Integer.toString(ps.getVotes()));
-			votesLabel.setAlignmentY(TOP_ALIGNMENT);
-			votesLabel.setAlignmentX(CENTER_ALIGNMENT);
+
+			Image image1 = new ImageIcon("images/thumbsup.png").getImage();
+			ImageIcon thumbsUpImage = new ImageIcon(image1.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+			upvoteButton.setIcon(thumbsUpImage);
+
+			Image image2 = new ImageIcon("images/thumbsDown.png").getImage();
+			ImageIcon thumbsDownImage = new ImageIcon(image2.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+			downvoteButton.setIcon(thumbsDownImage);
 
 			AppearanceSettings.setForeground(Color.white, songNameLabel, votesLabel);
 			AppearanceSettings.setForeground(Color.white, currentSongName, currentSongTime, currentlyPlayingLabel);
@@ -183,28 +200,22 @@ public class PartyWindow extends JPanel {
 			// currentSongName, currentSongTime, currentlyPlayingLabel);
 			// AppearanceSettings.setOpaque(songNameLabel, votesLabel,
 			// currentSongName, currentSongTime, currentlyPlayingLabel);
-			AppearanceSettings.setFont(AppearanceConstants.fontSmall, songNameLabel, votesLabel);
+			AppearanceSettings.setFont(AppearanceConstants.fontSmall, songNameLabel, artistLabel, votesLabel);
 			AppearanceSettings.setFont(AppearanceConstants.fontLarge, currentSongName, currentSongTime,
 					currentlyPlayingLabel);
 			revalidate();
 			this.setOpaque(false);
-			AppearanceSettings.setNotOpaque(songNameLabel, upvoteButton, downvoteButton, votesLabel);
+			AppearanceSettings.setNotOpaque(songNameLabel, albumImageLabel, artistLabel, upvoteButton, downvoteButton, votesLabel);
 			upvoteButton.setContentAreaFilled(false);
 			downvoteButton.setContentAreaFilled(false);
 			upvoteButton.setBorderPainted(false);
 			downvoteButton.setBorderPainted(false);
+			add(albumImageLabel);
 			add(songNameLabel);
+			add(artistLabel);
 			add(upvoteButton);
 			add(downvoteButton);
 			add(votesLabel);
-
-			Image image = new ImageIcon("images/thumbsup.png").getImage();
-			ImageIcon thumbsUpImage = new ImageIcon(image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
-			upvoteButton.setIcon(thumbsUpImage);
-
-			Image image2 = new ImageIcon("images/thumbsDown.png").getImage();
-			ImageIcon thumbsDownImage = new ImageIcon(image2.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
-			downvoteButton.setIcon(thumbsDownImage);
 		}
 	}
 
