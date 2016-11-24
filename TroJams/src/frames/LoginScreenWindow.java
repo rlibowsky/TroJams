@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -39,6 +40,7 @@ public class LoginScreenWindow extends JFrame {
 	private JButton createAccount;
 	private JTextField username;
 	private JTextField password;
+	private JPasswordField passwordField;
 	private JLabel alertLabel;
 	private ImageIcon backgroundImage;
 	private TrojamClient client;
@@ -98,6 +100,7 @@ public class LoginScreenWindow extends JFrame {
 		
 		username = new JTextField("username");
 		password = new JTextField("password");
+		passwordField = new JPasswordField();
 		alertLabel = new JLabel();
 		Image image = new ImageIcon("images/TroJamsLogo4.png").getImage();
 		ImageIcon logoImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
@@ -125,8 +128,8 @@ public class LoginScreenWindow extends JFrame {
 		
 		//set mass component appearances
 
-		AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, createAccount, loginButton, guestButton, password, username);
-		AppearanceSettings.setSize(400, 60, password, username);
+		AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, createAccount, loginButton, guestButton, password, passwordField, username);
+		AppearanceSettings.setSize(400, 60, password, username, passwordField);
 		
 		//AppearanceSettings.setSize(200, 100, loginButton, guestButton, createAccount);
 		AppearanceSettings.setNotOpaque(loginButton, createAccount, guestButton);
@@ -136,7 +139,7 @@ public class LoginScreenWindow extends JFrame {
 		AppearanceSettings.setTextAlignment(welcome, alertLabel, TroJamsLabel);
 		AppearanceSettings.setForeground(Color.white, welcome, TroJamsLabel);
 		
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, password, alertLabel, username, loginButton, createAccount, guestButton);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, password, alertLabel, username, loginButton, createAccount, guestButton, passwordField);
 		
 		AppearanceSettings.setNotOpaque(mainPanel, welcome, alertLabel, TroJamsLabel, alertPanel, textFieldsPanel,
 				buttonsPanel, welcomePanel, textFieldOnePanel, textFieldTwoPanel, cards);
@@ -156,7 +159,8 @@ public class LoginScreenWindow extends JFrame {
 		
 		alertPanel.add(alertLabel);
 		textFieldOnePanel.add(username);
-		textFieldTwoPanel.add(password);
+		//textFieldTwoPanel.add(password);
+		textFieldTwoPanel.add(passwordField);
 		
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -192,8 +196,10 @@ public class LoginScreenWindow extends JFrame {
 	
 	//returns whether the buttons should be enabled
 	private boolean canPressButtons(){
+		String password = new String(passwordField.getPassword());
 		return (!username.getText().isEmpty() && !username.getText().equals("username") && 
-				!password.getText().equals("password") && !password.getText().isEmpty());
+		//		!password.getText().equals("password") && !password.getText().isEmpty());
+				!password.equals("password") && !password.isEmpty());
 	}
 	
 	public void enableCreateAccountButton(){
@@ -244,10 +250,11 @@ public class LoginScreenWindow extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//focus listeners
 		username.addFocusListener(new TextFieldFocusListener("username", username));
-		password.addFocusListener(new TextFieldFocusListener("password", password));
+		//password.addFocusListener(new TextFieldFocusListener("password", password));
 		//document listeners
 		username.getDocument().addDocumentListener(new MyDocumentListener());
-		password.getDocument().addDocumentListener(new MyDocumentListener());
+		//password.getDocument().addDocumentListener(new MyDocumentListener());
+		passwordField.getDocument().addDocumentListener(new MyDocumentListener());
 		
 		//action listeners
 		//loginButton.addActionListener(new loginEvent());
@@ -257,7 +264,8 @@ public class LoginScreenWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				loginButton.setEnabled(false);
 				usernameString = username.getText();
-				client.attemptToLogin(username.getText(), password.getText());
+				String password = new String(passwordField.getPassword());
+				client.attemptToLogin(username.getText(), password);
 			}
 			
 		});
@@ -302,7 +310,8 @@ public class LoginScreenWindow extends JFrame {
 				//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES
 				createAccount.setEnabled(false);
 				String usernameString = username.getText();
-				String passwordString = password.getText();
+				//String passwordString = password.getText();
+				String passwordString = new String(passwordField.getPassword());
 				//if this username has already been chosen
 				if (existingUsers.containsKey(usernameString)){
 					alertLabel.setText("This username has already been chosen by another user");
