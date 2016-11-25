@@ -175,7 +175,6 @@ public class PartyWindow extends JPanel {
 					// PartyWindow.this.party.downvoteSong(ps);
 					// votesLabel.setText(Integer.toString(ps.getVotes()));
 					sw.client.sendVotesChange(party, partySong, "downvote");
-					// setSongs();
 				}
 
 			});

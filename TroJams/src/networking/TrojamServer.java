@@ -32,7 +32,7 @@ public class TrojamServer extends Thread{
 	private HashMap <String, Party> partyNamesToObjects;
 	private HashMap<String, TrojamServerThread> accountToThreadMap;
 	private int numThreads;
-	
+
 	public TrojamServer(int port) {
 		System.out.println("making new tjs");
 		this.port = port;
@@ -42,7 +42,7 @@ public class TrojamServer extends Thread{
 		partyNamesToObjects = new HashMap<>();
 		this.start();
 	}
-	
+
 	@Override
 	public void run(){
 		try {
@@ -53,31 +53,31 @@ public class TrojamServer extends Thread{
 				System.out.println("new connection from " + socket.getInetAddress());
 				TrojamServerThread newThread = new TrojamServerThread(socket, this, trojamServerThreads.size());
 				trojamServerThreads.add(newThread);
-				
+
 			}
 		} catch (NumberFormatException | IOException e) {
 			System.out.println("io in server "+e.getMessage());
 		}
 	}
-	
+
 //	public void sendToHost(Party p, Message message) {
 //		p.getHost().st.sendMessage(message);
 //	}
-//	
+//
 //	public void sendToGuests(Party p, Message message) {
 //		for (Account act : p.getPartyMembers()) {
 //			act.st.sendMessage(message);
 //		}
 //	}
-	
+
 	public void sendMessageToAll(Message message){
 		//TODO update this to use a vector
 		for (TrojamServerThread currentThread : trojamServerThreads){
 			if (currentThread != null) currentThread.sendMessage(message);
 		}
 	}
-	
-	
+
+
 
 	public void addParty(User user, NewPartyMessage pm) {
 		System.out.println("adding a party");
@@ -105,7 +105,7 @@ public class TrojamServer extends Thread{
 		ResultSet rs = null;
 		try {
 			passwordString = Util.hashPassword(lm.getPassword());
-		
+
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				conn = DriverManager.getConnection("jdbc:mysql://localhost/Trojams?user=root&password=root&userSSL=false");
@@ -169,7 +169,7 @@ public class TrojamServer extends Thread{
 		ResultSet rs = null;
 		try {
 			passwordString = Util.hashPassword(cam.getPassword());
-		
+
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				conn = DriverManager.getConnection("jdbc:mysql://localhost/Trojams?user=root&password=root&userSSL=false");
@@ -205,7 +205,7 @@ public class TrojamServer extends Thread{
 					st.executeUpdate("INSERT INTO Users (Username, Password, First_Name, Last_Name, email, filepath_to_pic) "
 							+ "VALUES ('"+usernameString+"', '"+passwordString+"', '"+ cam.getFirstName()+"', '"
 							+ cam.getLastName()+"', '"+ cam.getEmail()+"', '"+ filepath +"')");
-					
+
 					//saves the file on the machine that is hosting the server
 					accountToThreadMap.put(usernameString, tjs);
 					return true;
@@ -240,7 +240,7 @@ public class TrojamServer extends Thread{
 
 	public void voteOnSong(SongVoteMessage svm) {
 		Party receivedParty = partyNamesToObjects.get(svm.getParty().getPartyName());
-		SongData receivedSong = receivedParty.songList.get(receivedParty.songSet.get(svm.getSong().getName()));
+		SongData receivedSong = receivedParty.partySongList.get(receivedParty.songSet.get(svm.getSong().getName()));
 		if (svm.getName().equals("upvote")) {
 			System.out.println("upvoting a song");
 			receivedParty.upvoteSong(receivedSong);
@@ -313,7 +313,7 @@ public class TrojamServer extends Thread{
 			System.out.println("sending message to update currently playing");
 			sendMessageToParty(p, new PlayNextSongMessage(p, s));
 		}
-		
+
 		sendMessageToParty(partyNamesToObjects.get(asm.partyName), asm);
 	}
 
@@ -359,7 +359,7 @@ public class TrojamServer extends Thread{
 					System.out.println("is null");
 				}
 			}
-			
+
 		}
 	}
 
@@ -373,9 +373,9 @@ public class TrojamServer extends Thread{
 		//sendMessageToParty(p, new AddSongMessage("string", "string", "string"));
 		System.out.println("sending message to update currently playing");
 		sendMessageToParty(p, new PlayNextSongMessage(p, s));
-		
+
 	}
-	
+
 	public static void main (String [] args) {
 		System.out.println("in main of server...");
 		TrojamServer tjs = new TrojamServer(6789);
