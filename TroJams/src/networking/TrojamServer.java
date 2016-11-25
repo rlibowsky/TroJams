@@ -364,7 +364,6 @@ public class TrojamServer extends Thread{
 
 	public void nextSong(String partyName) {
 		System.out.println("in nextSong");
-		System.out.println("hi");
 		Party p = partyNamesToObjects.get(partyName);
 		p.playNextSong();
 		MusicPlayer mp = new MusicPlayer("music/" + p.getSongs().get(0).getName() + ".mp3", p, this);
@@ -376,7 +375,6 @@ public class TrojamServer extends Thread{
 	}
 
 	public static void main (String [] args) {
-		System.out.println("in main of server...");
-		TrojamServer tjs = new TrojamServer(6789);
+		new TrojamServer(6789);
 	}
 }

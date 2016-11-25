@@ -22,7 +22,6 @@ public class TrojamClient extends Thread{
 	private LoginScreenWindow lsw;
 
 	public TrojamClient(String IPAddress, int port) {
-		System.out.println("creating a new client!!!");
 		this.account = null;
 		this.sw = null;
 		try {
