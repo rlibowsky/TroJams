@@ -65,9 +65,7 @@ public class TrojamClient extends Thread{
 	}
 	
 	public void setAccount(Account a) {
-		System.out.println("setting account");
 		this.account = a;
-		
 		try {
 			oos.writeObject(a);
 			oos.flush();
@@ -75,7 +73,6 @@ public class TrojamClient extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("sent stuff");
 		//this.start();
 	}
 	
@@ -137,7 +134,6 @@ public class TrojamClient extends Thread{
 	}
 	
 	public void close(){
-		System.out.println("closing!");
 		try {
 			close = true;
 			s.close();
@@ -173,8 +169,6 @@ public class TrojamClient extends Thread{
 	}
 
 	public void createAccount(User newUser, String password) {
-		System.out.println("sending create account message");
-		
 		try {
 			oos.writeObject(new CreateAccountMessage(newUser, password));
 			oos.flush();
@@ -189,7 +183,6 @@ public class TrojamClient extends Thread{
 		try {
 			oos.writeObject(new SongVoteMessage(voteType, party, partySong));
 			oos.flush();
-			System.out.println("send party song info to serverthread");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -206,7 +199,6 @@ public class TrojamClient extends Thread{
 	}
 
 	public void searchForSong(SearchSongMessage ssm) {
-		System.out.println("sending song message from client");
 		try{
 			oos.writeObject(ssm);
 			oos.flush();
@@ -216,7 +208,6 @@ public class TrojamClient extends Thread{
 	}
 
 	public void addNewSong(SongData songInfo, String partyName) {
-		System.out.println("client just added a new song to the party");
 		try{
 			oos.writeObject(new AddSongMessage("newSong", songInfo, partyName));
 			oos.flush();

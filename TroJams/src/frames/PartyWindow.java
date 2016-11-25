@@ -975,7 +975,6 @@ public class PartyWindow extends JPanel {
 	}
 
 	public void endParty() {
-		System.out.println("HOST HAS ENDED PARTY");
 		cards.remove(sw.endPartyPanel);
 		sw.endPartyPanel = new EndPartyWindow(sw, true);
 		sw.cards.add(sw.endPartyPanel, "end party panel");

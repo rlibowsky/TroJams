@@ -274,7 +274,6 @@ public class SelectionWindow extends JFrame {
 	
 	
 	public void setParties(Vector <Party> parties) {
-		System.out.println("setting parties ... " + parties.size());
 		//swcurrentParties.setListData(parties);
 		//swcurrentParties.removeAll();
 		//Vector <SinglePartyPanel> temp = new Vector <SinglePartyPanel>();
@@ -289,7 +288,6 @@ public class SelectionWindow extends JFrame {
 		
 		for (int i = 0; i < parties.size(); i++) {
 			Party p = parties.get(i);
-			System.out.println("adding a party ... " + p.getPartyName());
 			//model.addElement(spp);
 			addParty(p);
 		}
@@ -339,14 +337,12 @@ public class SelectionWindow extends JFrame {
 		swMainPanel.add(swRightPanel, BorderLayout.CENTER);
 		
 		if(account instanceof User){
-			System.out.println("ACCCOUNT IS A USER!!!!!!!!!!");
 			ProfilePanel profilePanel = new ProfilePanel((User)account, this);
 			profilePanel.setOpaque(false);
 			AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT, profilePanel);
 			swMainPanel.add(profilePanel, BorderLayout.WEST);
 		}
 		else{
-			System.out.println("ACCCOUNT IS NOT A USER!!!!!!!!!!");
 			GuestPanel guestPanel = new GuestPanel();
 			guestPanel.setOpaque(false);
 			guestPanel.setMaximumSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT));
