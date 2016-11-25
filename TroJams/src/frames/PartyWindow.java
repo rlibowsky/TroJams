@@ -102,6 +102,7 @@ public class PartyWindow extends JPanel {
 	public PartyWindow(Party partayTime, SelectionWindow sw) {
 		super();
 		this.party = partayTime;
+		sw.account.p = party;
 		System.out.println(party.getPartyName());
 		this.sw = sw;
 		account = sw.getAccount();
@@ -634,19 +635,20 @@ public class PartyWindow extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (sw.getAccount() instanceof User) {
-					if (((User) sw.getAccount()).isHost()) {
-						// TODO Send message to all user in that party that the
-						// party is over and send them them to the end window
-						// RUTH
-					}
-				} else { // user is not a host
-							// TODO Send message to server that user left the
-							// party
-							// and remove user from and update the party's user
-							// set
-							// Ruth
-				}
+//				if (sw.getAccount() instanceof User) {
+//					if (((User) sw.getAccount()).isHost()) {
+//						// TODO Send message to all user in that party that the
+//						// party is over and send them them to the end window
+//						// RUTH
+//					}
+//				} else { // user is not a host
+//							// TODO Send message to server that user left the
+//							// party
+//							// and remove user from and update the party's user
+//							// set
+//							// Ruth
+//				}
+				sw.client.close();
 				sw.showEndWindow();
 			}
 
@@ -970,6 +972,14 @@ public class PartyWindow extends JPanel {
 
 	public void addSongToQueue() {
 
+	}
+
+	public void endParty() {
+		System.out.println("HOST HAS ENDED PARTY");
+		cards.remove(sw.endPartyPanel);
+		sw.endPartyPanel = new EndPartyWindow(sw, true);
+		sw.cards.add(sw.endPartyPanel, "end party panel");
+		sw.showEndWindow();
 	}
 
 	// public void advanceSong() {

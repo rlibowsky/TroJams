@@ -28,11 +28,13 @@ public class EndPartyWindow extends JPanel {
 	private JButton quitButton, joinAnotherPartyButton;
 	private JPanel thanksPanel, endPartyButtonPanel;
 	private SelectionWindow sw;
+	private boolean endedByHost;
 	
 	
-	public EndPartyWindow (SelectionWindow selectionWindow){
+	public EndPartyWindow (SelectionWindow selectionWindow, boolean endedByHost){
 		this.sw = selectionWindow;
 		this.account = selectionWindow.getAccount();
+		this.endedByHost = endedByHost;
 		initializeComponents();
 		createGUI();
 		addListeners();
@@ -44,7 +46,11 @@ public class EndPartyWindow extends JPanel {
 				thanksLabel = new JLabel("Thanks for Hosting, " + ((User)sw.getAccount()).getFirstName() + "!");
 			}
 			else{
-				thanksLabel = new JLabel("Thanks for Listening, " + ((User)sw.getAccount()).getFirstName() + "!");
+				if (endedByHost) {
+					thanksLabel = new JLabel("The host has ended your party!");
+				} else {
+					thanksLabel = new JLabel("Thanks for Listening, " + ((User)sw.getAccount()).getFirstName() + "!");
+				}
 			}		
 		}
 		else {

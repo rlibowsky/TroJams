@@ -13,6 +13,7 @@ public abstract class Account implements Serializable{
 	
 	//public TrojamServerThread st;
 	private static final long serialVersionUID = 1L;
+	public Party p;
 
 	public Account() {
 	}

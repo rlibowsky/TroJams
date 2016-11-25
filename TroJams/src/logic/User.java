@@ -10,7 +10,6 @@ public class User extends Account{
 	private static final long serialVersionUID = 1L;
 	private String username, firstName, lastName, imageFilePath, email;
 	public ImageIcon userImage;
-	private HashSet <Party> parties;
 	private boolean isHost;
 	public Party hostedParty; //null if user is hosting no parties
 	
@@ -23,7 +22,6 @@ public class User extends Account{
 		}
 		Image image = new ImageIcon(imageFilePath).getImage();
 		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-		this.parties = new HashSet<Party>();
 	}
 	
 	public User(String username, String firstName, String lastName, String imageFilePath) {
@@ -51,13 +49,6 @@ public class User extends Account{
 //	public String getPassword() {
 //		return password;
 //	}
-	
-	//called when a user logs out
-	public void leaveAllParties() {
-		for (Party p : parties) {
-			p.leaveParty(this);
-		}
-	}
 
 	public String getFirstName() {
 		return firstName;
@@ -83,19 +74,12 @@ public class User extends Account{
 		this.userImage = userImage;
 	}
 
-	public HashSet<Party> getParties() {
-		return parties;
-	}
-
-	public void setParties(HashSet<Party> parties) {
-		this.parties = parties;
-	}
-
 	public Party getHostedParty() {
 		return hostedParty;
 	}
 
 	public void setHostedParty(Party hostedParty) {
+		setHost(true);
 		this.hostedParty = hostedParty;
 	}
 

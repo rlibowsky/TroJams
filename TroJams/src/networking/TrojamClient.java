@@ -20,10 +20,12 @@ public class TrojamClient extends Thread{
 	private ObjectInputStream ois;
 	private SelectionWindow sw;
 	private LoginScreenWindow lsw;
+	private boolean close;
 
 	public TrojamClient(String IPAddress, int port) {
 		this.account = null;
 		this.sw = null;
+		close = false;
 		try {
 			s = new Socket(IPAddress, port);
 			oos = new ObjectOutputStream(s.getOutputStream());
@@ -79,14 +81,17 @@ public class TrojamClient extends Thread{
 	
 	@Override
 	public void run() {
-		while (true){
-			try {
+		try{
+			while(!close) {
 				Object obj = ois.readObject();
 				System.out.println("got message");
 				//handle different types of messages
 				if (obj instanceof StringMessage) {
 					StringMessage message = (StringMessage) obj;
 					parseStringMessage(message);
+				}
+				else if (obj instanceof HostEndingPartyMessage) {
+					sw.endParty();
 				}
 				else if (obj instanceof PlayNextSongMessage) {
 					System.out.println("got a playnextsongmessage");
@@ -117,8 +122,8 @@ public class TrojamClient extends Thread{
 					System.out.println("client received found song message");
 					sw.getPartyWindow().receiveSongInfo((FoundSongMessage)obj);
 				}
-			} catch (ClassNotFoundException | IOException e) {}
-		}
+			} 
+		}catch (ClassNotFoundException | IOException e) {}
 	}
 	
 	public void attemptToLogin(String username, String password){
@@ -129,6 +134,17 @@ public class TrojamClient extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void close(){
+		System.out.println("closing!");
+		try {
+			close = true;
+			s.close();
+			oos.close();
+			ois.close();
+		} catch (IOException e) {}
+		
 	}
 	
 	public void sendNewPartyMessage(NewPartyMessage npm) {

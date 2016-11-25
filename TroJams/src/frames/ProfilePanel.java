@@ -74,15 +74,15 @@ class ProfilePanel extends JPanel{
 		userHistorySP.setViewportBorder( border );
 		userHistorySP.setBorder( border );
 		
-		if(user.getParties().isEmpty()){
-			partiesTextArea.append("Looks like you haven't joined a party yet. Are you a CS student? You really should talk to Jeffrey Miller about giving you some easier assignments");
-		}
+//		if(user.getParties().isEmpty()){
+//			partiesTextArea.append("Looks like you haven't joined a party yet. Are you a CS student? You really should talk to Jeffrey Miller about giving you some easier assignments");
+//		}
 		
-		else{
-			for(Party p : user.getParties()){
-				partiesTextArea.append(p.getPartyName() + "\n\n");
-			}
-		}
+//		else{
+//			for(Party p : user.getParties()){
+//				partiesTextArea.append(p.getPartyName() + "\n\n");
+//			}
+//		}
 		
 		logout = new JButton();
 		ImageIcon logoutButtonImage = new ImageIcon("images/button_log-out.png");

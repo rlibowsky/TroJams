@@ -60,12 +60,15 @@ public class SelectionWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private JPanel swMainPanel, cards;
+	private JPanel swMainPanel;
+
+	JPanel cards;
 	private JList<SinglePartyPanel> swcurrentParties;
 	private JButton createAPartyButton;
 	private JScrollPane partyScrollPane;
+	public JPanel endPartyPanel;
 
-	private Account account;
+	Account account;
 	
 	private JPanel cpwMainPanel, cpwTopPanel, cpwBottomPanel, cpwRadioButtonPanel;
 	private JLabel dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6;
@@ -83,7 +86,7 @@ public class SelectionWindow extends JFrame {
 	
 	private DefaultListModel <SinglePartyPanel> model;
 	
-	private CardLayout cl;
+	public CardLayout cl;
 	
 	private JPanel pwMainPanel;
 	private JLabel pwUsernameLabel, pwNameLabel, profileLabel, profileIconLabel;
@@ -217,7 +220,7 @@ public class SelectionWindow extends JFrame {
 		AppearanceSettings.setNotOpaque(swMainPanel, cards);
 		//createPWPanel();
 //		addSongPanel = createAddSongPanel();
-		JPanel endPartyPanel = new EndPartyWindow(this);
+		endPartyPanel = new EndPartyWindow(this, false);
 		cards.add(swMainPanel, "selection window");
 		cards.add(cpwMainPanel, "create party window");
 		cards.add(endPartyPanel, "end party panel");
@@ -539,6 +542,7 @@ public class SelectionWindow extends JFrame {
 					String password = cpwPasswordTextField.getText();
 					p = new PrivateParty(pName, password, (User)account, imageFilePath);
 				}
+				((User) account).setHostedParty(p);
 				String password = "";
 				if (cpwPrivateRadioButton.isSelected()) {
 					password = cpwPasswordTextField.getText();
@@ -841,6 +845,11 @@ public class SelectionWindow extends JFrame {
 	
 	public PartyWindow getPartyWindow(){
 		return pw;
+	}
+
+	public void endParty() {
+		pw.endParty();
+		
 	}
 	
 	//CITE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JScrollPane/Create_custom_JScrollBar_for_JScrollPane.htm

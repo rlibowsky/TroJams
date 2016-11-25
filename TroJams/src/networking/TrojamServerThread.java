@@ -15,12 +15,14 @@ public class TrojamServerThread extends Thread{
 	private ObjectInputStream ois;
 	private Account account;
 	private int threadNum;
+	private boolean close;
 	
 	public TrojamServerThread(Socket socket, TrojamServer trojamServer, int numThreads) {
 		this.socket = socket;
 		this.trojamServer = trojamServer;
 		this.account = null;
 		this.threadNum = numThreads;
+		this.close = false;
 		try {
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.flush();
@@ -39,7 +41,7 @@ public class TrojamServerThread extends Thread{
 	@Override
 	public void run(){
 		try {
-			while (true){
+			while (!close){
 				Object obj = ois.readObject();
 				 if (obj instanceof Account) {
 					 System.out.println("received account");
@@ -59,7 +61,9 @@ public class TrojamServerThread extends Thread{
 					System.out.println("new party received by serverthread");
 					NewPartyMessage pm = (NewPartyMessage) obj;
 					User user = (User) account;
+					user.setHost(true);
 					trojamServer.addParty(user, pm);
+					user.p = trojamServer.partyNamesToObjects.get(pm.getPartyName());
 				} 
 				else if (obj instanceof NewPartierMessage) {
 					trojamServer.addPartyGuest((NewPartierMessage) obj);
@@ -91,9 +95,35 @@ public class TrojamServerThread extends Thread{
 			}
 		} 
 		catch (ClassNotFoundException e) {}
-		catch (IOException e) {}
+		catch (IOException e) {
+			System.out.println("ioexception");
+			try {
+				System.out.println("in here");
+				if (account instanceof User) {
+					System.out.println("account is a user");
+					User u = (User) account;
+					if (u.isHost()) {
+						System.out.println("host left");
+						trojamServer.hostLeft(this);
+					}
+				} else {
+					System.out.println("client left");
+					trojamServer.clientLeft(this);
+				}
+				this.close();
+			} catch (IOException e1) {
+				System.out.println("exception in client leaving in server thread");
+			}
+		}
 	}
 	
+	private void close() throws IOException {
+		System.out.println("closing serverthread");
+		oos.close();
+		ois.close();
+		close = true;
+	}
+
 	public void sendMessage(Message message){
 		try {
 			System.out.println("sending a message with name : " + message.getName());
