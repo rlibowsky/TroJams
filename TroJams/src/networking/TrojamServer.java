@@ -34,7 +34,6 @@ public class TrojamServer extends Thread{
 	private int numThreads;
 
 	public TrojamServer(int port) {
-		System.out.println("making new tjs");
 		this.port = port;
 		this.parties = new Vector <Party> ();
 		trojamServerThreads = new Vector <TrojamServerThread>();

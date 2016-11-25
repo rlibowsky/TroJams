@@ -97,6 +97,13 @@ public abstract class Party implements Serializable{
 		int loc = songSet.get(song.getName());
 		System.out.println("loc is ..." + loc);
 		partySongList.get(loc).upvote();
+		
+		System.out.println("loc is " + loc);
+		//if already at first location, do nothing
+		if (loc == 0) {
+			return;
+		}
+		
 		//look at the indices before in the array and keep swapping while the
 		//number of votes of loc - 1 is less than the number of votes of song
 		while (loc > 1 && partySongList.get(loc - 1).getVotes() < partySongList.get(loc).getVotes()) {
@@ -112,6 +119,11 @@ public abstract class Party implements Serializable{
 	public void downvoteSong(SongData song) {
 		int loc = songSet.get(song.getName());
 		partySongList.get(loc).downvote();
+		System.out.println("loc is " + loc);
+		//if already at last location, do nothing
+		if (loc == partySongList.size() -1) {
+			return;
+		}
 		//look at the indices after in the array and keep swapping while the
 		//number of votes of loc + 1 is greater than the number of votes of song
 		while (loc < partySongList.size() && partySongList.get(loc + 1).getVotes() > partySongList.get(loc).getVotes()) {
