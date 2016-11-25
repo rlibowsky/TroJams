@@ -1,5 +1,7 @@
 # CS 201 Student Repository
 
+DigitalOcean Droplet IP: 107.170.232.140
+
 **Hunter Hurja**
   - **USC ID**: 2049410015
   - **Email**: hurja@usc.edu
