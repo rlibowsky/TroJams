@@ -41,6 +41,7 @@ import javax.swing.SwingUtilities;
 
 import com.sun.javafx.application.PlatformImpl;
 
+import frames.PartyWindow.SingleSongPanel;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.JFXPanel;
@@ -129,12 +130,15 @@ public class PartyWindow extends JPanel {
 		SongData partySong;
 		private JButton upvoteButton, downvoteButton;
 		private JLabel votesLabel, songNameLabel, artistLabel, albumImageLabel;
+		private JPanel songAndArtistPanel;
 		private ImageIcon albumImage;
 
 		public SingleSongPanel(SongData ps) {
 			AppearanceSettings.setSize(600, 100, this);
 			partySong = ps;
-			setLayout(new GridLayout(1, 6));
+			//setLayout(new GridLayout(1, 5));
+			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+			//setLayout(new FlowLayout());
 			 URL url;
 			try {
 				url = new URL(ps.getImageURL());
@@ -153,6 +157,8 @@ public class PartyWindow extends JPanel {
 
 			songNameLabel = new JLabel(ps.getName());
 			artistLabel = new JLabel(ps.getArtist());
+			songAndArtistPanel = new JPanel();
+			songAndArtistPanel.setLayout(new BoxLayout(songAndArtistPanel, BoxLayout.Y_AXIS));
 
 			upvoteButton = new JButton();
 
@@ -191,7 +197,7 @@ public class PartyWindow extends JPanel {
 
 			AppearanceSettings.setForeground(Color.white, songNameLabel, votesLabel);
 			AppearanceSettings.setForeground(Color.white, currentSongName, currentSongTime, currentlyPlayingLabel);
-			AppearanceSettings.setSize(100, 40, songNameLabel, votesLabel);
+			AppearanceSettings.setSize(180, 40, songNameLabel, votesLabel);
 			// , currentSongName, currentSongTime, currentlyPlayingLabel);
 			// AppearanceSettings.setBackground(AppearanceConstants.mediumGray,
 			// songNameLabel, votesLabel, songList, upvoteButton,
@@ -205,14 +211,15 @@ public class PartyWindow extends JPanel {
 					currentlyPlayingLabel);
 			revalidate();
 			this.setOpaque(false);
-			AppearanceSettings.setNotOpaque(songNameLabel, albumImageLabel, artistLabel, upvoteButton, downvoteButton, votesLabel);
+			AppearanceSettings.setNotOpaque(songNameLabel, songAndArtistPanel, albumImageLabel, artistLabel, upvoteButton, downvoteButton, votesLabel);
 			upvoteButton.setContentAreaFilled(false);
 			downvoteButton.setContentAreaFilled(false);
 			upvoteButton.setBorderPainted(false);
 			downvoteButton.setBorderPainted(false);
+			songAndArtistPanel.add(songNameLabel);
+			songAndArtistPanel.add(artistLabel);
 			add(albumImageLabel);
-			add(songNameLabel);
-			add(artistLabel);
+			add(songAndArtistPanel);
 			add(upvoteButton);
 			add(downvoteButton);
 			add(votesLabel);
