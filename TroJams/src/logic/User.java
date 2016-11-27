@@ -20,8 +20,11 @@ public class User extends Account{
 		if (imageFilePath == null) {
 			imageFilePath = "images/silhouette.png";
 		}
-		Image image = new ImageIcon(imageFilePath).getImage();
-		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+		//To whoever put this code here, I commented it out because a user cannot have an imageIcon
+		//that makes it not serializable and brings up a bunch of errors
+		//I just have getImage() create an image from the filepath and return that
+//		Image image = new ImageIcon(imageFilePath).getImage();
+//		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 	}
 	
 	public User(String username, String firstName, String lastName, String imageFilePath) {
@@ -33,8 +36,8 @@ public class User extends Account{
 		if (imageFilePath == null) {
 			imageFilePath = "images/silhouette.png";
 		}
-		Image image = new ImageIcon(imageFilePath).getImage();
-		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+//		Image image = new ImageIcon(imageFilePath).getImage();
+//		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 	}
 
 	public String getUsername() {
@@ -67,6 +70,8 @@ public class User extends Account{
 	}
 
 	public ImageIcon getUserImage() {
+		Image image = new ImageIcon(imageFilePath).getImage();
+		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 		return userImage;
 	}
 
