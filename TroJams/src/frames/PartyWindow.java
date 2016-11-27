@@ -269,6 +269,7 @@ public class PartyWindow extends JPanel {
 		// Dimension(AppearanceConstants.GUI_WIDTH/4,150));
 		partyLabel.setOpaque(false);
 		Image image = new ImageIcon(party.getImageFilePath()).getImage();
+		System.out.println("CLAIRISSE 2: " + party.getImageFilePath());
 		partyImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 		// hostLabel = new JLabel("Host: " + party.getHostName());
 		// hostLabel.setSize(new Dimension(AppearanceConstants.GUI_WIDTH/4,50));
@@ -346,6 +347,11 @@ public class PartyWindow extends JPanel {
 		partyPeopleScrollPane.setOpaque(false);
 		partyPeopleScrollPane.getViewport().setOpaque(false);
 		partyPeopleScrollPane.setBorder(BorderFactory.createEmptyBorder());
+		
+		for (User u : tempUsers) {
+			System.out.println(u.getUsername());
+		}
+		
 		scrollPanel.add(partyPeopleScrollPane);
 		//
 		// //custom scroll bar
@@ -353,7 +359,7 @@ public class PartyWindow extends JPanel {
 		// MyScrollBarUI());
 		// UIManager.put("ScrollBarUI", "my.package.MyScrollBarUI");
 		//
-		// hostPanel.add(scrollPanel, BorderLayout.CENTER);
+		hostPanel.add(scrollPanel, BorderLayout.CENTER);
 		hostPanel.add(leftButtonPanel, BorderLayout.SOUTH);
 
 		currentlyPlayingPanel = new JPanel();
