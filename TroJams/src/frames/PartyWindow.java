@@ -379,7 +379,7 @@ public class PartyWindow extends JPanel {
 
 		currentlyPlayingLabel = new JLabel("Now Playing: ");
 		spotify_Url = "<iframe width=\"600\" height=\"50\" src=\"https://embed.spotify.com/?uri=spotify:track:7BKLCZ1jbUBVqRi2FVlTVw&theme=white\" frameborder=\"0\" allowtransparency></iframe>";;
-		swingFXWebView = new SwingFXWebView(spotify_Url);
+		//swingFXWebView = new SwingFXWebView(spotify_Url);
 		// Platform.runLater(new Runnable() {
 		// @Override
 		// public void run() {
@@ -401,7 +401,7 @@ public class PartyWindow extends JPanel {
 		currentlyPlayingInfo.add(currentSongName);
 		currentlyPlayingInfo.add(currentSongTime);
 		currentlyPlayingPanel.add(currentlyPlayingLabel);
-		currentlyPlayingPanel.add(swingFXWebView);
+		//currentlyPlayingPanel.add(swingFXWebView);
 		currentlyPlayingPanel.add(currentlyPlayingInfo);
 		currentlyPlayingPanelWithImage.add(currentlyPlayingImageLabel);
 		currentlyPlayingPanelWithImage.add(currentlyPlayingPanel);
