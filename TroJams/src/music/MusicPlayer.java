@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 import logic.Party;
-import networking.TrojamServer;
+import networking.TrojamClient;
 
 public class MusicPlayer extends Thread{
 
@@ -14,14 +14,14 @@ public class MusicPlayer extends Thread{
 	// call method with that song name
 	Player playMP3;
 	Party p;
-	private TrojamServer ts;
-	public MusicPlayer(String filePath, Party p, TrojamServer ts){
+	private TrojamClient tc;
+	public MusicPlayer(String filePath, Party p, TrojamClient tc){
 	    try{
 		    //FileInputStream fis = new FileInputStream("music/sunset_lover.mp3");
 	    	FileInputStream fis = new FileInputStream(filePath);
 	    	System.out.println("Filepath: " + filePath);
 	    	this.p = p;
-	    	this.ts = ts;
+	    	this.tc = tc;
 		    playMP3 = new Player(fis);
 		    
 		    this.start();
@@ -52,7 +52,8 @@ public class MusicPlayer extends Thread{
 			while (true) {
 				if (playMP3.isComplete()) {
 					System.out.println("next song playing");
-					ts.nextSong(p.getPartyName());
+					//ts.nextSong(p.getPartyName());
+					tc.songEnded(p.getPartyName());
 					break;
 				}
 			}

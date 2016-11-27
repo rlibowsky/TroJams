@@ -11,6 +11,7 @@ import logic.Account;
 import logic.Party;
 import logic.PartySong;
 import logic.User;
+import music.MusicPlayer;
 import music.SongData;
 
 public class TrojamClient extends Thread{
@@ -86,6 +87,10 @@ public class TrojamClient extends Thread{
 				if (obj instanceof StringMessage) {
 					StringMessage message = (StringMessage) obj;
 					parseStringMessage(message);
+				}
+				else if (obj instanceof MusicPlayerMessage) {
+					MusicPlayerMessage mpm = (MusicPlayerMessage)obj;
+					MusicPlayer mp = new MusicPlayer("music/" + mpm.getSongName() + ".mp3", mpm.getParty(), this);
 				}
 				else if (obj instanceof HostEndingPartyMessage) {
 					sw.endParty();
@@ -210,6 +215,16 @@ public class TrojamClient extends Thread{
 	public void addNewSong(SongData songInfo, String partyName) {
 		try{
 			oos.writeObject(new AddSongMessage("newSong", songInfo, partyName));
+			oos.flush();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void songEnded(String partyName) {
+		try{
+			oos.writeObject(new RuthMessage("Song", partyName));
 			oos.flush();
 		} catch (IOException e){
 			e.printStackTrace();
