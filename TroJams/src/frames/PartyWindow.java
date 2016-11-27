@@ -255,7 +255,7 @@ public class PartyWindow extends JPanel {
 		refreshButton.setContentAreaFilled(false);
 
 		// buttonsPanel.add(addSongButton, BorderLayout.NORTH);
-		bottomButtonPanel.add(refreshButton);
+		//bottomButtonPanel.add(refreshButton);
 
 		// buttonsPanel.add(addSongButton, BorderLayout.SOUTH);
 		// JPanel topHostPanel = new JPanel();
@@ -314,14 +314,17 @@ public class PartyWindow extends JPanel {
 		leftButtonPanel.add(viewProfileButton);
 		leftButtonPanel.add(leaveButton);
 		leftButtonPanel.setOpaque(false);
-		leftButtonPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, 125));
-
+		//leftButtonPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, 125));
+		leftButtonPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT / 6));
+		
 		hostPanel = new JPanel();
 		hostPanel.setLayout(new FlowLayout());
 		// hostLabel.setOpaque(false);
 		// hostPanel.add(partyLabel);
+		partyLabel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT / 8));
 		hostPanel.add(partyLabel);
 		// hostPanel.add(hostLabel);
+		hostImageLabel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 6));
 		hostPanel.add(hostImageLabel);
 		// hostPanel.add(topHostPanel, BorderLayout.NORTH);
 
@@ -336,14 +339,14 @@ public class PartyWindow extends JPanel {
 		}
 		partyPeopleList = new JList(tempUsers);
 		JPanel scrollPanel = new JPanel();
-		scrollPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, 400));
+		scrollPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 6));
 		scrollPanel.setOpaque(false);
 
-		partyPeopleList = new JList();
+		//partyPeopleList = new JList();
 		partyPeopleList.setOpaque(false);
 		partyPeopleScrollPane = new JScrollPane(partyPeopleList);
 		partyPeopleScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		partyPeopleScrollPane.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, 400));
+		partyPeopleScrollPane.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 6));;
 		partyPeopleScrollPane.setOpaque(false);
 		partyPeopleScrollPane.getViewport().setOpaque(false);
 		partyPeopleScrollPane.setBorder(BorderFactory.createEmptyBorder());
@@ -359,8 +362,8 @@ public class PartyWindow extends JPanel {
 		// MyScrollBarUI());
 		// UIManager.put("ScrollBarUI", "my.package.MyScrollBarUI");
 		//
-		hostPanel.add(scrollPanel, BorderLayout.CENTER);
-		hostPanel.add(leftButtonPanel, BorderLayout.SOUTH);
+		hostPanel.add(scrollPanel);
+		hostPanel.add(leftButtonPanel);
 
 		currentlyPlayingPanel = new JPanel();
 
