@@ -6,7 +6,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import logic.Account;
+import logic.Party;
 import logic.User;
+import music.MusicPlayer;
 
 public class TrojamServerThread extends Thread{
 	private Socket socket;
@@ -143,6 +145,10 @@ public class TrojamServerThread extends Thread{
 	
 	public int getThreadNum(){
 		return threadNum;
+	}
+
+	public void hostPlayNextSong(Party p, String name) {
+		MusicPlayer mp = new MusicPlayer("music/" + name + ".mp3", p, trojamServer);
 	}
 
 }
