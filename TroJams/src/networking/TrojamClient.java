@@ -9,7 +9,6 @@ import frames.LoginScreenWindow;
 import frames.SelectionWindow;
 import logic.Account;
 import logic.Party;
-import logic.PartySong;
 import logic.User;
 import music.MusicPlayer;
 import music.SongData;
