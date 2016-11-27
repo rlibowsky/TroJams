@@ -53,6 +53,11 @@ public class TrojamServerThread extends Thread{
 					System.out.println("received song!");
 					trojamServer.addNewSong((AddSongMessage)obj);
 				}
+				else if (obj instanceof RuthMessage) {
+					System.out.println("ruth message");
+					RuthMessage rm = (RuthMessage) obj;
+					trojamServer.nextSong(rm.getPartyName());
+				}
 				 else if (obj instanceof String) {
 					 String str = (String) obj;
 					 if (str.equals("partyRequest")) {
@@ -148,7 +153,8 @@ public class TrojamServerThread extends Thread{
 	}
 
 	public void hostPlayNextSong(Party p, String name) {
-		MusicPlayer mp = new MusicPlayer("music/" + name + ".mp3", p, trojamServer);
+		MusicPlayerMessage mpm = new MusicPlayerMessage("blah", p, name);
+		sendMessage(mpm);
 	}
 
 }

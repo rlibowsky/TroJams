@@ -533,10 +533,12 @@ public class SelectionWindow extends JFrame {
 				System.out.println("storing image path: " + imageFilePath + " in party");
 				if(cpwPublicRadioButton.isSelected()){
 					p = new PublicParty(pName, (User)account, imageFilePath);
+					System.out.println("CLAIRISSE: " + p.getImageFilePath());
 				}
 				else if(cpwPrivateRadioButton.isSelected()){
 					String password = cpwPasswordTextField.getText();
 					p = new PrivateParty(pName, password, (User)account, imageFilePath);
+					System.out.println("CLAIRISSE: " + p.getImageFilePath());
 				}
 				((User) account).setHostedParty(p);
 				String password = "";
