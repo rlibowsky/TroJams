@@ -507,7 +507,6 @@ public class PartyWindow extends JPanel {
 		System.out.println("setting songs ... ");
 		songList.removeAll();
 		revalidate();
-		repaint();
 		if (receivedParty.getSongs().size() > 0) {
 			this.currentSongName.setText(receivedParty.getSongs().get(0).getName());
 		}
