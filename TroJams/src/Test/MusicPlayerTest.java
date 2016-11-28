@@ -22,7 +22,7 @@ public class MusicPlayerTest extends Thread{
 		    Thread.sleep(5000);
 		    System.out.println("done sleeping");
 		    
-		    //playMP3.close();
+		    playMP3.close();
 //		    while (!playMP3.isComplete()) {
 //		    	
 //		    }
@@ -46,9 +46,13 @@ public class MusicPlayerTest extends Thread{
 		}
 	}
 	
-//	public static void main(String[] args){
-//		MusicPlayerTest m = new MusicPlayerTest();
-//	}
+	public void close(){
+		playMP3.close();
+	}
+	
+	public static void main(String[] args){
+		MusicPlayerTest m = new MusicPlayerTest("music/closer.mp3");
+	}
 }
 
 

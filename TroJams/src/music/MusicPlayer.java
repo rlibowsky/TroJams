@@ -25,20 +25,6 @@ public class MusicPlayer extends Thread{
 		    playMP3 = new Player(fis);
 		    
 		    this.start();
-		    //playMP3.play();
-		    //playMP3.
-		    //Thread.sleep(5000);
-		    //System.out.println("done sleeping");
-		    
-
-		    //playMP3.close();
-//		    while (!playMP3.isComplete()) {
-//		    	
-//		    }
-		    System.out.println("finished");
-//		    FileInputStream fis2 = new FileInputStream("music/closer.mp3");
-//		    Player playMP3_2 = new Player(fis2);
-//		    playMP3_2.play();
 		    
 	    }catch(Exception e){
 	    	System.out.println(e);
@@ -62,6 +48,12 @@ public class MusicPlayer extends Thread{
 		} catch (JavaLayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+	}
+	public void endSong(){
+		if(playMP3 != null){
+			playMP3.close();
 		}
 	}
 	

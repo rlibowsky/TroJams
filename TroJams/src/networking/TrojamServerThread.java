@@ -145,7 +145,7 @@ public class TrojamServerThread extends Thread{
 			oos.flush();
 			System.out.println("message was sent to client");
 		} catch (IOException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			System.out.println("exception in sendMessage in server: " + e.getMessage() + " " + e.getLocalizedMessage());
 		}
 	}
