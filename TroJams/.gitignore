@@ -1,4 +1,3 @@
-/bin/
 *.jar
 nohup.out
 run_server.sh
