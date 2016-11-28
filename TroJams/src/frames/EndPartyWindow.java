@@ -109,6 +109,9 @@ public class EndPartyWindow extends JPanel {
 		
 		joinAnotherPartyButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ae){
+				if (sw.client.getAccount() instanceof User) {
+					((User)sw.client.getAccount()).setHost(false);;
+				}
 				sw.showSelectionWindow();
 			}
 		});

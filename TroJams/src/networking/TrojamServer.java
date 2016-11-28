@@ -358,6 +358,7 @@ public class TrojamServer extends Thread{
 		}
 		else if (msg instanceof HostEndingPartyMessage) {
 			System.out.println("party is " + party);
+			party.getHost().setHost(false);
 			for (Account a : party.getPartyMembers()) {
 				TrojamServerThread currentThread = accountToThreadMap.get(((User)a).getUsername());
 				if (a instanceof User) {
