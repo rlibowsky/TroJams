@@ -49,6 +49,13 @@ public class TrojamClient extends Thread{
 	public void setSelectionWindow(SelectionWindow sw) {
 		System.out.println("setting selection window");
 		this.sw = sw;
+		try {
+			oos.writeObject("guestMessage");
+			oos.flush();
+			System.out.println("guest message sent");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Account getAccount() {

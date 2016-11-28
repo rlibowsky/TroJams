@@ -30,7 +30,7 @@ public class TrojamServer extends Thread{
 	private int port;
 	Vector <Party> parties;
 	public HashMap <String, Party> partyNamesToObjects;
-	private HashMap<String, TrojamServerThread> accountToThreadMap;
+	HashMap<String, TrojamServerThread> accountToThreadMap;
 	private int numThreads;
 
 	public TrojamServer(int port) {

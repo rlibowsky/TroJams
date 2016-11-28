@@ -74,6 +74,11 @@ public class TrojamServerThread extends Thread{
 					 if (str.equals("partyRequest")) {
 						 sendMessage(new AllPartiesMessage("allParties", trojamServer.parties));
 					 }
+					 if (str.equals("guestMessage")) {
+						 System.out.println("guest message");
+						 String name = ((User)this.account).getUsername();
+						 trojamServer.accountToThreadMap.put(name, this);
+					 }
 				 }
 				else if (obj instanceof NewPartyMessage) {
 					System.out.println("new party received by serverthread");

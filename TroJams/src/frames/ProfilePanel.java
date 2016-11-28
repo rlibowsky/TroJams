@@ -102,12 +102,21 @@ class ProfilePanel extends JPanel{
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		//this.add(Box.createVerticalGlue());
 		this.add(profilePanelTitle);
-		this.add(new JLabel(profilePic));
+		JLabel woot = new JLabel(profilePic);
+		this.add(woot);
 		this.add(profileName);
 		this.add(profileUserName);
 		this.add(dummyLabel);
 		//this.add(userHistorySP);
 		this.add(logout);
+		
+		if (sw.client.getAccount().isGuest) {
+			profilePanelTitle.setVisible(false);
+			profileName.setVisible(false);
+			woot.setVisible(false);
+			profileUserName.setVisible(false);
+			dummyLabel.setVisible(false);
+		}
 		this.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT);
 	}
 	
