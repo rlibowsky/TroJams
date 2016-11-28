@@ -64,10 +64,11 @@ public class SelectionWindow extends JFrame {
 	private JPanel swMainPanel;
 
 	JPanel cards;
-	private JList<SinglePartyPanel> swcurrentParties;
+	public JList<SinglePartyPanel> swcurrentParties;
 	private JButton createAPartyButton;
 	private JScrollPane partyScrollPane;
 	public JPanel endPartyPanel;
+	public Party currentParty;
 
 	Account account;
 	
@@ -410,18 +411,19 @@ public class SelectionWindow extends JFrame {
 						String givenPassword = JOptionPane.showInputDialog(SelectionWindow.this, "Please "
 								+ "enter the password for " + party.getPartyName(), "Join "+ party.getPartyName(), 
 								JOptionPane.QUESTION_MESSAGE);
-						PrivateParty pp = (PrivateParty) party;
+						PrivateParty pp = (PrivateParty) currentParty;
 						if (pp.verifyPassword(givenPassword)) {
 							//join party
 							System.out.println("setting party window!!!");
-							SelectionWindow.this.pw = new PartyWindow(party, sw);
+							SelectionWindow.this.pw = new PartyWindow(currentParty, sw);
 							cards.add(pw, "party window");
 							CardLayout cl = (CardLayout) cards.getLayout();
 							cl.show(cards,  "party window");
 							revalidate();
 						}
 					} else {
-						SelectionWindow.this.pw = new PartyWindow(party, sw);
+						System.out.println("setting party window!!!");
+						SelectionWindow.this.pw = new PartyWindow(currentParty, sw);
 						cards.add(pw, "party window");
 						CardLayout cl = (CardLayout) cards.getLayout();
 						cl.show(cards,  "party window");
