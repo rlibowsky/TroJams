@@ -689,7 +689,8 @@ public class PartyWindow extends JPanel {
 //							// set
 //							// Ruth
 //				}
-				sw.client.close();
+				//sw.client.close();
+				sw.client.leaveParty();
 				sw.showEndWindow();
 			}
 
