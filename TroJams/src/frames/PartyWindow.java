@@ -584,8 +584,7 @@ public class PartyWindow extends JPanel {
 			//JPanel PartyProfilePanel = new ProfilePanel((User) account, sw);
 			PartyProfilePanel ppp = new PartyProfilePanel((User) account, sw);
 			ppp.setOpaque(false);
-			ppp
-					.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT));
+			ppp.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT));
 			cards.add(ppp, "profile panel");
 		}
 
@@ -1020,7 +1019,7 @@ public class PartyWindow extends JPanel {
 			partiesTextArea.setOpaque(false);
 			partiesTextArea.setFont(AppearanceConstants.fontSmall);
 			partiesTextArea.setForeground(Color.white);
-			partiesTextArea.append("Party History: \n");
+			//partiesTextArea.append("Party History: \n");
 			partiesTextArea.setLineWrap(true);
 			partiesTextArea.setWrapStyleWord(true);
 			partiesTextArea.setEditable(false);
@@ -1074,14 +1073,15 @@ public class PartyWindow extends JPanel {
 				}
 			});
 			
-			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			//setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			setLayout(new FlowLayout());
 			//this.add(Box.createVerticalGlue());
 			this.add(profilePanelTitle);
 			this.add(new JLabel(profilePic));
 			this.add(profileName);
 			this.add(profileUserName);
 			this.add(dummyLabel);
-			this.add(userHistorySP);
+			//this.add(userHistorySP);
 			this.add(viewParty);
 			this.add(logout);
 			this.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT);

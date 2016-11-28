@@ -62,7 +62,7 @@ class ProfilePanel extends JPanel{
 		partiesTextArea.setOpaque(false);
 		partiesTextArea.setFont(AppearanceConstants.fontSmall);
 		partiesTextArea.setForeground(Color.white);
-		partiesTextArea.append("Party History: \n");
+		//partiesTextArea.append("Party History: \n");
 		partiesTextArea.setLineWrap(true);
 		partiesTextArea.setWrapStyleWord(true);
 		partiesTextArea.setEditable(false);
@@ -106,7 +106,7 @@ class ProfilePanel extends JPanel{
 		this.add(profileName);
 		this.add(profileUserName);
 		this.add(dummyLabel);
-		this.add(userHistorySP);
+		//this.add(userHistorySP);
 		this.add(logout);
 		this.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT);
 	}
