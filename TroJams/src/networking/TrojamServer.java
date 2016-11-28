@@ -365,6 +365,7 @@ public class TrojamServer extends Thread{
 				}
 				if (currentThread != null) {
 					currentThread.sendMessage((HostEndingPartyMessage)msg);
+					currentThread.account.p = null;
 				} else {
 					System.out.println("is null");
 				}

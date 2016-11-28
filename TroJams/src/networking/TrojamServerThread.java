@@ -15,7 +15,7 @@ public class TrojamServerThread extends Thread{
 	private TrojamServer trojamServer;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
-	private Account account;
+	public Account account;
 	private int threadNum;
 	private boolean close;
 	
