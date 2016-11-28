@@ -135,6 +135,9 @@ public class TrojamServerThread extends Thread{
 	public void sendMessage(Message message){
 		try {
 			System.out.println("sending a message with name : " + message.getName());
+			if (this.account instanceof User) {
+				System.out.println("sending message to " + ((User)account).getUsername());
+			}
 			oos.reset();
 			oos.writeObject(message);
 			oos.flush();

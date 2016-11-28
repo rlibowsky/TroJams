@@ -42,6 +42,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import listeners.ExitWindowListener;
 import listeners.TextFieldFocusListener;
 import logic.Account;
 import logic.Party;
@@ -461,8 +462,9 @@ public class SelectionWindow extends JFrame {
 	
 	private void addActionListeners(){
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+		//setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new ExitWindowListener(this, this.client));
 		
 		createAPartyButton.addActionListener(new ActionListener() {
 			@Override
