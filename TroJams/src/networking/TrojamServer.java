@@ -28,7 +28,7 @@ public class TrojamServer extends Thread{
 	private ServerSocket serverSocket;
 	private Vector <TrojamServerThread> trojamServerThreads;
 	private int port;
-	private Vector <Party> parties;
+	Vector <Party> parties;
 	public HashMap <String, Party> partyNamesToObjects;
 	private HashMap<String, TrojamServerThread> accountToThreadMap;
 	private int numThreads;
@@ -255,11 +255,6 @@ public class TrojamServer extends Thread{
 		System.out.println("added guest to party");
 	}
 
-	public void getParties() {
-		System.out.println("sending parties");
-		sendMessageToAll(new AllPartiesMessage("allParties", parties));
-	}
-
 	public FoundSongMessage searchForSong(String songName) {
 		Connection conn = null;
 		Statement st = null;
@@ -400,34 +395,32 @@ public class TrojamServer extends Thread{
 
 	public void hostLeft(TrojamServerThread trojamServerThread) {
 		System.out.println("host has left the party!");
-		
 		//end party :(
-		Party endingParty = trojamServerThread.getAccount().p;
-		System.out.println("ending party " + endingParty.getPartyName());
+		String endingPartyString = trojamServerThread.getAccount().p.getPartyName();
+		Party endingParty = partyNamesToObjects.get(endingPartyString);
+		System.out.println("ending party " + endingPartyString);
 		sendMessageToParty(endingParty, new HostEndingPartyMessage("endingParty"));
-		trojamServerThread.getAccount().p = null;
-		
-		//remove from vector of serverthreads
-				for (int i = 0; i < this.trojamServerThreads.size(); i++) {
-					if (trojamServerThreads.get(i).equals(trojamServerThread)) {
-						System.out.println("removing account ");
-					}
-				}
+		//remove party from parties vector
+		parties.remove(endingParty);
+		partyNamesToObjects.remove(endingParty.getPartyName());
+		sendMessageToAll(new AllPartiesMessage("allParties", parties));
 		
 	}
 
 	public void clientLeft(TrojamServerThread trojamServerThread) {
 		System.out.println("client has left the party!");
+		//remove from party
+		trojamServerThread.getAccount().p.leaveParty(trojamServerThread.getAccount());
+	}
+	
+	public void removeServerThread(String usernameString) {
+		TrojamServerThread trojamServerThread = accountToThreadMap.get(usernameString);
 		//remove from vector of serverthreads
 		for (int i = 0; i < this.trojamServerThreads.size(); i++) {
 			if (trojamServerThreads.get(i).equals(trojamServerThread)) {
 				System.out.println("removing account ");
 			}
 		}
-		//remove from party
-		trojamServerThread.getAccount().p.leaveParty(trojamServerThread.getAccount());
 		trojamServerThread.getAccount().p = null;
-		
-		
 	}
 }

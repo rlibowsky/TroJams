@@ -61,7 +61,7 @@ public class TrojamServerThread extends Thread{
 				 else if (obj instanceof String) {
 					 String str = (String) obj;
 					 if (str.equals("partyRequest")) {
-						 trojamServer.getParties();
+						 sendMessage(new AllPartiesMessage("allParties", trojamServer.parties));
 					 }
 				 }
 				else if (obj instanceof NewPartyMessage) {

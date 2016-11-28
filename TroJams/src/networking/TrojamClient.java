@@ -21,6 +21,7 @@ public class TrojamClient extends Thread{
 	private SelectionWindow sw;
 	private LoginScreenWindow lsw;
 	private boolean close;
+	private MusicPlayer mp;
 
 	public TrojamClient(String IPAddress, int port) {
 		this.account = null;
@@ -89,7 +90,7 @@ public class TrojamClient extends Thread{
 				}
 				else if (obj instanceof MusicPlayerMessage) {
 					MusicPlayerMessage mpm = (MusicPlayerMessage)obj;
-					MusicPlayer mp = new MusicPlayer("music/" + mpm.getSongName() + ".mp3", mpm.getParty(), this);
+					mp = new MusicPlayer("music/" + mpm.getSongName() + ".mp3", mpm.getParty(), this);
 				}
 				else if (obj instanceof HostEndingPartyMessage) {
 					sw.endParty();
@@ -223,6 +224,7 @@ public class TrojamClient extends Thread{
 
 	public void songEnded(String partyName) {
 		try{
+			System.out.println("client sending a ruthmessage");
 			oos.writeObject(new RuthMessage("Song", partyName));
 			oos.flush();
 		} catch (IOException e){
