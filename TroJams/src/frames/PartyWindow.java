@@ -12,7 +12,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -36,12 +35,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
 import com.sun.javafx.application.PlatformImpl;
 
-import frames.PartyWindow.SingleSongPanel;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.JFXPanel;
@@ -315,7 +317,7 @@ public class PartyWindow extends JPanel {
 		leftButtonPanel.add(leaveButton);
 		leftButtonPanel.setOpaque(false);
 		//leftButtonPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, 125));
-		leftButtonPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT / 8));
+		leftButtonPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT / 7));
 		
 		hostPanel = new JPanel();
 		hostPanel.setLayout(new FlowLayout());
@@ -331,10 +333,10 @@ public class PartyWindow extends JPanel {
 		hostPanel.setOpaque(false);
 
 		Account[] temp = (Account[]) party.getPartyMembers().toArray(new Account[party.getPartyMembers().size()]);
-		Vector<User> tempUsers = new Vector<User>();
+		Vector<String> tempUsers = new Vector<String>();
 		for (Account a : temp) {
 			if (a instanceof User) {
-				tempUsers.add((User) a);
+				tempUsers.add(((User) a).getUsername());
 			}
 		}
 		partyPeopleList = new JList(tempUsers);
@@ -348,14 +350,21 @@ public class PartyWindow extends JPanel {
 		partyPeopleScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		partyPeopleScrollPane.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 8));
 		partyPeopleScrollPane.setOpaque(false);
+		//JViewport viewport = new JViewport();
+		//viewport.setView(new JPanel());
+		//viewport.setOpaque(false);
+		//partyPeopleScrollPane.setViewport(viewport);
 		partyPeopleScrollPane.getViewport().setOpaque(false);
-		partyPeopleScrollPane.setBorder(BorderFactory.createEmptyBorder());
-		
-		for (User u : tempUsers) {
+		//partyPeopleScrollPane.setBorder(BorderFactory.createEmptyBorder());
+		partyPeopleScrollPane.setBorder(null);
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, partyPeopleScrollPane, scrollPanel, partyPeopleList);
+		partyPeopleScrollPane.setOpaque(false);
+		/*for (User u : tempUsers) {
 			System.out.println(u.getUsername());
-		}
-		
+		} */
+		//scrollPanel.setOpaque(false);
 		scrollPanel.add(partyPeopleScrollPane);
+		revalidate();
 		//
 		// //custom scroll bar
 		// partyPeopleScrollPane.getVerticalScrollBar().setUI(new
@@ -364,7 +373,8 @@ public class PartyWindow extends JPanel {
 		//
 		hostPanel.add(scrollPanel);
 		hostPanel.add(leftButtonPanel);
-
+		revalidate();
+		
 		currentlyPlayingPanel = new JPanel();
 
 		Image i = null;
@@ -476,6 +486,17 @@ public class PartyWindow extends JPanel {
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	public static class MyViewport extends JViewport {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public MyViewport() {
+			this.setOpaque(false);
+		}
+	}
+	
 	// create the panel that shows songs in order of votes, called when
 	// partywindow is created
 	// and whenever someone upvotes or downvotes a song
@@ -553,11 +574,12 @@ public class PartyWindow extends JPanel {
 		cards.add(hostPanel, "host panel");
 
 		if (account instanceof User) {
-			JPanel PartyProfilePanel = new ProfilePanel((User) account, sw);
-			PartyProfilePanel.setOpaque(false);
-			PartyProfilePanel
+			//JPanel PartyProfilePanel = new ProfilePanel((User) account, sw);
+			PartyProfilePanel ppp = new PartyProfilePanel((User) account, sw);
+			ppp.setOpaque(false);
+			ppp
 					.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT));
-			cards.add(PartyProfilePanel, "profile panel");
+			cards.add(ppp, "profile panel");
 		}
 
 		add(cards, BorderLayout.WEST);
@@ -803,7 +825,7 @@ public class PartyWindow extends JPanel {
 		centerPanel.add(searchBar);
 		centerPanel.add(returnedSongsScrollPane);
 		centerPanel.add(searchButton);
-		centerPanel.add(searchedSong);
+		//centerPanel.add(searchedSong);
 		// centerPanel.add(searchedSongPanel);
 		// addNewSongButton.setEnabled(false);
 		centerPanel.add(addNewSongButton);
@@ -950,11 +972,116 @@ public class PartyWindow extends JPanel {
 
 	}
 
-	public class PartyProfilePanel extends ProfilePanel {
+	public class PartyProfilePanel extends JPanel {
 		JButton viewParty;
+		
+		private static final long serialVersionUID = 1;
+		
+		ImageIcon profilePic;
+		JLabel profileName, dummyLabel;
+		JLabel profileUserName;
+		User user;
+		JScrollPane userHistorySP;
+		JTextArea partiesTextArea;
+		JButton logout;
+		JLabel profilePanelTitle;
+		
+		public PartyProfilePanel(User user, SelectionWindow sw){
+			this.user = user;
+			profilePic = user.getUserImage();
+			
+			profilePanelTitle = new JLabel("Profile Info:");
+			profilePanelTitle.setForeground(Color.white);
+			AppearanceSettings.setFont(AppearanceConstants.fontLarge, profilePanelTitle);
+			
+			dummyLabel = new JLabel(" ");
+			
+			profileName = new JLabel("Name: " + user.getFirstName() + " " + user.getLastName(), SwingConstants.CENTER);
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileName);
+			profileName.setForeground(Color.white);
+			//profileName.setHorizontalAlignment(SwingConstants.CENTER);
+			//profileName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			
+			profileUserName = new JLabel("Username: " + user.getUsername(), SwingConstants.CENTER);
+			AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileUserName);
+			profileUserName.setForeground(Color.white);
+			//profileUserName.setHorizontalAlignment(SwingConstants.CENTER);
+			//profileUserName.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			
+			partiesTextArea = new JTextArea(5,20);
+			partiesTextArea.setOpaque(false);
+			partiesTextArea.setFont(AppearanceConstants.fontSmall);
+			partiesTextArea.setForeground(Color.white);
+			partiesTextArea.append("Party History: \n");
+			partiesTextArea.setLineWrap(true);
+			partiesTextArea.setWrapStyleWord(true);
+			partiesTextArea.setEditable(false);
+			
+			userHistorySP = new JScrollPane(partiesTextArea);
+			userHistorySP.setOpaque(false);
+			userHistorySP.getViewport().setOpaque(false);
+			Border border = BorderFactory.createEmptyBorder( 0, 0, 0, 0 );
+			userHistorySP.setViewportBorder( border );
+			userHistorySP.setBorder( border );
+			
+//			if(user.getParties().isEmpty()){
+//				partiesTextArea.append("Looks like you haven't joined a party yet. Are you a CS student? You really should talk to Jeffrey Miller about giving you some easier assignments");
+//			}
+			
+//			else{
+//				for(Party p : user.getParties()){
+//					partiesTextArea.append(p.getPartyName() + "\n\n");
+//				}
+//			}
+			
+			logout = new JButton();
+			ImageIcon logoutButtonImage = new ImageIcon("images/button_log-out.png");
+			logout.setIcon(logoutButtonImage);
+			logout.setOpaque(false);
+			logout.setBorderPainted(false);
+			logout.setContentAreaFilled(false);
+			
+			logout.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new LoginScreenWindow(sw.getClient()).setVisible(true);
+					sw.dispose();
+				}
+			});
+			
+			viewParty = new JButton();
+			ImageIcon viewPartyImage = new ImageIcon("images/button_view-party-info.png");
+			viewParty.setIcon(viewPartyImage);
+			viewParty.setOpaque(false);
+			viewParty.setBorderPainted(false);
+			viewParty.setContentAreaFilled(false);
+			viewParty.setSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, 50));
+			viewParty.setAlignmentX(this.CENTER_ALIGNMENT);
 
-		PartyProfilePanel(User user, SelectionWindow sw) {
-			super(user, sw);
+			viewParty.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					CardLayout cl = (CardLayout) cards.getLayout();
+					cl.show(cards, "host panel");
+				}
+			});
+			
+			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			//this.add(Box.createVerticalGlue());
+			this.add(profilePanelTitle);
+			this.add(new JLabel(profilePic));
+			this.add(profileName);
+			this.add(profileUserName);
+			this.add(dummyLabel);
+			this.add(userHistorySP);
+			this.add(viewParty);
+			this.add(logout);
+			this.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT);
+		}
+
+		/*PartyProfilePanel(User user, SelectionWindow sw) {
+			super();
+			//super(user, sw);
 			viewParty = new JButton();
 			ImageIcon viewPartyImage = new ImageIcon("images/button_view-party-info.png");
 			viewParty.setIcon(viewPartyImage);
@@ -972,7 +1099,7 @@ public class PartyWindow extends JPanel {
 				}
 			});
 			this.add(viewParty);
-		}
+		} */
 	}
 
 	public void addSongToPanel(String songName) {
