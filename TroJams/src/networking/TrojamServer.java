@@ -253,7 +253,7 @@ public class TrojamServer extends Thread{
 	public void addPartyGuest(NewPartierMessage npm) {
 		partyNamesToObjects.get(npm.getPartyName()).addAccount(npm.getAccount());
 		System.out.println("added guest to party");
-		accountToThreadMap.get(((User)npm.getAccount()).getUsername()).sendMessage(new SongVoteMessage("svm", this.partyNamesToObjects.get(npm.getPartyName()), null));
+		//accountToThreadMap.get(((User)npm.getAccount()).getUsername()).sendMessage(new SongVoteMessage("svm", this.partyNamesToObjects.get(npm.getPartyName()), null));
 	}
 
 	public FoundSongMessage searchForSong(String songName) {

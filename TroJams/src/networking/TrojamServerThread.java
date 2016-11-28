@@ -87,6 +87,8 @@ public class TrojamServerThread extends Thread{
 					NewPartierMessage npm = (NewPartierMessage) obj;
 					trojamServer.addPartyGuest(npm);
 					account.p = trojamServer.partyNamesToObjects.get(npm.getPartyName());
+					System.out.println("number of songs in party being sent of new partier = " + account.p.getSongs().size());
+					sendMessage(new UpdatePartyMessage(account.p));
 					
 				} 
 				else if (obj instanceof LoginMessage) {

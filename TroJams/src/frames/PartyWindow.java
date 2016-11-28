@@ -867,7 +867,11 @@ public class PartyWindow extends JPanel {
 		Party receivedParty = svm.getParty();
 		// PartyWindow.this.party.upvoteSong(receivedSong);
 		setSongs(receivedParty);
-	};
+	}
+	
+	public void updatePartyPanelForReturningGuest(Party p){
+		setSongs(p);
+	}
 
 	// public static void main(String [] args) {
 	// User user = new User("testUsername", "Adam", "Moffitt",

@@ -405,13 +405,7 @@ public class SelectionWindow extends JFrame {
 					//create a new client for that party
 					
 					//let the server know that the party has a new guest
-					client.addNewPartier(party.getPartyName());
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					
 					if (!isPublic) {
 						String givenPassword = JOptionPane.showInputDialog(SelectionWindow.this, "Please "
 								+ "enter the password for " + party.getPartyName(), "Join "+ party.getPartyName(), 
@@ -434,6 +428,7 @@ public class SelectionWindow extends JFrame {
 						cl.show(cards,  "party window");
 						revalidate();
 					}
+					client.addNewPartier(party.getPartyName());
 					
 				}	
 			});
@@ -850,6 +845,14 @@ public class SelectionWindow extends JFrame {
 		}
 	}
 	
+	public void updatePanel(Party party) {
+		System.out.println("#HunterRox");
+		if (pw != null) {
+			System.out.println();
+			this.pw.updatePartyPanelForReturningGuest(party);
+		}
+	}
+	
 	public PartyWindow getPartyWindow(){
 		return pw;
 	}
@@ -858,6 +861,7 @@ public class SelectionWindow extends JFrame {
 		pw.endParty();
 		
 	}
+
 	
 	//CITE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JScrollPane/Create_custom_JScrollBar_for_JScrollPane.htm
 //	public class MyScrollBarUI extends BasicScrollBarUI {

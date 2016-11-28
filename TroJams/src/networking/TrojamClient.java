@@ -111,6 +111,11 @@ public class TrojamClient extends Thread{
 					System.out.println("client has received song message!");
 					this.sw.sendSongVoteUpdate((SongVoteMessage) obj);
 				} 
+				else if (obj instanceof UpdatePartyMessage){
+					System.out.println("Received update party message");
+					System.out.println("num songs received by client = " + ((UpdatePartyMessage) obj).getParty().getSongs().size());
+					this.sw.updatePanel(((UpdatePartyMessage) obj).getParty());
+				}
 				else if (obj instanceof PartyMessage) {
 					PartyMessage pm = (PartyMessage) obj;
 					sw.addNewParty(pm.getParty());
