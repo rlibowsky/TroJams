@@ -53,12 +53,12 @@ public class TrojamServerThread extends Thread{
 				 else if (obj instanceof LeavePartyMessage) {
 					 LeavePartyMessage lpm = (LeavePartyMessage) obj;
 					 if (lpm.isHost()) {
-							System.out.println("host left");
-							trojamServer.hostLeft(this);
-					} else {
+						System.out.println("host left");
+						trojamServer.hostLeft(this);
+					 } else {
 						System.out.println("partygoer left");
 						trojamServer.clientLeft(this);
-					}
+					 }
 				 }
 				 else if (obj instanceof AddSongMessage) {
 					System.out.println("received song!");
