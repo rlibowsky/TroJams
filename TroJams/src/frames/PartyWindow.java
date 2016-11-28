@@ -340,6 +340,9 @@ public class PartyWindow extends JPanel {
 			}
 		}
 		partyPeopleList = new JList(tempUsers);
+		for (String u : tempUsers) {
+		System.out.println(u);
+	} 
 		JPanel scrollPanel = new JPanel();
 		scrollPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 8));
 		scrollPanel.setOpaque(false);
