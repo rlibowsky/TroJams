@@ -507,11 +507,16 @@ public class PartyWindow extends JPanel {
 		System.out.println("setting songs ... ");
 		songList.removeAll();
 		revalidate();
+		repaint();
+		if (receivedParty.getSongs().size() > 0) {
+			this.currentSongName.setText(receivedParty.getSongs().get(0).getName());
+		}
 		for (int i = 1; i < receivedParty.getSongs().size(); i++) {
 			songList.add(new SingleSongPanel(receivedParty.getSongs().get(i)));
 			System.out.println("adding song " + receivedParty.getSongs().get(i).getName());
 		}
 		revalidate();
+		repaint();
 		// System.out.println("in setsongs");
 		// if (songList != null) {
 		// songList.removeAll();
