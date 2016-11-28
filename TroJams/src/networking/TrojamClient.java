@@ -22,6 +22,7 @@ public class TrojamClient extends Thread{
 	private LoginScreenWindow lsw;
 	private boolean close;
 	private MusicPlayer mp;
+	private Party p;
 
 	public TrojamClient(String IPAddress, int port) {
 		this.account = null;

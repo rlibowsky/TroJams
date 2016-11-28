@@ -112,6 +112,10 @@ public class PartyWindow extends JPanel {
 		initializeComponents();
 		createGUI();
 		addListeners();
+//		if (party.getSongs().size() > 1) {
+//			sw.client.sendVotesChange(partayTime, party.getSongs().get(1), "upvote");
+//			sw.client.sendVotesChange(partayTime, party.getSongs().get(1), "downvote");
+//		}
 	}
 
 	// plays next song in party and updates display to show current song name

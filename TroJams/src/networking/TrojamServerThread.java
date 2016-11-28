@@ -87,6 +87,7 @@ public class TrojamServerThread extends Thread{
 					NewPartierMessage npm = (NewPartierMessage) obj;
 					trojamServer.addPartyGuest(npm);
 					account.p = trojamServer.partyNamesToObjects.get(npm.getPartyName());
+					
 				} 
 				else if (obj instanceof LoginMessage) {
 					System.out.println("login message received by serverthread");
