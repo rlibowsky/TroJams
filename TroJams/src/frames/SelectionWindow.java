@@ -101,6 +101,7 @@ public class SelectionWindow extends JFrame {
 		this.account = account;
 		sw = this;
 		this.client = client;
+		client.setSelectionWindow(this);
 //		if (currentParties == null) {
 //			System.out.println("No parties :(");
 //			currentParties = new ArrayList<Party> ();
@@ -157,6 +158,7 @@ public class SelectionWindow extends JFrame {
 		dummyLabel1 = new JLabel();
 		dummyLabel2 = new JLabel();
 		dummyLabel3 = new JLabel("Create a Party!");
+		
 		AppearanceSettings.setFont(AppearanceConstants.fontLarge, dummyLabel3);
 		dummyLabel3.setHorizontalAlignment(JLabel.CENTER);
 	    dummyLabel3.setVerticalAlignment(JLabel.CENTER);
@@ -175,6 +177,7 @@ public class SelectionWindow extends JFrame {
 		cpwCreateButton.setContentAreaFilled(false);
 		cpwCreateButton.setBorderPainted(false);
 		cpwCreateButton.setOpaque(false);
+		
 		cpwBackButton = new JButton();
 		ImageIcon bButtonImage = new ImageIcon("images/button_nah-never-mind.png");
 		cpwBackButton.setIcon(bButtonImage);
@@ -326,10 +329,16 @@ public class SelectionWindow extends JFrame {
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, createAPartyButton);
 		createAPartyButton.setOpaque(true);
 		//topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.PAGE_AXIS));
-		topPanel.add(createAPartyButton);
+		//if (!client.getAccount().isGuest) {
+			topPanel.add(createAPartyButton);
+		//}
 		createAPartyButton.setOpaque(false);
 		createAPartyButton.setContentAreaFilled(false);
 		createAPartyButton.setBorderPainted(false);
+		if (client.getAccount().isGuest) {
+			createAPartyButton.setEnabled(false);
+			createAPartyButton.setText("Log in as a user to create parties");
+		}
 		topPanel.setOpaque(false);
 		AppearanceSettings.setBackground(Color.WHITE, topPanel);
 		topPanel.setOpaque(false);

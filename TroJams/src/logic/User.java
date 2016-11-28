@@ -11,12 +11,10 @@ public class User extends Account{
 	private String username, firstName, lastName, imageFilePath, email;
 	public ImageIcon userImage;
 	private boolean isHost;
-	public boolean isGuest;
 	public Party hostedParty; //null if user is hosting no parties
 	
 	public User(String username, boolean isGuest) {
-		super();
-		this.isGuest = isGuest;
+		super(isGuest);
 		this.username = username;
 		//this.password = password;
 		if (imageFilePath == null) {

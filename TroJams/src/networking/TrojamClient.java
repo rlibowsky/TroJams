@@ -47,6 +47,7 @@ public class TrojamClient extends Thread{
 	}
 	
 	public void setSelectionWindow(SelectionWindow sw) {
+		System.out.println("setting selection window");
 		this.sw = sw;
 	}
 	
@@ -105,7 +106,7 @@ public class TrojamClient extends Thread{
 					sw.sendCurrentlyPlayingUpdate((PlayNextSongMessage) obj);
 				}
 				else if (obj instanceof AllPartiesMessage) {
-					sw.setParties(((AllPartiesMessage) obj).getParties());
+						sw.setParties(((AllPartiesMessage) obj).getParties());
 				}
 				else if (obj instanceof SongVoteMessage) {
 					System.out.println("client has received song message!");

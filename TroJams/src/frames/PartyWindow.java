@@ -864,6 +864,10 @@ public class PartyWindow extends JPanel {
 		// centerPanel.add(searchedSongPanel);
 		// addNewSongButton.setEnabled(false);
 		centerPanel.add(addNewSongButton);
+		if (sw.client.getAccount().isGuest) {
+			addNewSongButton.setEnabled(false);
+			addNewSongButton.setText("Log in as a user to add songs!");
+		}
 		centerPanel.add(dummyPanel2);
 		// centerPanel.add(Box.createVerticalStrut(275));
 		// centerPanel.setPreferredSize(new Dimension(450,400));

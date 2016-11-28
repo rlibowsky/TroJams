@@ -14,8 +14,10 @@ public abstract class Account implements Serializable{
 	//public TrojamServerThread st;
 	private static final long serialVersionUID = 1L;
 	public Party p;
+	public boolean isGuest;
 
-	public Account() {
+	public Account(boolean isGuest) {
+		this.isGuest = isGuest;
 	}
 
 }

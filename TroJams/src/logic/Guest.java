@@ -9,7 +9,7 @@ public class Guest extends Account{
 	private Party party;
 
 	public Guest() {
-		super();
+		super(true);
 	}
 	
 	//called when a guest logs out
