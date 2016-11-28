@@ -163,7 +163,12 @@ public class PartyWindow extends JPanel {
 			}
 
 			songNameLabel = new JLabel(ps.getName());
-			artistLabel = new JLabel(ps.getArtist());
+			String a = ps.getArtist();
+			if(ps.getArtist().length() > 25){
+				a = ps.getArtist().substring(0, Math.min(ps.getArtist().length(), 25));
+				a += "...";
+			}
+			artistLabel = new JLabel(a);
 			songAndArtistPanel = new JPanel();
 			songAndArtistPanel.setLayout(new BoxLayout(songAndArtistPanel, BoxLayout.Y_AXIS));
 
