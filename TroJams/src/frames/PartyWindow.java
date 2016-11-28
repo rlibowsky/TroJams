@@ -374,7 +374,7 @@ public class PartyWindow extends JPanel {
 		// MyScrollBarUI());
 		// UIManager.put("ScrollBarUI", "my.package.MyScrollBarUI");
 		//
-		hostPanel.add(scrollPanel);
+		//hostPanel.add(scrollPanel);
 		hostPanel.add(leftButtonPanel);
 		revalidate();
 		
