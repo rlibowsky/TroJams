@@ -315,7 +315,7 @@ public class PartyWindow extends JPanel {
 		leftButtonPanel.add(leaveButton);
 		leftButtonPanel.setOpaque(false);
 		//leftButtonPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, 125));
-		leftButtonPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT / 6));
+		leftButtonPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT / 8));
 		
 		hostPanel = new JPanel();
 		hostPanel.setLayout(new FlowLayout());
@@ -324,7 +324,7 @@ public class PartyWindow extends JPanel {
 		partyLabel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT / 8));
 		hostPanel.add(partyLabel);
 		// hostPanel.add(hostLabel);
-		hostImageLabel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 6));
+		hostImageLabel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 8));
 		hostPanel.add(hostImageLabel);
 		// hostPanel.add(topHostPanel, BorderLayout.NORTH);
 
@@ -339,14 +339,14 @@ public class PartyWindow extends JPanel {
 		}
 		partyPeopleList = new JList(tempUsers);
 		JPanel scrollPanel = new JPanel();
-		scrollPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 6));
+		scrollPanel.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 8));
 		scrollPanel.setOpaque(false);
 
 		//partyPeopleList = new JList();
 		partyPeopleList.setOpaque(false);
 		partyPeopleScrollPane = new JScrollPane(partyPeopleList);
 		partyPeopleScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		partyPeopleScrollPane.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 6));;
+		partyPeopleScrollPane.setPreferredSize(new Dimension(AppearanceConstants.GUI_WIDTH / 4, AppearanceConstants.GUI_HEIGHT*2 / 8));
 		partyPeopleScrollPane.setOpaque(false);
 		partyPeopleScrollPane.getViewport().setOpaque(false);
 		partyPeopleScrollPane.setBorder(BorderFactory.createEmptyBorder());
