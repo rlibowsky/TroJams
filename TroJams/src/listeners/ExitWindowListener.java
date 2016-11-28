@@ -25,6 +25,7 @@ public class ExitWindowListener extends WindowAdapter{
 //			 System.exit(0);
 //		 }
 		 tc.close();
+		 System.exit(0);
 	 }
 
 }
