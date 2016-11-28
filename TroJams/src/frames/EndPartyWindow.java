@@ -101,6 +101,7 @@ public class EndPartyWindow extends JPanel {
 		quitButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent ae){
+				sw.client.close();
 				sw.dispose();
 				System.exit(0);
 			}
