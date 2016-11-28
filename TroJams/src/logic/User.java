@@ -11,10 +11,12 @@ public class User extends Account{
 	private String username, firstName, lastName, imageFilePath, email;
 	public ImageIcon userImage;
 	private boolean isHost;
+	public boolean isGuest;
 	public Party hostedParty; //null if user is hosting no parties
 	
-	public User(String username) {
+	public User(String username, boolean isGuest) {
 		super();
+		this.isGuest = isGuest;
 		this.username = username;
 		//this.password = password;
 		if (imageFilePath == null) {
@@ -27,8 +29,8 @@ public class User extends Account{
 //		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 	}
 	
-	public User(String username, String firstName, String lastName, String imageFilePath) {
-		this(username);
+	public User(String username, String firstName, String lastName, String imageFilePath, boolean isGuest) {
+		this(username, isGuest);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = "defaultEmail@default.com";

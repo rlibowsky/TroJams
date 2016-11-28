@@ -115,7 +115,7 @@ public class TrojamServer extends Thread{
 				if(rs.next()){
 					System.out.println("found in db");
 					AuthenticatedLoginMessage alm = new AuthenticatedLoginMessage(rs);
-					tjs.setAccount(new User(alm.getUsername(), alm.getfirstName(), alm.getLastName(), alm.getFilepath()));
+					tjs.setAccount(new User(alm.getUsername(), alm.getfirstName(), alm.getLastName(), alm.getFilepath(), false));
 					accountToThreadMap.put(alm.getUsername(), tjs);
 					System.out.println("added serverthread for " + tjs + " " + tjs.getAccount());
 					return new AuthenticatedLoginMessage(rs);

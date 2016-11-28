@@ -319,7 +319,7 @@ public class LoginScreenWindow extends JFrame {
 				//username has not been chosen, send newly created user with username and password to Create Account Window to then 
 				//fill in the rest of the info about the user.
 				else{
-					User newUser = new User(usernameString);
+					User newUser = new User(usernameString, false);
 					CreateAccountWindow caw = new CreateAccountWindow(newUser, passwordString, LoginScreenWindow.this, client); //Pass in user and this GUI so that when the user is created, the 
 						//create account window can call insertUserIntoDB
 					cl = (CardLayout) cards.getLayout();
@@ -336,7 +336,7 @@ public class LoginScreenWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {			
 				//SEND MESSAGE TO SERVER, WAITS TO GET ARRAY OF PARTIES to pass into new selection window
-				Guest g = new Guest();
+				User g = new User("guest" + client.toString(), true);
 				client.setAccount(g);
 				//have selectionWindow take in an instance of account
 				SelectionWindow sw = new SelectionWindow(g, null, client);
@@ -402,7 +402,7 @@ public class LoginScreenWindow extends JFrame {
 	public void attemptLogIn(AuthenticatedLoginMessage alm) {
 		if(alm.isAuthenticated()){
 			System.out.println("authenticated user");
-			User newUser = new User(usernameString, alm.getfirstName(), alm.getLastName(), alm.getFilepath());
+			User newUser = new User(usernameString, alm.getfirstName(), alm.getLastName(), alm.getFilepath(), false);
 			client.setAccount(newUser);
 			SelectionWindow sw = new SelectionWindow(newUser, null, client);
 			client.setSelectionWindow(sw);
