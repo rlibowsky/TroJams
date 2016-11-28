@@ -404,7 +404,6 @@ public class TrojamServer extends Thread{
 		parties.remove(endingParty);
 		partyNamesToObjects.remove(endingParty.getPartyName());
 		sendMessageToAll(new AllPartiesMessage("allParties", parties));
-		
 	}
 
 	public void clientLeft(TrojamServerThread trojamServerThread) {
