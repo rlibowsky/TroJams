@@ -49,7 +49,18 @@ public class TrojamServerThread extends Thread{
 					 System.out.println("received account");
 					this.account = (Account) obj;
 					//this.account.st = this;
-				} else if (obj instanceof AddSongMessage) {
+				} 
+				 else if (obj instanceof LeavePartyMessage) {
+					 LeavePartyMessage lpm = (LeavePartyMessage) obj;
+					 if (lpm.isHost()) {
+							System.out.println("host left");
+							trojamServer.hostLeft(this);
+					} else {
+						System.out.println("partygoer left");
+						trojamServer.clientLeft(this);
+					}
+				 }
+				 else if (obj instanceof AddSongMessage) {
 					System.out.println("received song!");
 					trojamServer.addNewSong((AddSongMessage)obj);
 				}
@@ -106,17 +117,7 @@ public class TrojamServerThread extends Thread{
 			System.out.println("ioexception");
 			try {
 				System.out.println("in here");
-				if (account instanceof User) {
-					System.out.println("account is a user");
-					User u = (User) account;
-					if (u.isHost()) {
-						System.out.println("host left");
-						trojamServer.hostLeft(this);
-					}
-				} else {
-					System.out.println("client left");
-					trojamServer.clientLeft(this);
-				}
+				trojamServer.removeServerThread(((User)account).getUsername());
 				this.close();
 			} catch (IOException e1) {
 				System.out.println("exception in client leaving in server thread");

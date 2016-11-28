@@ -138,6 +138,19 @@ public class TrojamClient extends Thread{
 		}
 	}
 	
+	public void leaveParty() {
+		try {
+			boolean ih = false;
+			if (account instanceof User) {
+				ih = ((User)account).isHost();
+			}
+			oos.writeObject(new LeavePartyMessage("lpm", ih));
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void close(){
 		try {
 			close = true;
