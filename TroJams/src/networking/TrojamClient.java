@@ -94,6 +94,7 @@ public class TrojamClient extends Thread{
 				}
 				else if (obj instanceof HostEndingPartyMessage) {
 					sw.endParty();
+					mp.endSong();
 				}
 				else if (obj instanceof PlayNextSongMessage) {
 					System.out.println("got a playnextsongmessage");
