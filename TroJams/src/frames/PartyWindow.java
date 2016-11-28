@@ -504,7 +504,7 @@ public class PartyWindow extends JPanel {
 	// partywindow is created
 	// and whenever someone upvotes or downvotes a song
 	public void setSongs(Party receivedParty) {
-		System.out.println("setting songs ... ");
+		System.out.println("setting songs ... " + receivedParty.getSongs().size());
 		songList.removeAll();
 		revalidate();
 		if (receivedParty.getSongs().size() > 0) {
@@ -859,7 +859,7 @@ public class PartyWindow extends JPanel {
 	}
 
 	public void sendSongVoteUpdate(SongVoteMessage svm) {
-		System.out.println("received update");
+		System.out.println("received update with party songs " + svm.getParty().getSongs().size());
 		Party receivedParty = svm.getParty();
 		// PartyWindow.this.party.upvoteSong(receivedSong);
 		setSongs(receivedParty);
