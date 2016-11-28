@@ -406,6 +406,12 @@ public class SelectionWindow extends JFrame {
 					
 					//let the server know that the party has a new guest
 					client.addNewPartier(party.getPartyName());
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					if (!isPublic) {
 						String givenPassword = JOptionPane.showInputDialog(SelectionWindow.this, "Please "
 								+ "enter the password for " + party.getPartyName(), "Join "+ party.getPartyName(), 
