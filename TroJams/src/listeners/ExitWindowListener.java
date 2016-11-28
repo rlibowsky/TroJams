@@ -5,6 +5,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
+import logic.User;
 import networking.TrojamClient;
 //pop-up for when user clicks the red X on a frame
 public class ExitWindowListener extends WindowAdapter{
@@ -24,6 +25,11 @@ public class ExitWindowListener extends WindowAdapter{
 //			 if 
 //			 System.exit(0);
 //		 }
+		 if (tc.getAccount() instanceof User) {
+			 //if (((User)tc.getAccount()).isHost()) {
+				tc.leaveParty();
+			 //}
+		 }
 		 tc.close();
 		 System.exit(0);
 	 }
