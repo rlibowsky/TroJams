@@ -416,14 +416,16 @@ public class TrojamServer extends Thread{
 		trojamServerThread.getAccount().p.leaveParty(trojamServerThread.getAccount());
 	}
 	
-	public void removeServerThread(String usernameString) {
-		TrojamServerThread trojamServerThread = accountToThreadMap.get(usernameString);
-		//remove from vector of serverthreads
-		for (int i = 0; i < this.trojamServerThreads.size(); i++) {
-			if (trojamServerThreads.get(i).equals(trojamServerThread)) {
-				System.out.println("removing account ");
-			}
-		}
-		trojamServerThread.getAccount().p = null;
+	public void removeServerThread(TrojamServerThread thread) {
+		trojamServerThreads.remove(thread);
+		
+//		TrojamServerThread trojamServerThread = accountToThreadMap.get(usernameString);
+//		//remove from vector of serverthreads
+//		for (int i = 0; i < this.trojamServerThreads.size(); i++) {
+//			if (trojamServerThreads.get(i).equals(trojamServerThread)) {
+//				System.out.println("removing account ");
+//			}
+//		}
+//		trojamServerThread.getAccount().p = null;
 	}
 }

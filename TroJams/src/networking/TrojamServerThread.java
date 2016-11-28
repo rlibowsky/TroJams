@@ -119,7 +119,7 @@ public class TrojamServerThread extends Thread{
 			System.out.println("ioexception");
 			try {
 				System.out.println("in here");
-				trojamServer.removeServerThread(((User)account).getUsername());
+				trojamServer.removeServerThread(this);
 				this.close();
 			} catch (IOException e1) {
 				System.out.println("exception in client leaving in server thread");
