@@ -83,7 +83,7 @@ public class SelectionWindow extends JFrame {
 	private String imageFilePath;
 	private JFileChooser fileChooser;
 	private JPanel swRightPanel;
-	private PartyWindow pw;
+	public PartyWindow pw;
 	
 	private DefaultListModel <SinglePartyPanel> model;
 	

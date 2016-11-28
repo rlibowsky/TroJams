@@ -694,6 +694,7 @@ public class PartyWindow extends JPanel {
 //				}
 				//sw.client.close();
 				sw.client.leaveParty();
+				sw.pw = null;
 				repaint();
 				sw.showEndWindow();
 			}
