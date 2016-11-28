@@ -409,6 +409,8 @@ public class TrojamServer extends Thread{
 	public void clientLeft(TrojamServerThread trojamServerThread) {
 		System.out.println("client has left the party!");
 		//remove from party
+		System.out.println("serverthread account is " + trojamServerThread.getAccount());
+		System.out.println("serverthread account name is " + trojamServerThread.getAccount().p);
 		trojamServerThread.getAccount().p.leaveParty(trojamServerThread.getAccount());
 	}
 	
