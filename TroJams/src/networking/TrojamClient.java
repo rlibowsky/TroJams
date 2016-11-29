@@ -113,6 +113,12 @@ public class TrojamClient extends Thread{
 					sw.sendCurrentlyPlayingUpdate((PlayNextSongMessage) obj);
 				}
 				else if (obj instanceof AllPartiesMessage) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					if (sw != null) {
 						sw.setParties(((AllPartiesMessage) obj).getParties());
 					}
