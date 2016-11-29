@@ -106,6 +106,7 @@ public class PartyWindow extends JPanel {
 		super();
 		this.party = partayTime;
 		sw.account.p = party;
+		sw.pw = this;
 		System.out.println(party.getPartyName());
 		this.sw = sw;
 		account = sw.getAccount();
@@ -725,9 +726,10 @@ public class PartyWindow extends JPanel {
 //				}
 				//sw.client.close();
 				sw.client.leaveParty();
-				sw.pw = null;
+				
 				repaint();
 				sw.showEndWindow();
+				sw.pw = null;
 			}
 
 		});

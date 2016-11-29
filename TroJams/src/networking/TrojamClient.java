@@ -160,7 +160,8 @@ public class TrojamClient extends Thread{
 		try {
 			boolean ih = false;
 			if (account instanceof User) {
-				ih = ((User)account).isHost();
+				ih = ((User)account).getUsername().equals(account.p.host.getUsername());
+				System.out.println("host is " + ih);
 			}
 			oos.writeObject(new LeavePartyMessage("lpm", ih));
 			oos.flush();
