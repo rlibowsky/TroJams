@@ -481,6 +481,8 @@ public class PartyWindow extends JPanel {
 		searchedSongArtwork = new JLabel();
 		searchedSongPanel = new JPanel();
 		searchBar = new JTextField();
+		
+		try{
 		returnedSongsList = new JList<String>();
 		returnedSongsList.setCellRenderer(new SelectedListCellRenderer());
 		returnedSongsScrollPane = new JScrollPane(returnedSongsList);
@@ -491,7 +493,7 @@ public class PartyWindow extends JPanel {
 		//returnedSongsList.setSelectedIndex(currentLine);
 		returnedSongsList.setSelectionBackground(Color.white);
 		// cards = new JPanel(new CardLayout());
-
+		} catch (Exception e){};
 		songList.setPreferredSize(new Dimension(600, 1000));
 		songList.setOpaque(false);
 		songScrollPane = new JScrollPane(songList);
