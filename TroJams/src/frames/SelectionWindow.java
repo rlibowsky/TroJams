@@ -869,7 +869,6 @@ public class SelectionWindow extends JFrame {
 	public void endParty() {
 		System.out.println("pw is " + pw);
 		pw.endParty();
-		
 	}
 
 	

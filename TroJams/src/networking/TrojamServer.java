@@ -359,19 +359,24 @@ public class TrojamServer extends Thread{
 		}
 		else if (msg instanceof HostEndingPartyMessage) {
 			System.out.println("party is " + party);
-			party.getHost().setHost(false);
+			
 			for (Account a : party.getPartyMembers()) {
 				TrojamServerThread currentThread = accountToThreadMap.get(((User)a).getUsername());
 				if (a instanceof User) {
 					System.out.println("sending message to " + ((User)a).getUsername());
 				}
 				if (currentThread != null) {
-					currentThread.sendMessage((HostEndingPartyMessage)msg);
-					currentThread.account.p = null;
+					try {
+						currentThread.sendMessage((HostEndingPartyMessage)msg);
+						currentThread.account.p = null;
+					} catch (Exception e) {
+						System.out.println("in dat exception!");
+					}
 				} else {
 					System.out.println("is null");
 				}
 			}
+			party.getHost().setHost(false);
 		}
 	}
 
@@ -419,6 +424,9 @@ public class TrojamServer extends Thread{
 	
 	public void removeServerThread(TrojamServerThread thread) {
 		trojamServerThreads.remove(thread);
+		if (thread.account instanceof User) {
+			accountToThreadMap.remove(((User)thread.account).getUsername());
+		}
 		
 //		TrojamServerThread trojamServerThread = accountToThreadMap.get(usernameString);
 //		//remove from vector of serverthreads

@@ -725,11 +725,12 @@ public class PartyWindow extends JPanel {
 //							// Ruth
 //				}
 				//sw.client.close();
+				sw.pw = PartyWindow.this;
+				System.out.println("pw is " + sw.pw);
 				sw.client.leaveParty();
 				
 				repaint();
 				sw.showEndWindow();
-				sw.pw = null;
 			}
 
 		});

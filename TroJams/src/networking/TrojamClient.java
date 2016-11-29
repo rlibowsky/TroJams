@@ -159,7 +159,7 @@ public class TrojamClient extends Thread{
 	public void leaveParty() {
 		try {
 			boolean ih = false;
-			if (account instanceof User) {
+			if ((account instanceof User) && (account.p != null)) {
 				ih = ((User)account).getUsername().equals(account.p.host.getUsername());
 				System.out.println("host is " + ih);
 			}

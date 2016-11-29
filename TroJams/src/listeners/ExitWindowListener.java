@@ -19,6 +19,7 @@ public class ExitWindowListener extends WindowAdapter{
 	}
 	
 	 public void windowClosing(WindowEvent e) {
+		 System.out.println("in closing window event");
 //		 int answer = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, AppearanceConstants.exitIcon);
 //	     
 //		 if (answer == JOptionPane.YES_OPTION){
@@ -27,6 +28,7 @@ public class ExitWindowListener extends WindowAdapter{
 //		 }
 		 if (tc.getAccount() instanceof User) {
 			 //if (((User)tc.getAccount()).isHost()) {
+			 	System.out.println("user is leaving da party");
 				tc.leaveParty();
 			 //}
 		 }
