@@ -22,6 +22,10 @@ import resources.AppearanceSettings;
 //This window is the first thing that the user should see when they start the program
 public class TrojamWelcomeWindow extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;
 	private ImageIcon trojamsImage;
 	private JLabel imageLabel;
@@ -95,8 +99,6 @@ public class TrojamWelcomeWindow extends JFrame{
 				dispose();
 			}
 		});
-
-
 
 	}
 }
