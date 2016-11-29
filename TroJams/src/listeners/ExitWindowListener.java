@@ -29,7 +29,9 @@ public class ExitWindowListener extends WindowAdapter{
 		 if (tc.getAccount() instanceof User) {
 			 //if (((User)tc.getAccount()).isHost()) {
 			 	System.out.println("user is leaving da party");
-				tc.leaveParty();
+			 	if (((User)tc.getAccount()).p != null) {
+			 		tc.leaveParty();
+			 	}
 			 //}
 		 }
 		 tc.close();
