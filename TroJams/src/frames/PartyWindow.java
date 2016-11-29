@@ -8,6 +8,7 @@ import java.awt.CardLayout;
  */
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -481,11 +482,14 @@ public class PartyWindow extends JPanel {
 		searchedSongPanel = new JPanel();
 		searchBar = new JTextField();
 		returnedSongsList = new JList<String>();
+		returnedSongsList.setCellRenderer(new SelectedListCellRenderer());
 		returnedSongsScrollPane = new JScrollPane(returnedSongsList);
 		// AppearanceSettings.setForeground(Color.WHITE, searchBar);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, searchBar, searchedSong);
-		((DefaultListCellRenderer) returnedSongsList.getCellRenderer()).setOpaque(false);
+		((SelectedListCellRenderer) returnedSongsList.getCellRenderer()).setOpaque(false);
 		returnedSongsScrollPane.getViewport().setOpaque(false);
+		//returnedSongsList.setSelectedIndex(currentLine);
+		returnedSongsList.setSelectionBackground(Color.white);
 		// cards = new JPanel(new CardLayout());
 
 		songList.setPreferredSize(new Dimension(600, 1000));
@@ -504,6 +508,17 @@ public class PartyWindow extends JPanel {
 		revalidate();
 
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	public class SelectedListCellRenderer extends DefaultListCellRenderer {
+	     @Override
+	     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+	         Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+	         if (isSelected) {
+	             c.setForeground(Color.red);
+	         }
+	         return c;
+	     }
 	}
 
 	public static class MyViewport extends JViewport {
