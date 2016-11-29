@@ -27,6 +27,7 @@ import java.util.Vector;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -483,7 +484,8 @@ public class PartyWindow extends JPanel {
 		returnedSongsScrollPane = new JScrollPane(returnedSongsList);
 		// AppearanceSettings.setForeground(Color.WHITE, searchBar);
 		AppearanceSettings.setFont(AppearanceConstants.fontSmall, searchBar, searchedSong);
-
+		((DefaultListCellRenderer) returnedSongsList.getCellRenderer()).setOpaque(false);
+		returnedSongsScrollPane.getViewport().setOpaque(false);
 		// cards = new JPanel(new CardLayout());
 
 		songList.setPreferredSize(new Dimension(600, 1000));
@@ -728,7 +730,7 @@ public class PartyWindow extends JPanel {
 				sw.pw = PartyWindow.this;
 				System.out.println("pw is " + sw.pw);
 				sw.client.leaveParty();
-				
+
 				repaint();
 				sw.showEndWindow();
 			}
@@ -830,7 +832,7 @@ public class PartyWindow extends JPanel {
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH / 4, 200, dummyPanel2, returnedSongsList,
 				returnedSongsScrollPane);
 		AppearanceSettings.setForeground(Color.white, addNewSongButton, searchButton, searchedSong);
-		AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, returnedSongsList);
+		AppearanceSettings.setForeground(Color.white, returnedSongsList);
 		// AppearanceSettings.setSize(150, 80, addSongButton, refreshButton,
 		// hostLabel);
 		// AppearanceSettings.setSize(150, 150, hostLabel);
