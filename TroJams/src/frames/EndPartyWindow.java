@@ -127,12 +127,13 @@ public class EndPartyWindow extends JPanel {
 			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
 		};
 
-
+		//for testing purposes
+		/*
 		public static void main(String [] args) {
 			JFrame test = new JFrame();
 			//EndPartyWindow epw = new EndPartyWindow(new SelectionWindow(new User("a", "b"), null));
 			//test.add(epw);
 			test.setSize(1280, 800);
 			test.setVisible(true);
-		}
+		}*/
 }

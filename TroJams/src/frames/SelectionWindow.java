@@ -70,7 +70,7 @@ public class SelectionWindow extends JFrame {
 	public JPanel endPartyPanel;
 
 	Account account;
-	
+
 	private JPanel cpwMainPanel, cpwTopPanel, cpwBottomPanel, cpwRadioButtonPanel;
 	private JLabel dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel4, dummyLabel5, dummyLabel6;
 	private JTextField cpwPartyNameTextField;
@@ -84,28 +84,25 @@ public class SelectionWindow extends JFrame {
 	private JFileChooser fileChooser;
 	private JPanel swRightPanel;
 	public PartyWindow pw;
-	
+
 	private DefaultListModel <SinglePartyPanel> model;
-	
+
 	public CardLayout cl;
-	
+
 	private JPanel pwMainPanel;
 	private JLabel pwUsernameLabel, pwNameLabel, profileLabel, profileIconLabel;
 	private ImageIcon profileIcon;
-	//private ArrayList <Party> currentParties;
+
 	private SelectionWindow sw;
 	public TrojamClient client;
-		
+
 	public SelectionWindow(Account account, ArrayList<Party> parties, TrojamClient client){
 		super("TroJams");
 		this.account = account;
 		sw = this;
 		this.client = client;
 		client.setSelectionWindow(this);
-//		if (currentParties == null) {
-//			System.out.println("No parties :(");
-//			currentParties = new ArrayList<Party> ();
-//		}
+
 		model = new DefaultListModel<>();
 		swcurrentParties = new JList<>(model);
 		swcurrentParties.setLayout(new FlowLayout());
@@ -113,18 +110,17 @@ public class SelectionWindow extends JFrame {
 		createGUI();
 		addActionListeners();
 	}
-	
+
 	public void addNewParty(Party p) {
-		//currentParties.add(p);
 		addParty(p);
 	}
 
 	public TrojamClient getClient() {
 		return this.client;
 	}
-	
+
 	private void initializeComponents(){
-		
+
 		this.setContentPane(new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -134,12 +130,12 @@ public class SelectionWindow extends JFrame {
 				new ImageIcon(image.getScaledInstance(1280, 800, java.awt.Image.SCALE_SMOOTH));
 				g.drawImage(image, 0, 0, 1280, 800, this);
 			}
-		});  	
-		
+		});
+
 		swRightPanel = new JPanel();
 		swRightPanel.setLayout(new BoxLayout(swRightPanel, BoxLayout.PAGE_AXIS));
 		swRightPanel.setOpaque(false);
-		
+
 		swMainPanel = new JPanel();
 		swMainPanel.setLayout(new BorderLayout());
 		createAPartyButton = new JButton();
@@ -149,16 +145,16 @@ public class SelectionWindow extends JFrame {
 		createAPartyButton.setContentAreaFilled(false);
 		createAPartyButton.setBorderPainted(false);
 		cards = new JPanel(new CardLayout());
-		
-		
-		//create party image selection		
+
+
+		//create party image selection
 		cpwMainPanel = new JPanel();
 		cpwTopPanel = new JPanel();
 		cpwBottomPanel = new JPanel();
 		dummyLabel1 = new JLabel();
 		dummyLabel2 = new JLabel();
 		dummyLabel3 = new JLabel("Create a Party!");
-		
+
 		AppearanceSettings.setFont(AppearanceConstants.fontLarge, dummyLabel3);
 		dummyLabel3.setHorizontalAlignment(JLabel.CENTER);
 	    dummyLabel3.setVerticalAlignment(JLabel.CENTER);
@@ -177,28 +173,27 @@ public class SelectionWindow extends JFrame {
 		cpwCreateButton.setContentAreaFilled(false);
 		cpwCreateButton.setBorderPainted(false);
 		cpwCreateButton.setOpaque(false);
-		
+
 		cpwBackButton = new JButton();
 		ImageIcon bButtonImage = new ImageIcon("images/button_nah-never-mind.png");
 		cpwBackButton.setIcon(bButtonImage);
 		cpwBackButton.setContentAreaFilled(false);
 		cpwBackButton.setBorderPainted(false);
 		cpwBackButton.setOpaque(false);
-		
+
 		fileChooser = new JFileChooser();
 		imageText = new JLabel("<html>Click to upload a party picture</html>");
 		imageText.setForeground(Color.white);
 		imageLabel = new JLabel();
-		
+
 		pwMainPanel = new JPanel();
 		pwUsernameLabel = new JLabel();
-		//pwUsernameLabel.setText(user.getUsername());
 		pwUsernameLabel.setText("Username");
 		if (client.getAccount() instanceof User) {
 			pwUsernameLabel.setText(((User)client.getAccount()).getUsername());
 		}
 		pwNameLabel = new JLabel();
-		//pwNameLabel.setText(user.getFirstName() + user.getLastName());
+
 		if (client.getAccount() instanceof User) {
 			pwNameLabel.setText(((User)client.getAccount()).getFirstName() + " " + ((User)client.getAccount()).getLastName());
 		} else {
@@ -212,7 +207,7 @@ public class SelectionWindow extends JFrame {
 		profileIconLabel = new JLabel();
 		profileIconLabel.setIcon(profileIcon);
 	}
-	
+
 	private void createGUI(){
 		setSize(AppearanceConstants.GUI_WIDTH, AppearanceConstants.GUI_HEIGHT);
 		setLocation(100, 100);
@@ -222,25 +217,16 @@ public class SelectionWindow extends JFrame {
 		createCPWMenu();
 		createSWPanel();
 		AppearanceSettings.setNotOpaque(swMainPanel, cards);
-		//createPWPanel();
-//		addSongPanel = createAddSongPanel();
 		endPartyPanel = new EndPartyWindow(this, false);
 		cards.add(swMainPanel, "selection window");
 		cards.add(cpwMainPanel, "create party window");
 		cards.add(endPartyPanel, "end party panel");
-		
-//		EndPartyWindow epw = new EndPartyWindow(new SelectionWindow(user, currentParties));
-//		cards.add(epw, "end party window");
 
-//		add(swMainPanel, BorderLayout.CENTER);
-		
 		add(cards, BorderLayout.CENTER);
-		//add(pwMainPanel, BorderLayout.EAST); 
-		
 		cl = (CardLayout) cards.getLayout();
 		cl.show(cards, "selection window");
 	}
-	
+
 	// creates Profile Window
 	private void createPWPanel() {
 		// Appearance settings for size and opaqueness
@@ -268,70 +254,54 @@ public class SelectionWindow extends JFrame {
 		pwMainPanel.add(pwNameLabel);
 		pwMainPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
 	}
-	
+
 	private void addParty(Party p) {
 		SinglePartyPanel spp = new SinglePartyPanel(p);
-		//model.addElement(spp);
 		swcurrentParties.add(spp);
-		//revalidate();
 	}
-	
-	
+
+
 	public void setParties(Vector <Party> parties) {
-		//swcurrentParties.setListData(parties);
-		//swcurrentParties.removeAll();
-		//Vector <SinglePartyPanel> temp = new Vector <SinglePartyPanel>();
 		swcurrentParties.removeAll();
-		
-		//model.removeAllElements();
-		//model = new DefaultListModel<>();
-		
-		//swcurrentParties.setLayout(new FlowLayout());
-		//swcurrentParties.setVisibleRowCount(10);
+
 		//add parties to list
-		
+
 		for (int i = 0; i < parties.size(); i++) {
 			Party p = parties.get(i);
-			//model.addElement(spp);
 			addParty(p);
 		}
-		//swcurrentParties.setModel(model);
-		//repaint();
 		revalidate();
 	}
-	
+
 	// creates the main panel
 	private void createSWPanel() {
-		
-		
+
+
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH*(4/5), AppearanceConstants.GUI_HEIGHT, swMainPanel);
-		
-		
+
+
 		// getting the panel that holds the scroll pane with parties
 		swcurrentParties.setPreferredSize(new Dimension (600, 1000));
 		swcurrentParties.setOpaque(false);
 		partyScrollPane = new JScrollPane(swcurrentParties);
 		AppearanceSettings.setSize(AppearanceConstants.GUI_WIDTH * (3/4), AppearanceConstants.GUI_HEIGHT, partyScrollPane);
-		partyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
+		partyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		partyScrollPane.setOpaque(false);
 		partyScrollPane.getViewport().setOpaque(false);
 		partyScrollPane.setBorder(BorderFactory.createEmptyBorder());
-		
+
 		//custom scroll bar
 //		partyScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
 //		UIManager.put("ScrollBarUI", "my.package.MyScrollBarUI");
-		
+
 		//partyScrollPane.getVerticalScrollBar().setPreferredSize (new Dimension(0,0));
 		swRightPanel.add(partyScrollPane);
-		
+
 		// getting the panel that holds the "create a party" button
 		JPanel topPanel = new JPanel();
 		AppearanceSettings.setFont(AppearanceConstants.fontMedium, createAPartyButton);
 		createAPartyButton.setOpaque(true);
-		//topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.PAGE_AXIS));
-		//if (!client.getAccount().isGuest) {
 			topPanel.add(createAPartyButton);
-		//}
 		createAPartyButton.setOpaque(false);
 		createAPartyButton.setContentAreaFilled(false);
 		createAPartyButton.setBorderPainted(false);
@@ -342,10 +312,10 @@ public class SelectionWindow extends JFrame {
 		topPanel.setOpaque(false);
 		AppearanceSettings.setBackground(Color.WHITE, topPanel);
 		topPanel.setOpaque(false);
-		
+
 		swRightPanel.add(topPanel);
 		swMainPanel.add(swRightPanel, BorderLayout.CENTER);
-		
+
 		if(account instanceof User){
 			ProfilePanel profilePanel = new ProfilePanel((User)account, this);
 			profilePanel.setOpaque(false);
@@ -356,11 +326,11 @@ public class SelectionWindow extends JFrame {
 			GuestPanel guestPanel = new GuestPanel();
 			guestPanel.setOpaque(false);
 			guestPanel.setMaximumSize(new Dimension(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT));
-			swMainPanel.add(guestPanel, BorderLayout.WEST);	
+			swMainPanel.add(guestPanel, BorderLayout.WEST);
 		}
-		
+
 	}
-	
+
 	public class SinglePartyPanel extends JPanel {
 
 		private static final long serialVersionUID = 1L;
@@ -368,34 +338,31 @@ public class SelectionWindow extends JFrame {
 		private JButton partyButton;
 		private JLabel hostLabel, hostImageLabel;
 		private JLabel partyIconLabel;
-		//private Image partyImageIcon;
 		private boolean isPublic;
-		
+
 		public SinglePartyPanel (Party p) {
-			//AppearanceSettings.setSize(600, 100, this);
 			this.party = p;
 			isPublic = (p instanceof PublicParty);
-			//setLayout(new GridLayout(1,4));
 			this.setOpaque(false);
 			AppearanceSettings.setSize(400, 400, this);
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-			
+
 			partyButton = new JButton("Join: " + party.getPartyName());
 			AppearanceSettings.setSize(200, 50, partyButton);
-			
+
 			Image img1 = new ImageIcon(party.getImageFilePath()).getImage();
 			ImageIcon pimg = new ImageIcon(img1.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
 			partyIconLabel = new JLabel(pimg, JLabel.CENTER);
-			
+
 			Image image = new ImageIcon(party.getHost().getImageFilePath()).getImage();
 			ImageIcon img = new ImageIcon(image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH));
 			hostImageLabel = new JLabel(img, JLabel.CENTER);
-			
+
 			hostLabel = new JLabel("Host: " + party.getHostName());
 			AppearanceSettings.setFont(AppearanceConstants.fontMedium, hostLabel);
 			AppearanceSettings.setSize(200, 50, hostLabel);
 			System.out.println(party.getImageFilePath() + "*************");
-			
+
 			JPanel panel1 = new JPanel();
 			panel1.setLayout(new BoxLayout(panel1, BoxLayout.LINE_AXIS));
 			JPanel panel2 = new JPanel();
@@ -405,19 +372,19 @@ public class SelectionWindow extends JFrame {
 			JPanel panel4 = new JPanel();
 			panel4.setLayout(new BoxLayout(panel4, BoxLayout.LINE_AXIS));
 			AppearanceSettings.setNotOpaque(panel1,panel2,panel3,panel4);
-			
+
 			partyButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					//join that party
 					//switch gui so it shows that party (asking for password if the party is private)
 					//create a new client for that party
-					
+
 					//let the server know that the party has a new guest
-					
+
 					if (!isPublic) {
 						String givenPassword = JOptionPane.showInputDialog(SelectionWindow.this, "Please "
-								+ "enter the password for " + party.getPartyName(), "Join "+ party.getPartyName(), 
+								+ "enter the password for " + party.getPartyName(), "Join "+ party.getPartyName(),
 								JOptionPane.QUESTION_MESSAGE);
 						PrivateParty pp = (PrivateParty) party;
 						if (pp.verifyPassword(givenPassword)) {
@@ -438,8 +405,8 @@ public class SelectionWindow extends JFrame {
 						revalidate();
 					}
 					client.addNewPartier(party.getPartyName());
-					
-				}	
+
+				}
 			});
 			AppearanceSettings.setForeground(Color.white, hostLabel);
 			AppearanceSettings.setForeground(AppearanceConstants.trojamPurple, partyButton);
@@ -449,34 +416,26 @@ public class SelectionWindow extends JFrame {
 			AppearanceSettings.setFont(AppearanceConstants.fontSmall, partyButton, hostLabel);
 
 			AppearanceSettings.addGlue(panel1, BoxLayout.X_AXIS, true, partyIconLabel);
-			//AppearanceSettings.addGlue(panel2, BoxLayout.X_AXIS, true, partyButton);
-			//AppearanceSettings.addGlue(panel3, BoxLayout.X_AXIS, true, hostLabel);
 			panel2.add(partyButton);
 			panel3.add(hostLabel);
 			AppearanceSettings.addGlue(panel4, BoxLayout.X_AXIS, true, hostImageLabel);
 			AppearanceSettings.addGlue(this, BoxLayout.Y_AXIS, true, panel1,panel2,panel3,panel4);
-			
-//			add(partyIconLabel,this.CENTER_ALIGNMENT );
-//			add(partyButton, this.CENTER_ALIGNMENT);
-//			add(hostLabel, this.CENTER_ALIGNMENT);
-//			add(hostImageLabel, this.CENTER_ALIGNMENT);
-			
+
 			Border raisedbevel, loweredbevel;
 			raisedbevel = BorderFactory.createRaisedBevelBorder();
 			loweredbevel = BorderFactory.createLoweredBevelBorder();
 			Border compound = BorderFactory.createCompoundBorder(
                     raisedbevel, loweredbevel);
 			this.setBorder(compound);
-			
+
 		}
 	}
-	
+
 	private void addActionListeners(){
-		
-		//setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(new ExitWindowListener(this, this.client));
-		
+
 		createAPartyButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -484,30 +443,30 @@ public class SelectionWindow extends JFrame {
 				cl.show(cards, "create party window");
 			}
 		});
-		
+
 		//focus listeners for create a party
 		cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
 		cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
-				
+
 		//document listeners for create a party
 		cpwPartyNameTextField.getDocument().addDocumentListener(new MyDocumentListener());
 		cpwPasswordTextField.getDocument().addDocumentListener(new MyDocumentListener());
-				
+
 		cpwPrivateRadioButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			// If private, show password field
-				cpwPasswordTextField.setVisible(true);			
+				cpwPasswordTextField.setVisible(true);
 			// Check if text fields are filled: enable create button
 				if (canPressButtons()) {
 					cpwCreateButton.setEnabled(true);
 				} else {
 					cpwCreateButton.setEnabled(false);
-				}		
+				}
 				revalidate();
 			}
 		});
-				
+
 		cpwPublicRadioButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -522,26 +481,25 @@ public class SelectionWindow extends JFrame {
 				revalidate();
 			}
 		});
-				
+
 		cpwBackButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cl.show(cards, "selection window");		
-				
+				cl.show(cards, "selection window");
+
 				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
 				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
-				
+
 				cpwPublicRadioButton.setSelected(true);
 				cpwPasswordTextField.setVisible(false);
 			}
 		});
-		
+
 		cpwCreateButton.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {	
+			public void actionPerformed(ActionEvent e) {
 				// CHANGE TO PARTY WINDOW
 				String pName = cpwPartyNameTextField.getText();
-//				ImageIcon pImage = (ImageIcon) imageLabel.getIcon();
 				Party p = null;
 				System.out.println("storing image path: " + imageFilePath + " in party");
 				if(cpwPublicRadioButton.isSelected()){
@@ -560,30 +518,26 @@ public class SelectionWindow extends JFrame {
 				}
 				System.out.println("about to send new party info to server");
 				client.sendNewPartyMessage(new NewPartyMessage("newParty", pName, password, imageFilePath));
-				
-				//user.st.createParty(p);
-				
-//				PublicParty testParty = new PublicParty("Test Party", user, pImage);
-//				
+
 				client.addNewPartier(p.getPartyName());
 				SelectionWindow.this.pw = new PartyWindow(p, sw);
 				cards.add(pw, "party window");
 				CardLayout cl = (CardLayout) cards.getLayout();
-				cl.show(cards, "party window");		
-				
+				cl.show(cards, "party window");
+
 				cpwPartyNameTextField.addFocusListener(new TextFieldFocusListener("Party name", cpwPartyNameTextField));
 				cpwPasswordTextField.addFocusListener(new TextFieldFocusListener("Password", cpwPasswordTextField));
-				
+
 				cpwPublicRadioButton.setSelected(true);
 				cpwPasswordTextField.setVisible(false);
-				
+
 				// TODO reset party image and image label
 				imageText.setVisible(true);
 				setPartyImage("images/party-purple.jpg");
 
-			}		
+			}
 		});
-		
+
 		imageLabel.addMouseListener(new MouseAdapter() {
 			 @Override
            public void mouseClicked(MouseEvent e) {
@@ -600,23 +554,23 @@ public class SelectionWindow extends JFrame {
            }
 		});
 	}
-	
 
-	
+
+
 	public void createCPWMenu() {
 		cpwMainPanel.setLayout(new BoxLayout(cpwMainPanel, BoxLayout.Y_AXIS));
-		
+
 		AppearanceSettings.setSize(1280, 50, dummyLabel1, dummyLabel2, dummyLabel3, dummyLabel5, dummyLabel6);
 		AppearanceSettings.setSize(1280, 20, dummyLabel4);
 		AppearanceSettings.setSize(300, 50, cpwPartyNameTextField, cpwPasswordTextField);
 		AppearanceSettings.setSize(1280, 250, cpwTopPanel);
-		
+
 		// Creates top panel with dummy labels so that the text field is at the bottom of the panel
 
 		//file chooser settings
 		fileChooser.setPreferredSize(new Dimension(400, 500));
 		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-		fileChooser.setFileFilter(new FileNameExtensionFilter("IMAGE FILES", "jpeg", "png", "jpg"));		
+		fileChooser.setFileFilter(new FileNameExtensionFilter("IMAGE FILES", "jpeg", "png", "jpg"));
 		setPartyImage("images/party-purple.jpg");
 		JPanel cpwImagePanel = new JPanel();
 		cpwImagePanel.add(imageLabel);
@@ -626,32 +580,30 @@ public class SelectionWindow extends JFrame {
 		cpwTopPanel.add(dummyLabel4);
 		cpwTopPanel.add(cpwPartyNameTextField);
 		cpwMainPanel.add(cpwTopPanel);
-		
+
 		// Makes it so you can only select one button
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(cpwPublicRadioButton);
 		bg.add(cpwPrivateRadioButton);
 		cpwPublicRadioButton.setSelected(true);
-		AppearanceSettings.setFont(AppearanceConstants.fontSmall, cpwPublicRadioButton, 
+		AppearanceSettings.setFont(AppearanceConstants.fontSmall, cpwPublicRadioButton,
 				cpwPrivateRadioButton, imageLabel, cpwPartyNameTextField, cpwPasswordTextField, imageText);
-		
+
 		// Adds radio buttons horizontally
 		cpwRadioButtonPanel.setLayout(new BoxLayout(cpwRadioButtonPanel, BoxLayout.X_AXIS));
 		cpwRadioButtonPanel.setPreferredSize(new Dimension(1280,50));
 		cpwRadioButtonPanel.add(cpwPublicRadioButton);
 		cpwRadioButtonPanel.add(cpwPrivateRadioButton);
 		cpwMainPanel.add(cpwRadioButtonPanel);
-		
+
 		// Creates the bottom panel with password text field and create party button
 		JPanel tempPanel1 = new JPanel();
 		tempPanel1.add(cpwPasswordTextField);
 		cpwPasswordTextField.setVisible(false);
-		//cpwBottomPanel.add(cpwPasswordTextField);
 		cpwBottomPanel.add(tempPanel1);
 		JPanel tempPanel2 = new JPanel();
 		tempPanel2.add(cpwCreateButton);
 		tempPanel2.add(cpwBackButton);
-		//cpwBottomPanel.add(cpwCreateButton);
 		cpwBottomPanel.add(tempPanel2);
 		AppearanceSettings.setNotOpaque(tempPanel1, tempPanel2);
 		cpwMainPanel.add(cpwBottomPanel);
@@ -663,7 +615,7 @@ public class SelectionWindow extends JFrame {
 		AppearanceSettings.setNotOpaque(cpwTopPanel, cpwMainPanel, cpwBottomPanel, cpwRadioButtonPanel);
 		cpwPrivateRadioButton.setForeground(Color.white);
 		cpwPublicRadioButton.setForeground(Color.white);
-		
+
 	}
 
 	private void setPartyImage(String filepath) {
@@ -679,22 +631,9 @@ public class SelectionWindow extends JFrame {
 		} else {
 			cpwCreateButton.setEnabled(false);
 		}
-		
-//		//write image to local file in order to retrieve when user logs in
-//		 BufferedImage image1 = new BufferedImage(200, 200, BufferedImage.TYPE_INT_ARGB);
-//		 File inputFile = new File(filepath);	    
-//		 try {
-//			 image1 = ImageIO.read(inputFile);
-//			 File outputfile = new File("party - " + cpwPartyNameTextField.getText() + ".png");
-//			ImageIO.write(image1, "png", outputfile);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			System.out.println(e.getMessage());
-//		}
 	}
-	
+
 	private boolean canPressButtons() {
-		//usernameTextField, passwordTextField, firstNameTextField, lastNameTextField
 		if (cpwPrivateRadioButton.isSelected()) {
 			if (!cpwPartyNameTextField.getText().equals("Party name") && cpwPartyNameTextField.getText().length() != 0) {
 				if (!cpwPasswordTextField.getText().equals("Password") && cpwPasswordTextField.getText().length() != 0) {
@@ -710,13 +649,13 @@ public class SelectionWindow extends JFrame {
 				}
 			}
 		}
-	
+
 		return false;
 	}
-	
+
 	//sets the buttons enabled or disabled
 	private class MyDocumentListener implements DocumentListener{
-			
+
 		@Override
 		public void insertUpdate(DocumentEvent e) {
 			cpwCreateButton.setEnabled(canPressButtons());
@@ -732,57 +671,31 @@ public class SelectionWindow extends JFrame {
 			cpwCreateButton.setEnabled(canPressButtons());
 		}
 	}
-	
+
 	public Account getAccount() {
 		return this.account;
 	}
 
-//	public static void main(String [] args) {
-//		User user = new User("username");
-//		Image image = new ImageIcon("images/party-purple.jpg").getImage();
-//		ImageIcon tempImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-//		PrivateParty p1 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
-//		PrivateParty p2 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
-//		PublicParty p3 = new PublicParty("party3", user, "images/party-purple.jpg");
-//		PrivateParty p4 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
-//		PrivateParty p5 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
-//		PublicParty p6 = new PublicParty("party3", user, "images/party-purple.jpg");
-//		PrivateParty p7 = new PrivateParty("party1", "password1", user, "images/party-purple.jpg");
-//		PrivateParty p8 = new PrivateParty("party2", "password2", user, "images/party-purple.jpg");
-//		PublicParty p9 = new PublicParty("party3", user, "images/party-purple.jpg");
-//		ArrayList <Party> parties = new ArrayList <Party>();
-//		parties.add(p1);
-//		parties.add(p2);
-//		parties.add(p3);
-//		parties.add(p4);
-//		parties.add(p5);
-//		parties.add(p6);
-//		parties.add(p7);
-//		parties.add(p8);
-//		parties.add(p9);
-//		//new SelectionWindow(user, parties, clien).setVisible(true);
-//		new SelectionWindow(user, parties, null).setVisible(true);
-//	}
-	
-	private class GuestPanel extends JPanel{ 
+
+	private class GuestPanel extends JPanel{
 		ImageIcon profilePic;
 		JLabel profileName, dummyLabel;
 		JButton logout;
 		JTextArea infoTextArea;
 		JScrollPane guestSP;
 		JLabel profilePanelTitle;
-		
+
 		public GuestPanel(){
 			Image image = new ImageIcon("Images/JeffreyMiller-cropped.png").getImage();
 			profilePic = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-			
+
 			profilePanelTitle = new JLabel("Profile Info:");
 			profilePanelTitle.setHorizontalAlignment((int) this.LEFT_ALIGNMENT);
 			profilePanelTitle.setForeground(Color.white);
 			AppearanceSettings.setFont(AppearanceConstants.fontLarge, profilePanelTitle);
-			
+
 			dummyLabel = new JLabel(" ");
-			
+
 			profileName = new JLabel("Guest", SwingConstants.CENTER);
 			AppearanceSettings.setFont(AppearanceConstants.fontMedium, profileName);
 			profileName.setForeground(Color.white);
@@ -795,21 +708,21 @@ public class SelectionWindow extends JFrame {
 			infoTextArea.setLineWrap(true);
 			infoTextArea.setWrapStyleWord(true);
 			infoTextArea.setEditable(false);
-			
+
 			guestSP = new JScrollPane(infoTextArea);
 			guestSP.setOpaque(false);
 			guestSP.getViewport().setOpaque(false);
 			Border border = BorderFactory.createEmptyBorder( 10, 10, 10, 10 );
 			guestSP.setViewportBorder( border );
 			guestSP.setBorder( border );
-			
+
 			logout = new JButton();
 			ImageIcon logoutButtonImage = new ImageIcon("images/button_log-out.png");
 			logout.setIcon(logoutButtonImage);
 			logout.setOpaque(false);
 			logout.setBorderPainted(false);
 			logout.setContentAreaFilled(false);
-			
+
 			logout.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -817,9 +730,8 @@ public class SelectionWindow extends JFrame {
 					dispose();
 				}
 			});
-			
+
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-			//this.add(Box.createVerticalGlue());
 			this.add(profilePanelTitle);
 			this.add(new JLabel(profilePic));
 			this.add(profileName);
@@ -828,19 +740,19 @@ public class SelectionWindow extends JFrame {
 			this.add(logout);
 			this.setSize(AppearanceConstants.GUI_WIDTH/4, AppearanceConstants.GUI_HEIGHT);
 		}
-		
+
 	}
-	
+
 	public void showEndWindow() {
 		CardLayout cl = (CardLayout) cards.getLayout();
 		cl.show(cards, "end party panel");
 	}
-	
+
 	public void showSelectionWindow() {
 		CardLayout cl = (CardLayout) cards.getLayout();
 		cl.show(cards, "selection window");
 	}
-	
+
 	public void sendCurrentlyPlayingUpdate(PlayNextSongMessage psm) {
 		if (pw != null) {
 			pw.updateCurrentlyPlaying(psm);
@@ -853,7 +765,7 @@ public class SelectionWindow extends JFrame {
 			this.pw.sendSongVoteUpdate(svm);
 		}
 	}
-	
+
 	public void updatePanel(Party party) {
 		System.out.println("#HunterRox");
 		if (pw != null) {
@@ -861,7 +773,7 @@ public class SelectionWindow extends JFrame {
 			this.pw.updatePartyPanelForReturningGuest(party);
 		}
 	}
-	
+
 	public PartyWindow getPartyWindow(){
 		return pw;
 	}
@@ -871,12 +783,12 @@ public class SelectionWindow extends JFrame {
 		pw.endParty();
 	}
 
-	
+//FOR CUSTOM SCROLL BAR - DECIDED NOT TO IMPLEMENT
 	//CITE: http://www.java2s.com/Tutorials/Java/Swing_How_to/JScrollPane/Create_custom_JScrollBar_for_JScrollPane.htm
 //	public class MyScrollBarUI extends BasicScrollBarUI {
 //
 //		private final Dimension d = new Dimension();
-//		
+//
 //		  @Override
 //		  protected JButton createDecreaseButton(int orientation) {
 //		    return new JButton() {
@@ -897,7 +809,7 @@ public class SelectionWindow extends JFrame {
 //		    };
 //		  }
 //
-//		  
+//
 //	    @Override
 //	    protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
 //	        // your code
@@ -925,7 +837,7 @@ public class SelectionWindow extends JFrame {
 //	    	    g2.drawRoundRect(r.x, r.y, r.width, r.height, 10, 10);
 //	    	    g2.dispose();
 //	    }
-//	    
+//
 //	    @Override
 //	    protected void setThumbBounds(int x, int y, int width, int height) {
 //	      super.setThumbBounds(x, y, width, height);

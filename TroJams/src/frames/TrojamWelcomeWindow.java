@@ -23,7 +23,7 @@ import resources.AppearanceSettings;
 public class TrojamWelcomeWindow extends JFrame{
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;

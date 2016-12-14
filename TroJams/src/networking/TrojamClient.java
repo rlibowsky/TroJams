@@ -34,18 +34,18 @@ public class TrojamClient extends Thread{
 			//oos.flush();
 			ois = new ObjectInputStream(s.getInputStream());
 			//before we enter the run method, we want to request parties
-			
+
 			this.start();
-			
+
 		} catch (NumberFormatException | IOException e) {
 			System.out.println("yo");
 		}
 	}
-	
+
 	public void receiveLoginScreen(LoginScreenWindow lsw){
 		this.lsw = lsw;
 	}
-	
+
 	public void setSelectionWindow(SelectionWindow sw) {
 		System.out.println("setting selection window");
 		this.sw = sw;
@@ -57,11 +57,11 @@ public class TrojamClient extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Account getAccount() {
 		return account;
 	}
-	
+
 	public void partyRequest() {
 		try {
 			System.out.println("got party request");
@@ -71,9 +71,9 @@ public class TrojamClient extends Thread{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void setAccount(Account a) {
 		this.account = a;
 		try {
@@ -85,7 +85,7 @@ public class TrojamClient extends Thread{
 		}
 		//this.start();
 	}
-	
+
 	@Override
 	public void run() {
 		try{
@@ -126,7 +126,7 @@ public class TrojamClient extends Thread{
 				else if (obj instanceof SongVoteMessage) {
 					System.out.println("client has received song message!");
 					this.sw.sendSongVoteUpdate((SongVoteMessage) obj);
-				} 
+				}
 				else if (obj instanceof UpdatePartyMessage){
 					System.out.println("Received update party message");
 					System.out.println("num songs received by client = " + ((UpdatePartyMessage) obj).getParty().getSongs().size());
@@ -135,12 +135,12 @@ public class TrojamClient extends Thread{
 				else if (obj instanceof PartyMessage) {
 					PartyMessage pm = (PartyMessage) obj;
 					sw.addNewParty(pm.getParty());
-				} 
+				}
 				else if(obj instanceof AuthenticatedLoginMessage){
 					System.out.println("client received loginmessage");
 					AuthenticatedLoginMessage alm = (AuthenticatedLoginMessage) obj;
 					lsw.attemptLogIn(alm);
-				} 
+				}
 				else if(obj instanceof AccountCreatedMessage){
 					System.out.println("client received account created message");
 					AccountCreatedMessage acm = (AccountCreatedMessage) obj;
@@ -150,10 +150,10 @@ public class TrojamClient extends Thread{
 					System.out.println("client received found song message");
 					sw.getPartyWindow().receiveSongInfo((FoundSongMessage)obj);
 				}
-			} 
+			}
 		}catch (ClassNotFoundException | IOException e) {}
 	}
-	
+
 	public void attemptToLogin(String username, String password){
 		try {
 			oos.writeObject(new LoginMessage(username, password));
@@ -163,7 +163,7 @@ public class TrojamClient extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void leaveParty() {
 		try {
 			boolean ih = false;
@@ -177,7 +177,7 @@ public class TrojamClient extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void close(){
 		try {
 			close = true;
@@ -185,9 +185,9 @@ public class TrojamClient extends Thread{
 			oos.close();
 			ois.close();
 		} catch (IOException e) {}
-		
+
 	}
-	
+
 	public void sendNewPartyMessage(NewPartyMessage npm) {
 		try {
 			oos.writeObject(npm);
@@ -202,7 +202,7 @@ public class TrojamClient extends Thread{
 		String name = message.getName();
 		String content = message.getContent();
 		if (name.equals("teamLeft")) {
-			//perform action for when an account leaves the party 
+			//perform action for when an account leaves the party
 		} else if (name.equals("songAdded")) {
 			//perform action for when a song is added to the party
 		} else if (name.equals("songUpvoted")) {
@@ -210,7 +210,7 @@ public class TrojamClient extends Thread{
 		} else if (name.equals("songDownvoted")) {
 			//perform action for when a song is downvoted
 		}
-		
+
 	}
 
 	public void createAccount(User newUser, String password) {
@@ -220,7 +220,7 @@ public class TrojamClient extends Thread{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
 
 	public void sendVotesChange(Party party, SongData partySong, String voteType) {
@@ -259,7 +259,7 @@ public class TrojamClient extends Thread{
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void songEnded(String partyName) {
@@ -270,6 +270,6 @@ public class TrojamClient extends Thread{
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		
+
 	}
 }

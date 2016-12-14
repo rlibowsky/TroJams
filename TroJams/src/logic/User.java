@@ -36,9 +36,7 @@ public class User extends Account{
 		if (imageFilePath == null) {
 			imageFilePath = "images/silhouette.png";
 		}
-//		Image image = new ImageIcon(imageFilePath).getImage();
-//		userImage = new ImageIcon(image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-	}
+}
 
 	public String getUsername() {
 		return username;
